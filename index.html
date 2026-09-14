@@ -473,15 +473,15 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 <main id="view-recommend" class="view hidden">
   <section class="pad-sec">
     <div class="wrap">
-      <div class="sec-head"><h2>Find your match</h2><p>Set a budget and purpose, then weight what matters to you. Every gadget is scored on six components — the math is fully visible, and results recompute as you slide.</p></div>
-      <div class="rec-grid">
-        <div class="card pad">
+      <div class="sec-head" style="max-width:680px;margin-left:auto;margin-right:auto;text-align:left"><h2>Find your match</h2><p>Six short questions. GadgetWise filters out products that fail your requirements, scores the rest against your priorities, and shows the math on every result — a formula you can check, not a black box.</p></div>
+      <div id="recStage" style="max-width:720px;margin:0 auto">
+        <div class="card pad" id="quizCard">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-            <h3 style="font-size:1rem" id="rstepLbl">What are you shopping for?</h3>
-            <span style="font-size:.72rem;color:var(--ink-mute);font-family:var(--mono)" id="rstepNum">1 / 6</span>
+            <h3 style="font-size:1rem" id="rstepLbl">What are you looking for?</h3>
+            <span style="font-size:.72rem;color:var(--ink-mute);font-family:var(--mono)" id="rstepNum">1 / 7</span>
           </div>
           <div style="display:flex;gap:6px;margin-bottom:16px" aria-hidden="true">
-            <span class="rdot on"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span>
+            <span class="rdot on"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span>
           </div>
 
           <div id="rstep1">
@@ -499,29 +499,32 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
             <div class="tilegrid">
               <label class="tileopt"><input type="radio" name="qBudget" value="10000" onchange="recBudgetPick()"><span>Under ₱10,000</span><small>Tight allowance zone</small></label>
               <label class="tileopt"><input type="radio" name="qBudget" value="15000" onchange="recBudgetPick()"><span>₱10,000–₱15,000</span><small>Saved-up territory</small></label>
-              <label class="tileopt"><input type="radio" name="qBudget" value="25000" checked onchange="recBudgetPick()"><span>₱15,000–₱25,000</span><small>The student sweet spot</small></label>
-              <label class="tileopt"><input type="radio" name="qBudget" value="40000" onchange="recBudgetPick()"><span>₱25,000–₱40,000</span><small>Serious investment</small></label>
+              <label class="tileopt"><input type="radio" name="qBudget" value="20000" onchange="recBudgetPick()"><span>₱15,000–₱20,000</span><small>Mid-range budget</small></label>
+              <label class="tileopt"><input type="radio" name="qBudget" value="30000" checked onchange="recBudgetPick()"><span>₱20,000–₱30,000</span><small>The student sweet spot</small></label>
+              <label class="tileopt"><input type="radio" name="qBudget" value="40000" onchange="recBudgetPick()"><span>₱30,000–₱40,000</span><small>Serious investment</small></label>
               <label class="tileopt"><input type="radio" name="qBudget" value="60000" onchange="recBudgetPick()"><span>₱40,000+</span><small>Top of the catalog</small></label>
-              <label class="tileopt"><input type="radio" name="qBudget" value="custom" onchange="recBudgetPick()"><span>Custom ceiling</span><small>Set your exact limit</small></label>
+              <label class="tileopt"><input type="radio" name="qBudget" value="custom" onchange="recBudgetPick()"><span>Enter exact budget</span><small>Set your precise ceiling</small></label>
             </div>
             <div id="customBudget" class="hidden" style="margin-top:14px">
-              <div style="font-size:2rem;font-weight:800;color:var(--green-deep);font-family:var(--mono);text-align:center" id="recBudgetLbl">₱25,000</div>
-              <input type="range" id="recBudget" min="3000" max="60000" step="500" value="25000" oninput="recBudgetInput(this.value)" aria-label="Custom budget ceiling">
+              <div style="font-size:2rem;font-weight:800;color:var(--green-deep);font-family:var(--mono);text-align:center" id="recBudgetLbl">₱30,000</div>
+              <input type="range" id="recBudget" min="3000" max="60000" step="500" value="30000" oninput="recBudgetInput(this.value)" aria-label="Exact budget ceiling">
             </div>
           </div>
 
           <div id="rstep3" class="hidden">
-            <p style="font-size:.78rem;color:var(--ink-mute);margin:0 0 10px">Options below match your category.</p>
+            <label class="f" style="margin-top:0">Main use</label>
             <div class="tilegrid" id="useGrid"></div>
+            <label class="f" style="margin-top:14px">Secondary focus <span style="font-weight:400;color:var(--ink-mute)">(optional)</span></label>
+            <div class="chipgrid" id="use2Grid"></div>
           </div>
 
           <div id="rstep4" class="hidden">
-            <p style="font-size:.78rem;color:var(--ink-mute);margin:0 0 10px">Optional — pick what matters to you. Each pick increases that factor’s weight in the score; skip it and we use sensible defaults.</p>
+            <p style="font-size:.78rem;color:var(--ink-mute);margin:0 0 10px">Select up to 3. Each pick raises that factor’s weight in the score. Skip it and we use sensible defaults.</p>
             <div class="chipgrid" id="featGrid"></div>
           </div>
 
           <div id="rstep5" class="hidden">
-            <label class="f">How often are you away from a charger?</label>
+            <label class="f" style="margin-top:0">How often are you away from a charger?</label>
             <div class="chipgrid">
               <label class="fchip"><input type="radio" name="qCharger" value="0">Rarely</label>
               <label class="fchip"><input type="radio" name="qCharger" value="1" checked>Sometimes</label>
@@ -546,8 +549,17 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           </div>
 
           <div id="rstep6" class="hidden">
-            <p style="font-size:.78rem;color:var(--ink-mute);margin:0 0 10px">Hard limits — anything failing these is marked <b>incompatible</b>, not just scored lower. Optional.</p>
+            <p style="font-size:.78rem;color:var(--ink-mute);margin:0 0 10px">Hard requirements. Anything failing a must-have is filtered out before scoring — it can’t win on other strengths. Optional.</p>
             <div class="chipgrid" id="dbGrid"></div>
+          </div>
+
+          <div id="rstep7" class="hidden">
+            <h4 style="margin:0 0 8px">Your requirements</h4>
+            <div id="reqReview" style="font-size:.88rem"></div>
+            <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
+              <h4 style="margin:0 0 6px">How GadgetWise chooses</h4>
+              <p style="font-size:.8rem;color:var(--ink-soft);margin:0;line-height:1.55">Your answers are compared against the specifications and ownership data in the GadgetWise catalog. Products that fail your must-haves are filtered out first. The rest are scored on budget fit, academic suitability, performance, battery, portability, durability, repairability, warranty, student rating and long-term value — weighted by what you told us. No AI is used to choose the product.</p>
+            </div>
           </div>
 
           <div style="display:flex;gap:10px;margin-top:18px">
@@ -556,10 +568,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           </div>
           <button class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;border:0;color:var(--ink-mute)" onclick="resetRec()">Start over</button>
         </div>
-        <div>
-          <div class="card rec-empty" id="recQuizEmpty"><div class="big">🧭</div>Six short questions — your ranked matches appear here, with the scoring math on every card.</div>
-          <div class="rec-result hidden" id="recResultsWrap"><div id="recResults"></div></div>
-        </div>
+        <div id="recResultsWrap" class="hidden"></div>
       </div>
     </div>
   </section>
@@ -1100,19 +1109,21 @@ function renderBrowse(){
   document.getElementById("browseGrid").innerHTML = list.map(card).join("") || '<div class="rec-empty" style="grid-column:1/-1"><div class="big">🔍</div>No gadgets match. Widen the filters or reset.</div>';
 }
 
-/* ═══════════ RECOMMEND QUIZ v2 — deterministic, category-aware, explainable ═══════════ */
+/* ═══════════ RECOMMEND QUIZ v3 — centered decision flow, deterministic, explainable ═══════════ */
 let recStep=1, recFinished=false;
-const RSTEPS=["What are you shopping for?","How much can you spend?","What will you use it for?","What matters most?","Your daily routine","Deal breakers"];
-/* Category-specific academic purposes (proposal requirement: intended academic purpose) */
+const RSTEPS=["What are you looking for?","What\u2019s your maximum budget?","What will you mainly use it for?","What matters most?","Your daily routine","Must-haves","Review your requirements"];
+/* Category-specific academic purposes (proposal: intended academic purpose) */
 const USES={
- laptops:[["programming","Programming & coding","IDEs, compilers, thesis builds"],["classes","Online classes","Zoom, docs, presentations"],["research","Research & writing","Papers, PDFs, long sessions"],["design","Design & multimedia","Figma, photo, layout work"],["video","Video editing","Timeline work, exports"],["gaming","Gaming","After-hours relief"]],
- smartphones:[["classes","School apps & comms","GCash, LMS, group chats"],["research","Research on the go","Browsing, PDFs, videos"],["photography","Photography","Documentation, content creation"],["gaming","Mobile gaming","Honkai, ML, Wild Rift"],["video","Content consumption","Netflix between classes"]],
- tablets:[["classes","Notes & annotation","Pencil/stylus note-taking"],["research","Reading & PDFs","Papers, digital textbooks"],["video","Media & streaming","Movies, lectures, art"],["design","Sketching & art","Drawing, illustration"]],
- headphones:[["classes","Online classes & calls","Recitations, meetings"],["research","Focus & study sessions","Library concentration"],["video","Media & commutes","Movies, LRT noise"]],
+ laptops:[["programming","Programming / development","IDEs, compilers, thesis builds"],["documents","Office work / documents","Papers, slides, spreadsheets"],["research","Research / browsing","Papers, PDFs, long sessions"],["creative","Creative work","Figma, photo, layout work"],["engineering","Engineering / technical software","CAD, MATLAB, simulations"],["gaming","Gaming + school","After-hours relief"]],
+ smartphones:[["classes","School apps & comms","GCash, LMS, group chats"],["research","Research on the go","Browsing, PDFs, videos"],["photography","Photography","Documentation, content creation"],["gaming","Mobile gaming","ML, Wild Rift, Honkai"],["video","Content consumption","Netflix between classes"]],
+ tablets:[["classes","Notes & annotation","Stylus note-taking"],["research","Reading & PDFs","Papers, digital textbooks"],["video","Media & streaming","Movies, lectures"],["design","Sketching & art","Drawing, illustration"]],
+ headphones:[["classes","Online classes & calls","Recitations, meetings"],["research","Focus & study","Library concentration"],["video","Media & commutes","Movies, LRT noise"]],
  powerbanks:[["classes","All-day class survival","Phone top-ups between rooms"],["research","Fieldwork & brownouts","Long days away from outlets"],["video","Heavy media days","Streaming on the go"]],
  smartwatches:[["classes","Attendance & alarms","7:30am silent alarms"],["research","Focus & habits","Study timers, sleep tracking"]]
 };
-/* Category-specific preferred features (proposal: preferred features) */
+/* Map quiz purposes to catalog uses[] keys (which track programming/design/etc) */
+const USE2KEY={programming:"programming",documents:"classes",research:"research",creative:"design",engineering:"programming",gaming:"gaming",classes:"classes",photography:"photography",video:"video"};
+/* Category-specific priorities (nice-to-haves) */
 const FEATURES={
  laptops:[["perf","Performance"],["battery","Battery life"],["portability","Portability"],["durab","Durability"],["repair","Repairability"],["display","Display quality"],["storage","Storage"]],
  smartphones:[["perf","Performance"],["battery","Battery life"],["camera","Camera"],["durab","Durability"],["repair","Repairability"],["display","Display quality"],["storage","Storage"]],
@@ -1121,228 +1132,289 @@ const FEATURES={
  powerbanks:[["battery","Capacity"],["perf","Charging speed"],["portability","Lightweight"],["durab","Durability"]],
  smartwatches:[["battery","Battery life"],["comfort","Comfort"],["durab","Durability"],["perf","Smart features"]]
 };
-/* Deal breakers — hard constraints, separate from preferences */
-const DEALBREAKERS={
- laptops:[["dbBudget","Exceeds my budget"],["dbRam","Less than 8GB RAM"],["dbWeight","Heavier than 1.8 kg"],["dbRepair","Hard to repair"]],
- smartphones:[["dbBudget","Exceeds my budget"],["dbRam","Less than 6GB RAM"],["dbPerf","Weak processor"],["dbCharge","Charging slower than 30W"]],
- tablets:[["dbBudget","Exceeds my budget"],["dbStylus","No stylus support"],["dbStorage","Less than 128GB storage"]],
- headphones:[["dbBudget","Exceeds my budget"],["dbBattery","Under 12 hr battery"]],
- powerbanks:[["dbBudget","Exceeds my budget"],["dbLaptop","Cannot charge a laptop"],["dbWeight","Over 400 g"]],
- smartwatches:[["dbBudget","Exceeds my budget"],["dbBattery","Charges more than weekly"]]
+/* Must-haves — hard constraints, filtered before scoring */
+const MUSTHAVES={
+ laptops:[["dbBudget","Must stay below my budget"],["dbRam","Must have at least 8 GB RAM"],["dbRam16","Must have at least 16 GB RAM"],["dbWeight","Must be reasonably lightweight"],["dbRepair","Must be reasonably repairable"]],
+ smartphones:[["dbBudget","Must stay below my budget"],["dbRam","Must have at least 6 GB RAM"],["dbPerf","Must have a strong processor"],["dbCharge","Must charge at 30W or faster"]],
+ tablets:[["dbBudget","Must stay below my budget"],["dbStylus","Must support a stylus"],["dbStorage","Must have enough storage"]],
+ headphones:[["dbBudget","Must stay below my budget"],["dbBattery","Must last at least 12 hr"]],
+ powerbanks:[["dbBudget","Must stay below my budget"],["dbLaptop","Must charge a laptop"],["dbWeight","Must be under 400 g"]],
+ smartwatches:[["dbBudget","Must stay below my budget"],["dbBattery","Must last a week or more"]]
 };
 function buildStep3to6(){
   const cat=document.querySelector('input[name="qcCat"]:checked').value;
   document.getElementById("useGrid").innerHTML = USES[cat].map(([v,l,s],i)=>
-    `<label class="tileopt"><input type="radio" name="qcUse" value="${v}" ${i===0?"checked":""} onchange="recQuizChange()"><span>${l}</span><small>${s}</small></label>`).join("");
+    `<label class="tileopt"><input type="radio" name="qcUse" value="${v}" ${i===0?"checked":""}><span>${l}</span><small>${s}</small></label>`).join("");
+  document.getElementById("use2Grid").innerHTML = USES[cat].slice(1).map(([v,l])=>
+    `<label class="fchip"><input type="checkbox" name="qUse2" value="${v}">${l}</label>`).join("");
   document.getElementById("featGrid").innerHTML = FEATURES[cat].map(([v,l])=>
     `<label class="fchip"><input type="checkbox" name="qFeat" value="${v}">${l}</label>`).join("");
-  document.getElementById("dbGrid").innerHTML = DEALBREAKERS[cat].map(([v,l])=>
+  document.getElementById("dbGrid").innerHTML = MUSTHAVES[cat].map(([v,l])=>
     `<label class="fchip"><input type="checkbox" name="qDb" value="${v}">${l}</label>`).join("");
 }
 function goRecStep(n){
-  recStep=Math.max(1,Math.min(6,n));
-  for(let i=1;i<=6;i++) document.getElementById("rstep"+i).classList.toggle("hidden",i!==recStep);
+  recStep=Math.max(1,Math.min(7,n));
+  for(let i=1;i<=7;i++) document.getElementById("rstep"+i).classList.toggle("hidden",i!==recStep);
   document.getElementById("rstepLbl").textContent=RSTEPS[recStep-1];
-  document.getElementById("rstepNum").textContent=recStep+" / 6";
+  document.getElementById("rstepNum").textContent=recStep+" / 7";
   document.querySelectorAll(".rdot").forEach((d,i)=>d.classList.toggle("on",i<recStep));
   document.getElementById("rback").style.visibility=recStep===1?"hidden":"visible";
-  document.getElementById("rnext").textContent=recStep===6?(recFinished?"Update matches":"See my matches"):"Next";
+  document.getElementById("rnext").textContent=recStep===7?(recFinished?"Update matches":"See my matches"):"Next";
+  if(recStep===7) renderReqReview();
+}
+function renderReqReview(){
+  const a=recAnswers();
+  const catL=(USES[a.cat]?a.cat:"");
+  const catName={laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[a.cat];
+  const bl = document.querySelector('input[name="qBudget"]:checked');
+  const budgetTxt = bl.value==="custom" ? "Exact: "+peso(a.budget) : {10000:"Under \u20b110,000","15000":"\u20b110,000\u201315,000","20000":"\u20b115,000\u201320,000","30000":"\u20b120,000\u201330,000","40000":"\u20b130,000\u201340,000","60000":"\u20b140,000+"}[bl.value]||peso(a.budget);
+  const use1 = (USES[a.cat].find(u=>u[0]===a.use)||["","",""])[1];
+  const use2 = a.use2.map(v=>(USES[a.cat].find(u=>u[0]===v)||["",""])[1]);
+  const feats = a.feats.map(f=>(FEATURES[a.cat].find(x=>x[0]===f)||["",""])[1]);
+  const dbs = a.dbs.map(v=>(MUSTHAVES[a.cat].find(x=>x[0]===v)||["",""])[1]);
+  document.getElementById("reqReview").innerHTML=`
+    <div style="display:grid;grid-template-columns:110px 1fr;gap:6px 12px">
+      <span style="color:var(--ink-mute)">Category</span><b>${catName}</b>
+      <span style="color:var(--ink-mute)">Budget</span><b>${budgetTxt}</b>
+      <span style="color:var(--ink-mute)">Main use</span><b>${use1}</b>
+      ${use2.length?`<span style="color:var(--ink-mute)">Secondary</span><b>${use2.join(", ")}</b>`:""}
+      ${feats.length?`<span style="color:var(--ink-mute)">Priorities</span><b>${feats.join(", ")}</b>`:""}
+      <span style="color:var(--ink-mute)">Routine</span><b>${["rarely","sometimes","most of the day","almost always"][a.charger]} away from a charger · carried ${["rarely","sometimes","often","every day"][a.carry]}</b>
+      ${dbs.length?`<span style="color:var(--ink-mute)">Must-haves</span><b>${dbs.join("; ")}</b>`:""}
+    </div>
+    <div style="margin-top:10px;font-size:.8rem;color:var(--ink-mute)">Anything here wrong? Use Back to fix it — your other answers are kept.</div>`;
 }
 function recQuizChange(){
-  /* category changed → rebuild category-specific steps; finished results go stale */
-  if(document.getElementById("rstep3").classList.contains("hidden")===false || recFinished || !document.getElementById("useGrid").children.length){
-    buildStep3to6();
-  }
+  buildStep3to6();
   if(recFinished){ recFinished=false;
-    document.getElementById("recQuizEmpty").classList.remove("hidden");
+    document.getElementById("quizCard").classList.remove("hidden");
     document.getElementById("recResultsWrap").classList.add("hidden");
   }
 }
 function recNext(){
-  if(recStep<6){ goRecStep(recStep+1); return; }
-  recFinished=true; renderRec();
-  document.getElementById("recQuizEmpty").classList.add("hidden");
-  document.getElementById("recResultsWrap").classList.remove("hidden");
-  document.getElementById("recResultsWrap").scrollIntoView({behavior:"smooth",block:"nearest"});
+  if(recStep<7){ goRecStep(recStep+1); return; }
+  recFinished=true;
+  document.getElementById("quizCard").classList.add("hidden");
+  const w=document.getElementById("recResultsWrap");
+  w.classList.remove("hidden");
+  renderRec();
+  w.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function recBudgetPick(){
   const v=document.querySelector('input[name="qBudget"]:checked').value;
   const custom=document.getElementById("customBudget");
   if(v==="custom"){ custom.classList.remove("hidden"); }
   else{ custom.classList.add("hidden"); document.getElementById("recBudget").value=+v; document.getElementById("recBudgetLbl").textContent=peso(+v); }
-  if(recFinished) renderRec();
 }
-function recBudgetInput(v){ document.getElementById("recBudgetLbl").textContent=peso(+v); if(recFinished) renderRec(); }
+function recBudgetInput(v){ document.getElementById("recBudgetLbl").textContent=peso(+v); }
 function resetRec(){
   document.querySelector('input[name="qcCat"][value="laptops"]').checked=true;
   buildStep3to6();
-  document.querySelector('input[name="qBudget"][value="25000"]').checked=true;
-  document.getElementById("recBudget").value=25000; document.getElementById("recBudgetLbl").textContent="₱25,000";
+  document.querySelector('input[name="qBudget"][value="30000"]').checked=true;
+  document.getElementById("recBudget").value=30000; document.getElementById("recBudgetLbl").textContent="\u20b130,000";
   document.getElementById("customBudget").classList.add("hidden");
   document.querySelectorAll('input[name="qFeat"]').forEach(c=>c.checked=false);
   document.querySelectorAll('input[name="qDb"]').forEach(c=>c.checked=false);
   recFinished=false;
-  document.getElementById("recQuizEmpty").classList.remove("hidden");
+  document.getElementById("quizCard").classList.remove("hidden");
   document.getElementById("recResultsWrap").classList.add("hidden");
   goRecStep(1);
 }
 function recBudgetVal(){ return +document.getElementById("recBudget").value; }
-function monthlyLabel(g){ return `${peso(monthly(g))}/mo · est. over ${g.lifespan} yrs`; }
+function monthlyLabel(g){ return `${peso(monthly(g))}/mo est. \u00b7 ${Math.round(g.lifespan*12)}-month lifespan`; }
 
-/* ---------- scoring: Student inputs → validation → hard constraints → weighted score → ranking → explanation ---------- */
-function scoreGadget(g, ans, W, wsum){
-  const cx=g.cx||{};
-  const comp={};
-  comp.budget  = Math.round(Math.max(0, 100 - Math.max(0,(g.price-ans.budget))/ans.budget*120));
-  comp.purpose = Math.round(((g.uses[ans.use]||0))/3*100);
-  comp.perf    = cx.perf!=null?cx.perf:50;
-  comp.battery = cx.battery!=null?cx.battery:Math.round(Math.min((g.battery||8)/14,1)*100);
-  comp.portab  = cx.portability!=null?cx.portability:50;
-  comp.durab   = Math.round(g.durab/5*100);
-  comp.repair  = Math.round(g.repair/5*100);
-  comp.warranty= Math.round(Math.min(g.warranty/24,1)*100);
-  comp.rating  = Math.round((g.rating-3)/2*100);
-  comp.value   = Math.round(Math.max(0,Math.min(100, 100-(monthly(g)-50)/9))); // lower ₱/mo → higher long-term value
-  /* weights: quiz answers + optional feature picks.
-     Budget weight scales with how tight the budget is — a ₱15k student's ceiling
-     should matter more than a ₱50k student's. */
-  const tight = Math.max(0, g.price - ans.budget) / ans.budget;      // 0 = fits, 0.2 = 20% over
-  const w={budget:ans.budgetW + Math.round(tight*6), purpose:3, perf:1, battery:1+ans.charger, portab:ans.carry, durab:1, repair:1, warranty:1, rating:1, value:2};
-  if(ans.annoy==="battery") w.battery+=1; if(ans.annoy==="slow") w.perf+=2;
-  if(ans.annoy==="heavy") w.portab+=2; if(ans.annoy==="price") w.budget+=2; if(ans.annoy==="fragile") w.durab+=2;
-  ans.feats.forEach(f=>{ if(w[f]!=null) w[f]+=2; });
-  const parts=Object.entries(w).filter(([k])=>comp[k]!=null).map(([k,wt])=>[LUX[k],comp[k],wt]);
-  let s=Math.round(parts.reduce((a,[,v,wt])=>a+v*wt,0)/parts.reduce((a,[, ,wt])=>a+wt,0));
-  /* honesty rule: a gadget far over budget cannot win on other merits alone */
-  if(tight>0.15) s=Math.round(s*(1-Math.min(tight,1)*0.45));
-  return {s,comp,parts};
-}
-const LUX={budget:"Budget fit",purpose:"Purpose fit",perf:"Performance",battery:"Battery",portab:"Portability",durab:"Durability",repair:"Repairability",warranty:"Warranty",rating:"Student rating",value:"Long-term value"};
-
-function renderRec(){
+/* ---------- reading answers ---------- */
+function recAnswers(){
   const cat=document.querySelector('input[name="qcCat"]:checked').value;
-  const ans={
+  return {
+    cat,
     budget:recBudgetVal(),
     use:document.querySelector('input[name="qcUse"]:checked')?.value||USES[cat][0][0],
+    use2:[...document.querySelectorAll('input[name="qUse2"]:checked')].map(c=>c.value),
     feats:[...document.querySelectorAll('input[name="qFeat"]:checked')].map(c=>c.value),
     charger:+(document.querySelector('input[name="qCharger"]:checked')?.value||1),
     carry:+(document.querySelector('input[name="qCarry"]:checked')?.value||1),
     annoy:document.querySelector('input[name="qAnnoy"]:checked')?.value||"battery",
-    budgetW:document.querySelector('input[name="qBudget"]:checked')?.value==="custom"?2:3,
     dbs:[...document.querySelectorAll('input[name="qDb"]:checked')].map(c=>c.value)
   };
-  /* hard constraints first — separate from preference scoring */
-  let eligible=G.filter(g=>g.cat===cat), incompatible=[];
-  eligible.forEach(g=>{
-    const why=[];
-    if(ans.dbs.includes("dbBudget")&&g.price>ans.budget) why.push("over budget");
-    if(ans.dbs.includes("dbRam")&&g.ram!=null&&g.ram<(cat==="smartphones"?6:8)) why.push(`only ${g.ram}GB RAM`);
-    if(ans.dbs.includes("dbWeight")&&g.weight&&g.weight>1.8) why.push(`${g.weight} kg`);
-    if(ans.dbs.includes("dbRepair")&&g.repair<3.2) why.push("low repairability");
-    if(ans.dbs.includes("dbPerf")&&g.cx&&g.cx.perf<55) why.push("weak processor");
-    if(ans.dbs.includes("dbCharge")&&cat==="smartphones"&&g.id===7) why.push("25W charging");
-    if(ans.dbs.includes("dbStylus")&&cat==="tablets"&&g.id===4) why.push("no stylus in the box");
-    if(ans.dbs.includes("dbStorage")&&g.cx&&g.cx.storage<50) why.push("limited storage");
-    if(ans.dbs.includes("dbBattery")&&g.cx&&g.cx.battery<50) why.push("weak battery");
-    if(ans.dbs.includes("dbLaptop")&&cat==="powerbanks"&&g.id===8) why.push("no laptop charging");
-    if(ans.dbs.includes("dbWeight")&&cat==="powerbanks"&&g.id===9) why.push("≈355 g");
-    if(why.length) incompatible.push({g,why});
+}
+
+/* ---------- Stage A: hard filtering. Failing products are excluded, not downscored. ---------- */
+function hardFilter(g, ans){
+  const why=[];
+  if(g.price>ans.budget) why.push(`costs ${peso(g.price)} — over your ${peso(ans.budget)} budget`);
+  // budget is ALWAYS a hard constraint in GadgetWise — affordability is the product premise
+  if(ans.dbs.includes("dbRam") && g.ram!=null && g.ram<8) why.push(`only ${g.ram} GB RAM (you need 8+)`);
+  if(ans.dbs.includes("dbRam16") && (g.ram==null||g.ram<16)) why.push(g.ram==null?"RAM unknown":`only ${g.ram} GB RAM (you need 16+)`);
+  if(ans.dbs.includes("dbWeight") && g.weight && g.weight>1.8) why.push(`${g.weight} kg — heavier than you want`);
+  if(ans.dbs.includes("dbRepair") && g.repair<3.2) why.push(`repairability ${g.repair}/5 — hard to fix`);
+  if(ans.dbs.includes("dbPerf") && g.cx && g.cx.perf<60) why.push("processor below your requirement");
+  if(ans.dbs.includes("dbCharge") && g.id===7) why.push("charges at 25W (you need 30W+)");
+  if(ans.dbs.includes("dbStylus") && g.id===4) why.push("works with Pencil but stylus sold separately");
+  if(ans.dbs.includes("dbStorage") && g.cx && g.cx.storage<50) why.push("storage below your requirement");
+  if(ans.dbs.includes("dbBattery") && g.cx && g.cx.battery<55) why.push("battery below your requirement");
+  if(ans.dbs.includes("dbLaptop") && g.id===8) why.push("18W — cannot charge a laptop");
+  if(ans.dbs.includes("dbWeight") && g.cat==="powerbanks" && g.id===9) why.push("\u2248355 g — over your 400 g limit");
+  return why.length?why:null;
+}
+
+/* ---------- Stage B: scoring. Same inputs + same catalog = same ranking, every time. ----------
+   All components 0–100. Weights come from quiz answers (purpose, routine, feature picks).
+   Long-term value uses monthly ownership: value = 100 - (\u20b1/mo - 50) / 9, clamped. */
+function scoreGadget(g, ans, adj){
+  const cx=g.cx||{};
+  const c={};
+  c.budget  = Math.round(Math.max(0, 100 - Math.max(0,(g.price-ans.budget))/ans.budget*120));
+  const k1=USE2KEY[ans.use]||ans.use;
+  c.purpose = Math.round((g.uses[k1]||0)/3*100);
+  const k2=USE2KEY[ans.use2[0]];
+  const p2 = k2?Math.round((g.uses[k2]||0)/3*100):null;
+  c.purpose = p2!=null?Math.round(c.purpose*0.75+p2*0.25):c.purpose;
+  c.perf    = cx.perf!=null?cx.perf:50;
+  c.battery = cx.battery!=null?cx.battery:Math.round(Math.min((g.battery||8)/14,1)*100);
+  c.portab  = cx.portability!=null?cx.portability:50;
+  c.durab   = Math.round(g.durab/5*100);
+  c.repair  = Math.round(g.repair/5*100);
+  c.warranty= Math.round(Math.min(g.warranty/24,1)*100);
+  c.rating  = Math.round((g.rating-3)/2*100);
+  c.value   = Math.round(Math.max(0,Math.min(100, 100-(monthly(g)-50)/9)));
+  /* weights from answers — no manual sliders */
+  const tight=Math.max(0,g.price-ans.budget)/ans.budget;
+  const w={budget:3+Math.round(tight*6), purpose:3, perf:1, battery:1+ans.charger, portab:ans.carry, durab:1, repair:1, warranty:1, rating:1, value:2};
+  if(ans.annoy==="battery") w.battery+=1; if(ans.annoy==="slow") w.perf+=2;
+  if(ans.annoy==="heavy") w.portab+=2; if(ans.annoy==="price") w.budget+=2; if(ans.annoy==="fragile") w.durab+=2;
+  ans.feats.slice(0,3).forEach(f=>{ if(w[f]!=null) w[f]+=2; });
+  if(adj&&adj.boost&&w[adj.boost]!=null) w[adj.boost]+=4;
+  const parts=Object.entries(w).filter(([k])=>c[k]!=null).map(([k,wt])=>[LUX[k],c[k],wt]);
+  let s=Math.round(parts.reduce((a,[,v,wt])=>a+v*wt,0)/parts.reduce((a,[,,wt])=>a+wt,0));
+  if(tight>0.15) s=Math.round(s*(1-Math.min(tight,1)*0.45));
+  return {s,comp:c,parts};
+}
+
+const LUX={budget:"Budget fit",purpose:"Purpose fit",perf:"Performance",battery:"Battery",portab:"Portability",durab:"Durability",repair:"Repairability",warranty:"Warranty",rating:"Student rating",value:"Long-term value"};
+
+function renderRec(){
+  const ans=recAnswers();
+  /* Stage A — hard filter */
+  const excluded=[]; const eligible=[];
+  G.filter(g=>g.cat===ans.cat).forEach(g=>{
+    const why=hardFilter(g,ans);
+    if(why) excluded.push({g,why}); else eligible.push(g);
   });
-  const W=null, wsum=null; // weights derived inside scoreGadget from answers
-  const scored=eligible.filter(g=>!incompatible.find(x=>x.g===g)).map(g=>({g,...scoreGadget(g,ans,W,wsum)})).sort((a,b)=>b.s-a.s);
-  const out=document.getElementById("recResults");
-  if(!scored.length){ out.innerHTML='<div class="card rec-empty"><div class="big">🎯</div>Nothing in this category passes your deal breakers. Loosen a constraint and try again.</div>'; return; }
+  /* Stage B — score + rank */
+  const scored=eligible.map(g=>({g,...scoreGadget(g,ans)})).sort((a,b)=>b.s-a.s);
+  const out=document.getElementById("recResultsWrap");
+  /* Stage C — render. Checkmarks come from real component scores; nothing invented. */
+  const whyFacts=[];
+  const addWhy=(cond,txt)=>{ if(cond) whyFacts.push(txt); };
+  let html="";
+  if(!scored.length){
+    html=`<div class="card rec-empty"><div class="big">🎯</div><b>No products pass your requirements.</b><p style="font-size:.86rem;color:var(--ink-soft);margin-top:8px">${excluded.length?`All ${excluded.length} ${ans.cat==="powerbanks"?"power banks":ans.cat} in the catalog were filtered out: `+excluded.map(x=>`${x.g.model} (${x.why[0]})`).join(" · ")+".":"This category is empty."} Loosen a must-have or raise the budget and try again.</p></div>`;
+    out.innerHTML=html; return;
+  }
   const top=scored[0], alt=scored[1]||null;
   const bestIn=k=>[...scored].sort((a,b)=>b.comp[k]-a.comp[k])[0];
-  const uniq=[["Best overall match",top],["Best budget alternative",bestIn("budget")],["Best performance pick",bestIn("perf")],["Best battery pick",bestIn("battery")],["Best long-term value",bestIn("value")]];
-  const seen=new Set(); const alts=uniq.filter(([l,sc])=>!seen.has(sc.g.id)&&seen.add(sc.g.id));
-  /* explanation from actual inputs (template logic, not AI) */
-  const useLabel=(USES[cat].find(u=>u[0]===ans.use)||["","",""])[1]||ans.use;
-  const featLabels=ans.feats.map(f=>(FEATURES[cat].find(x=>x[0]===f)||[0,f])[1].toLowerCase());
-  const featPhrase = featLabels.length===1 ? `<b>${featLabels[0]}</b> matters most`
-                   : featLabels.length>1 ? `<b>${featLabels.slice(0,-1).join(", ")} and ${featLabels[featLabels.length-1]}</b> matter most`
-                   : "";
-  const expl=`You told us <b>${useLabel.toLowerCase()}</b> is your main use, with a <b>${peso(ans.budget)}</b> ceiling${featPhrase?`, and that ${featPhrase}`:""}. <b>${top.g.model}</b> scored ${top.comp.purpose}/100 on purpose fit and ${top.comp.budget}/100 on budget fit, ranking first of ${scored.length} eligible gadgets under the same weighted formula.`;
-  const fallsShort=(top.g.weaknesses||[]).slice(0,2);
-  const weakPart=[...top.parts].sort((a,b)=>(b[1]*b[2])-(a[1]*a[2])).sort((a,b)=>a[1]-b[1])[0];
-  const dbList=incompatible.length?`<div style="margin-top:12px;font-size:.82rem;color:var(--ink-soft)"><b>${incompatible.length} excluded by deal breakers:</b> ${incompatible.map(x=>`${x.g.model} <span style="color:var(--red)">(${x.why.join(", ")})</span>`).join(" · ")}</div>`:"";
-  out.innerHTML=`
+  const others=[["Best budget option",bestIn("budget")],["Best performance option",bestIn("perf")],["Best battery option",bestIn("battery")],["Best long-term value",bestIn("value")]]
+    .filter(([l,sc],i,arr)=>sc&&sc.g.id!==top.g.id&&sc.g.id!==(alt&&alt.g.id)&&arr.findIndex(([l2,sc2])=>sc2.g.id===sc.g.id)===i);
+  addWhy(top.comp.budget>=85, `Fits your ${peso(ans.budget)} budget with room to spare`);
+  addWhy(top.comp.budget>=60&&top.comp.budget<85, `Fits your ${peso(ans.budget)} budget`);
+  addWhy(top.comp.purpose>=80, `Strong match for ${((USES[ans.cat].find(u=>u[0]===ans.use)||["",""])[1]||"your main use").toLowerCase()}`);
+  addWhy(top.comp.perf>=75, "High performance score");
+  addWhy(top.comp.battery>=75, "Excellent battery life");
+  addWhy(top.comp.repair>=70, "Good repairability — cheap to fix");
+  addWhy(top.comp.durab>=75, "Built to handle daily student wear");
+  addWhy(top.comp.warranty>=70, "Warranty covers a large part of its lifespan");
+  addWhy(top.comp.rating>=70, `Strong student rating (${top.g.rating}\u2605 from ${top.g.raters} students)`);
+  addWhy(top.comp.value>=65, `Long-term value: only ${peso(monthly(top.g))}/month over its lifespan`);
+  if(!whyFacts.length) whyFacts.push("Best overall fit under the weighted scoring");
+  const tradeoff=(top.g.weaknesses||[]).slice(0,2);
+  const weakest=[...top.parts].sort((a,b)=>a[1]-b[1])[0];
+  const catName={laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[ans.cat];
+  html=`
   <div class="card pad" style="border-left:4px solid var(--green)">
-    <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px">
-      <div><span style="font-size:.72rem;font-weight:800;letter-spacing:.05em;color:var(--ink-mute)">YOUR TOP MATCH — #1 OF ${scored.length}</span>
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px">
-        ${gadgetImage(top.g,64)}
-        <div><b style="font-size:1.15rem">${top.g.model}</b>
-        <div style="font-size:.85rem;color:var(--ink-mute)">${top.g.brand} · <b style="color:var(--green-deep);font-family:var(--mono)">${peso(top.g.price)}</b> · <span style="font-family:var(--mono)">${monthlyLabel(top.g)}</span></div></div>
-      </div></div>
-      <div style="text-align:right"><div class="matchnum">${top.s}</div><div style="font-size:.7rem;color:var(--ink-mute)">/ 100 match</div></div>
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
+      <div style="flex:1;min-width:240px">
+        <span style="font-size:.72rem;font-weight:800;letter-spacing:.06em;color:var(--ink-mute)">BEST MATCH · #1 OF ${scored.length} ELIGIBLE</span>
+        <div style="display:flex;gap:14px;align-items:center;margin-top:10px;flex-wrap:wrap">
+          ${gadgetImage(top.g,84)}
+          <div>
+            <b style="font-size:1.2rem">${top.g.model}</b>
+            <div style="font-size:.9rem;color:var(--ink-mute)">${top.g.brand} · <b style="color:var(--ink);font-family:var(--mono)">${peso(top.g.price)}</b></div>
+            <div style="font-size:.9rem;margin-top:2px"><b style="font-family:var(--mono);color:var(--green-deep)">${peso(monthly(top.g))}/month</b> <span style="color:var(--ink-mute);font-size:.82rem">estimated ownership · ${Math.round(top.g.lifespan*12)}-month lifespan · warranty ${top.g.warranty} mo</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:right"><div class="matchnum">${top.s}</div><div style="font-size:.72rem;color:var(--ink-mute)">/ 100 match</div></div>
     </div>
-    <div style="font-size:.78rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px 14px;margin:10px 0">
-      ${top.parts.map(([l,v,w])=>`<div style="opacity:${w?1:.45}"><div style="display:flex;justify-content:space-between;gap:6px;white-space:nowrap;color:var(--ink-soft)"><span>${l}</span><span style="font-family:var(--mono)">${v}${w?` <b style="color:var(--green-deep)">×${w}</b>`:""}</span></div><div class="scorebar" style="height:5px;margin-top:2px"><i style="width:${v}%;background:${w?"var(--green)":"var(--line-strong)"}"></i></div></div>`).join("")}
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:7px 16px;margin:16px 0 4px;font-size:.78rem">
+      ${top.parts.map(([l,v,w])=>`<div style="opacity:${w?1:.4}"><div style="display:flex;justify-content:space-between;gap:6px;white-space:nowrap;color:var(--ink-soft)"><span>${l}</span><span style="font-family:var(--mono)">${v}${w?` <b style="color:var(--green-deep)">\u00d7${w}</b>`:""}</span></div><div class="scorebar" style="height:5px;margin-top:2px"><i style="width:${v}%;background:${w?"var(--green)":"var(--line-strong)"}"></i></div></div>`).join("")}
     </div>
-    <p style="font-size:.9rem;color:var(--ink-soft);margin:12px 0 4px"><b>Why this is #1.</b> ${expl}</p>
-    ${fallsShort.length?`<p style="font-size:.88rem;color:var(--ink-soft);margin:6px 0 0"><b>Where it falls short:</b> ${fallsShort.join("; ")}.</p>`:""}
-    ${dbList}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px">
+      <div><h4 style="margin:0 0 6px">Why it ranked first</h4><ul class="swlist">${whyFacts.slice(0,5).map(t=>`<li class="good">${t}</li>`).join("")}</ul></div>
+      <div><h4 style="margin:0 0 6px">Trade-off</h4><ul class="swlist">${tradeoff.map(t=>`<li class="bad">${t}</li>`).join("")}${weakest&&weakest[1]<55?`<li class="bad">Lowest-scoring factor: ${weakest[0].toLowerCase()} (${weakest[1]}/100)</li>`:""}</ul></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+      <button class="btn btn-primary btn-sm" onclick="detail(${top.g.id})">Full product details</button>
+      <button class="btn btn-ghost btn-sm" onclick="toggleTray(${top.g.id})">\u21c4 Compare</button>
+      <button class="btn btn-ghost btn-sm" onclick="toggleWish(${top.g.id})">${S.wish.has(top.g.id)?"\u2665 Saved":"\u2661 Save to wishlist"}</button>
+    </div>
   </div>
+  ${alt?`
   <div class="card pad">
-    <h3 style="font-size:1rem;margin-bottom:10px">Strengths &amp; weaknesses</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-      <ul class="swlist">${(top.g.strengths||[]).map(s=>`<li class="good">${s}</li>`).join("")}</ul>
-      <ul class="swlist">${(top.g.weaknesses||[]).map(s=>`<li class="bad">${s}</li>`).join("")}</ul>
-    </div>
+    <h3 style="font-size:1rem;margin-bottom:4px">Why ${top.g.model} ranked above ${alt.g.model}</h3>
+    <p style="font-size:.8rem;color:var(--ink-mute);margin:0 0 12px">${top.s} vs ${alt.s} — both are eligible; here is exactly where they differ.</p>
+    ${(()=>{ const diffs=top.parts.map(([l,vt])=>{ const li=alt.parts.find(p=>p[0]===l); return [l, vt[1], li[1]]; });
+      const betterFor=diffs.filter(([l,a,b])=>a>b).sort((a,b)=>(b[1]-b[2])-(a[1]-a[2])).slice(0,3);
+      const betterForAlt=diffs.filter(([l,a,b])=>b>a).sort((a,b)=>(b[2]-b[1])-(a[2]-a[1])).slice(0,3);
+      return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:.85rem">
+        <div><b style="font-size:.8rem;color:var(--green-deep)">${top.g.model} scored higher in</b>
+          <ul class="swlist" style="margin-top:6px">${betterFor.map(([l,a,b])=>`<li class="good">${l} +${a-b} <span style="font-family:var(--mono);color:var(--ink-mute)">(${a} vs ${b})</span></li>`).join("")||'<li class="good">No factor — dead heat</li>'}</ul></div>
+        <div><b style="font-size:.8rem;color:var(--ink-soft)">${alt.g.model} scored higher in</b>
+          <ul class="swlist" style="margin-top:6px">${betterForAlt.map(([l,a,b])=>`<li class="bad">${l} +${b-a} <span style="font-family:var(--mono);color:var(--ink-mute)">(${b} vs ${a})</span></li>`).join("")||'<li class="bad">No factor — dead heat</li>'}</ul></div>
+      </div>
+      <p style="font-size:.85rem;color:var(--ink-soft);margin:12px 0 0">Pick <b>${alt.g.model}</b> instead if ${alt.comp.budget>top.comp.budget?`its lower price (${peso(alt.g.price)})`:((bestIn("battery").g.id===alt.g.id&&alt.comp.battery>top.comp.battery)?"battery life is your dealbreaker":"those strengths matter more to you")} outweighs ${top.g.model}\u2019s lead.</p>`;
+    })()}
     <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
-      <button class="btn btn-primary btn-sm" onclick="detail(${top.g.id})">Full breakdown</button>
-      <button class="btn btn-ghost btn-sm" onclick="toggleTray(${top.g.id})">⇄ Compare</button>
-      <button class="btn btn-ghost btn-sm" onclick="toggleWish(${top.g.id})">${S.wish.has(top.g.id)?"♥ Saved":"♡ Save"}</button>
-    </div>
-  </div>
-  <div class="card pad">
-    <h3 style="font-size:1rem;margin-bottom:10px">Best alternative</h3>
-    ${alt?`<div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
-      ${gadgetImage(alt.g,56)}
-      <div style="flex:1;min-width:180px"><b>${alt.g.model}</b>
-        <div style="font-size:.82rem;color:var(--ink-mute)"><b style="color:var(--green-deep);font-family:var(--mono)">${peso(alt.g.price)}</b> · ${monthlyLabel(alt.g)} · ${alt.comp.battery}/100 battery · ${alt.comp.repair}/100 repairability</div></div>
-      <div style="text-align:center"><div class="matchnum" style="font-size:1.3rem">${alt.s}</div><div style="font-size:.65rem;color:var(--ink-mute)">match</div></div>
       <button class="btn btn-ghost btn-sm" onclick="detail(${alt.g.id})">Details</button>
+      <button class="btn btn-ghost btn-sm" onclick="toggleTray(${alt.g.id})">\u21c4 Compare</button>
     </div>
-    <p style="font-size:.86rem;color:var(--ink-soft);margin:10px 0 0">Choose this instead if ${alt.comp.budget>top.comp.budget?`a lower upfront cost (${peso(alt.g.price)} vs ${peso(top.g.price)})`:`its edge in ${(LUX[Object.keys(LUX).find(k=>k!=="budget"&&alt.comp[k]===Math.max(...Object.values(alt.comp)))]||"overall fit").toLowerCase()}`} matters more than ${top.g.model}'s lead in ${weakPart?weakPart[0].toLowerCase():"overall score"}.</p>`
-    :`<p style="font-size:.88rem;color:var(--ink-mute)">Only one eligible gadget in this category — no alternative to offer.</p>`}
-  </div>
-  <div class="card pad">
-    <h3 style="font-size:1rem;margin-bottom:6px">Other winners by category</h3>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:8px">
-      ${alts.map(([lab,sc])=>`<div class="altcard"><span style="font-size:.7rem;font-weight:800;letter-spacing:.04em;color:var(--ink-mute)">${lab.toUpperCase()}</span><b style="font-size:.9rem">${sc.g.model}</b><span style="font-size:.78rem;color:var(--ink-mute);font-family:var(--mono)">${peso(sc.g.price)} · ${monthly(sc.g)}/mo · ${sc.s}/100</span><button class="btn btn-ghost btn-sm" style="align-self:flex-start" onclick="detail(${sc.g.id})">Details</button></div>`).join("")}
+  </div>`:""}
+  ${others.length?`<div class="card pad">
+    <h3 style="font-size:1rem;margin-bottom:4px">Other strong options</h3>
+    <p style="font-size:.8rem;color:var(--ink-mute);margin:0 0 12px">Same scoring, different priorities. All from the same formula — no separate logic.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+      ${others.map(([lab,sc])=>`<div class="altcard"><span style="font-size:.68rem;font-weight:800;letter-spacing:.05em;color:var(--ink-mute)">${lab.toUpperCase()}</span><b style="font-size:.9rem">${sc.g.model}</b><span style="font-size:.78rem;color:var(--ink-mute);font-family:var(--mono)">${peso(sc.g.price)} · ${monthly(sc.g)}/mo · ${sc.s}/100</span><span style="font-size:.76rem;color:var(--ink-soft)">${(sc.g.goodFor||[])[0]||""}</span><button class="btn btn-ghost btn-sm" style="align-self:flex-start" onclick="detail(${sc.g.id})">Details</button></div>`).join("")}
     </div>
-    ${alt?`<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:.84rem;color:var(--ink-soft)">
-      <b>Why ${top.g.model} ranked higher than ${alt.g.model}:</b>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;margin-top:8px;font-family:var(--mono);font-size:.8rem">
-        <span>Purpose fit — <b>${top.comp.purpose}</b> vs ${alt.comp.purpose}</span>
-        <span>Budget fit — <b>${top.comp.budget}</b> vs ${alt.comp.budget}</span>
-        <span>Battery — <b>${top.comp.battery}</b> vs ${alt.comp.battery}</span>
-        <span>Durability — <b>${top.comp.durab}</b> vs ${alt.comp.durab}</span>
-      </div></div>`:""}
-  </div>
+  </div>`:""}
+  ${excluded.length?`<div class="card pad">
+    <h3 style="font-size:1rem;margin-bottom:4px">Filtered out by your must-haves</h3>
+    <p style="font-size:.8rem;color:var(--ink-mute);margin:0 0 10px">These failed a hard requirement, so they were removed before scoring — scoring can\u2019t rescue them.</p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${excluded.map(x=>`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.85rem;padding:8px 0;border-bottom:1px solid var(--line)"><b>${x.g.model}</b><span style="color:var(--red);font-family:var(--mono);font-size:.78rem">${x.why.join(" · ")}</span></div>`).join("")}
+    </div>
+  </div>`:""}
   <div class="card pad">
-    <h3 style="font-size:1rem;margin-bottom:4px">What if…</h3>
-    <p style="font-size:.78rem;color:var(--ink-mute);margin:0 0 10px">Re-runs the same deterministic scoring with one change. Nothing is stored.</p>
-    <div class="chipgrid" id="wifChips">
-      <button class="wifchip" data-wif="budget">+ ₱5,000 budget</button>
-      <button class="wifchip" data-wif="battery">Battery mattered most</button>
-      <button class="wifchip" data-wif="perf">Performance mattered most</button>
-      <button class="wifchip" data-wif="portab">Portability mattered most</button>
+    <h3 style="font-size:1rem;margin-bottom:4px">Adjust your priorities</h3>
+    <p style="font-size:.8rem;color:var(--ink-mute);margin:0 0 10px">Re-ranks the same products with the same formula — one weight changes, everything else stays.</p>
+    <div class="chipgrid">
+      ${[["perf","Performance"],["battery","Battery"],["portab","Portability"],["durab","Durability"],["repair","Repairability"],["value","Lowest ownership cost"]].map(([k,l])=>`<button class="wifchip" data-k="${k}">${l}</button>`).join("")}
     </div>
     <div id="wifOut" style="margin-top:10px"></div>
+  </div>
+  <div style="text-align:center;margin-top:14px">
+    <button class="btn btn-ghost btn-sm" onclick="resetRec()">Start a new search</button>
   </div>`;
-  document.querySelectorAll("#wifChips .wifchip").forEach(ch=>ch.addEventListener("click",()=>{
-    document.querySelectorAll("#wifChips .wifchip").forEach(c=>c.classList.remove("on")); ch.classList.add("on");
-    const kind=ch.dataset.wif; const ans2=JSON.parse(JSON.stringify(ans));
-    if(kind==="budget") ans2.budget+=5000;
-    else{ ans2.feats=[kind]; }
-    const rescored=eligible.filter(g=>!incompatible.find(x=>x.g===g)).map(g=>({g,...scoreGadget(g,ans2,null,null)})).sort((a,b)=>b.s-a.s);
-    const w=rescored[0];
-    document.getElementById("wifOut").innerHTML = w.g.id===top.g.id
-      ? `<div style="font-size:.86rem;color:var(--ink-soft)">Same winner: <b>${w.g.model}</b> (${w.s}/100). Your original pick holds up under this change.</div>`
-      : `<div style="font-size:.86rem;color:var(--ink-soft)">New winner: <b>${w.g.model}</b> at ${w.s}/100 (was #${scored.findIndex(x=>x.g.id===w.g.id)+1} at ${w.g.id===top.g.id?"—":scored.find(x=>x.g.id===w.g.id).s}). <button class="btn btn-ghost btn-sm" onclick="detail(${w.g.id})">Details</button></div>`;
+  out.innerHTML=html;
+  /* Adjust-priority chips: bump one weight, rerank, report. Deterministic. */
+  out.querySelectorAll(".wifchip").forEach(ch=>ch.addEventListener("click",()=>{
+    out.querySelectorAll(".wifchip").forEach(c=>c.classList.remove("on")); ch.classList.add("on");
+    const k=ch.dataset.k;
+    const rescored=eligible.map(g=>({g,...scoreGadget(g,ans,{boost:k})})).sort((a,b)=>b.s-a.s);
+    const wn=rescored[0];
+    out.getElementById?.("wifOut");
+    document.getElementById("wifOut").innerHTML = wn.g.id===top.g.id
+      ? `<div style="font-size:.86rem;color:var(--ink-soft)">Same winner: <b>${wn.g.model}</b> (${wn.s}/100) — your pick holds up when ${ch.textContent.toLowerCase()} is prioritized.</div>`
+      : `<div style="font-size:.86rem;color:var(--ink-soft)">New winner: <b>${wn.g.model}</b> at ${wn.s}/100 — it was #${scored.findIndex(x=>x.g.id===wn.g.id)+1} under your original priorities. <button class="btn btn-ghost btn-sm" onclick="detail(${wn.g.id})">Details</button></div>`;
   }));
 }
 
