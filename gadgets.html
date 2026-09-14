@@ -13,8 +13,8 @@
 <body>
   <main id="main">
     <div class="container page-head">
-      <h1>All Gadgets</h1>
-      <p class="lede">Every gadget in the prototype catalog. Prices are realistic Philippine peso samples; ownership cost is estimated from price ÷ lifespan.</p>
+      <h1>Browse Gadgets</h1>
+      <p class="lede">Search, filter and sort the catalog. Use the ⇄ button on a card to add it to the compare tray.</p>
     </div>
 
     <div class="container section-tight">
@@ -23,11 +23,32 @@
         <aside class="filters" aria-label="Filters">
           <div class="panel panel-tight">
             <div class="filter-group">
+              <h4>CATEGORY</h4>
+              <div id="catFilters">
+                <label class="check"><input type="radio" name="fcat" value="" checked> All</label>
+                <label class="check"><input type="radio" name="fcat" value="smartphones"> Smartphones</label>
+                <label class="check"><input type="radio" name="fcat" value="laptops"> Laptops</label>
+                <label class="check"><input type="radio" name="fcat" value="tablets"> Tablets</label>
+                <label class="check"><input type="radio" name="fcat" value="headphones"> Headphones</label>
+                <label class="check"><input type="radio" name="fcat" value="powerbanks"> Power banks</label>
+                <label class="check"><input type="radio" name="fcat" value="smartwatches"> Smartwatches</label>
+              </div>
+            </div>
+            <div class="filter-group">
               <h4>PRICE RANGE (₱)</h4>
               <div class="range-inputs">
-                <input type="number" id="minPrice" placeholder="Min" min="0" aria-label="Minimum price">
+                <input type="number" id="minPrice" placeholder="Min" min="0" aria-label="Minimum price" value="0">
                 <span>–</span>
-                <input type="number" id="maxPrice" placeholder="Max" min="0" aria-label="Maximum price">
+                <input type="number" id="maxPrice" placeholder="Max" min="0" aria-label="Maximum price" value="100000">
+              </div>
+            </div>
+            <div class="filter-group">
+              <h4>FEATURES</h4>
+              <div id="featureFilters">
+                <label class="check"><input type="checkbox" id="fLong"> Long battery (8h+)</label>
+                <label class="check"><input type="checkbox" id="fBudget"> Under ₱15,000</label>
+                <label class="check"><input type="checkbox" id="fDurable"> High durability</label>
+                <label class="check"><input type="checkbox" id="fRepair"> Easy to repair</label>
               </div>
             </div>
             <div class="filter-group">

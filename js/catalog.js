@@ -43,6 +43,17 @@ window.GWCatalog = (function () {
     if (minIn && state.minPrice != null) minIn.value = state.minPrice;
     if (maxIn && state.maxPrice != null) maxIn.value = state.maxPrice;
 
+    // --- feature filter helpers (specs live in strings/scores; these are honest heuristics)
+    const FEATURES = {
+      fLong:    g => /([8-9]\d*|\d{2,})\s*(h|hr|hour)/i.test(g.specs.Battery || ""),
+      fBudget:  g => g.price < 15000,
+      fDurable: g => (g.scored.durability || 0) >= 7,
+      fRepair:  g => (g.scored.repairability || 0) >= 7
+    };
+    const featureChecks = ["fLong", "fBudget", "fDurable", "fRepair"]
+      .map(id => document.getElementById(id)).filter(Boolean);
+    const catRadios = [...document.querySelectorAll("input[name=fcat]")];
+
     function apply() {
       let list = state.category ? GW.gadgetsInCategory(state.category) : GW.gadgets.slice();
 
@@ -53,8 +64,11 @@ window.GWCatalog = (function () {
             .toLowerCase().includes(q));
       }
       if (state.brands.size) list = list.filter(g => state.brands.has(g.brand));
-      if (state.minPrice != null) list = list.filter(g => g.price >= state.minPrice);
-      if (state.maxPrice != null) list = list.filter(g => g.price <= state.maxPrice);
+      if (state.minPrice != null && state.minPrice > 0) list = list.filter(g => g.price >= state.minPrice);
+      if (state.maxPrice != null && state.maxPrice > 0) list = list.filter(g => g.price <= state.maxPrice);
+      for (const cb of featureChecks) {
+        if (cb.checked) list = list.filter(FEATURES[cb.id]);
+      }
 
       const monthly = GW.monthlyCost;
       switch (state.sort) {
@@ -95,6 +109,11 @@ window.GWCatalog = (function () {
       cb.checked ? state.brands.add(cb.value) : state.brands.delete(cb.value);
       apply();
     });
+    if (featureChecks.length) featureChecks.forEach(cb => cb.addEventListener("change", apply));
+    if (catRadios.length) catRadios.forEach(r => r.addEventListener("change", () => {
+      state.category = r.value || null;
+      apply();
+    }));
     [minIn, maxIn].forEach(inp => inp && inp.addEventListener("change", () => {
       state.minPrice = minIn && minIn.value ? +minIn.value : null;
       state.maxPrice = maxIn && maxIn.value ? +maxIn.value : null;
@@ -103,8 +122,10 @@ window.GWCatalog = (function () {
     if (clearBtn) clearBtn.addEventListener("click", () => {
       state.q = ""; state.brands.clear(); state.minPrice = null; state.maxPrice = null;
       if (searchInput) searchInput.value = "";
-      if (minIn) minIn.value = ""; if (maxIn) maxIn.value = "";
+      if (minIn) minIn.value = "0"; if (maxIn) maxIn.value = "100000";
       brandBox && brandBox.querySelectorAll("input").forEach(cb => cb.checked = false);
+      featureChecks.forEach(cb => cb.checked = false);
+      if (catRadios.length) { catRadios[0].checked = true; state.category = catId; }
       apply();
     });
 
