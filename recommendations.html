@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/identity.css">
 </head>
 <body>
   <main id="main">
@@ -282,6 +283,7 @@
                 <div class="g-brand">${esc(g.brand)} · ${esc(GWApp.catLabel(g.category))}</div>
                 <h3 style="margin:2px 0 4px"><a href="${GWApp.gadgetUrl(g.id)}" style="color:inherit">${esc(g.model)}</a></h3>
                 ${GWApp.ratingLine(g)}
+                ${isTop ? `<div style="margin-top:6px"><span class="rr-badge">★ BEST MATCH FOR YOU</span></div>` : ""}
                 <div class="row" style="gap:14px; margin-top:8px; flex-wrap:wrap">
                   <span class="price price-compact">${money(g.price)}</span>
                   <span class="price-estimate"><span class="label">EST. OWNERSHIP</span><span>≈ ${money(GW.monthlyCost(g))}<em>/month</em></span></span>

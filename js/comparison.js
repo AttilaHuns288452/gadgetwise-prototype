@@ -124,7 +124,7 @@ window.GWCompare = (function () {
     const rows = rowsFor(gadgets);
 
     const head = gadgets.map(g => `
-      <th class="cmp-product-cell">
+      <th class="cmp-product-cell cmp-col-head">
         <a href="${GWApp.gadgetUrl(g.id)}" style="display:block">
           <img src="${g.image}" alt="Placeholder artwork for ${esc(g.brand)} ${esc(g.model)}">
           <div class="g-brand" style="margin-top:10px">${esc(g.brand)}</div>

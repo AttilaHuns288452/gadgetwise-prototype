@@ -9,7 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='1.5' y='1.5' width='25' height='25' rx='6' fill='%231a56db'/%3E%3Cpath d='M14 6.5 7.5 10v8L14 21.5 20.5 18v-8L14 6.5Z' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/identity.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='1.5' y='1.5' width='25' height='25' rx='6' fill='%235b45e6'/%3E%3Cpath d='M14 6.5 7.5 10v8L14 21.5 20.5 18v-8L14 6.5Z' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
 </head>
 <body>
   <!--
@@ -137,7 +138,7 @@
     </section>
 
     <!-- ============ Price vs Ownership Index scatter ============ -->
-    <section class="section" style="padding-top:0">
+    <section class="section section-alt-tint" style="padding-top:36px; margin-top:24px">
       <div class="container">
         <div class="row-between" style="margin-bottom:8px">
           <div>
@@ -165,7 +166,7 @@
     </section>
 
     <!-- ============ Featured ============ -->
-    <section class="section" style="padding-top:0">
+    <section class="section section-alt-warm" style="padding-top:36px; margin-top:24px">
       <div class="container">
         <div class="row-between" style="margin-bottom:22px">
           <div>
@@ -228,7 +229,7 @@
             <p>Budget, academic use, and what matters most to you. The scoring engine ranks the catalog and shows its math: every factor, every point.</p>
           </div>
           <div class="cta-actions">
-            <a class="btn btn-lg" href="recommendations.html">Get recommendations <svg class="icon" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></a>
+            <a class="btn btn-lg btn-warm" href="recommendations.html">Get recommendations <svg class="icon" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></a>
             <a class="btn btn-lg btn-outline-light" href="compare.html">Compare gadgets</a>
           </div>
         </div>
@@ -238,6 +239,7 @@
   </main>
 
   <script src="js/data.js"></script>
+  <script src="js/cat-icons.js"></script>
   <script src="js/app.js"></script>
   <script>
     GWApp.initShell({ active: "index.html" });
@@ -248,11 +250,11 @@
     document.getElementById("stripReviews").textContent = GW.community.reviewsWritten.toLocaleString("en-PH") + "+";
     document.getElementById("stripRating").textContent = GW.community.avgRating + "\u2605";
 
-    // Category cards
+    // Category cards — per-category tint + clean SVG icon (no emoji)
     document.getElementById("categoryGrid").innerHTML = GW.categories.map(c => {
       const n = GW.gadgetsInCategory(c.id).length;
-      return `<a class="cat-card" href="category.html?cat=${c.id}">
-        <img src="assets/placeholders/${c.file}.svg" alt="">
+      return `<a class="cat-card" data-cat="${c.id}" href="category.html?cat=${c.id}">
+        <span class="cat-ico">${GWCatIcons[c.id] || ""}</span>
         <span><span class="cc-name">${c.name}</span><br><span class="cc-count">${n} gadget${n === 1 ? "" : "s"}</span></span>
       </a>`;
     }).join("");

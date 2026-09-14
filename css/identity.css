@@ -1,0 +1,161 @@
+
+/* ============================================================
+   "Indigo Circuit" visual identity rules (v2)
+   Hero · nav · category tints · product cards · Ownership Index ·
+   compare tints · breakdown meters · section rhythm.
+   ============================================================ */
+
+/* ---------- Hero: deep indigo atmosphere ---------- */
+.hero {
+  background:
+    radial-gradient(1100px 420px at 12% -10%, rgba(91, 69, 230, .55), transparent 60%),
+    radial-gradient(900px 460px at 105% 8%, rgba(24, 110, 162, .28), transparent 55%),
+    linear-gradient(160deg, var(--hero-2) 0%, var(--hero-1) 58%, #1b1533 100%);
+  color: var(--on-hero);
+  border-bottom: 3px solid var(--accent-warm);
+}
+.hero .lede { color: var(--on-hero-2); }
+.hero .lede strong { color: #fff; }
+.hero h1 .h-accent { color: var(--accent-warm); }
+.hero-points .hp { color: var(--on-hero-2); }
+.hero-points .hp svg { color: var(--accent-warm); }
+.hero-search .search-box input {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.22);
+  color: #fff;
+}
+.hero-search .search-box input::placeholder { color: var(--on-hero-2); }
+.hero-search .search-box input:focus { border-color: var(--accent-warm); box-shadow: 0 0 0 3px rgba(244,163,64,.25); }
+.hero-search .search-box .icon { color: var(--on-hero-2); }
+
+/* Hero product panel: warm accent edge + cool tinted head */
+.hero-visual .float-note { background: var(--accent-warm); color: #231c45; }
+.value-tag { border-top: 4px solid var(--primary); }
+.value-tag::before { border-color: var(--primary-soft); background: var(--bg); }
+.value-tag .vt-total .t-value { color: var(--primary-dark); }
+.value-tag .vt-total {
+  background: var(--primary-wash);
+  margin: 12px -28px 0; padding: 12px 28px;
+  border-top: 1px solid var(--primary-soft);
+}
+
+/* ---------- Trust strip: quiet indigo wash ---------- */
+.home-strip { background: var(--primary-wash); border-block: 1px solid var(--primary-soft); }
+.home-strip .hs-item b { color: var(--primary-dark); }
+
+/* ---------- Navigation ---------- */
+.site-header {
+  background: rgba(247, 245, 242, .94);
+  border-bottom: 1px solid var(--line-strong);
+}
+.logo .logo-wise { color: var(--primary); }
+.main-nav a.active { color: var(--primary-dark); background: var(--primary-soft); }
+.icon-btn .count { background: var(--primary); }
+
+/* ---------- Section rhythm: alternate warm ground / white / tinted ---------- */
+.section-alt-warm { background: var(--surface-2); }
+.section-alt-tint { background: var(--primary-wash); }
+
+/* ---------- Category cards: per-category controlled tints ---------- */
+.cat-card { border-left: 3px solid var(--cat-tint, var(--line-strong)); }
+.cat-card:hover { border-color: var(--cat-tint, var(--line-strong)); box-shadow: var(--shadow-1); }
+.cat-card .cat-ico {
+  width: 54px; height: 54px; border-radius: var(--r-sm); flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--cat-tint-soft, var(--surface-2)); border: 1px solid var(--cat-tint-line, var(--line));
+  color: var(--cat-tint-ink, var(--ink-2));
+}
+.cat-card .cat-ico svg { width: 26px; height: 26px; }
+.cat-card[data-cat="laptops"]      { --cat-tint: #5b45e6; --cat-tint-soft: #eeeafe; --cat-tint-line: #ddd4fb; --cat-tint-ink: #4732c2; }
+.cat-card[data-cat="smartphones"]  { --cat-tint: #2f5f9e; --cat-tint-soft: #e5ecf6; --cat-tint-line: #c9d8ec; --cat-tint-ink: #2f5f9e; }
+.cat-card[data-cat="tablets"]      { --cat-tint: #18a7a0; --cat-tint-soft: #e3f6f4; --cat-tint-line: #c5eae7; --cat-tint-ink: #0c6b66; }
+.cat-card[data-cat="headphones"]   { --cat-tint: #e0672a; --cat-tint-soft: #fdeee2; --cat-tint-line: #f7d8c2; --cat-tint-ink: #9a4212; }
+.cat-card[data-cat="powerbanks"]   { --cat-tint: #f4a340; --cat-tint-soft: #fff2d8; --cat-tint-line: #f5e0b3; --cat-tint-ink: #8f5500; }
+.cat-card[data-cat="smartwatches"] { --cat-tint: #c94f6d; --cat-tint-soft: #fbe9ee; --cat-tint-line: #f2cdd7; --cat-tint-ink: #a02c4b; }
+
+/* ---------- Product cards: category eyebrow + ownership emphasis ---------- */
+.g-card[data-gadget-cat="laptops"]      { --g-tint: #5b45e6; --g-tint-soft: #eeeafe; --g-tint-ink: #4732c2; }
+.g-card[data-gadget-cat="smartphones"]  { --g-tint: #2f5f9e; --g-tint-soft: #e5ecf6; --g-tint-ink: #2f5f9e; }
+.g-card[data-gadget-cat="tablets"]      { --g-tint: #18a7a0; --g-tint-soft: #e3f6f4; --g-tint-ink: #0c6b66; }
+.g-card[data-gadget-cat="headphones"]   { --g-tint: #e0672a; --g-tint-soft: #fdeee2; --g-tint-ink: #9a4212; }
+.g-card[data-gadget-cat="powerbanks"]   { --g-tint: #f4a340; --g-tint-soft: #fff2d8; --g-tint-ink: #8f5500; }
+.g-card[data-gadget-cat="smartwatches"] { --g-tint: #c94f6d; --g-tint-soft: #fbe9ee; --g-tint-ink: #a02c4b; }
+.g-card .g-cat {
+  background: var(--g-tint-soft, var(--surface-2));
+  color: var(--g-tint-ink, var(--ink-2));
+  letter-spacing: .06em;
+}
+.g-card .g-brand { color: var(--g-tint-ink, var(--ink-3)); }
+.g-card { border-top: 2px solid transparent; }
+.g-card.card-hover:hover { border-top-color: var(--g-tint, var(--line-strong)); }
+
+/* Ownership Index — the visual signature */
+.oidx {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  background: var(--primary-soft); border-radius: var(--r-sm);
+  padding: 4px 10px; margin: 2px 0;
+}
+.oidx b { font-family: var(--font-mono); font-weight: 600; font-size: 1.02rem; color: var(--primary-dark); line-height: 1; }
+.oidx span { font-size: .66rem; font-weight: 700; letter-spacing: .05em; color: var(--primary); }
+
+/* ---------- Compare table: tinted advantage cells ---------- */
+.cmp-best { background: var(--primary-wash); box-shadow: inset 3px 0 0 var(--primary); }
+.cmp-best .cell-val { color: var(--primary-dark); }
+.adv { color: var(--primary-dark); }
+
+/* ---------- Breakdown meters: primary fill, neutral track ---------- */
+.breakdown .b-bar { height: 7px; border-radius: 4px; }
+.breakdown .b-fill { background: var(--primary); }
+.breakdown tr.total .b-frac { color: var(--primary-dark); }
+
+/* ---------- Recommendation results: the showpiece ---------- */
+.rec-result { border-top: 2px solid transparent; }
+.rec-result.rr-top {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary), var(--shadow-2);
+  background: linear-gradient(180deg, var(--primary-wash) 0%, var(--surface) 26%);
+}
+.rec-result.rr-top .rank { background: var(--primary); border-color: var(--primary); color: #fff; }
+.rec-result .rr-badge {
+  display: inline-block;
+  font-family: var(--font-display); font-weight: 800; font-size: .68rem; letter-spacing: .1em;
+  color: #231c45; background: var(--accent-warm);
+  border-radius: 4px; padding: 3px 9px;
+}
+.rec-result .score-ring .ring-val { stroke: var(--primary); }
+.rec-result.rr-top .score-ring .ring-label b { color: var(--primary-dark); }
+
+/* ---------- Buttons ---------- */
+.btn-warm { background: var(--accent-warm); color: #231c45; }
+.btn-warm:hover { background: #e8930c; }
+
+/* ---------- Badges stay meaningful ---------- */
+.badge-accent, .tag-accent { background: var(--primary-soft); color: var(--primary-dark); }
+.tag-warn, .badge-gold { background: var(--accent-warm-soft); color: var(--accent-warm-deep); }
+
+/* ---------- Flow band + CTA: tinted rhythm ---------- */
+.flow-band { background: var(--surface-2); }
+.flow-step .fs-k { color: var(--primary); }
+.cta-band {
+  background:
+    radial-gradient(700px 300px at 85% 120%, rgba(91, 69, 230, .5), transparent 60%),
+    linear-gradient(150deg, var(--hero-2), var(--hero-1));
+  color: var(--on-hero);
+  border-left: 4px solid var(--accent-warm);
+}
+.cta-band h2 { color: #fff; }
+.cta-band p { color: var(--on-hero-2); }
+
+/* ---------- Charts & scatter ---------- */
+.hbar-chart .hbar .hb-fill { background: var(--primary); }
+.line-chart .series { stroke: var(--primary); }
+.line-chart .dot { fill: var(--primary); }
+
+/* ---------- Admin: same family, darker indigo sidebar ---------- */
+.admin-sidebar { background: var(--hero-1); }
+.admin-brand .logo .logo-wise { color: var(--accent-warm); }
+.admin-nav a.active { background: rgba(91, 69, 230, .35); color: #cdc4ff; }
+.admin-nav a:hover { background: rgba(255,255,255,.08); }
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--hero-1); }

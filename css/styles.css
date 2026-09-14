@@ -1,38 +1,69 @@
 /* ============================================================
    GadgetWise — css/styles.css
-   Design system: "Cobalt Ledger"
-   Cool light ground · ink-navy text · cobalt for actions and
-   measured values · cyan reserved for admin/logo detail.
+   Design system: "Indigo Circuit" (v2 visual identity)
+   Warm off-white ground · deep indigo brand · amber highlight ·
+   teal for positive/technical · semantic colors kept separate.
    Prototype for CC 116 — not production code.
    ============================================================ */
 
 /* ---------- Tokens ----------
-   Theme: "Cobalt Ledger" — professional, cool, quietly futuristic.
-   Light cool-gray ground · ink-navy text · cobalt accent for actions
-   and measured values · cyan reserved for admin/logo detail only. */
+   Palette relationships:
+   - ~75% neutral surfaces (warm paper, white cards)
+   - ~12% primary indigo (buttons, links, scores, active states)
+   - ~8% amber (ratings, featured, highlights) + teal (positive/technical)
+   - Hero + CTA are the two dark indigo surfaces — the site's anchors. */
 :root {
-  --paper: #f4f6fa;
+  /* new-identity tokens */
+  --bg: #f7f5f2;
   --surface: #ffffff;
-  --surface-2: #eef1f7;
-  --ink: #10151d;
-  --ink-2: #3d4757;
-  --ink-3: #667181;
-  --line: #dde2ec;
-  --line-2: #c9d1e0;
-  --accent: #1a56db;
-  --accent-strong: #1447b8;
-  --accent-soft: #e3ecfc;
-  --accent-wash: #eef3fe;
-  --cyan: #7cc9f5;
-  --gold: #8a6d1f;
-  --gold-soft: #f6efd9;
-  --red: #b3372e;
-  --red-soft: #f8e9e7;
-  --amber: #8a6d1f;
-  --green: #1f7a44;
-  --green-soft: #e5f2ea;
-  --shadow-1: 0 1px 2px rgba(16, 21, 29, .05), 0 1px 3px rgba(16, 21, 29, .07);
-  --shadow-2: 0 2px 4px rgba(16, 21, 29, .06), 0 10px 24px rgba(16, 21, 29, .10);
+  --surface-2: #f1eee8;
+  --ink: #171522;
+  --ink-2: #45415a;
+  --ink-3: #686574;
+  --primary: #5b45e6;
+  --primary-dark: #4732c2;
+  --primary-soft: #eeeafe;
+  --primary-wash: #f5f2fe;
+  --accent-warm: #f4a340;
+  --accent-warm-deep: #8f5500;
+  --accent-warm-soft: #fff2d8;
+  --accent-teal: #0c6b66;
+  --accent-teal-bright: #18a7a0;
+  --accent-teal-soft: #e3f6f4;
+  --success: #218a52;
+  --success-soft: #e3f2e9;
+  --warning: #8f5d0e;
+  --warning-soft: #fdf3dd;
+  --danger: #c63d4f;
+  --danger-soft: #fcebed;
+  --info: #2f5f9e;
+  --info-soft: #e5ecf6;
+  --line: #e7e3dc;
+  --line-strong: #d5d0c6;
+  --hero-1: #231c45;
+  --hero-2: #2e2358;
+  --on-hero: #f5f2ff;
+  --on-hero-2: #b9b0e3;
+
+  /* legacy aliases (kept so all existing var() references resolve) */
+  --paper: var(--bg);
+  --accent: var(--primary);
+  --accent-strong: var(--primary-dark);
+  --accent-soft: var(--primary-soft);
+  --accent-wash: var(--primary-wash);
+  --amber: var(--accent-warm);
+  --gold: var(--accent-warm-deep);
+  --gold-soft: var(--accent-warm-soft);
+  --green: var(--success);
+  --green-soft: var(--success-soft);
+  --red: var(--danger);
+  --red-soft: var(--danger-soft);
+  --cyan: var(--accent-teal-bright);
+  --ink-2: #45415a;
+  --line-2: var(--line-strong);
+
+  --shadow-1: 0 1px 2px rgba(23, 21, 34, .05), 0 1px 3px rgba(23, 21, 34, .06);
+  --shadow-2: 0 2px 4px rgba(23, 21, 34, .06), 0 10px 24px rgba(23, 21, 34, .09);
   --r-sm: 6px; --r-md: 10px; --r-lg: 14px;
   --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
