@@ -150,6 +150,20 @@
       </div>
     </section>
 
+    <!-- ============ Top rated by students ============ -->
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="row-between" style="margin-bottom:22px">
+          <div>
+            <h2>Top rated by students</h2>
+            <p class="lede" style="margin-top:6px">The three highest-rated gadgets in the catalog, ranked from student ratings and reviews.</p>
+          </div>
+          <a class="btn btn-outline" href="gadgets.html?sort=rating">See all rankings <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></a>
+        </div>
+        <div class="grid-3" id="topRatedGrid"><!-- injected --></div>
+      </div>
+    </section>
+
     <!-- ============ Featured ============ -->
     <section class="section" style="padding-top:0">
       <div class="container">
@@ -258,6 +272,14 @@
     const bestValue = [...GW.gadgets].sort((a, b) => GW.monthlyCost(a) - GW.monthlyCost(b)).slice(0, 3);
     document.getElementById("topRated").innerHTML = topRated.map(miniRow).join("");
     document.getElementById("bestValue").innerHTML = bestValue.map(miniRow).join("");
+
+    // Top rated by students — full product cards, top 3
+    document.getElementById("topRatedGrid").innerHTML =
+      [...GW.gadgets].sort((a, b) => b.rating - a.rating).slice(0, 3).map((g, i) =>
+        GWApp.productCard(g, { score: null }).replace(
+          'class="g-card', `class="g-card${i === 0 ? " rr-top" : ""}`
+        )
+      ).join("");
 
     GWApp.renderScatterCats();
     GWApp.renderScatter();

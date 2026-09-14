@@ -16,7 +16,7 @@ window.GWCatalog = (function () {
       brands: new Set(),
       minPrice: p.get("min") ? +p.get("min") : null,
       maxPrice: p.get("max") ? +p.get("max") : null,
-      sort: "featured",
+      sort: p.get("sort") || "featured",
       category: catId || p.get("cat") || null
     };
 
