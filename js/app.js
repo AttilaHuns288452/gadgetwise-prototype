@@ -361,7 +361,6 @@ window.GWApp = (function () {
       ["recommendations.html", "Recommendations"]
     ];
     return `
-    <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="container header-inner">
         <button class="icon-btn mobile-nav-btn" id="mobileNavBtn" aria-label="Open menu" aria-expanded="false">${icon("menu")}</button>
