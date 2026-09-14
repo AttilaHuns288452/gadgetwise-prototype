@@ -445,6 +445,1235 @@ GW.gadgets = [
   }
 ];
 
+/* ============================================================
+   Real-product additions — ported from the fac3629 prototype.
+   Real brands and Wikimedia Commons photos; specs, prices and
+   scores remain illustrative demo data.
+   ============================================================ */
+const WISH_IMGS = {"laptop1":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png","laptop2":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acer_Aspire_A515-51.jpg/960px-Acer_Aspire_A515-51.jpg","laptop3":"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg","tablet1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg","tablet2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg","phone1":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmi_Note_11_front.jpg/960px-Redmi_Note_11_front.jpg","phone2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Back_of_the_Samsung_Galaxy_S23.jpg/960px-Back_of_the_Samsung_Galaxy_S23.jpg","head1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg","power1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg","watch1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg"};
+
+GW.realGadgetEntries = [
+ {
+  id:  "apple-macbook-air-m1",
+  brand:  "Apple",
+  model:  "MacBook Air M1",
+  category:  "laptops",
+  price:  46999,
+  rating:  4.9,
+  reviewCount:  180,
+  releaseYear:  2020,
+  status:  "published",
+  tagline:  "The laptop students keep past graduation",
+  summary:  "Silent, fanless, and 14–15 hours of real battery. Base storage and out-of-warranty repairs are the trade-offs.",
+  image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png",
+  specs:  {
+   Chipset:  "Apple M1 8-core CPU",
+   Memory:  "8GB unified · 256GB SSD",
+   Display:  "13.3-inch Retina 2560×1600",
+   Battery:  "Real-world battery 14–15 hr · 30W USB-C",
+   Weight:  "1.29 kg, fanless"
+  },
+  specList:  [
+   "Apple M1 8-core CPU",
+   "8GB unified · 256GB SSD",
+   "13.3-inch Retina 2560×1600",
+   "Real-world battery 14–15 hr · 30W USB-C",
+   "1.29 kg, fanless"
+  ],
+  scored:  {
+   performance:  8.5,
+   battery:  10,
+   durability:  8.8,
+   portability:  9.2,
+   display:  9.2,
+   camera:  7.2,
+   storage:  5.5,
+   repairability:  3.5
+  },
+  value:  {
+   warrantyYears:  1,
+   lifespanYears:  5,
+   repairabilityLabel:  "Hard — authorized service only"
+  },
+  strengths:  [
+   "14–15 hr real-world battery",
+   "Silent, fanless operation",
+   "Best-in-class trackpad and speakers"
+  ],
+  weaknesses:  [
+   "256GB base storage fills fast",
+   "RAM is not upgradeable",
+   "Expensive out-of-warranty repairs"
+  ],
+  goodFor:  [
+   "Programming and thesis builds",
+   "Research and writing",
+   "All-day classes away from outlets"
+  ],
+  notIdeal:  [
+   "Tight budgets",
+   "Students who upgrade parts later"
+  ],
+  cx:  {
+   perf:  85,
+   display:  92,
+   battery:  100,
+   portability:  92,
+   durab:  88,
+   repair:  35,
+   camera:  72,
+   storage:  55
+  },
+  battery:  14.5,
+  durab:  4.6,
+  repair:  2.1,
+  raters:  180,
+  pop:  88,
+  issue:  "256GB base storage fills fast",
+  uses:  {
+   programming:  3,
+   design:  3,
+   classes:  3,
+   research:  3,
+   gaming:  1,
+   video:  2
+  },
+  warranty:  12,
+  reviews:  [
+   {
+    id:  "r-apple-macbook-air-m1-1",
+    user:  "Kai M.",
+    rating:  5,
+    date:  "2026-08-14",
+    context:  "Year 3 student",
+    text:  "Left the charger at home all week. Still on 30% by Saturday review sessions. The battery alone is worth it."
+   },
+   {
+    id:  "r-apple-macbook-air-m1-2",
+    user:  "Rina P.",
+    rating:  5,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Compiles our thesis Android app in seconds. Speakers embarrass laptops twice the price."
+   },
+   {
+    id:  "r-apple-macbook-air-m1-3",
+    user:  "Doms L.",
+    rating:  4,
+    date:  "2025-09-10",
+    context:  "Year 1 student",
+    text:  "One dent after a backpack drop. Screen replacement quote was ₱18k — insure this one."
+   }
+  ],
+  issues:  [
+   {
+    id:  "i-apple-macbook-air-m1",
+    title:  "256GB base storage fills fast",
+    reportedBy:  "Community report",
+    date:  "2026-06-01",
+    status:  "confirmed",
+    severity:  "moderate"
+   }
+  ]
+ },
+ {
+  id:  "acer-aspire-5-a515",
+  brand:  "Acer",
+  model:  "Acer Aspire 5 A515",
+  category:  "laptops",
+  price:  28999,
+  rating:  4.3,
+  reviewCount:  240,
+  releaseYear:  2023,
+  status:  "published",
+  tagline:  "The budget workhorse you can fix yourself",
+  summary:  "Standard parts, user-upgradeable RAM and SSD, strong performance per peso. The chassis and display show the price.",
+  image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acer_Aspire_A515-51.jpg/960px-Acer_Aspire_A515-51.jpg",
+  specs:  {
+   Chipset:  "AMD Ryzen 5 7520U",
+   Memory:  "16GB RAM · 512GB SSD",
+   Display:  "15.6-inch IPS FHD",
+   Battery:  "Battery 9 hr claimed · 65W USB-C",
+   Weight:  "1.78 kg"
+  },
+  specList:  [
+   "AMD Ryzen 5 7520U",
+   "16GB RAM · 512GB SSD",
+   "15.6-inch IPS FHD",
+   "Battery 9 hr claimed · 65W USB-C",
+   "1.78 kg"
+  ],
+  scored:  {
+   performance:  7.2,
+   battery:  6,
+   durability:  7,
+   portability:  5.5,
+   display:  6.5,
+   camera:  5,
+   storage:  7,
+   repairability:  8.8
+  },
+  value:  {
+   warrantyYears:  1,
+   lifespanYears:  4,
+   repairabilityLabel:  "Easy — standard parts, cheap fixes"
+  },
+  strengths:  [
+   "Standard parts — cheap, available fixes",
+   "RAM and SSD are user-upgradeable",
+   "Strong performance per peso"
+  ],
+  weaknesses:  [
+   "Plastic chassis flexes under torsion",
+   "Display is dim for outdoor use"
+  ],
+  goodFor:  [
+   "Programming on a budget",
+   "Documents and presentations",
+   "Students who repair instead of replace"
+  ],
+  notIdeal:  [
+   "Design and color-critical work",
+   "Daily long carries"
+  ],
+  cx:  {
+   perf:  72,
+   display:  65,
+   battery:  60,
+   portability:  55,
+   durab:  70,
+   repair:  88,
+   camera:  50,
+   storage:  70
+  },
+  battery:  7.5,
+  durab:  3.8,
+  repair:  4.2,
+  raters:  240,
+  pop:  85,
+  issue:  "Early batches had a rattly trackpad",
+  uses:  {
+   programming:  3,
+   design:  1,
+   classes:  3,
+   research:  3,
+   gaming:  2,
+   video:  1
+  },
+  warranty:  12,
+  reviews:  [
+   {
+    id:  "r-acer-aspire-5-a515-1",
+    user:  "JC R.",
+    rating:  4,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Handles docs, Zoom, VS Code and light Blender. Keyboard flex is the only gripe."
+   },
+   {
+    id:  "r-acer-aspire-5-a515-2",
+    user:  "Mai S.",
+    rating:  5,
+    date:  "2025-09-10",
+    context:  "Year 1 student",
+    text:  "Upgraded the SSD myself in 15 minutes. Every part is a standard size — repairs are cheap here."
+   },
+   {
+    id:  "r-acer-aspire-5-a515-3",
+    user:  "Fons M.",
+    rating:  4,
+    date:  "2026-08-14",
+    context:  "Year 3 student",
+    text:  "Charger brick is small, fits the same pouch as my power bank."
+   }
+  ],
+  issues:  [
+   {
+    id:  "i-acer-aspire-5-a515",
+    title:  "Early batches had a rattly trackpad",
+    reportedBy:  "Community report",
+    date:  "2026-06-01",
+    status:  "confirmed",
+    severity:  "moderate"
+   }
+  ]
+ },
+ {
+  id:  "asus-vivobook-15",
+  brand:  "ASUS",
+  model:  "ASUS Vivobook 15",
+  category:  "laptops",
+  price:  32999,
+  rating:  4.4,
+  reviewCount:  160,
+  releaseYear:  2023,
+  status:  "published",
+  tagline:  "Two-year warranty, OLED, no upgrade tax",
+  summary:  "The longest laptop warranty here plus an OLED panel for design work. Fan noise and battery life are the trade.",
+  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg",
+  specs:  {
+   Chipset:  "Intel Core i5-1335U",
+   Memory:  "16GB RAM · 512GB SSD",
+   Display:  "15.6-inch OLED option",
+   Battery:  "Battery 7 hr · 65W USB-C",
+   Weight:  "1.7 kg"
+  },
+  specList:  [
+   "Intel Core i5-1335U",
+   "16GB RAM · 512GB SSD",
+   "15.6-inch OLED option",
+   "Battery 7 hr · 65W USB-C",
+   "1.7 kg"
+  ],
+  scored:  {
+   performance:  7.8,
+   battery:  5.2,
+   durability:  8.2,
+   portability:  6.2,
+   display:  8.8,
+   camera:  5.5,
+   storage:  7,
+   repairability:  8
+  },
+  value:  {
+   warrantyYears:  2,
+   lifespanYears:  4,
+   repairabilityLabel:  "Easy — standard parts, cheap fixes"
+  },
+  strengths:  [
+   "Two-year warranty — longest of the laptops",
+   "OLED panel for design work",
+   "16GB RAM out of the box"
+  ],
+  weaknesses:  [
+   "Fan spins up under sustained compiles",
+   "Battery trails the class average"
+  ],
+  goodFor:  [
+   "Design and multimedia coursework",
+   "Programming with longer warranty cover",
+   "Presentations on external displays"
+  ],
+  notIdeal:  [
+   "All-day off-charger use",
+   "Quiet environments like libraries"
+  ],
+  cx:  {
+   perf:  78,
+   display:  88,
+   battery:  52,
+   portability:  62,
+   durab:  82,
+   repair:  80,
+   camera:  55,
+   storage:  70
+  },
+  battery:  7,
+  durab:  4.4,
+  repair:  4.3,
+  raters:  160,
+  pop:  74,
+  issue:  "Fan spins up under sustained load",
+  uses:  {
+   programming:  3,
+   design:  2,
+   classes:  3,
+   research:  2,
+   gaming:  2,
+   video:  2
+  },
+  warranty:  24,
+  reviews:  [
+   {
+    id:  "r-asus-vivobook-15-1",
+    user:  "Bea T.",
+    rating:  5,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "The OLED makes Figma layouts pop. 16GB out of the box means no upgrade tax."
+   },
+   {
+    id:  "r-asus-vivobook-15-2",
+    user:  "Ogie W.",
+    rating:  4,
+    date:  "2025-09-10",
+    context:  "Year 1 student",
+    text:  "Fan gets chatty on long compiles but never thermal-throttled on me."
+   },
+   {
+    id:  "r-asus-vivobook-15-3",
+    user:  "Shai G.",
+    rating:  4,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Two-year warranty sealed it for me. Service center fixed a hinge in 3 days."
+   }
+  ],
+  issues:  [
+   {
+    id:  "i-asus-vivobook-15",
+    title:  "Fan spins up under sustained load",
+    reportedBy:  "Community report",
+    date:  "2026-06-01",
+    status:  "confirmed",
+    severity:  "moderate"
+   }
+  ]
+ },
+ {
+  id:  "apple-ipad-9",
+  brand:  "Apple",
+  model:  "iPad 9th Generation",
+  category:  "tablets",
+  price:  19499,
+  rating:  4.7,
+  reviewCount:  210,
+  releaseYear:  2021,
+  status:  "published",
+  tagline:  "Cheapest real entry into the Pencil workflow",
+  summary:  "Long software support, strong resale, paperless note-taking on a budget. Base storage is tight and extras cost more.",
+  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg",
+  specs:  {
+   Chipset:  "A13 Bionic chip",
+   Storage:  "64GB · Wi-Fi",
+   Display:  "10.2-inch Retina",
+   Battery:  "Battery 9–10 hr video",
+   Extras:  "Apple Pencil (1st gen) supported"
+  },
+  specList:  [
+   "A13 Bionic chip",
+   "64GB · Wi-Fi",
+   "10.2-inch Retina",
+   "Battery 9–10 hr video",
+   "Apple Pencil (1st gen) supported"
+  ],
+  scored:  {
+   performance:  6.2,
+   battery:  7.8,
+   durability:  8.2,
+   portability:  9,
+   display:  7.5,
+   camera:  6,
+   storage:  3.5,
+   repairability:  4.5
+  },
+  value:  {
+   warrantyYears:  1,
+   lifespanYears:  5,
+   repairabilityLabel:  "Hard — authorized service only"
+  },
+  strengths:  [
+   "Longest software support in the tablet class",
+   "Cheapest entry into the Pencil note-taking workflow",
+   "Strong resale value"
+  ],
+  weaknesses:  [
+   "64GB base storage is tight",
+   "Non-laminated display adds glare",
+   "Pencil and keyboard cost extra"
+  ],
+  goodFor:  [
+   "Paperless note-taking",
+   "Reading and PDF annotation",
+   "Media consumption between classes"
+  ],
+  notIdeal:  [
+   "Primary laptop replacement",
+   "Large offline media libraries"
+  ],
+  cx:  {
+   perf:  62,
+   display:  75,
+   battery:  78,
+   portability:  90,
+   durab:  82,
+   repair:  45,
+   camera:  60,
+   storage:  35
+  },
+  battery:  9,
+  durab:  4.3,
+  repair:  2.8,
+  raters:  210,
+  pop:  79,
+  issue:  "Non-laminated display shows more glare",
+  uses:  {
+   programming:  1,
+   design:  2,
+   classes:  3,
+   research:  3,
+   gaming:  2,
+   video:  3
+  },
+  warranty:  12,
+  reviews:  [
+   {
+    id:  "r-apple-ipad-9-1",
+    user:  "Nadine C.",
+    rating:  5,
+    date:  "2026-08-14",
+    context:  "Year 3 student",
+    text:  "GoodNotes replaced all my notebooks. Still gets iPadOS updates years in — that's the long-term value."
+   },
+   {
+    id:  "r-apple-ipad-9-2",
+    user:  "Iya V.",
+    rating:  4,
+    date:  "2025-09-10",
+    context:  "Year 1 student",
+    text:  "Split-screen lecture PDF + Zoom runs smooth. Storage is tight though."
+   },
+   {
+    id:  "r-apple-ipad-9-3",
+    user:  "Trina U.",
+    rating:  5,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Cheapest real iPad. Resale after 3 years still recovers half the price."
+   }
+  ],
+  issues:  [
+   {
+    id:  "i-apple-ipad-9",
+    title:  "Non-laminated display shows more glare",
+    reportedBy:  "Community report",
+    date:  "2026-06-01",
+    status:  "confirmed",
+    severity:  "moderate"
+   }
+  ]
+ },
+ {
+  id:  "xiaomi-pad-7",
+  brand:  "Xiaomi",
+  model:  "Xiaomi Pad 7",
+  category:  "tablets",
+  price:  16999,
+  rating:  4.5,
+  reviewCount:  130,
+  releaseYear:  2024,
+  status:  "published",
+  tagline:  "144Hz 3.2K display at a mid-range price",
+  summary:  "A full day of classes on one charge and a display that embarrasses pricier tablets. Stylus and keyboard sold separately.",
+  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg",
+  specs:  {
+   Chipset:  "Snapdragon 7+ Gen 3",
+   Memory:  "8GB RAM · 128GB",
+   Display:  "11.2-inch 3.2K 144Hz",
+   Battery:  "Battery 8,850 mAh · 45W",
+   Stylus:  "Focus stylus + keyboard support"
+  },
+  specList:  [
+   "Snapdragon 7+ Gen 3",
+   "8GB RAM · 128GB",
+   "11.2-inch 3.2K 144Hz",
+   "Battery 8,850 mAh · 45W",
+   "Focus stylus + keyboard support"
+  ],
+  scored:  {
+   performance:  8.2,
+   battery:  8.8,
+   durability:  7.5,
+   portability:  8.5,
+   display:  9.5,
+   camera:  4.5,
+   storage:  6,
+   repairability:  4
+  },
+  value:  {
+   warrantyYears:  1,
+   lifespanYears:  4,
+   repairabilityLabel:  "Moderate — some parts need a shop"
+  },
+  strengths:  [
+   "144Hz 3.2K display at a mid-range price",
+   "Snapdragon 7+ Gen 3 handles heavy apps",
+   "8,850 mAh lasts full-day schedules"
+  ],
+  weaknesses:  [
+   "Stylus and keyboard sold separately",
+   "Note-app ecosystem trails iPad"
+  ],
+  goodFor:  [
+   "Video streaming and reading",
+   "Digital flashcards and PDF markup",
+   "Budget-conscious media students"
+  ],
+  notIdeal:  [
+   "Deep Pencil-style workflows",
+   "Students already in the Apple ecosystem"
+  ],
+  cx:  {
+   perf:  82,
+   display:  95,
+   battery:  88,
+   portability:  85,
+   durab:  75,
+   repair:  40,
+   camera:  45,
+   storage:  60
+  },
+  battery:  10,
+  durab:  4,
+  repair:  3,
+  raters:  130,
+  pop:  68,
+  issue:  "Stylus sold separately",
+  uses:  {
+   programming:  1,
+   design:  2,
+   classes:  3,
+   research:  3,
+   gaming:  3,
+   video:  3
+  },
+  warranty:  12,
+  reviews:  [
+   {
+    id:  "r-xiaomi-pad-7-1",
+    user:  "Enzo H.",
+    rating:  5,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "144Hz at this price is unfair. A full Thursday of classes on one charge."
+   },
+   {
+    id:  "r-xiaomi-pad-7-2",
+    user:  "Paolo D.",
+    rating:  4,
+    date:  "2025-09-10",
+    context:  "Year 1 student",
+    text:  "Great for notes and video. App ecosystem still behind iPad for note apps."
+   },
+   {
+    id:  "r-xiaomi-pad-7-3",
+    user:  "Luigi B.",
+    rating:  4,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Doubles as my second monitor for the laptop. Stylus buying separately stings."
+   }
+  ],
+  issues:  [
+   {
+    id:  "i-xiaomi-pad-7",
+    title:  "Stylus sold separately",
+    reportedBy:  "Community report",
+    date:  "2026-06-01",
+    status:  "confirmed",
+    severity:  "moderate"
+   }
+  ]
+ },
+ {
+  id:  "redmi-note-11",
+  brand:  "Redmi",
+  model:  "Redmi Note 11",
+  category:  "smartphones",
+  price:  6999,
+  rating:  4.2,
+  reviewCount:  300,
+  releaseYear:  2022,
+  status:  "published",
+  tagline:  "The first phone that survives an allowance",
+  summary:  "AMOLED 90Hz and one-hour charging at ₱7k, with parts everywhere. Gaming and low-light photos are where it saves.",
+  image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmi_Note_11_front.jpg/960px-Redmi_Note_11_front.jpg",
+  specs:  {
+   Display:  "6.43-inch AMOLED 90Hz",
+   Chipset:  "Helio G96",
+   Memory:  "6GB RAM · 128GB",
+   Battery:  "5,000 mAh · 33W",
+   Camera:  "50MP main camera"
+  },
+  specList:  [
+   "6.43-inch AMOLED 90Hz",
+   "Helio G96",
+   "6GB RAM · 128GB",
+   "5,000 mAh · 33W",
+   "50MP main camera"
+  ],
+  scored:  {
+   performance:  4.5,
+   battery:  8,
+   durability:  6.8,
+   portability:  9.5,
+   display:  8,
+   camera:  5.5,
+   storage:  6.5,
+   repairability:  8.2
+  },
+  value:  {
+   warrantyYears:  1,
+   lifespanYears:  3,
+   repairabilityLabel:  "Moderate — some parts need a shop"
+  },
+  strengths:  [
+   "AMOLED 90Hz at a budget price",
+   "33W charging — full in about an hour",
+   "Parts and technicians are everywhere"
+  ],
+  weaknesses:  [
+   "Helio G96 slows on heavy apps",
+   "Camera struggles in low light",
+   "Bloatware out of the box"
+  ],
+  goodFor:  [
+   "Calls, GCash, school apps",
+   "First phone on a tight allowance",
+   "Backup phone for fieldwork"
+  ],
+  notIdeal:  [
+   "Mobile gaming",
+   "Photo-heavy coursework"
+  ],
+  cx:  {
+   perf:  45,
+   display:  80,
+   battery:  80,
+   portability:  95,
+   durab:  68,
+   repair:  82,
+   camera:  55,
+   storage:  65
+  },
+  battery:  8.2,
+  durab:  3.6,
+  repair:  3.9,
+  raters:  300,
+  pop:  86,
+  issue:  "Preloaded bloatware",
+  uses:  {
+   programming:  1,
+   design:  1,
+   classes:  3,
+   research:  2,
+   gaming:  1,
+   video:  2,
+   photography:  2
+  },
+  warranty:  12,
+  reviews:  [
+   {
+    id:  "r-redmi-note-11-1",
+    user:  "Tin A.",
+    rating:  5,
+    date:  "2026-08-14",
+    context:  "Year 3 student",
+    text:  "AMOLED at ₱7k carried my whole first year. Charges during one lunch break."
+   },
+   {
+    id:  "r-redmi-note-11-2",
+    user:  "Rey F.",
+    rating:  4,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Camera is fine for board notes and GCash scans. Loads ML files slowly."
+   },
+   {
+    id:  "r-redmi-note-11-3",
+    user:  "Kaye L.",
+    rating:  4,
+    date:  "2025-09-10",
+    context:  "Year 1 student",
+    text:  "Dropped screen-first twice with a case — survived. Parts are everywhere."
+   }
+  ],
+  issues:  [
+   {
+    id:  "i-redmi-note-11",
+    title:  "Preloaded bloatware",
+    reportedBy:  "Community report",
+    date:  "2026-06-01",
+    status:  "confirmed",
+    severity:  "moderate"
+   }
+  ]
+ },
+ {
+  id:  "samsung-galaxy-s23",
+  brand:  "Samsung",
+  model:  "Samsung Galaxy S23",
+  category:  "smartphones",
+  price:  38990,
+  rating:  4.7,
+  reviewCount:  190,
+  releaseYear:  2023,
+  status:  "published",
+  tagline:  "Flagship camera in a one-hand body",
+  summary:  "Night-mode camera for thesis documentation, compact build, 4 OS updates promised. Battery needs top-ups.",
+  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Back_of_the_Samsung_Galaxy_S23.jpg/960px-Back_of_the_Samsung_Galaxy_S23.jpg",
+  specs:  {
+   Display:  "6.1-inch Dynamic AMOLED 120Hz",
+   Chipset:  "Snapdragon 8 Gen 2",
+   Memory:  "8GB RAM · 256GB",
+   Battery:  "3,900 mAh · 25W",
+   Durability:  "IP68 water resistant"
+  },
+  specList:  [
+   "6.1-inch Dynamic AMOLED 120Hz",
+   "Snapdragon 8 Gen 2",
+   "8GB RAM · 256GB",
+   "3,900 mAh · 25W",
+   "IP68 water resistant"
+  ],
+  scored:  {
+   performance:  9.2,
+   battery:  6.2,
+   durability:  8.6,
+   portability:  9.6,
+   display:  9.5,
+   camera:  9,
+   storage:  8,
+   repairability:  3.8
+  },
+  value:  {
+   warrantyYears:  1,
+   lifespanYears:  4,
+   repairabilityLabel:  "Hard — authorized service only"
+  },
+  strengths:  [
+   "Flagship camera — night mode handles indoor events",
+   "Compact one-handed body",
+   "4 OS + 5 years security updates"
+  ],
+  weaknesses:  [
+   "Small 3,900 mAh battery needs top-ups",
+   "25W charging is slow for the class",
+   "Premium repair costs"
+  ],
+  goodFor:  [
+   "Photography and content creation",
+   "Research on the go",
+   "Students keeping a phone 4+ years"
+  ],
+  notIdeal:  [
+   "Heavy mobile gaming sessions",
+   "Students who forget power banks"
+  ],
+  cx:  {
+   perf:  92,
+   display:  95,
+   battery:  62,
+   portability:  96,
+   durab:  86,
+   repair:  38,
+   camera:  90,
+   storage:  80
+  },
+  battery:  8,
+  durab:  4.4,
+  repair:  2.9,
+  raters:  190,
+  pop:  81,
+  issue:  "Battery health dips faster than expected",
+  uses:  {
+   programming:  2,
+   design:  2,
+   classes:  3,
+   research:  3,
+   gaming:  3,
+   video:  3,
+   photography:  3
+  },
+  warranty:  12,
+  reviews:  [
+   {
+    id:  "r-samsung-galaxy-s23-1",
+    user:  "Jopay K.",
+    rating:  5,
+    date:  "2026-08-14",
+    context:  "Year 3 student",
+    text:  "Flagship camera for thesis documentation. Night mode saves my indoor shots."
+   },
+   {
+    id:  "r-samsung-galaxy-s23-2",
+    user:  "Doms L.",
+    rating:  4,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Compact size is the selling point — actually fits one hand. Battery needs a power bank on long days."
+   },
+   {
+    id:  "r-samsung-galaxy-s23-3",
+    user:  "Aira S.",
+    rating:  5,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Four years of updates promised. Cost per year beats cheaper phones."
+   }
+  ],
+  issues:  [
+   {
+    id:  "i-samsung-galaxy-s23",
+    title:  "Battery health dips faster than expected",
+    reportedBy:  "Community report",
+    date:  "2026-06-01",
+    status:  "confirmed",
+    severity:  "moderate"
+   }
+  ]
+ },
+ {
+  id:  "jbl-synchros-e50bt",
+  brand:  "JBL",
+  model:  "JBL Synchros E50BT",
+  category:  "headphones",
+  price:  4499,
+  rating:  4,
+  reviewCount:  95,
+  releaseYear:  2018,
+  status:  "published",
+  tagline:  "Bass for the commute, aux for the dead battery",
+  summary:  "Pure Bass sound that drowns the LRT, aux fallback, folds flat. Ear pads flake around month 11 and there is no ANC.",
+  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg",
+  specs:  {
+   Type:  "Over-ear, wireless",
+   Sound:  "JBL Pure Bass sound",
+   Battery:  "Battery ~16 hr",
+   Connectivity:  "Bluetooth + aux fallback",
+   Design:  "Foldable, padded headband"
+  },
+  specList:  [
+   "Over-ear, wireless",
+   "JBL Pure Bass sound",
+   "Battery ~16 hr",
+   "Bluetooth + aux fallback",
+   "Foldable, padded headband"
+  ],
+  scored:  {
+   performance:  5.5,
+   battery:  5.5,
+   durability:  6.5,
+   portability:  7,
+   display:  6.2,
+   camera:  5,
+   storage:  5,
+   repairability:  6
+  },
+  value:  {
+   warrantyYears:  1,
+   lifespanYears:  2.5,
+   repairabilityLabel:  "Moderate — some parts need a shop"
+  },
+  strengths:  [
+   "Pure Bass sound for commutes",
+   "Aux cable works when the battery dies",
+   "Folds flat inside a bag"
+  ],
+  weaknesses:  [
+   "Ear pads flake around month 11",
+   "No active noise cancelling",
+   "Mic quality is average for calls"
+  ],
+  goodFor:  [
+   "Jeepney and LRT commutes",
+   "Casual listening between classes",
+   "Backup wired/wireless pair"
+  ],
+  notIdeal:  [
+   "All-day library wear",
+   "Online recitation-heavy schedules"
+  ],
+  cx:  {
+   perf:  55,
+   comfort:  62,
+   battery:  55,
+   portability:  70,
+   durab:  65,
+   repair:  60,
+   mic:  50
+  },
+  battery:  7.5,
+  durab:  3.5,
+  repair:  3.2,
+  raters:  95,
+  pop:  55,
+  issue:  "Ear pads flake after about a year",
+  uses:  {
+   programming:  0,
+   design:  1,
+   classes:  3,
+   research:  2,
+   gaming:  2,
+   video:  1
+  },
+  warranty:  12,
+  reviews:  [
+   {
+    id:  "r-jbl-synchros-e50bt-1",
+    user:  "Shai G.",
+    rating:  4,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Bass drowns the LRT noise during commute reviews. Pads get warm after 2 hours."
+   },
+   {
+    id:  "r-jbl-synchros-e50bt-2",
+    user:  "Enzo H.",
+    rating:  4,
+    date:  "2025-09-10",
+    context:  "Year 1 student",
+    text:  "Aux cable saved me when the battery died mid-library session."
+   },
+   {
+    id:  "r-jbl-synchros-e50bt-3",
+    user:  "Mai S.",
+    rating:  3,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Pads started flaking at month 11. Replaceable, but annoying."
+   }
+  ],
+  issues:  [
+   {
+    id:  "i-jbl-synchros-e50bt",
+    title:  "Ear pads flake after about a year",
+    reportedBy:  "Community report",
+    date:  "2026-06-01",
+    status:  "confirmed",
+    severity:  "moderate"
+   }
+  ]
+ },
+ {
+  id:  "anker-powercore-20100",
+  brand:  "Anker",
+  model:  "Anker PowerCore 20100",
+  category:  "powerbanks",
+  price:  2450,
+  rating:  4.8,
+  reviewCount:  350,
+  releaseYear:  2018,
+  status:  "published",
+  tagline:  "Brownout insurance with an 18-month warranty",
+  summary:  "20,000 mAh that trickle-charges laptops and outlasts outages. Heavy in a small bag, slow to recharge itself.",
+  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg",
+  specs:  {
+   Capacity:  "20,000 mAh",
+   Output:  "18W USB-C PD in/out",
+   "Laptop charging": "Charges a laptop (trickle)",
+   Display:  "4-LED charge display",
+   Safety:  "Airline-safe capacity"
+  },
+  specList:  [
+   "20,000 mAh",
+   "18W USB-C PD in/out",
+   "Charges a laptop (trickle)",
+   "4-LED charge display",
+   "Airline-safe capacity"
+  ],
+  scored:  {
+   performance:  7.5,
+   battery:  9.5,
+   durability:  9.2,
+   portability:  4,
+   display:  3,
+   camera:  0,
+   storage:  5,
+   repairability:  5.5
+  },
+  value:  {
+   warrantyYears:  1.5,
+   lifespanYears:  3,
+   repairabilityLabel:  "Moderate — some parts need a shop"
+  },
+  strengths:  [
+   "18W PD tops phones fast, trickle-charges laptops",
+   "18-month warranty — rare in this class",
+   "Four years of service without swelling"
+  ],
+  weaknesses:  [
+   "Heavy in a small bag (≈355 g)",
+   "Slow to recharge itself overnight"
+  ],
+  goodFor:  [
+   "Long field days and brownouts",
+   "Laptop users between outlets",
+   "Group-work charging duty"
+  ],
+  notIdeal:  [
+   "Everyday minimal carry",
+   "Quick recharges between classes"
+  ],
+  cx:  {
+   perf:  75,
+   comfort:  30,
+   battery:  95,
+   portability:  40,
+   durab:  92,
+   repair:  55,
+   mic:  0
+  },
+  battery:  9.5,
+  durab:  4.5,
+  repair:  3.4,
+  raters:  350,
+  pop:  82,
+  issue:  "None reported yet",
+  uses:  {
+   programming:  2,
+   design:  1,
+   classes:  3,
+   research:  2,
+   gaming:  2,
+   video:  2
+  },
+  warranty:  18,
+  reviews:  [
+   {
+    id:  "r-anker-powercore-20100-1",
+    user:  "Fons M.",
+    rating:  5,
+    date:  "2026-08-14",
+    context:  "Year 3 student",
+    text:  "Brownout insurance. Kept my router, phone and laptop alive through a 6-hour outage."
+   },
+   {
+    id:  "r-anker-powercore-20100-2",
+    user:  "Kaye L.",
+    rating:  5,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Heavy, but that's physics. Four years of daily service and it never swelled."
+   },
+   {
+    id:  "r-anker-powercore-20100-3",
+    user:  "Iya V.",
+    rating:  5,
+    date:  "2025-09-10",
+    context:  "Year 1 student",
+    text:  "Pays for itself the first time it saves a 20% battery before a quiz."
+   }
+  ],
+  issues:  []
+ },
+ {
+  id:  "amazfit-bip",
+  brand:  "Amazfit",
+  model:  "Amazfit Bip",
+  category:  "smartwatches",
+  price:  3190,
+  rating:  4.3,
+  reviewCount:  140,
+  releaseYear:  2018,
+  status:  "published",
+  tagline:  "Charge it monthly, forget it daily",
+  summary:  "Up to 30 days per charge, silent alarms for early classes, light enough to forget. Basic metrics, scratchy screen.",
+  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg",
+  specs:  {
+   Display:  "1.28-inch always-on display",
+   Battery:  "Up to 30-day battery",
+   Sensors:  "GPS + SpO2 + heart rate",
+   "Water resistance": "5 ATM water resistant",
+   Alarms:  "Silent vibrating alarms"
+  },
+  specList:  [
+   "1.28-inch always-on display",
+   "Up to 30-day battery",
+   "GPS + SpO2 + heart rate",
+   "5 ATM water resistant",
+   "Silent vibrating alarms"
+  ],
+  scored:  {
+   performance:  4,
+   battery:  10,
+   durability:  7.2,
+   portability:  10,
+   display:  8.5,
+   camera:  0,
+   storage:  3,
+   repairability:  4.5
+  },
+  value:  {
+   warrantyYears:  1,
+   lifespanYears:  3,
+   repairabilityLabel:  "Hard — authorized service only"
+  },
+  strengths:  [
+   "Up to 30-day battery — charge monthly",
+   "Silent vibrating alarms for early classes",
+   "Lightweight enough to forget wearing"
+  ],
+  weaknesses:  [
+   "GPS locks slowly near tall buildings",
+   "Basic fitness metrics only",
+   "Screen scratches without a film"
+  ],
+  goodFor:  [
+   "7:30am class alarms",
+   "Habit and sleep tracking",
+   "Budget fitness logging"
+  ],
+  notIdeal:  [
+   "Serious run training",
+   "Replying to messages from the wrist"
+  ],
+  cx:  {
+   perf:  40,
+   comfort:  85,
+   battery:  100,
+   portability:  100,
+   durab:  72,
+   repair:  45,
+   camera:  0,
+   storage:  30
+  },
+  battery:  9.9,
+  durab:  3.8,
+  repair:  2.9,
+  raters:  140,
+  pop:  58,
+  issue:  "GPS locks slowly near tall buildings",
+  uses:  {
+   programming:  0,
+   design:  0,
+   classes:  3,
+   research:  1,
+   gaming:  0,
+   video:  0
+  },
+  warranty:  12,
+  reviews:  [
+   {
+    id:  "r-amazfit-bip-1",
+    user:  "Trina U.",
+    rating:  5,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Silent alarms for 7:30am classes saved my attendance. Charges like once a month."
+   },
+   {
+    id:  "r-amazfit-bip-2",
+    user:  "Ogie W.",
+    rating:  4,
+    date:  "2025-09-10",
+    context:  "Year 1 student",
+    text:  "Tracks my commute walks honestly. GPS takes a minute to lock near buildings."
+   },
+   {
+    id:  "r-amazfit-bip-3",
+    user:  "Luigi B.",
+    rating:  4,
+    date:  "2026-02-20",
+    context:  "Year 2 student",
+    text:  "Paired with Google Fit fine. Screen scratches if you're careless."
+   }
+  ],
+  issues:  [
+   {
+    id:  "i-amazfit-bip",
+    title:  "GPS locks slowly near tall buildings",
+    reportedBy:  "Community report",
+    date:  "2026-06-01",
+    status:  "confirmed",
+    severity:  "moderate"
+   }
+  ]
+ }
+];
+
+GW.gadgets.push(...GW.realGadgetEntries);
+
 /* ---------- Reported issues for gadgets without one (pool for admin) ---------- */
 GW.extraIssues = [
   { id: "i-gen1", gadget: "lumina-ultra-5g", title: "Stock charger overheats with third-party cables", reportedBy: "Uly B.", date: "2026-06-05", status: "pending", severity: "moderate" },

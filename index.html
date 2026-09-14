@@ -110,6 +110,46 @@
       </div>
     </section>
 
+    <!-- ============ How GadgetWise helps ============ -->
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="row-between" style="margin-bottom:22px">
+          <div>
+            <h2>How GadgetWise helps</h2>
+            <p class="lede" style="margin-top:6px">Three things most price lists leave out.</p>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="panel">
+            <h3 style="margin-bottom:6px">Monthly cost, not just price</h3>
+            <p class="small muted" style="margin:0">Price ÷ realistic lifespan. The number your allowance understands, not just the sticker price.</p>
+          </div>
+          <div class="panel">
+            <h3 style="margin-bottom:6px">Durability and repairability</h3>
+            <p class="small muted" style="margin:0">How owners say it holds up, and whether parts are available when something breaks.</p>
+          </div>
+          <div class="panel">
+            <h3 style="margin-bottom:6px">Matched to your coursework</h3>
+            <p class="small muted" style="margin:0">Programming, design, online classes: tell us what you use it for and the ranking adjusts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Price vs Ownership Index scatter ============ -->
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="row-between" style="margin-bottom:8px">
+          <div>
+            <h2>Price vs Ownership Index</h2>
+            <p class="lede" style="margin-top:6px; margin-bottom:0">What each gadget costs against how well it holds up. Amber dots are the best-value frontier: nothing beats them on price and build at the same time. Click a dot for details.</p>
+          </div>
+        </div>
+        <div class="tabs" id="scatterCats" style="margin:14px 0 16px" role="group" aria-label="Filter scatter by category"></div>
+        <div id="scatterArea"><!-- scatter injected by GWApp.renderScatter() --></div>
+      </div>
+    </section>
+
     <!-- ============ Featured ============ -->
     <section class="section" style="padding-top:0">
       <div class="container">
@@ -218,6 +258,9 @@
     const bestValue = [...GW.gadgets].sort((a, b) => GW.monthlyCost(a) - GW.monthlyCost(b)).slice(0, 3);
     document.getElementById("topRated").innerHTML = topRated.map(miniRow).join("");
     document.getElementById("bestValue").innerHTML = bestValue.map(miniRow).join("");
+
+    GWApp.renderScatterCats();
+    GWApp.renderScatter();
   </script>
 </body>
 </html>

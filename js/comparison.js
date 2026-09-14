@@ -198,10 +198,28 @@ window.GWCompare = (function () {
       const max = Math.max(...rating.values), g = gadgets[rating.values.indexOf(max)];
       picks.push(`Highest rated: <b>${esc(g.brand)} ${esc(g.model)}</b> at ${max.toFixed(1)}★`);
     }
+
+    // Spread-aware verdict (ported from fac3629): near-ties on the Ownership Index read differently
+    const ranked = [...gadgets].sort((a, b) => GWApp.ownIndex(b) - GWApp.ownIndex(a));
+    const cheap = [...gadgets].sort((a, b) => GW.monthlyCost(a) - GW.monthlyCost(b))[0];
+    const rated = ranked[0];
+    const spread = GWApp.ownIndex(ranked[0]) - GWApp.ownIndex(ranked[ranked.length - 1]);
+    let line;
+    if (spread <= 4) {
+      line = `These are very close (Ownership Index ${GWApp.ownIndex(ranked[0])} vs ${GWApp.ownIndex(ranked[ranked.length - 1])}). ` +
+        `<b>${esc(cheap.brand)} ${esc(cheap.model)}</b> still costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo), ` +
+        `so the trade-offs above should decide it, not the totals.`;
+    } else {
+      line = `Over each gadget's estimated lifetime, <b>${esc(cheap.brand)} ${esc(cheap.model)}</b> costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo). ` +
+        `Students rate <b>${esc(rated.brand)} ${esc(rated.model)}</b> highest (${rated.rating.toFixed(1)}\u2605). ` +
+        `Upfront price alone doesn't decide this: a cheaper gadget with a short lifespan can cost more per month.`;
+    }
+
     return `
       <div class="panel" style="margin-top:24px">
         <h3 style="margin-bottom:12px">At a glance</h3>
         <ul class="rr-why">${picks.map(p => `<li>${icon("check")}${p}</li>`).join("")}</ul>
+        <p class="small" style="margin:12px 0 0">${line}</p>
       </div>`;
   }
 
