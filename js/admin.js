@@ -27,7 +27,7 @@ window.GWAdmin = (function () {
 
     const trends = document.getElementById("dashTrends");
     if (trends) {
-      const labels = { "kaido-airbook-14": "Kaido AirBook 14", "aurio-x9-pro": "Aurio X9 Pro", "novatek-probook-15": "Novatek ProBook 15" };
+      const labels = Object.fromEntries(GW.gadgets.map(g => [g.id, `${g.brand} ${g.model}`]));
       trends.innerHTML = `
         <div class="panel">
           <div class="row-between" style="margin-bottom:14px">

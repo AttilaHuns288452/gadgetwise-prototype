@@ -39,7 +39,7 @@ window.GWDetail = (function () {
   }
 
   function init() {
-    const id = GWApp.params().get("id") || "novatek-spark-5g";
+    const id = GWApp.params().get("id") || GW.gadgets[0].id;
     const g = GW.getGadget(id);
     const stage = document.getElementById("detailStage");
     if (!g) {
