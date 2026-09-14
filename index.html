@@ -8,16 +8,25 @@
 <style>
 /* ============ TOKENS ============ */
 :root{
+  /* surfaces & text */
   --bg:#f7f7f9; --surface:#ffffff; --ink:#16151a; --ink-soft:#4c4a55; --ink-mute:#767386;
   --line:#e6e5ec; --line-strong:#cdcbe0;
+  /* brand (interaction / selection / primary action ONLY) */
   --green:#7f4bf3; --green-soft:#f0eaff; --green-deep:#5b2fd1;
-  --orange:#e85d04; --orange-soft:#ffefe3;
-  --blue:#2f5f9e; --blue-soft:#e5ecf6;
-  --red:#d3264f; --red-soft:#ffe4ea;
-  --ok:#1e7a46; --ok-soft:#e3f2e9;
   --violet-ink:#231a3a;
-  --radius:12px; --radius-sm:8px;
+  /* semantics (each has one meaning) */
+  --orange:#e85d04; --orange-soft:#ffefe3;   /* caution / trade-off */
+  --blue:#2f5f9e;  --blue-soft:#e5ecf6;      /* informational */
+  --red:#d3264f;   --red-soft:#ffe4ea;       /* problem / excluded */
+  --ok:#1e7a46;    --ok-soft:#e3f2e9;        /* success / positive */
+  /* type scale — 5 steps + display + data */
+  --fs-xs:.75rem; --fs-sm:.85rem; --fs-base:.9rem; --fs-md:1rem; --fs-lg:1.15rem;
+  /* radius vocabulary: sm 8 / md 12 / lg 16 / pill 999 / round 50% */
+  --radius:12px; --radius-sm:8px; --radius-lg:16px;
+  /* shadow vocabulary: card / raised / modal — nothing else */
   --shadow:0 1px 2px rgba(22,21,26,.06),0 8px 24px -12px rgba(22,21,26,.18);
+  --shadow-raised:0 4px 6px rgba(22,21,26,.05),0 18px 40px -16px rgba(22,21,26,.25);
+  --shadow-modal:0 30px 80px -20px rgba(22,21,26,.5);
   --font:'Avenir Next','Segoe UI Variable Display','Segoe UI',system-ui,sans-serif;
   --mono:ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace;
 }
@@ -38,32 +47,32 @@ main{padding-bottom:80px}
 .topbar{background:var(--violet-ink);color:#f2f0fa;position:sticky;top:0;z-index:50;box-shadow:0 1px 0 rgba(0,0,0,.25)}
 .topbar-in{display:flex;align-items:center;gap:22px;height:58px;max-width:1120px;margin:0 auto;padding:0 20px}
 .nav-spacer{flex:1}
-.nav-user{display:flex;align-items:center;gap:10px;font-size:.85rem;color:#b9b3d9;flex-shrink:0;max-width:44vw}
-.logo{font-size:1.25rem;font-weight:800;letter-spacing:-.02em;color:#fff;display:flex;align-items:center;gap:9px}
+.nav-user{display:flex;align-items:center;gap:10px;font-size:var(--fs-sm);color:#b9b3d9;flex-shrink:0;max-width:44vw}
+.logo{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em;color:#fff;display:flex;align-items:center;gap:9px}
 .logo svg{flex-shrink:0}
 nav.main-nav{display:flex;gap:4px;margin-left:8px}
-nav.main-nav button{background:none;border:0;color:#b9b3d9;padding:8px 11px;border-radius:8px;font-size:.9rem;font-weight:600}
+nav.main-nav button{background:none;border:0;color:#b9b3d9;padding:8px 11px;border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600}
 nav.main-nav button:hover{color:#fff;background:rgba(255,255,255,.08)}
 nav.main-nav button.on{color:#fff;background:rgba(255,255,255,.14)}
-.avatar{width:30px;height:30px;border-radius:50%;background:#f2efe7;color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem}
-.nav-role-badge{font-size:.68rem;background:var(--orange);color:#fff;padding:2px 8px;border-radius:999px;font-weight:700;letter-spacing:.03em}
-.hamburger{display:none;background:none;border:0;color:#fff;font-size:1.4rem;padding:6px 10px}
+.avatar{width:30px;height:30px;border-radius:50%;background:#f2efe7;color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:var(--fs-sm)}
+.nav-role-badge{font-size:var(--fs-xs);background:var(--orange);color:#fff;padding:2px 8px;border-radius:999px;font-weight:700;letter-spacing:.03em}
+.hamburger{display:none;background:none;border:0;color:#fff;font-size:var(--fs-lg);padding:6px 10px}
 .nav-admin-mobile{display:none}
-.nav-admin{background:transparent;border:1px solid rgba(255,255,255,.28);color:#b9b3d9;font:inherit;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:8px;flex-shrink:0}
+.nav-admin{background:transparent;border:1px solid rgba(255,255,255,.28);color:#b9b3d9;font:inherit;font-size:var(--fs-sm);font-weight:600;padding:5px 12px;border-radius:var(--radius-sm);flex-shrink:0}
 .nav-admin:hover{color:#fff;border-color:rgba(255,255,255,.55)}
 .nav-admin.on{color:#fff;border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.12)}
 
 /* ============ BUTTONS ============ */
-.btn{display:inline-flex;align-items:center;gap:7px;border-radius:8px;padding:9px 16px;font-weight:700;font-size:.9rem;border:1px solid transparent;transition:filter .15s, background .15s}
+.btn{display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);padding:9px 16px;font-weight:700;font-size:var(--fs-base);border:1px solid transparent;transition:filter .15s, background .15s}
 .btn:hover{filter:brightness(.96);text-decoration:none}
 .btn-primary{background:var(--green);color:#fff}
 .btn-ghost{background:transparent;color:var(--green);border-color:var(--green)}
 .btn-ghost:hover{background:var(--green-soft)}
-.btn-sm{padding:6px 12px;font-size:.8rem}
+.btn-sm{padding:6px 12px;font-size:var(--fs-sm)}
 .btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
 
 /* ============ BADGES / CHIPS ============ */
-.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:var(--fs-xs);font-weight:700}
 .badge-green{background:var(--green-soft);color:var(--green-deep)}
 .badge-orange{background:var(--orange-soft);color:var(--orange)}
 .badge-blue{background:var(--blue-soft);color:var(--blue)}
@@ -74,33 +83,33 @@ nav.main-nav button.on{color:#fff;background:rgba(255,255,255,.14)}
 .pad{padding:22px}
 
 /* ============ FORMS ============ */
-label.f{display:block;font-size:.8rem;font-weight:700;color:var(--ink-soft);margin:14px 0 5px}
+label.f{display:block;font-size:var(--fs-sm);font-weight:700;color:var(--ink-soft);margin:14px 0 5px}
 label.f:first-child{margin-top:0}
 input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{
-  width:100%;padding:9px 12px;border:1px solid var(--line-strong);border-radius:8px;background:#fff;font-size:.92rem}
+  width:100%;padding:9px 12px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:#fff;font-size:var(--fs-base)}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--green);outline-offset:0;border-color:var(--green)}
 textarea{resize:vertical;min-height:70px}
 .f-row{display:flex;gap:14px;flex-wrap:wrap}
 .f-row>*{flex:1;min-width:130px}
-.check{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-soft);margin-top:14px}
+.check{display:flex;align-items:center;gap:8px;font-size:var(--fs-sm);color:var(--ink-soft);margin-top:14px}
 .check input{width:auto}
 
 /* ============ HERO ============ */
 .hero{background:var(--violet-ink);color:#f2f0fa;padding:64px 0 72px;border-bottom:4px solid var(--ok)}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
 .hero h1{font-size:clamp(1.9rem,4.2vw,2.9rem);color:#fff;margin-bottom:14px}
-.hero p.lead{font-size:1.05rem;color:#c9c3e8;max-width:46ch;margin-bottom:24px}
+.hero p.lead{font-size:var(--fs-lg);color:#c9c3e8;max-width:46ch;margin-bottom:24px}
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
 .btn-light{background:#f0eaff;color:var(--violet-ink)}
 .btn-outline-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
-.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18);border-radius:10px;overflow:hidden;margin-top:30px}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);overflow:hidden;margin-top:30px}
 .hero-stats div{background:rgba(35,26,58,.62);padding:14px 16px}
 .hero-stats b{display:block;font-size:1.5rem;color:#fff;font-family:var(--mono)}
-.hero-stats span{font-size:.75rem;color:#c9c3e8}
-.hero-panel{background:#fff;color:var(--ink);border-radius:14px;box-shadow:0 24px 60px -24px rgba(0,0,0,.45);padding:20px}
+.hero-stats span{font-size:var(--fs-xs);color:#c9c3e8}
+.hero-panel{background:#fff;color:var(--ink);border-radius:var(--radius-lg);box-shadow:var(--shadow-raised);padding:20px}
 .hero-panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.hero-panel-head h3{font-size:1rem}
-.hero-quote{font-size:.88rem;color:var(--ink-soft);border-left:3px solid var(--green);padding-left:12px;margin:14px 0 16px}
+.hero-panel-head h3{font-size:var(--fs-md)}
+.hero-quote{font-size:var(--fs-sm);color:var(--ink-soft);border-left:3px solid var(--green);padding-left:12px;margin:14px 0 16px}
 
 /* ============ SECTIONS ============ */
 section.pad-sec{padding:52px 0}
@@ -112,155 +121,155 @@ section.pad-sec{padding:52px 0}
 .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .cat-tile{display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);transition:border-color .15s,transform .15s}
 .cat-tile:hover{border-color:var(--green);transform:translateY(-2px);text-decoration:none}
-.cat-ico{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0}
+.cat-ico{width:46px;height:46px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:var(--fs-lg);flex-shrink:0}
 .cat-ico svg{width:24px;height:24px}
-.cat-tile b{display:block;font-size:.98rem}
-.cat-tile span{font-size:.8rem;color:var(--ink-mute)}
+.cat-tile b{display:block;font-size:var(--fs-base)}
+.cat-tile span{font-size:var(--fs-sm);color:var(--ink-mute)}
 
 /* ============ BROWSE LAYOUT ============ */
 .browse{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:start}
 .filters{position:sticky;top:74px}
 .filters .card{padding:18px}
 .f-group{margin-bottom:16px}
-.f-group>span{display:block;font-size:.72rem;font-weight:800;letter-spacing:.06em;color:var(--ink-mute);margin-bottom:8px}
-.chk{display:flex;align-items:center;gap:8px;font-size:.86rem;padding:4px 0;color:var(--ink-soft);cursor:pointer}
+.f-group>span{display:block;font-size:var(--fs-xs);font-weight:800;letter-spacing:.06em;color:var(--ink-mute);margin-bottom:8px}
+.chk{display:flex;align-items:center;gap:8px;font-size:var(--fs-sm);padding:4px 0;color:var(--ink-soft);cursor:pointer}
 .chk input{width:auto}
-.range-row{display:flex;align-items:center;gap:8px;font-size:.85rem}
+.range-row{display:flex;align-items:center;gap:8px;font-size:var(--fs-sm)}
 .range-row input{padding:6px 8px}
 input[type=range]{width:100%;accent-color:var(--green)}
 .result-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
-select.inline{width:auto;padding:7px 30px 7px 10px;font-size:.85rem}
+select.inline{width:auto;padding:7px 30px 7px 10px;font-size:var(--fs-sm)}
 
 /* ============ GADGET CARDS ============ */
 .gadgets{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .gcard{display:flex;flex-direction:column;overflow:hidden;position:relative;transition:transform .15s,box-shadow .15s}
-.gcard:hover{transform:translateY(-3px);box-shadow:0 4px 6px rgba(28,27,24,.05),0 18px 40px -16px rgba(28,27,24,.25)}
+.gcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-raised)}
 .gcard-img{position:relative;height:150px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#efedf7,#dedbf0)}
 .gcard-img img{width:100%;height:100%;object-fit:contain;padding:12px;background:#fff}
 .rec-result img{background:#fff}
 .gcard-img svg{width:64px;height:64px;color:var(--ink-soft)}
 .gcard-cat{position:absolute;top:10px;left:10px}
-.wish-btn{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--ink-soft);transition:transform .15s}
+.wish-btn{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:var(--fs-md);color:var(--ink-soft);transition:transform .15s}
 .wish-btn:hover{transform:scale(1.12)}
 .wish-btn.on{color:var(--red)}
 .gcard-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
-.gcard-body h3{font-size:1rem}
-.gcard-price{font-size:1.15rem;font-weight:800;color:var(--green-deep)}
-.gcard-price small{font-weight:600;font-size:.72rem;color:var(--ink-mute);display:block}
-.spec-list{list-style:none;font-size:.8rem;color:var(--ink-soft);display:flex;flex-direction:column;gap:3px}
+.gcard-body h3{font-size:var(--fs-md)}
+.gcard-price{font-size:var(--fs-lg);font-weight:800;color:var(--green-deep)}
+.gcard-price small{font-weight:600;font-size:var(--fs-xs);color:var(--ink-mute);display:block}
+.spec-list{list-style:none;font-size:var(--fs-sm);color:var(--ink-soft);display:flex;flex-direction:column;gap:3px}
 .spec-list li{display:flex;gap:7px}
 .spec-list li::before{content:"✓";color:var(--green);font-weight:700}
-.gcard-rate{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--ink-soft)}
-.stars{color:var(--orange);letter-spacing:1px;font-size:.85rem}
+.gcard-rate{display:flex;align-items:center;gap:8px;font-size:var(--fs-sm);color:var(--ink-soft)}
+.stars{color:var(--orange);letter-spacing:1px;font-size:var(--fs-sm)}
 .gcard-actions{display:flex;gap:8px;margin-top:auto;padding-top:6px}
 
 /* ============ COMPARE TRAY / BAR ============ */
-.tray{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(0);background:var(--ink);color:#f2efe7;border-radius:14px;padding:10px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 16px 40px -12px rgba(0,0,0,.5);z-index:60;max-width:min(92vw,720px)}
-.tray-label{font-size:.75rem;font-weight:800;letter-spacing:.05em;color:#b8b3a4}
+.tray{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(0);background:var(--ink);color:#f2efe7;border-radius:var(--radius-lg);padding:10px 16px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-modal);z-index:60;max-width:min(92vw,720px)}
+.tray-label{font-size:var(--fs-xs);font-weight:800;letter-spacing:.05em;color:#b8b3a4}
 .tray-items{display:flex;gap:8px;flex-wrap:wrap}
-.tray-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border-radius:8px;padding:5px 8px 5px 10px;font-size:.8rem}
-.tray-chip button{background:none;border:0;color:#f2efe7;font-size:.9rem;padding:0 2px;opacity:.7}
+.tray-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border-radius:var(--radius-sm);padding:5px 8px 5px 10px;font-size:var(--fs-sm)}
+.tray-chip button{background:none;border:0;color:#f2efe7;font-size:var(--fs-base);padding:0 2px;opacity:.7}
 .tray-chip button:hover{opacity:1}
-.tray .btn{padding:8px 14px;font-size:.82rem}
+.tray .btn{padding:8px 14px;font-size:var(--fs-sm)}
 
 /* ============ MODAL ============ */
 .modal-back{position:fixed;inset:0;background:rgba(28,27,24,.55);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
-.modal{background:#fff;border-radius:14px;max-width:560px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 30px 80px -20px rgba(0,0,0,.5)}
+.modal{background:#fff;border-radius:var(--radius-lg);max-width:560px;width:100%;max-height:88vh;overflow:auto;box-shadow:var(--shadow-modal)}
 .modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2}
-.modal-head h3{font-size:1.05rem}
-.modal-x{background:none;border:0;font-size:1.3rem;color:var(--ink-mute);padding:2px 6px}
+.modal-head h3{font-size:var(--fs-lg)}
+.modal-x{background:none;border:0;font-size:var(--fs-lg);color:var(--ink-mute);padding:2px 6px}
 .modal-body{padding:22px}
 .modal-foot{display:flex;gap:10px;justify-content:flex-end;padding:16px 22px;border-top:1px solid var(--line)}
 
 /* ============ DASHBOARD SHELL ============ */
 .dash{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:start;padding:28px 0 60px}
 .side-nav{display:flex;flex-direction:column;gap:2px;position:sticky;top:74px}
-.side-nav button{display:flex;align-items:center;gap:10px;background:none;border:0;text-align:left;padding:10px 12px;border-radius:8px;font-size:.9rem;font-weight:600;color:var(--ink-soft)}
+.side-nav button{display:flex;align-items:center;gap:10px;background:none;border:0;text-align:left;padding:10px 12px;border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600;color:var(--ink-soft)}
 .side-nav button:hover{background:var(--green-soft);color:var(--green-deep)}
 .side-nav button.on{background:var(--green);color:#fff}
-.side-nav .side-label{font-size:.68rem;font-weight:800;letter-spacing:.08em;color:var(--ink-mute);padding:12px 12px 6px}
+.side-nav .side-label{font-size:var(--fs-xs);font-weight:800;letter-spacing:.08em;color:var(--ink-mute);padding:12px 12px 6px}
 .dash-panel{min-width:0}
 .panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
-.panel-head h2{font-size:1.35rem}
-.panel-head p{font-size:.85rem;color:var(--ink-soft)}
+.panel-head h2{font-size:var(--fs-lg)}
+.panel-head p{font-size:var(--fs-sm);color:var(--ink-soft)}
 
 /* stat cards */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
 .stat{padding:16px}
 .stat b{display:block;font-size:1.6rem}
-.stat span{font-size:.78rem;color:var(--ink-mute)}
+.stat span{font-size:var(--fs-sm);color:var(--ink-mute)}
 
 /* tables */
 .tbl-wrap{overflow-x:auto}
-table.tbl{width:100%;border-collapse:collapse;font-size:.87rem}
-.tbl th{text-align:left;font-size:.72rem;letter-spacing:.05em;color:var(--ink-mute);border-bottom:1px solid var(--line);padding:9px 12px;white-space:nowrap}
+table.tbl{width:100%;border-collapse:collapse;font-size:var(--fs-sm)}
+.tbl th{text-align:left;font-size:var(--fs-xs);letter-spacing:.05em;color:var(--ink-mute);border-bottom:1px solid var(--line);padding:9px 12px;white-space:nowrap}
 .tbl td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
 .tbl tr:last-child td{border-bottom:0}
 .tbl tr:hover td{background:#faf9f5}
-.status{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-xs);font-weight:700}
 .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
 .dot-g{background:var(--green)} .dot-o{background:var(--orange)} .dot-r{background:var(--red)} .dot-b{background:var(--blue)}
 
 /* ============ RECOMMENDER ============ */
 .rec-grid{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start}
 .rec-result{display:flex;flex-direction:column;gap:14px}
-.rec-empty{text-align:center;color:var(--ink-mute);padding:50px 20px;font-size:.92rem}
+.rec-empty{text-align:center;color:var(--ink-mute);padding:50px 20px;font-size:var(--fs-base)}
 .rec-empty .big{font-size:2rem;margin-bottom:10px}
 
 /* score bars */
-.scorebar{height:8px;border-radius:6px;background:var(--line);overflow:hidden}
-.scorebar i{display:block;height:100%;border-radius:6px;background:var(--green)}
+.scorebar{height:8px;border-radius:var(--radius-sm);background:var(--line);overflow:hidden}
+.scorebar i{display:block;height:100%;border-radius:var(--radius-sm);background:var(--green)}
 .matchnum{font-size:1.7rem;font-weight:800;color:var(--green-deep)}
 
 /* ============ COMPARE TABLE ============ */
 .cmp-grid{display:grid;grid-template-columns:210px repeat(2,1fr);gap:0}
 .cmp-grid.c3{grid-template-columns:210px repeat(3,1fr)}
-.cmp-cell{padding:12px 14px;border-bottom:1px solid var(--line);font-size:.87rem;display:flex;align-items:center;min-height:46px}
+.cmp-cell{padding:12px 14px;border-bottom:1px solid var(--line);font-size:var(--fs-sm);display:flex;align-items:center;min-height:46px}
 .cmp-head{background:var(--surface);border-bottom:2px solid var(--line-strong);flex-direction:column;align-items:flex-start;gap:4px;padding:16px 14px}
-.cmp-head b{font-size:.95rem}
+.cmp-head b{font-size:var(--fs-base)}
 .cmp-head .btn{margin-top:4px}
-.cmp-lab{font-weight:700;color:var(--ink-soft);background:#faf9f5;font-size:.8rem}
+.cmp-lab{font-weight:700;color:var(--ink-soft);background:#faf9f5;font-size:var(--fs-sm)}
 .cmp-best{background:var(--green-soft);font-weight:700;color:var(--green-deep)}
 .cmp-cell.cmp-best::after{content:" ★";color:var(--orange)}
 
 /* ============ REVIEWS ============ */
 .review{display:flex;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
 .review:last-child{border-bottom:0}
-.rev-ava{width:36px;height:36px;border-radius:50%;background:var(--green-soft);color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;flex-shrink:0}
+.rev-ava{width:36px;height:36px;border-radius:50%;background:var(--green-soft);color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:var(--fs-sm);flex-shrink:0}
 .rev-body{flex:1}
 .rev-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.rev-head b{font-size:.9rem}
-.rev-issue{background:var(--orange-soft);border:1px solid #ecd3b2;color:#7a4a12;font-size:.78rem;padding:3px 9px;border-radius:999px;font-weight:700}
-.rev-text{font-size:.88rem;color:var(--ink-soft);margin-top:4px}
+.rev-head b{font-size:var(--fs-base)}
+.rev-issue{background:var(--orange-soft);border:1px solid #ecd3b2;color:#7a4a12;font-size:var(--fs-sm);padding:3px 9px;border-radius:999px;font-weight:700}
+.rev-text{font-size:var(--fs-sm);color:var(--ink-soft);margin-top:4px}
 
 /* ============ TOAST ============ */
-#toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;padding:12px 18px;border-radius:10px;font-size:.88rem;font-weight:600;box-shadow:0 12px 30px -8px rgba(0,0,0,.4);opacity:0;transform:translateY(12px);transition:all .25s;z-index:200;pointer-events:none}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;padding:12px 18px;border-radius:var(--radius);font-size:var(--fs-sm);font-weight:600;box-shadow:var(--shadow-raised);opacity:0;transform:translateY(12px);transition:all .25s;z-index:200;pointer-events:none}
 #toast.show{opacity:1;transform:translateY(0)}
 
 /* ============ FOOTER ============ */
-footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-size:.85rem}
+footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-size:var(--fs-sm)}
 .foot-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
-.foot-brand{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:6px}
+.foot-brand{font-size:var(--fs-lg);font-weight:800;color:#fff;margin-bottom:6px}
 .foot-links{display:flex;gap:18px;flex-wrap:wrap}
 .foot-links a{color:#b8b3a4}
 .foot-links a:hover{color:#fff}
-.foot-note{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);font-size:.75rem;color:#8a857a}
+.foot-note{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);font-size:var(--fs-xs);color:#8a857a}
 .foot-note .demo-label{color:#8a857a;font-style:italic}
 
 /* ═══════════ RECOMMENDER (AA-Model-Recommender style) ═══════════ */
 .wrow{display:flex;align-items:center;gap:10px;margin:8px 0}
-.wrow span{flex:1;font-size:.83rem;color:var(--ink-soft)}
-.wrow output{width:22px;text-align:center;font-family:var(--mono);font-size:.85rem;font-weight:700;color:var(--green-deep);background:var(--green-soft);border-radius:6px;padding:2px 0}
+.wrow span{flex:1;font-size:var(--fs-sm);color:var(--ink-soft)}
+.wrow output{width:22px;text-align:center;font-family:var(--mono);font-size:var(--fs-sm);font-weight:700;color:var(--green-deep);background:var(--green-soft);border-radius:var(--radius-sm);padding:2px 0}
 .wrow input[type=range]{flex:1.2;min-width:90px;accent-color:var(--green)}
 .rdot{width:26px;height:5px;border-radius:4px;background:var(--line-strong);transition:background .2s}
 .rdot.on{background:var(--green)}
 .quiz-nav{display:flex;align-items:center;gap:14px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
 .quiz-nav .btn{min-width:110px}
-.quiz-nav-step{flex:1;text-align:center;font-size:.8rem;color:var(--ink-mute);font-family:var(--mono)}
+.quiz-nav-step{flex:1;text-align:center;font-size:var(--fs-sm);color:var(--ink-mute);font-family:var(--mono)}
 .btn-finish{min-width:170px}
 .tilegrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tileopt{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--radius-sm);cursor:pointer;transition:border-color .15s,background .15s;font-size:.92rem;font-weight:600}
-.tileopt small{font-weight:400;font-size:.75rem;color:var(--ink-mute)}
+.tileopt{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--radius-sm);cursor:pointer;transition:border-color .15s,background .15s;font-size:var(--fs-base);font-weight:600}
+.tileopt small{font-weight:400;font-size:var(--fs-xs);color:var(--ink-mute)}
 .tileopt:hover{border-color:var(--green)}
 .tileopt{position:relative}
 .tileopt:has(input:checked){border-color:var(--green);background:var(--green-soft)}
@@ -268,24 +277,24 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 .tileopt input{position:absolute;opacity:0;pointer-events:none}
 .tileopt:has(input:focus-visible){outline:2px solid var(--green);outline-offset:2px}
 .chipgrid{display:flex;flex-wrap:wrap;gap:8px}
-.fchip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;font-size:.84rem;font-weight:600;color:var(--ink-soft);transition:border-color .15s,background .15s}
+.fchip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;font-size:var(--fs-sm);font-weight:600;color:var(--ink-soft);transition:border-color .15s,background .15s}
 .fchip:hover{border-color:var(--green)}
 .fchip:has(input:checked){border-color:var(--green);background:var(--green-soft);color:var(--green-deep)}
 .fchip:has(input:checked)::before{content:"✓";font-weight:800;margin-right:2px}
 .fchip input{position:absolute;opacity:0;pointer-events:none}
 .fchip:has(input:focus-visible){outline:2px solid var(--green);outline-offset:2px}
 .altcard{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--radius-sm)}
-.wifchip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;font-size:.82rem;font-weight:600;color:var(--ink-soft);background:var(--surface)}
+.wifchip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;font-size:var(--fs-sm);font-weight:600;color:var(--ink-soft);background:var(--surface)}
 .wifchip:hover{border-color:var(--green)}
 .wifchip.on{border-color:var(--green);background:var(--green-soft);color:var(--green-deep)}
-.swlist{list-style:none;font-size:.85rem;display:flex;flex-direction:column;gap:5px}
+.swlist{list-style:none;font-size:var(--fs-sm);display:flex;flex-direction:column;gap:5px}
 .swlist li{display:flex;gap:8px;line-height:1.45}
 .swlist li.good::before{content:"✓";color:var(--ok);font-weight:800}
 .swlist li.bad::before{content:"—";color:var(--red);font-weight:800}
 
 /* ============ TABS (admin sub-sections) ============ */
 .tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:18px;flex-wrap:wrap}
-.tabs button{background:none;border:0;padding:9px 14px;font-size:.88rem;font-weight:700;color:var(--ink-mute);border-bottom:2px solid transparent;margin-bottom:-2px}
+.tabs button{background:none;border:0;padding:9px 14px;font-size:var(--fs-sm);font-weight:700;color:var(--ink-mute);border-bottom:2px solid transparent;margin-bottom:-2px}
 .tabs button.on{color:var(--green-deep);border-bottom-color:var(--green)}
 
 /* ============ RESPONSIVE ============ */
@@ -297,7 +306,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
   .filters{position:static}
   .rec-grid{grid-template-columns:1fr}
   .dash{grid-template-columns:1fr}
-  .side-nav{flex-direction:row;flex-wrap:wrap;position:static;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px}
+  .side-nav{flex-direction:row;flex-wrap:wrap;position:static;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:8px}
   .side-nav .side-label{display:none}
 }
 @media(max-width:900px){
@@ -307,11 +316,11 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 }
 @media(max-width:640px){
   .nav-admin{display:none}
-  .nav-admin-mobile{display:block;background:transparent;border:0;color:#b9b3d9;text-align:left;padding:8px 11px;border-radius:8px;font-size:.9rem;font-weight:600}
+  .nav-admin-mobile{display:block;background:transparent;border:0;color:#b9b3d9;text-align:left;padding:8px 11px;border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600}
   .nav-admin-mobile.on{color:#fff;background:rgba(255,255,255,.14)}
   .nav-user{max-width:none}
   .nav-user .btn-ghost{display:none}
-  .nav-user .btn{padding:6px 10px;font-size:.78rem}
+  .nav-user .btn{padding:6px 10px;font-size:var(--fs-sm)}
   .cat-grid,.gadgets{grid-template-columns:1fr}
   .cmp-grid{grid-template-columns:120px 1fr}
   .cmp-grid.c3{grid-template-columns:120px 1fr 1fr}
@@ -372,15 +381,15 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           <h3>Highest-rated right now</h3>
         </div>
         <div style="display:flex;gap:14px;align-items:center">
-          <div style="width:74px;height:74px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff"><img referrerpolicy="no-referrer" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg" alt="Anker PowerCore 20100" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+          <div style="width:74px;height:74px;border-radius:var(--radius-sm);overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff"><img referrerpolicy="no-referrer" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg" alt="Anker PowerCore 20100" style="max-width:100%;max-height:100%;object-fit:contain"></div>
           <div>
             <b>Anker PowerCore 20100</b>
-            <div style="font-size:.82rem;color:var(--ink-soft);font-family:var(--mono)">₱2,450 · 4.8★ · 20,000 mAh · Index 82</div>
+            <div style="font-size:var(--fs-sm);color:var(--ink-soft);font-family:var(--mono)">₱2,450 · 4.8★ · 20,000 mAh</div>
           </div>
         </div>
         <p class="hero-quote">"Brownout insurance. Kept my router, phone and laptop alive through a 6-hour outage." — Fons, 3rd yr EE</p>
         <div class="scorebar" title="Ownership Intelligence Index"><i style="width:82%;background:var(--green)"></i></div>
-        <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--ink-mute);margin-top:6px">
+        <div style="display:flex;justify-content:space-between;font-size:var(--fs-xs);color:var(--ink-mute);margin-top:6px">
           <span>Ownership Index · higher is better ↑</span><span style="font-family:var(--mono)"><b>82</b>/100</span>
         </div>
         <button class="btn btn-primary btn-sm" style="margin-top:14px" onclick="detail(9)">View full breakdown</button>
@@ -465,7 +474,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
         </aside>
         <div>
           <div class="result-meta">
-            <span id="resultCount" style="font-size:.88rem;color:var(--ink-soft)"></span>
+            <span id="resultCount" style="font-size:var(--fs-sm);color:var(--ink-soft)"></span>
             <div style="display:flex;gap:10px;align-items:center">
               <input type="text" id="searchBox" placeholder="Search name, brand…" oninput="renderBrowse()" style="width:220px" aria-label="Search gadgets">
               <select class="inline" id="sortBy" onchange="renderBrowse()" aria-label="Sort by">
@@ -494,7 +503,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
       <div id="recStage" style="max-width:720px;margin:0 auto">
         <div class="card pad" id="quizCard">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-            <h3 style="font-size:1rem" id="rstepLbl">What are you looking for?</h3>
+            <h3 style="font-size:var(--fs-md)" id="rstepLbl">What are you looking for?</h3>
           </div>
           <div style="display:flex;gap:6px;margin-bottom:16px" aria-hidden="true">
             <span class="rdot on"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span>
@@ -535,7 +544,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           </div>
 
           <div id="rstep4" class="hidden">
-            <p style="font-size:.78rem;color:var(--ink-mute);margin:0 0 10px">Select up to 3. Each pick raises that factor’s weight in the score. Skip it and we use sensible defaults.</p>
+            <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">Select up to 3. Each pick raises that factor’s weight in the score. Skip it and we use sensible defaults.</p>
             <div class="chipgrid" id="featGrid"></div>
           </div>
 
@@ -565,16 +574,16 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           </div>
 
           <div id="rstep6" class="hidden">
-            <p style="font-size:.78rem;color:var(--ink-mute);margin:0 0 10px">Hard requirements. Anything that fails is filtered out before scoring. Optional.</p>
+            <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">Hard requirements. Anything that fails is filtered out before scoring. Optional.</p>
             <div class="chipgrid" id="dbGrid"></div>
           </div>
 
           <div id="rstep7" class="hidden">
             <h4 style="margin:0 0 8px">Your requirements</h4>
-            <div id="reqReview" style="font-size:.88rem"></div>
+            <div id="reqReview" style="font-size:var(--fs-sm)"></div>
             <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
               <h4 style="margin:0 0 6px">How GadgetWise chooses</h4>
-              <p style="font-size:.8rem;color:var(--ink-soft);margin:0;line-height:1.55">Your answers are compared against the specifications and ownership data in the GadgetWise catalog. Products that fail your must-haves are filtered out first. The rest are scored on budget fit, academic suitability, performance, battery, portability, durability, repairability, warranty, student rating and long-term value — weighted by what you told us. No AI is used to choose the product.</p>
+              <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0;line-height:1.55">Your answers are compared against the specifications and ownership data in the GadgetWise catalog. Products that fail your must-haves are filtered out first. The rest are scored on budget fit, academic suitability, performance, battery, portability, durability, repairability, warranty, student rating and long-term value — weighted by what you told us. No AI is used to choose the product.</p>
             </div>
           </div>
 
@@ -586,8 +595,8 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           <button class="btn btn-ghost btn-sm" style="margin-top:12px;width:100%;border:0;color:var(--ink-mute)" onclick="resetRec()">Start over</button>
         </div>
         <div id="recIdle" class="card pad" style="margin-top:16px">
-          <h3 style="font-size:1rem;margin:0 0 6px">Your requirements</h3>
-          <p style="font-size:.86rem;color:var(--ink-soft);margin:0">As you answer, your requirements are collected on the review step. When you finish, every eligible product is scored and ranked here — with the full scoring breakdown and the trade-offs.</p>
+          <h3 style="font-size:var(--fs-md);margin:0 0 6px">Your requirements</h3>
+          <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0">As you answer, your requirements are collected on the review step. When you finish, every eligible product is scored and ranked here — with the full scoring breakdown and the trade-offs.</p>
         </div>
         <div id="recResultsWrap" class="hidden"></div>
       </div>
@@ -624,7 +633,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
         </aside>
         <div class="dash-panel">
           <div id="acct-wish">
-            <div class="panel-head"><h2>Wishlist</h2><span id="wishCount" style="font-size:.85rem;color:var(--ink-soft)"></span></div>
+            <div class="panel-head"><h2>Wishlist</h2><span id="wishCount" style="font-size:var(--fs-sm);color:var(--ink-soft)"></span></div>
             <div class="gadgets" id="wishGrid"></div>
             <div class="rec-empty" id="wishEmpty"><div class="big">♡</div>Nothing saved yet. Use the heart on any product card to save it here for later comparison.</div>
           </div>
@@ -683,10 +692,10 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
             <div class="card pad">
               <h3 style="margin-bottom:12px">Popular categories this month</h3>
               <div style="display:flex;flex-direction:column;gap:12px">
-                <div><div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px"><span>Laptops</span><b>38%</b></div><div class="scorebar"><i style="width:38%"></i></div></div>
-                <div><div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px"><span>Smartphones</span><b>27%</b></div><div class="scorebar"><i style="width:27%;background:var(--orange)"></i></div></div>
-                <div><div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px"><span>Headphones</span><b>14%</b></div><div class="scorebar"><i style="width:14%;background:var(--blue)"></i></div></div>
-                <div><div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px"><span>Tablets</span><b>11%</b></div><div class="scorebar"><i style="width:11%;background:var(--ink-mute)"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:var(--fs-sm);margin-bottom:4px"><span>Laptops</span><b>38%</b></div><div class="scorebar"><i style="width:38%"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:var(--fs-sm);margin-bottom:4px"><span>Smartphones</span><b>27%</b></div><div class="scorebar"><i style="width:27%;background:var(--orange)"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:var(--fs-sm);margin-bottom:4px"><span>Headphones</span><b>14%</b></div><div class="scorebar"><i style="width:14%;background:var(--blue)"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:var(--fs-sm);margin-bottom:4px"><span>Tablets</span><b>11%</b></div><div class="scorebar"><i style="width:11%;background:var(--ink-mute)"></i></div></div>
               </div>
             </div>
           </div>
@@ -782,7 +791,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           <button class="btn btn-primary" style="flex:1" onclick="doLogin('student')">Log in as student</button>
           <button class="btn btn-ghost" style="flex:1" onclick="doLogin('admin')">Log in as admin</button>
         </div>
-        <p style="font-size:.8rem;color:var(--ink-mute);margin-top:12px">Demo build: any email works, no password needed.</p>
+        <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin-top:12px">Demo build: any email works, no password needed.</p>
       </div>
       <div id="authRegister" class="hidden">
         <div class="f-row">
@@ -795,8 +804,8 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
         <div class="check"><input type="checkbox" id="regAgree"> I agree to the demo terms — data is fake and stored locally.</div>
         <button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="doRegister()">Create account</button>
       </div>
-      <p id="authErr" class="hidden" style="color:var(--red);font-size:.82rem;margin-top:10px;font-weight:600"></p>
-      <p style="text-align:center;font-size:.85rem;margin-top:14px" id="authSwitch"></p>
+      <p id="authErr" class="hidden" style="color:var(--red);font-size:var(--fs-sm);margin-top:10px;font-weight:600"></p>
+      <p style="text-align:center;font-size:var(--fs-sm);margin-top:14px" id="authSwitch"></p>
     </div>
   </div>
 </div>
@@ -825,7 +834,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
         <button class="btn btn-ghost" onclick="closeModal('modal-review')">Cancel</button>
         <button class="btn btn-primary" onclick="submitReview()">Submit review</button>
       </div>
-      <p id="rvErr" class="hidden" style="color:var(--red);font-size:.82rem;margin-top:10px;font-weight:600"></p>
+      <p id="rvErr" class="hidden" style="color:var(--red);font-size:var(--fs-sm);margin-top:10px;font-weight:600"></p>
     </div>
   </div>
 </div>
@@ -834,7 +843,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
   <div class="modal" role="dialog" aria-modal="true" aria-label="Add gadget">
     <div class="modal-head"><h3>Add gadget</h3><button class="modal-x" onclick="closeModal('modal-add')" aria-label="Close">✕</button></div>
     <div class="modal-body">
-      <div style="background:var(--blue-soft);border:1px solid #c9d7ec;border-radius:8px;padding:12px 14px;font-size:.83rem;color:var(--blue);margin-bottom:6px">
+      <div style="background:var(--blue-soft);border:1px solid #c9d7ec;border-radius:var(--radius-sm);padding:12px 14px;font-size:var(--fs-sm);color:var(--blue);margin-bottom:6px">
         <b>External product API (server-side).</b> In the production build, the server fetches name, brand, category and image during admin encoding; the browser never calls the API directly. This prototype simulates that response with mock data — manual entry always works.
       </div>
       <label class="f">Product lookup (e.g., barcode or product name)</label>
@@ -842,7 +851,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
         <input type="text" id="apiQuery" placeholder='try "Lenovo IdeaPad" or "Anker Zolo"' style="flex:1">
         <button class="btn btn-ghost" onclick="apiFetch()">Fetch from API</button>
       </div>
-      <p id="apiStatus" style="font-size:.8rem;color:var(--ink-mute);margin:6px 0 0"></p>
+      <p id="apiStatus" style="font-size:var(--fs-sm);color:var(--ink-mute);margin:6px 0 0"></p>
       <label class="f">Brand</label><input type="text" id="fBrand" placeholder="e.g. Aerolite">
       <label class="f">Model</label><input type="text" id="fModel" placeholder="e.g. Book 14 (2026)">
       <label class="f">Category</label>
@@ -1082,7 +1091,7 @@ function stars(r){ const f=Math.round(r); return "★".repeat(f)+"☆".repeat(5-
 function gadgetImage(g,size){
   const c=CATS[g.cat];
   const s=size||64;
-  if(g.img) return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px;overflow:hidden;flex-shrink:0"><img src="${g.img}" alt="${g.model}" referrerpolicy="no-referrer" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'${c.icon}',style:'font-size:${Math.round(s*.55)}px'}))"></div>`;
+  if(g.img) return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:var(--radius-sm);overflow:hidden;flex-shrink:0"><img src="${g.img}" alt="${g.model}" referrerpolicy="no-referrer" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'${c.icon}',style:'font-size:${Math.round(s*.55)}px'}))"></div>`;
   return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;font-size:${Math.round(s*.55)}px;background:linear-gradient(135deg,#efedf7,#dedbf0);border-radius:10px">${c.icon}</div>`;
 }
 function card(g){
@@ -1095,11 +1104,11 @@ function card(g){
     </div>
     <div class="gcard-body">
       <h3>${g.model}</h3>
-      <div style="font-size:.78rem;color:var(--ink-mute)">${g.brand}</div>
+      <div style="font-size:var(--fs-sm);color:var(--ink-mute)">${g.brand}</div>
       <div class="gcard-price">${peso(g.price)}<small>≈ ${peso(monthly(g))}/mo over ${g.lifespan} yrs</small></div>
       <ul class="spec-list">${g.specs.slice(0,3).map(s=>`<li>${s}</li>`).join("")}</ul>
-      <div class="gcard-rate"><span class="stars">${stars(g.rating)}</span> ${g.rating} <span style="color:var(--ink-mute)">(${g.raters})</span><span style="margin-left:auto;font-size:.72rem;color:var(--ink-mute)" title="Ownership Index: durability 25%, repairability 20%, battery 20%, warranty 15%, student rating 20%">Index ${ownIndex(g)}</span></div>
-      <div style="font-size:.75rem;color:var(--ink-soft)"><span style="font-family:var(--mono);font-weight:700;color:var(--green-deep)">${peso(monthly(g))}/mo</span> estimated ownership</div>
+      <div class="gcard-rate"><span class="stars">${stars(g.rating)}</span> ${g.rating} <span style="color:var(--ink-mute)">(${g.raters})</span><span style="margin-left:auto;font-size:var(--fs-xs);color:var(--ink-mute)" title="Ownership Index: durability 25%, repairability 20%, battery 20%, warranty 15%, student rating 20%">Index ${ownIndex(g)}</span></div>
+      <div style="font-size:var(--fs-xs);color:var(--ink-soft)"><span style="font-family:var(--mono);font-weight:700;color:var(--green-deep)">${peso(monthly(g))}/mo</span> estimated ownership</div>
       <div class="gcard-actions">
         <button class="btn btn-ghost btn-sm" style="flex:1" onclick="detail(${g.id})">Details</button>
         <button class="btn ${inTray?"btn-primary":"btn-ghost"} btn-sm" title="Add to compare" onclick="toggleTray(${g.id})">${inTray?"✓ In tray":"⇄ Compare"}</button>
@@ -1112,7 +1121,7 @@ function card(g){
 function renderHome(){
   document.getElementById("catGrid").innerHTML = Object.entries(CATS).map(([k,c])=>`
     <a class="cat-tile" href="#" onclick="go('browse');document.querySelector('input[name=fcat][value=${k}]').checked=true;renderBrowse();return false">
-      <div class="cat-ico" style="background:${c.bg};color:var(--ink-soft)">${ICONS[k]}</div>
+      <div class="cat-ico" style="background:var(--green-soft);color:var(--green-deep)">${ICONS[k]}</div>
       <div><b>${c.name}</b><span>Typical life: ${c.lifespan} yrs</span></div>
     </a>`).join("");
   document.getElementById("topRated").innerHTML = [...G].sort((a,b)=>b.rating-a.rating).slice(0,3).map(card).join("");
@@ -1204,8 +1213,8 @@ function renderIdleSummary(){
   const bTxt = bn.value==="custom" ? peso(a.budget) : {10000:"under \u20b110,000","15000":"\u20b110,000\u201315,000","20000":"\u20b115,000\u201320,000","30000":"\u20b120,000\u201330,000","40000":"\u20b130,000\u201340,000","60000":"\u20b140,000+"}[bn.value];
   const u=(USES[a.cat].find(x=>x[0]===a.use)||["",""])[1];
   const answered = recStep>1;
-  el.innerHTML=`<h3 style="font-size:1rem;margin:0 0 6px">${answered?"Your requirements so far":"Your requirements will collect here"}</h3>
-    <p style="font-size:.86rem;color:var(--ink-soft);margin:0">${answered
+  el.innerHTML=`<h3 style="font-size:var(--fs-md);margin:0 0 6px">${answered?"Your requirements so far":"Your requirements will collect here"}</h3>
+    <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0">${answered
       ? `${{laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[a.cat]} \u00b7 budget ${bTxt} \u00b7 main use: ${u}. Keep going: priorities, routine and must-haves refine the score.`
       : "Answer each step on the left. Everything you pick is summarized here, then every eligible product is scored against it."}</p>`;
 }
@@ -1229,7 +1238,7 @@ function renderReqReview(){
       <span style="color:var(--ink-mute)">Routine</span><b>${["rarely","sometimes","most of the day","almost always"][a.charger]} away from a charger · carried ${["rarely","sometimes","often","every day"][a.carry]}</b>
       ${dbs.length?`<span style="color:var(--ink-mute)">Must-haves</span><b>${dbs.join("; ")}</b>`:""}
     </div>
-    <div style="margin-top:10px;font-size:.8rem;color:var(--ink-mute)">Anything here wrong? Use Back to fix it — your other answers are kept.</div>`;
+    <div style="margin-top:10px;font-size:var(--fs-sm);color:var(--ink-mute)">Anything here wrong? Use Back to fix it — your other answers are kept.</div>`;
 }
 function recQuizChange(){
   buildStep3to6();
@@ -1366,15 +1375,15 @@ function renderRec(){
   if(!scored.length){
     const wasCustom=document.querySelector('input[name="qBudget"]:checked').value==="custom";
     html=`<div class="card pad">
-      <h3 style="font-size:1rem;margin:0 0 6px">No products meet all of your requirements.</h3>
-      <p style="font-size:.88rem;color:var(--ink-soft);margin:0 0 10px">Your budget: <b>${peso(ans.budget)}</b> · Category: <b>${{laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[ans.cat]}</b>${ans.dbs.length?` · Must-haves: <b>${ans.dbs.length}</b>`:""}</p>
-      <p style="font-size:.86rem;color:var(--ink-soft);margin:0 0 12px">${excluded.length?`All ${excluded.length} products in the catalog were filtered out: `+excluded.map(x=>`${x.g.model} (${x.why[0]})`).join(" · ")+".":"This category is empty."}</p>
+      <h3 style="font-size:var(--fs-md);margin:0 0 6px">No products meet all of your requirements.</h3>
+      <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0 0 10px">Your budget: <b>${peso(ans.budget)}</b> · Category: <b>${{laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[ans.cat]}</b>${ans.dbs.length?` · Must-haves: <b>${ans.dbs.length}</b>`:""}</p>
+      <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0 0 12px">${excluded.length?`All ${excluded.length} products in the catalog were filtered out: `+excluded.map(x=>`${x.g.model} (${x.why[0]})`).join(" · ")+".":"This category is empty."}</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn btn-primary btn-sm" onclick="goRecStep(6)">Relax a must-have</button>
         ${wasCustom?`<button class="btn btn-ghost btn-sm" onclick="goRecStep(2)">Raise the budget</button>`:`<button class="btn btn-ghost btn-sm" onclick="recBudgetPlus()">Try +\u20b15,000 budget</button>`}
         <button class="btn btn-ghost btn-sm" onclick="resetRec()">Start over</button>
       </div>
-      <p style="font-size:.8rem;color:var(--ink-mute);margin:12px 0 0">Closest alternatives that only broke the budget limit: ${excluded.filter(x=>x.why.some(w=>w.includes("budget"))).sort((a,b)=>a.g.price-b.g.price).slice(0,2).map(x=>`${x.g.model} (${peso(x.g.price)})`).join(", ")||"none"}. You can view them from Browse.</p>
+      <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:12px 0 0">Closest alternatives that only broke the budget limit: ${excluded.filter(x=>x.why.some(w=>w.includes("budget"))).sort((a,b)=>a.g.price-b.g.price).slice(0,2).map(x=>`${x.g.model} (${peso(x.g.price)})`).join(", ")||"none"}. You can view them from Browse.</p>
     </div>`;
     out.innerHTML=html; return;
   }
@@ -1398,20 +1407,20 @@ function renderRec(){
   const catName={laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[ans.cat];
   html=`
   <div class="card pad">
-    <h3 style="font-size:1rem;margin:0 0 12px">Best match <span style="font-weight:400;color:var(--ink-mute)">· top of ${scored.length} eligible products</span></h3>
+    <h3 style="font-size:var(--fs-md);margin:0 0 12px">Best match <span style="font-weight:400;color:var(--ink-mute)">· top of ${scored.length} eligible products</span></h3>
     <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
       ${gadgetImage(top.g,72)}
       <div>
-        <b style="font-size:1.15rem">${top.g.model}</b>
-        <div style="font-size:.9rem;color:var(--ink-mute);margin-top:2px">${top.g.brand} · <b style="color:var(--ink);font-family:var(--mono)">${peso(top.g.price)}</b> · <b style="font-family:var(--mono);color:var(--green-deep)">${peso(monthly(top.g))}/month</b> est. ownership</div>
-        <div style="font-size:.85rem;color:var(--ink-mute);margin-top:2px">Score <b style="font-family:var(--mono);color:var(--ink)">${top.s} / 100</b> · ${Math.round(top.g.lifespan*12)}-month lifespan · warranty ${top.g.warranty} mo</div>
+        <b style="font-size:var(--fs-lg)">${top.g.model}</b>
+        <div style="font-size:var(--fs-base);color:var(--ink-mute);margin-top:2px">${top.g.brand} · <b style="color:var(--ink);font-family:var(--mono)">${peso(top.g.price)}</b> · <b style="font-family:var(--mono);color:var(--green-deep)">${peso(monthly(top.g))}/month</b> est. ownership</div>
+        <div style="font-size:var(--fs-sm);color:var(--ink-mute);margin-top:2px">Score <b style="font-family:var(--mono);color:var(--ink)">${top.s} / 100</b> · ${Math.round(top.g.lifespan*12)}-month lifespan · warranty ${top.g.warranty} mo</div>
       </div>
     </div>
     <h4 style="margin:16px 0 6px">Score breakdown</h4>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:7px 16px;font-size:.78rem">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:7px 16px;font-size:var(--fs-sm)">
       ${top.parts.map(([l,v,w])=>`<div style="opacity:${w?1:.4}"><div style="display:flex;justify-content:space-between;gap:6px;white-space:nowrap;color:var(--ink-soft)"><span>${l}</span><span style="font-family:var(--mono)">${v}${w?` \u00d7${w}`:""}</span></div><div class="scorebar" style="height:5px;margin-top:2px"><i style="width:${v}%;background:${w?"var(--green)":"var(--line-strong)"}"></i></div></div>`).join("")}
     </div>
-    <p style="font-size:.78rem;color:var(--ink-mute);margin:8px 0 0">\u00d7 numbers are the weights your answers gave each factor. The overall score is the weighted average, rescaled to 100. Only products that passed your must-haves are scored.</p>
+    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:8px 0 0">\u00d7 numbers are the weights your answers gave each factor. The overall score is the weighted average, rescaled to 100. Only products that passed your must-haves are scored.</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px">
       <div><h4 style="margin:0 0 6px">Why it ranked first</h4><ul class="swlist">${whyFacts.slice(0,5).map(t=>`<li class="good">${t}</li>`).join("")}</ul></div>
       <div><h4 style="margin:0 0 6px">Trade-off</h4><ul class="swlist">${tradeoff.map(t=>`<li class="bad">${t}</li>`).join("")}${weakest&&weakest[1]<55?`<li class="bad">Lowest-scoring factor: ${weakest[0].toLowerCase()} (${weakest[1]}/100)</li>`:""}</ul></div>
@@ -1424,18 +1433,18 @@ function renderRec(){
   </div>
   ${alt?`
   <div class="card pad">
-    <h3 style="font-size:1rem;margin-bottom:4px">${(top.s-alt.s)<=3?`Nearly tied: ${top.g.model} scored ${top.s-alt.s} point${top.s-alt.s===1?"":"s"} higher`:`Why ${top.g.model} ranked above ${alt.g.model}`}</h3>
-    <p style="font-size:.8rem;color:var(--ink-mute);margin:0 0 12px">${(top.s-alt.s)<=3?`${top.s} vs ${alt.s} — close enough that the trade-offs below should decide it, not the total.`:`${top.s} vs ${alt.s} — both eligible; exactly where they differ.`}</p>
+    <h3 style="font-size:var(--fs-md);margin-bottom:4px">${(top.s-alt.s)<=3?`Nearly tied: ${top.g.model} scored ${top.s-alt.s} point${top.s-alt.s===1?"":"s"} higher`:`Why ${top.g.model} ranked above ${alt.g.model}`}</h3>
+    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 12px">${(top.s-alt.s)<=3?`${top.s} vs ${alt.s} — close enough that the trade-offs below should decide it, not the total.`:`${top.s} vs ${alt.s} — both eligible; exactly where they differ.`}</p>
     ${(()=>{ const diffs=top.parts.map(([l,va])=>{ const li=alt.parts.find(p=>p[0]===l); return [l, va, li[1]]; });
       const betterFor=diffs.filter(([l,a,b])=>a>b).sort((a,b)=>(b[1]-b[2])-(a[1]-a[2])).slice(0,3);
       const betterForAlt=diffs.filter(([l,a,b])=>b>a).sort((a,b)=>(b[2]-b[1])-(a[2]-a[1])).slice(0,3);
-      return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:.85rem">
-        <div><b style="font-size:.8rem;color:var(--green-deep)">${top.g.model} scored higher in</b>
+      return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:var(--fs-sm)">
+        <div><b style="font-size:var(--fs-sm);color:var(--green-deep)">${top.g.model} scored higher in</b>
           <ul class="swlist" style="margin-top:6px">${betterFor.map(([l,a,b])=>`<li class="good">${l} +${a-b} <span style="font-family:var(--mono);color:var(--ink-mute)">(${a} vs ${b})</span></li>`).join("")||'<li class="good">No factor — dead heat</li>'}</ul></div>
-        <div><b style="font-size:.8rem;color:var(--ink-soft)">${alt.g.model} scored higher in</b>
+        <div><b style="font-size:var(--fs-sm);color:var(--ink-soft)">${alt.g.model} scored higher in</b>
           <ul class="swlist" style="margin-top:6px">${betterForAlt.map(([l,a,b])=>`<li class="bad">${l} +${b-a} <span style="font-family:var(--mono);color:var(--ink-mute)">(${b} vs ${a})</span></li>`).join("")||'<li class="bad">No factor — dead heat</li>'}</ul></div>
       </div>
-      <p style="font-size:.85rem;color:var(--ink-soft);margin:12px 0 0">Pick <b>${alt.g.model}</b> instead if ${alt.comp.budget>top.comp.budget?`its lower price (${peso(alt.g.price)})`:((bestIn("battery").g.id===alt.g.id&&alt.comp.battery>top.comp.battery)?"longer battery life":"those strengths")} matters more to you than ${top.g.model}\u2019s lead.</p>`;
+      <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:12px 0 0">Pick <b>${alt.g.model}</b> instead if ${alt.comp.budget>top.comp.budget?`its lower price (${peso(alt.g.price)})`:((bestIn("battery").g.id===alt.g.id&&alt.comp.battery>top.comp.battery)?"longer battery life":"those strengths")} matters more to you than ${top.g.model}\u2019s lead.</p>`;
     })()}
     <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
       <button class="btn btn-ghost btn-sm" onclick="detail(${alt.g.id})">Details</button>
@@ -1443,22 +1452,22 @@ function renderRec(){
     </div>
   </div>`:""}
   ${others.length?`<div class="card pad">
-    <h3 style="font-size:1rem;margin-bottom:4px">Other strong options</h3>
-    <p style="font-size:.8rem;color:var(--ink-mute);margin:0 0 12px">Same formula, different priorities.</p>
+    <h3 style="font-size:var(--fs-md);margin-bottom:4px">Other strong options</h3>
+    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 12px">Same formula, different priorities.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
-      ${others.map(([lab,sc])=>`<div class="altcard"><span style="font-size:.68rem;font-weight:800;letter-spacing:.05em;color:var(--ink-mute)">${lab.toUpperCase()}</span><b style="font-size:.9rem">${sc.g.model}</b><span style="font-size:.78rem;color:var(--ink-mute);font-family:var(--mono)">${peso(sc.g.price)} · ${monthly(sc.g)}/mo · ${sc.s}/100</span><span style="font-size:.76rem;color:var(--ink-soft)">${(sc.g.goodFor||[])[0]||""}</span><button class="btn btn-ghost btn-sm" style="align-self:flex-start" onclick="detail(${sc.g.id})">Details</button></div>`).join("")}
+      ${others.map(([lab,sc])=>`<div class="altcard"><span style="font-size:var(--fs-xs);font-weight:800;letter-spacing:.05em;color:var(--ink-mute)">${lab.toUpperCase()}</span><b style="font-size:var(--fs-base)">${sc.g.model}</b><span style="font-size:var(--fs-sm);color:var(--ink-mute);font-family:var(--mono)">${peso(sc.g.price)} · ${monthly(sc.g)}/mo · ${sc.s}/100</span><span style="font-size:var(--fs-xs);color:var(--ink-soft)">${(sc.g.goodFor||[])[0]||""}</span><button class="btn btn-ghost btn-sm" style="align-self:flex-start" onclick="detail(${sc.g.id})">Details</button></div>`).join("")}
     </div>
   </div>`:""}
   ${excluded.length?`<div class="card pad">
-    <h3 style="font-size:1rem;margin-bottom:4px">Filtered out by your must-haves</h3>
-    <p style="font-size:.8rem;color:var(--ink-mute);margin:0 0 10px">These failed a hard requirement, so they were removed before scoring — scoring can\u2019t rescue them.</p>
+    <h3 style="font-size:var(--fs-md);margin-bottom:4px">Filtered out by your must-haves</h3>
+    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">These failed a hard requirement, so they were removed before scoring — scoring can\u2019t rescue them.</p>
     <div style="display:flex;flex-direction:column;gap:8px">
-      ${excluded.map(x=>`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.85rem;padding:8px 0;border-bottom:1px solid var(--line)"><b>${x.g.model}</b><span style="color:var(--red);font-family:var(--mono);font-size:.78rem">${x.why.join(" · ")}</span></div>`).join("")}
+      ${excluded.map(x=>`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:var(--fs-sm);padding:8px 0;border-bottom:1px solid var(--line)"><b>${x.g.model}</b><span style="color:var(--red);font-family:var(--mono);font-size:var(--fs-sm)">${x.why.join(" · ")}</span></div>`).join("")}
     </div>
   </div>`:""}
   <div class="card pad">
-    <h3 style="font-size:1rem;margin-bottom:4px">Adjust your priorities</h3>
-    <p style="font-size:.8rem;color:var(--ink-mute);margin:0 0 10px">Re-ranks the same products with the same formula, one weight at a time.</p>
+    <h3 style="font-size:var(--fs-md);margin-bottom:4px">Adjust your priorities</h3>
+    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">Re-ranks the same products with the same formula, one weight at a time.</p>
     <div class="chipgrid">
       ${[["perf","Performance"],["battery","Battery"],["portab","Portability"],["durab","Durability"],["repair","Repairability"],["value","Lowest ownership cost"]].map(([k,l])=>`<button class="wifchip" data-k="${k}">${l}</button>`).join("")}
     </div>
@@ -1476,8 +1485,8 @@ function renderRec(){
     const wn=rescored[0];
     out.getElementById?.("wifOut");
     document.getElementById("wifOut").innerHTML = wn.g.id===top.g.id
-      ? `<div style="font-size:.86rem;color:var(--ink-soft)">Same winner: <b>${wn.g.model}</b> (${wn.s}/100) — your pick holds up when ${ch.textContent.toLowerCase()} is prioritized.</div>`
-      : `<div style="font-size:.86rem;color:var(--ink-soft)">New winner: <b>${wn.g.model}</b> at ${wn.s}/100 — it was #${scored.findIndex(x=>x.g.id===wn.g.id)+1} under your original priorities. <button class="btn btn-ghost btn-sm" onclick="detail(${wn.g.id})">Details</button></div>`;
+      ? `<div style="font-size:var(--fs-sm);color:var(--ink-soft)">Same winner: <b>${wn.g.model}</b> (${wn.s}/100) — your pick holds up when ${ch.textContent.toLowerCase()} is prioritized.</div>`
+      : `<div style="font-size:var(--fs-sm);color:var(--ink-soft)">New winner: <b>${wn.g.model}</b> at ${wn.s}/100 — it was #${scored.findIndex(x=>x.g.id===wn.g.id)+1} under your original priorities. <button class="btn btn-ghost btn-sm" onclick="detail(${wn.g.id})">Details</button></div>`;
   }));
 }
 
@@ -1541,7 +1550,7 @@ function renderComparePage(){
       ${rows}
       ${specComp}
       <div class="cmp-cell cmp-lab">Common issue</div>${gs.map(g=>`<div class="cmp-cell" style="${g.issue&&g.issue!=="None reported yet"?"color:var(--orange);font-weight:600":""}">${g.issue||"—"}</div>`).join("")}
-      <div class="cmp-cell cmp-lab">Verdict</div>${gs.map(g=>`<div class="cmp-cell"><div><b>${peso(monthly(g))}/mo</b><div style="font-size:.78rem;color:var(--ink-soft)">${g.rating}★ from ${g.raters} students</div></div></div>`).join("")}
+      <div class="cmp-cell cmp-lab">Verdict</div>${gs.map(g=>`<div class="cmp-cell"><div><b>${peso(monthly(g))}/mo</b><div style="font-size:var(--fs-sm);color:var(--ink-soft)">${g.rating}★ from ${g.raters} students</div></div></div>`).join("")}
     </div>
   </div>
   <div class="card pad" style="margin-top:16px">
@@ -1549,13 +1558,13 @@ function renderComparePage(){
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
       ${ctx.map(([m,l])=>`<span class="badge badge-green">★ ${l}: ${m}</span>`).join("")}
     </div>
-    <p style="font-size:.9rem;color:var(--ink-soft);margin:0">
+    <p style="font-size:var(--fs-base);color:var(--ink-soft);margin:0">
       ${(()=>{ const spread=ownIndex(gs[0])-ownIndex(gs[gs.length-1]);
       if(spread<=4) return `These are very close (Ownership Index ${ownIndex(gs[0])} vs ${ownIndex(gs[gs.length-1])}). <b>${cheap.model}</b> still costs the least per month (${peso(monthly(cheap))}/mo), so the trade-offs above should decide it, not the totals.`;
       return `Over each gadget's estimated lifetime, <b>${cheap.model}</b> costs the least per month (${peso(monthly(cheap))}/mo). Students rate <b>${rated.model}</b> highest (${rated.rating}\u2605). Upfront price alone doesn't decide this: a cheaper gadget with a short lifespan can cost more per month.`; })()}
     </p>
   </div>
-  ${S.tray.length===2?`<div style="margin-top:12px;font-size:.83rem;color:var(--ink-mute)">Room for one more — add a third gadget from Browse.</div>`:""}`;
+  ${S.tray.length===2?`<div style="margin-top:12px;font-size:var(--fs-sm);color:var(--ink-mute)">Room for one more — add a third gadget from Browse.</div>`:""}`;
 }
 
 /* ═══════════ SCATTER (AA-style price vs index) ═══════════ */
@@ -1580,7 +1589,7 @@ function renderScatter(){
       <path d="${path}" fill="none" stroke="var(--orange)" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8"/>
       ${dots}
     </svg>
-    <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--ink-soft);margin-top:8px">
+    <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:var(--fs-sm);color:var(--ink-soft);margin-top:8px">
       <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);margin-right:5px"></span>Catalog gadget</span>
       <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--orange);margin-right:5px"></span>Best-value frontier (Pareto)</span>
       <span style="margin-left:auto">Index = durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20, rescaled to 100.</span>
@@ -1604,25 +1613,25 @@ function detail(id){
         <div class="gcard-rate" style="margin-top:6px"><span class="stars">${stars(g.rating)}</span> <b>${g.rating}</b> <span style="color:var(--ink-mute)">(${g.raters} student ratings)</span></div>
       </div>
     </div>
-    <div style="display:flex;gap:14px;background:var(--green-soft);border-radius:var(--radius-sm);padding:12px 16px;margin:14px 0;font-size:.8rem;flex-wrap:wrap">
+    <div style="display:flex;gap:14px;background:var(--green-soft);border-radius:var(--radius-sm);padding:12px 16px;margin:14px 0;font-size:var(--fs-sm);flex-wrap:wrap">
       <div><span style="color:var(--ink-mute)">Purchase price</span><div style="font-family:var(--mono);font-weight:700">${peso(g.price)}</div></div>
       <div>÷</div>
       <div><span style="color:var(--ink-mute)">Estimated lifespan</span><div style="font-family:var(--mono);font-weight:700">${lifeMonths} months</div></div>
       <div>=</div>
       <div><span style="color:var(--ink-mute)">Estimated ownership</span><div style="font-family:var(--mono);font-weight:700;color:var(--green-deep)">${peso(mo)}/month</div></div>
-      <div style="flex-basis:100%;font-size:.72rem;color:var(--ink-mute)">Estimate only, based on demo lifespan data. Not a guaranteed market price.</div>
+      <div style="flex-basis:100%;font-size:var(--fs-xs);color:var(--ink-mute)">Estimate only, based on demo lifespan data. Not a guaranteed market price.</div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0">
       <div><h4 style="margin:0 0 6px">Good for</h4><ul class="swlist">${(g.goodFor||[]).map(s=>`<li class="good">${s}</li>`).join("")}</ul></div>
       <div><h4 style="margin:0 0 6px">Not ideal for</h4><ul class="swlist">${(g.notIdeal||[]).map(s=>`<li class="bad">${s}</li>`).join("")}</ul></div>
     </div>
     <h4 style="margin:16px 0 8px">Specifications</h4>
-    <ul class="spec-list" style="font-size:.88rem">${g.specs.map(s=>`<li>${s}</li>`).join("")}</ul>
+    <ul class="spec-list" style="font-size:var(--fs-sm)">${g.specs.map(s=>`<li>${s}</li>`).join("")}</ul>
     <h4 style="margin:16px 0 8px">Ownership scores</h4>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
       ${[["Durability",g.durab],["Repairability",g.repair],["Battery",Math.min(g.battery/12*5,5)]].map(([l,v])=>`
-        <div><div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px"><span>${l}</span><b>${v.toFixed(1)}</b></div><div class="scorebar"><i style="width:${v/5*100}%"></i></div></div>`).join("")}
-      <div style="font-size:.72rem;color:var(--ink-mute);flex-basis:100%">Warranty: ${g.warranty} months · Scores are demo data on a 1–5 scale.</div>
+        <div><div style="display:flex;justify-content:space-between;font-size:var(--fs-sm);margin-bottom:4px"><span>${l}</span><b>${v.toFixed(1)}</b></div><div class="scorebar"><i style="width:${v/5*100}%"></i></div></div>`).join("")}
+      <div style="font-size:var(--fs-xs);color:var(--ink-mute);flex-basis:100%">Warranty: ${g.warranty} months · Scores are demo data on a 1–5 scale.</div>
     </div>
     <h4 style="margin:16px 0 8px">Strengths &amp; weaknesses</h4>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
@@ -1631,9 +1640,9 @@ function detail(id){
     </div>
     <h4 style="margin:16px 0 8px">Student reviews</h4>
     ${g.reviews.map(r=>`<div class="review"><div class="rev-ava">${r.n.charAt(0)}</div>
-      <div class="rev-body"><div class="rev-head"><b>${r.n}</b><span style="font-size:.75rem;color:var(--ink-mute)">Year ${r.y} student</span><span class="stars">${stars(r.r)}</span></div>
+      <div class="rev-body"><div class="rev-head"><b>${r.n}</b><span style="font-size:var(--fs-xs);color:var(--ink-mute)">Year ${r.y} student</span><span class="stars">${stars(r.r)}</span></div>
       <div class="rev-text">${r.t}</div></div></div>`).join("")}
-    ${g.issue&&g.issue!=="None reported yet"?`<div style="margin-top:12px;background:var(--orange-soft);border:1px solid #ecd3b2;border-radius:8px;padding:10px 14px;font-size:.83rem;color:#7a4a12"><b>Common issue:</b> ${g.issue}</div>`:""}
+    ${g.issue&&g.issue!=="None reported yet"?`<div style="margin-top:12px;background:var(--orange-soft);border:1px solid #ecd3b2;border-radius:var(--radius-sm);padding:10px 14px;font-size:var(--fs-sm);color:#7a4a12"><b>Common issue:</b> ${g.issue}</div>`:""}
     <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
       <button class="btn btn-primary" onclick="toggleTray(${g.id});closeModal('modal-detail')">⇄ Add to compare</button>
       <button class="btn btn-ghost" onclick="toggleWish(${g.id})">${S.wish.has(g.id)?"♥ In wishlist":"♡ Save to wishlist"}</button>
@@ -1687,7 +1696,7 @@ function renderAccount(){
   document.getElementById("myReviews").innerHTML = rv.map(r=>`
     <div class="review"><div class="rev-ava">${S.user?S.user.name.charAt(0):"A"}</div>
     <div class="rev-body"><div class="rev-head"><b>${byId(r.g).model}</b><span class="stars">${stars(r.stars)}</span>
-      <span class="badge badge-orange">${r.status}</span><span style="font-size:.75rem;color:var(--ink-mute)">${r.date}</span></div>
+      <span class="badge badge-orange">${r.status}</span><span style="font-size:var(--fs-xs);color:var(--ink-mute)">${r.date}</span></div>
     <div class="rev-text">${r.text}${r.issue?` · <span class="rev-issue">⚑ ${r.issue}</span>`:""}</div></div></div>`).join("");
   document.getElementById("myRevEmpty").classList.toggle("hidden",rv.length>0);
   document.getElementById("myReviews").classList.toggle("hidden",rv.length===0);
@@ -1697,8 +1706,8 @@ function renderAccount(){
     const gs=ids.map(byId);
     const cheap=[...gs].sort((a,b)=>monthly(a)-monthly(b))[0];
     return `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap">
-      <div style="font-size:.88rem"><b>${gs.map(g=>g.model).join(" vs ")}</b>
-      <div style="font-size:.78rem;color:var(--ink-mute)">Cheapest monthly: ${cheap.model} at ${peso(monthly(cheap))}/mo</div></div>
+      <div style="font-size:var(--fs-sm)"><b>${gs.map(g=>g.model).join(" vs ")}</b>
+      <div style="font-size:var(--fs-sm);color:var(--ink-mute)">Cheapest monthly: ${cheap.model} at ${peso(monthly(cheap))}/mo</div></div>
       <div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" onclick="S.tray=[${ids}];renderTray();renderComparePage();go('compare')">Re-open</button></div>
     </div>`;}).join("")
     : "";
@@ -1763,10 +1772,10 @@ function renderAdmin(){
     <td><span class="status"><span class="dot ${g.status==="Live"?"dot-g":"dot-o"}"></span>${g.status}</span></td>
     <td style="text-align:right"><button class="btn btn-ghost btn-sm" onclick="openModal('modal-add')">Edit</button></td></tr>`).join("");
   document.getElementById("admRevBody").innerHTML=ADMIN.revQueue.map((r,i)=>`
-    <tr><td><b>${r.who}</b><div style="font-size:.78rem;color:var(--ink-soft);max-width:280px">"${r.txt}"</div></td>
+    <tr><td><b>${r.who}</b><div style="font-size:var(--fs-sm);color:var(--ink-soft);max-width:280px">"${r.txt}"</div></td>
     <td>${r.g}</td><td><span class="stars">${stars(r.r)}</span></td><td>2d ago</td>
     <td><span class="status"><span class="dot ${r.st==="approved"?"dot-g":"dot-o"}"></span>${r.st}</span></td>
-    <td>${r.st==="pending"?`<div style="display:flex;gap:6px"><button class="btn btn-primary btn-sm" onclick="modReview(${i},1)">Approve</button><button class="btn btn-ghost btn-sm" onclick="modReview(${i},0)">Reject</button></div>`:'<span style="color:var(--ink-mute);font-size:.8rem">done</span>'}</td></tr>`).join("");
+    <td>${r.st==="pending"?`<div style="display:flex;gap:6px"><button class="btn btn-primary btn-sm" onclick="modReview(${i},1)">Approve</button><button class="btn btn-ghost btn-sm" onclick="modReview(${i},0)">Reject</button></div>`:'<span style="color:var(--ink-mute);font-size:var(--fs-sm)">done</span>'}</td></tr>`).join("");
   document.getElementById("admIssueBody").innerHTML=ADMIN.issues.map(x=>`
     <tr><td><b>${x.txt}</b></td><td>${x.g}</td><td><span class="badge badge-red">${x.n} reports</span></td>
     <td><span class="status"><span class="dot ${x.st==="resolved"?"dot-g":x.st==="open"?"dot-r":"dot-b"}"></span>${x.st}</span></td>
