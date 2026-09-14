@@ -946,7 +946,7 @@ function stars(r){ const f=Math.round(r); return "★".repeat(f)+"☆".repeat(5-
 function gadgetImage(g,size){
   const c=CATS[g.cat];
   const s=size||64;
-  if(g.img) return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px;overflow:hidden;flex-shrink:0"><img src="${g.img}" alt="${g.model}" loading="lazy" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'${c.icon}',style:'font-size:${Math.round(s*.55)}px'}))"></div>`;
+  if(g.img) return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px;overflow:hidden;flex-shrink:0"><img src="${g.img}" alt="${g.model}" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'${c.icon}',style:'font-size:${Math.round(s*.55)}px'}))"></div>`;
   return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;font-size:${Math.round(s*.55)}px;background:linear-gradient(135deg,#efedf7,#dedbf0);border-radius:10px">${c.icon}</div>`;
 }
 function card(g){
