@@ -14,6 +14,7 @@
   --orange:#e85d04; --orange-soft:#ffefe3;
   --blue:#2f5f9e; --blue-soft:#e5ecf6;
   --red:#d3264f; --red-soft:#ffe4ea;
+  --ok:#1e7a46; --ok-soft:#e3f2e9;
   --violet-ink:#231a3a;
   --radius:12px; --radius-sm:8px;
   --shadow:0 1px 2px rgba(22,21,26,.06),0 8px 24px -12px rgba(22,21,26,.18);
@@ -85,7 +86,7 @@ textarea{resize:vertical;min-height:70px}
 .check input{width:auto}
 
 /* ============ HERO ============ */
-.hero{background:linear-gradient(165deg,var(--violet-ink) 0%,#3d2a80 100%);color:#f2f0fa;padding:58px 0 64px}
+.hero{background:var(--violet-ink);color:#f2f0fa;padding:64px 0 72px;border-bottom:4px solid var(--ok)}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
 .hero h1{font-size:clamp(1.9rem,4.2vw,2.9rem);color:#fff;margin-bottom:14px}
 .hero p.lead{font-size:1.05rem;color:#c9c3e8;max-width:46ch;margin-bottom:24px}
@@ -253,17 +254,24 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 .wrow input[type=range]{flex:1.2;min-width:90px;accent-color:var(--green)}
 .rdot{width:26px;height:5px;border-radius:4px;background:var(--line-strong);transition:background .2s}
 .rdot.on{background:var(--green)}
+.quiz-nav{display:flex;align-items:center;gap:14px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.quiz-nav .btn{min-width:110px}
+.quiz-nav-step{flex:1;text-align:center;font-size:.8rem;color:var(--ink-mute);font-family:var(--mono)}
+.btn-finish{min-width:170px}
 .tilegrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .tileopt{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--radius-sm);cursor:pointer;transition:border-color .15s,background .15s;font-size:.92rem;font-weight:600}
 .tileopt small{font-weight:400;font-size:.75rem;color:var(--ink-mute)}
 .tileopt:hover{border-color:var(--green)}
+.tileopt{position:relative}
 .tileopt:has(input:checked){border-color:var(--green);background:var(--green-soft)}
+.tileopt:has(input:checked) span::after{content:"✓";color:var(--ok);font-weight:800;margin-left:8px}
 .tileopt input{position:absolute;opacity:0;pointer-events:none}
 .tileopt:has(input:focus-visible){outline:2px solid var(--green);outline-offset:2px}
 .chipgrid{display:flex;flex-wrap:wrap;gap:8px}
 .fchip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;font-size:.84rem;font-weight:600;color:var(--ink-soft);transition:border-color .15s,background .15s}
 .fchip:hover{border-color:var(--green)}
 .fchip:has(input:checked){border-color:var(--green);background:var(--green-soft);color:var(--green-deep)}
+.fchip:has(input:checked)::before{content:"✓";font-weight:800;margin-right:2px}
 .fchip input{position:absolute;opacity:0;pointer-events:none}
 .fchip:has(input:focus-visible){outline:2px solid var(--green);outline-offset:2px}
 .altcard{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--radius-sm)}
@@ -272,7 +280,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 .wifchip.on{border-color:var(--green);background:var(--green-soft);color:var(--green-deep)}
 .swlist{list-style:none;font-size:.85rem;display:flex;flex-direction:column;gap:5px}
 .swlist li{display:flex;gap:8px;line-height:1.45}
-.swlist li.good::before{content:"✓";color:var(--green);font-weight:800}
+.swlist li.good::before{content:"✓";color:var(--ok);font-weight:800}
 .swlist li.bad::before{content:"—";color:var(--red);font-weight:800}
 
 /* ============ TABS (admin sub-sections) ============ */
@@ -487,7 +495,6 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
         <div class="card pad" id="quizCard">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
             <h3 style="font-size:1rem" id="rstepLbl">What are you looking for?</h3>
-            <span style="font-size:.72rem;color:var(--ink-mute);font-family:var(--mono)" id="rstepNum">1 / 7</span>
           </div>
           <div style="display:flex;gap:6px;margin-bottom:16px" aria-hidden="true">
             <span class="rdot on"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span>
@@ -571,11 +578,12 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
             </div>
           </div>
 
-          <div style="display:flex;gap:10px;margin-top:18px">
-            <button class="btn btn-ghost btn-sm" id="rback" onclick="goRecStep(recStep-1)" style="visibility:hidden">Back</button>
-            <button class="btn btn-primary btn-sm" style="flex:1" id="rnext" onclick="recNext()">Next</button>
+          <div class="quiz-nav">
+            <button class="btn btn-ghost" id="rback" onclick="goRecStep(recStep-1)" style="visibility:hidden">Back</button>
+            <span class="quiz-nav-step" id="rnavStep">Step 1 of 7</span>
+            <button class="btn btn-primary" id="rnext" onclick="recNext()">Next</button>
           </div>
-          <button class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;border:0;color:var(--ink-mute)" onclick="resetRec()">Start over</button>
+          <button class="btn btn-ghost btn-sm" style="margin-top:12px;width:100%;border:0;color:var(--ink-mute)" onclick="resetRec()">Start over</button>
         </div>
         <div id="recIdle" class="card pad" style="margin-top:16px">
           <h3 style="font-size:1rem;margin:0 0 6px">Your requirements</h3>
@@ -1178,10 +1186,13 @@ function goRecStep(n){
   recStep=Math.max(1,Math.min(7,n));
   for(let i=1;i<=7;i++) document.getElementById("rstep"+i).classList.toggle("hidden",i!==recStep);
   document.getElementById("rstepLbl").textContent=RSTEPS[recStep-1];
-  document.getElementById("rstepNum").textContent=recStep+" / 7";
+  // step position lives in the dots + footer counter; no third display
   document.querySelectorAll(".rdot").forEach((d,i)=>d.classList.toggle("on",i<recStep));
   document.getElementById("rback").style.visibility=recStep===1?"hidden":"visible";
-  document.getElementById("rnext").textContent=recStep===7?(recFinished?"Update matches":"See my matches"):"Next";
+  document.getElementById("rnavStep").textContent="Step "+recStep+" of 7";
+  const nb=document.getElementById("rnext");
+  nb.textContent=recStep===7?(recFinished?"Update matches":"See my matches"):"Next";
+  if(recStep===7) nb.classList.add("btn-finish"); else nb.classList.remove("btn-finish");
   if(recStep===7) renderReqReview();
   else if(recFinished===false) renderIdleSummary();
 }
@@ -1192,8 +1203,11 @@ function renderIdleSummary(){
   const bn=document.querySelector('input[name="qBudget"]:checked');
   const bTxt = bn.value==="custom" ? peso(a.budget) : {10000:"under \u20b110,000","15000":"\u20b110,000\u201315,000","20000":"\u20b115,000\u201320,000","30000":"\u20b120,000\u201330,000","40000":"\u20b130,000\u201340,000","60000":"\u20b140,000+"}[bn.value];
   const u=(USES[a.cat].find(x=>x[0]===a.use)||["",""])[1];
-  el.innerHTML=`<h3 style="font-size:1rem;margin:0 0 6px">Your requirements so far</h3>
-    <p style="font-size:.86rem;color:var(--ink-soft);margin:0">${{laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[a.cat]} \u00b7 budget ${bTxt} \u00b7 main use: ${u}. Keep going \u2014 priorities, routine and must-haves refine the score.</p>`;
+  const answered = recStep>1;
+  el.innerHTML=`<h3 style="font-size:1rem;margin:0 0 6px">${answered?"Your requirements so far":"Your requirements will collect here"}</h3>
+    <p style="font-size:.86rem;color:var(--ink-soft);margin:0">${answered
+      ? `${{laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[a.cat]} \u00b7 budget ${bTxt} \u00b7 main use: ${u}. Keep going: priorities, routine and must-haves refine the score.`
+      : "Answer each step on the left. Everything you pick is summarized here, then every eligible product is scored against it."}</p>`;
 }
 function renderReqReview(){
   const a=recAnswers();
@@ -1384,7 +1398,7 @@ function renderRec(){
   const catName={laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[ans.cat];
   html=`
   <div class="card pad">
-    <h3 style="font-size:1rem;margin:0 0 12px">Best match <span style="font-weight:400;color:var(--ink-mute)">— top of ${scored.length} eligible products</span></h3>
+    <h3 style="font-size:1rem;margin:0 0 12px">Best match <span style="font-weight:400;color:var(--ink-mute)">· top of ${scored.length} eligible products</span></h3>
     <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
       ${gadgetImage(top.g,72)}
       <div>
