@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review History — GadgetWise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main id="main">
+    <div class="container page-head">
+      <h1>Review History</h1>
+      <p class="lede">Reviews you've written, with moderation status. Prototype account data is mock.</p>
+    </div>
+
+    <div class="container section-tight">
+      <div class="panel panel-tight" style="margin-bottom:18px">
+        <div class="row-between">
+          <div>
+            <b>6 reviews · 4 approved · 1 pending · 1 rejected</b>
+            <div class="small muted">Moderation keeps community reviews trustworthy; rejected reviews show the reason.</div>
+          </div>
+          <a class="btn btn-outline btn-sm" href="gadgets.html">Review another gadget</a>
+        </div>
+      </div>
+
+      <div class="stack" style="gap:12px" id="reviewList"></div>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    GWApp.initShell({});
+
+    const myReviews = [
+      { gadgetId: "kaido-airbook-14", date: "2026-09-05", rating: 4, status: "pending",
+        text: "One sem in. Still one charge per day, doesn't get hot during lectures. A Windows update once interrupted a recording — that's Windows, not the laptop.",
+        ctx: "BS Psychology · 1 semester" },
+      { gadgetId: "novatek-probook-15", date: "2026-06-15", rating: 4, status: "approved",
+        text: "Excel, Zoom, 30 Chrome tabs — no complaints. Added an 8GB stick myself for ₱1,500 and it flies. Screen is hard to read beside a window though.",
+        ctx: "BS Accountancy · 1 year" },
+      { gadgetId: "novatek-spark-5g", date: "2026-06-02", rating: 4, status: "approved",
+        text: "Battery lasts a full class day plus commute. Camera is weak at night but I barely use it.",
+        ctx: "General student use · 11 months" },
+      { gadgetId: "vantor-chargepack-20k", date: "2026-04-19", rating: 5, status: "approved",
+        text: "Survived a 3-day org retreat with everyone borrowing it. The % readout means no guessing.",
+        ctx: "Daily commute · 1 year" },
+      { gadgetId: "kaido-wave-700", date: "2026-02-11", rating: 2, status: "rejected",
+        reason: "Not a personal experience — flagged as secondhand information by moderators.",
+        text: "My blockmate says the ANC dies after a few months. I haven't used this myself but posting anyway.",
+        ctx: "Secondhand report" },
+      { gadgetId: "aurio-fitwatch-5", date: "2026-01-25", rating: 5, status: "approved",
+        text: "Charge every two weeks. Silent alarm wakes me without waking my roommate.",
+        ctx: "Jogging + classes · 1 year" }
+    ];
+
+    document.getElementById("reviewList").innerHTML = myReviews.map(rv => {
+      const g = GW.getGadget(rv.gadgetId);
+      const badge = { approved: "badge-green", pending: "badge-gold", rejected: "badge-red" }[rv.status];
+      return `<div class="list-row" style="align-items:flex-start">
+        <a href="${GWApp.gadgetUrl(rv.gadgetId)}"><img class="thumb" src="${g.image}" alt=""></a>
+        <div style="flex:1; min-width:0">
+          <div class="row-between" style="flex-wrap:wrap; gap:6px">
+            <div>
+              <a href="${GWApp.gadgetUrl(rv.gadgetId)}" class="t-title" style="color:inherit">${g.brand} ${g.model}</a>
+              <span class="review-ctx"> · ${rv.ctx}</span>
+            </div>
+            <span class="badge ${badge}">${rv.status}</span>
+          </div>
+          ${GWApp.stars(rv.rating)}
+          <p class="review-text" style="margin:6px 0 0">“${rv.text}”</p>
+          ${rv.reason ? `<p class="small" style="margin:8px 0 0; color:var(--red)"><b>Rejected:</b> ${rv.reason}</p>` : ""}
+        </div>
+        <span class="small muted mono">${rv.date}</span>
+      </div>`;
+    }).join("");
+  </script>
+</body>
+</html>

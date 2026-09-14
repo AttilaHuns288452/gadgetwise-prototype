@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Moderation — GadgetWise Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-admin-page="reviews">
+  <div class="admin-shell">
+    <div class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1>Review Moderation</h1>
+          <p class="small muted" style="margin:2px 0 0">Approve reviews that reflect genuine student experience; reject spam, secondhand reports, or abuse.</p>
+        </div>
+        <span class="badge badge-gold" id="queueCount">…</span>
+      </div>
+
+      <div class="toolbar">
+        <div class="seg" role="group" aria-label="Filter by status">
+          <button class="seg-btn active-low" data-rf="all">All</button>
+          <button class="seg-btn" data-rf="pending">Pending</button>
+          <button class="seg-btn" data-rf="approved">Approved</button>
+          <button class="seg-btn" data-rf="rejected">Rejected</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>GADGET · REVIEWER</th>
+              <th>RATING</th>
+              <th>REVIEW</th>
+              <th>STATUS</th>
+              <th style="text-align:right">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="reviewRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    GWAdmin.init();
+    // Wire the status filter segment to the select that admin.js reads
+    (function () {
+      const filter = document.getElementById("reviewFilter") || (() => {
+        const sel = document.createElement("select");
+        sel.id = "reviewFilter";
+        sel.className = "hidden";
+        document.body.appendChild(sel);
+        sel.innerHTML = `<option value="all">all</option><option value="pending">pending</option><option value="approved">approved</option><option value="rejected">rejected</option>`;
+        return sel;
+      })();
+      document.querySelectorAll("[data-rf]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("[data-rf]").forEach(b => { b.className = "seg-btn"; });
+          btn.className = "seg-btn " + (btn.getAttribute("data-rf") === "pending" ? "active-med" : "active-low");
+          filter.value = btn.getAttribute("data-rf");
+          filter.dispatchEvent(new Event("change"));
+        });
+      });
+      const pending = GW.pendingReviews.filter(r => r.status === "pending").length;
+      document.getElementById("queueCount").textContent = pending + " pending";
+    })();
+  </script>
+</body>
+</html>

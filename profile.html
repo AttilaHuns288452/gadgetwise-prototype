@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — GadgetWise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main id="main">
+    <div class="container page-head">
+      <h1>My Account</h1>
+      <p class="lede">Prototype session — profile, saved gadgets, and activity history. No real authentication; this demonstrates the intended UX.</p>
+    </div>
+
+    <div class="container section-tight">
+      <div class="catalog-layout" style="grid-template-columns:300px 1fr">
+        <!-- Profile card -->
+        <aside class="filters">
+          <div class="panel">
+            <div class="row" style="gap:14px; margin-bottom:14px">
+              <span class="avatar" style="width:52px;height:52px;font-size:.95rem" id="bigAvatar">AV</span>
+              <div>
+                <b id="pName">Andrea Villanueva</b>
+                <div class="small muted" id="pProgram"></div>
+              </div>
+            </div>
+            <div class="small muted" id="pSchool" style="margin-bottom:14px"></div>
+            <div class="stack" style="gap:6px; font-size:.86rem">
+              <div class="row-between"><span class="muted">Member since</span><b class="mono" id="pSince"></b></div>
+              <div class="row-between"><span class="muted">Reviews written</span><b class="mono" id="pReviews"></b></div>
+              <div class="row-between"><span class="muted">Comparisons run</span><b class="mono" id="pCompares"></b></div>
+              <div class="row-between"><span class="muted">Wishlist</span><b class="mono" id="pWishes"></b></div>
+            </div>
+            <hr class="divider">
+            <nav class="stack" style="gap:4px" aria-label="Account">
+              <a class="btn btn-outline btn-sm btn-block" href="review-history.html" style="justify-content:flex-start"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6V2Z"/><path d="M14 2v4h4"/></svg> Review history</a>
+              <a class="btn btn-outline btn-sm btn-block" href="comparison-history.html" style="justify-content:flex-start"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg> Comparison history</a>
+              <a class="btn btn-outline btn-sm btn-block" href="wishlist.html" style="justify-content:flex-start"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M19.5 12.6 12 20l-7.5-7.4A5 5 0 1 1 12 6.3a5 5 0 1 1 7.5 6.3Z"/></svg> Wishlist</a>
+              <a class="btn btn-ghost btn-sm btn-block" href="login.html" style="justify-content:flex-start"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg> Sign out (simulated)</a>
+            </nav>
+          </div>
+        </aside>
+
+        <div>
+          <section class="section-tight" style="padding-top:0">
+            <div class="row-between" style="margin-bottom:16px">
+              <h2>Saved gadgets</h2>
+              <a class="small" href="wishlist.html">Open wishlist</a>
+            </div>
+            <div id="savedGrid" class="catalog-grid"></div>
+          </section>
+
+          <section class="section-tight">
+            <div class="row-between" style="margin-bottom:16px">
+              <h2>Recommendation history</h2>
+              <a class="small" href="recommendations.html">Run a new one</a>
+            </div>
+            <div id="recHistory" class="stack" style="gap:10px"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    GWApp.initShell({});
+
+    const u = GW.currentUser;
+    const esc = GWApp.esc;
+    document.getElementById("bigAvatar").textContent = u.avatarInitials;
+    document.getElementById("pName").textContent = u.name;
+    document.getElementById("pProgram").textContent = u.program;
+    document.getElementById("pSchool").textContent = u.school;
+    document.getElementById("pSince").textContent = u.memberSince;
+
+    let recHist = [];
+    let cmpHist = [];
+    try {
+      recHist = JSON.parse(localStorage.getItem("gw_rec_history") || "[]");
+      cmpHist = JSON.parse(localStorage.getItem("gw_compare_history") || "[]");
+    } catch (e) { /* storage unavailable */ }
+    const seededCmp = GW.seedCompareHistory.map(h => ({ date: h.date, items: h.items }));
+    const allCmp = cmpHist.length ? cmpHist : seededCmp;
+    const allRec = recHist.length ? recHist : GW.seedRecommendationHistory.map(r => ({ date: r.date, budget: "₱" + r.budget.toLocaleString("en-PH"), use: r.use, top: r.top.id, score: r.top.score }));
+
+    document.getElementById("pReviews").textContent = 6; // mock account review count
+    document.getElementById("pCompares").textContent = allCmp.length;
+    document.getElementById("pWishes").textContent = GWApp.state.wishlist.size;
+
+    // Saved gadgets (wishlist) — use first 3 or a friendly empty state
+    const saved = [...GWApp.state.wishlist].map(GW.getGadget).filter(Boolean).slice(0, 3);
+    const savedGrid = document.getElementById("savedGrid");
+    savedGrid.innerHTML = saved.length
+      ? saved.map(g => GWApp.productCard(g)).join("")
+      : `<div class="panel empty-state" style="grid-column:1/-1">
+          ${GWApp.icon("heart")}
+          <div class="es-title">Nothing saved yet</div>
+          <p class="small">Heart a few gadgets and they'll collect here.</p>
+          <a class="btn" href="gadgets.html">Browse gadgets</a>
+        </div>`;
+
+    // Recommendation history rows
+    const useLabel = id => { const u2 = GW.useCases.find(x => x.id === id); return u2 ? u2.label : id; };
+    document.getElementById("recHistory").innerHTML = allRec.slice(0, 5).map(r => {
+      const g = GW.getGadget(r.top);
+      return `<div class="list-row">
+        <span class="thumb" style="display:flex; align-items:center; justify-content:center; background:var(--accent-soft); color:var(--accent-strong); font-family:var(--font-mono); font-weight:600">${g ? r.score || "—" : "—"}</span>
+        <div style="flex:1; min-width:0">
+          <b>${g ? esc(g.brand + " " + g.model) : "Gadget"}</b> <span class="small muted">top pick${r.score ? " · " + r.score + "/100" : ""}</span>
+          <div class="small muted">${esc(r.budget || "")} · ${esc(useLabel(r.use))} · ${esc(r.date)}</div>
+        </div>
+        ${g ? `<a class="btn btn-outline btn-sm" href="${GWApp.gadgetUrl(g.id)}">View</a>` : ""}
+      </div>`;
+    }).join("") || `<div class="panel empty-state">${GWApp.icon("target")}<div class="es-title">No recommendations yet</div><p class="small">Run the recommender to start your history.</p><a class="btn" href="recommendations.html">Get recommendations</a></div>`;
+  </script>
+</body>
+</html>

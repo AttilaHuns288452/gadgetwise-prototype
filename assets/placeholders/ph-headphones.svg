@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Placeholder artwork for Headphones category">
+<rect width="640" height="480" fill="#ecf0f8"/>
+<g fill="none" stroke="#41598a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.92">
+<path d="M180 300 v-40 a140 140 0 0 1 280 0 v40"/>
+<rect x="150" y="290" width="70" height="110" rx="18"/>
+<rect x="420" y="290" width="70" height="110" rx="18"/>
+<path d="M185 320 v50 M455 320 v50" stroke-width="4"/>
+</g>
+<text x="36" y="446" font-family="Arial, sans-serif" font-size="17" letter-spacing="3" fill="#41598a99">PROTOTYPE ARTWORK</text>
+</svg>
