@@ -21,16 +21,27 @@
       <div class="rec-layout">
         <!-- Step rail -->
         <aside class="rec-steps" aria-label="Progress">
-          <div class="step current" data-step-ind="1"><span class="n">1</span><div><b>Budget</b><div class="small" id="indBudget">What can you spend?</div></div></div>
-          <div class="step" data-step-ind="2"><span class="n">2</span><div><b>Academic use</b><div class="small" id="indUse">What is it for?</div></div></div>
-          <div class="step" data-step-ind="3"><span class="n">3</span><div><b>Priorities</b><div class="small" id="indPrio">What matters most?</div></div></div>
-          <div class="step" data-step-ind="4"><span class="n">4</span><div><b>Results</b><div class="small" id="indRes">Ranked shortlist</div></div></div>
+          <div class="step current" data-step-ind="1"><span class="n">1</span><div><b>What are you looking for?</b><div class="small" id="indCat">Pick a gadget type</div></div></div>
+          <div class="step" data-step-ind="2"><span class="n">2</span><div><b>Budget</b><div class="small" id="indBudget">What can you spend?</div></div></div>
+          <div class="step" data-step-ind="3"><span class="n">3</span><div><b>Academic use</b><div class="small" id="indUse">What is it for?</div></div></div>
+          <div class="step" data-step-ind="4"><span class="n">4</span><div><b>Priorities</b><div class="small" id="indPrio">What matters most?</div></div></div>
+          <div class="step" data-step-ind="5"><span class="n">5</span><div><b>Results</b><div class="small" id="indRes">Ranked shortlist</div></div></div>
         </aside>
 
         <!-- Wizard body -->
         <div>
-          <!-- STEP 1: budget -->
+          <!-- STEP 1: what are you looking for (category) -->
           <section data-step="1">
+            <h2 style="margin-bottom:6px">What are you looking for?</h2>
+            <p class="lede" style="margin-bottom:20px">Pick the gadget type first — the engine ranks only that category, so a laptop is never compared against a power bank.</p>
+            <div class="choice-grid" id="catChoices"></div>
+            <div class="row" style="margin-top:22px">
+              <button class="btn" data-next="2" id="next1">Continue <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></button>
+            </div>
+          </section>
+
+          <!-- STEP 2: budget -->
+          <section data-step="2" hidden>
             <h2 style="margin-bottom:6px">What's your budget?</h2>
             <p class="lede" style="margin-bottom:20px">Realistic student brackets — or set a custom ceiling. Gadgets above your budget are scored lower, not hidden, so you can see what stretching buys you.</p>
             <div class="choice-grid" id="budgetChoices"></div>
@@ -45,35 +56,36 @@
               </div>
             </div>
             <div class="row" style="margin-top:22px">
-              <button class="btn" data-next="2" id="next1">Continue <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></button>
-            </div>
-          </section>
-
-          <!-- STEP 2: academic use -->
-          <section data-step="2" hidden>
-            <h2 style="margin-bottom:6px">What will you use it for?</h2>
-            <p class="lede" style="margin-bottom:20px">Pick one primary academic use. The engine checks each gadget against that workload's demands — an editing laptop is scored differently from a note-taking tablet.</p>
-            <div class="choice-grid" id="useChoices"></div>
-            <div class="row" style="margin-top:22px">
               <button class="btn btn-outline" data-next="1">Back</button>
               <button class="btn" data-next="3">Continue <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></button>
             </div>
           </section>
 
-          <!-- STEP 3: priorities -->
+          <!-- STEP 3: academic use -->
           <section data-step="3" hidden>
+            <h2 style="margin-bottom:6px">What will you use it for?</h2>
+            <p class="lede" style="margin-bottom:20px">Pick one primary academic use. The engine checks each gadget against that workload's demands — an editing laptop is scored differently from a note-taking tablet.</p>
+            <div class="choice-grid" id="useChoices"></div>
+            <div class="row" style="margin-top:22px">
+              <button class="btn btn-outline" data-next="2">Back</button>
+              <button class="btn" data-next="4">Continue <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></button>
+            </div>
+          </section>
+
+          <!-- STEP 4: priorities -->
+          <section data-step="4" hidden>
             <h2 style="margin-bottom:6px">What matters most to you?</h2>
             <p class="lede" style="margin-bottom:8px">Your picks shift scoring weight. Leave everything on “—” for a balanced score, or push weight toward what you care about.</p>
             <p class="small muted" style="margin-bottom:18px">50 of the 100 points are redistributed by these priorities. Budget fit (20), academic suitability (25), and community rating (5) stay fixed.</p>
             <div class="panel panel-tight" id="priorityList" style="padding:8px 20px"></div>
             <div class="row" style="margin-top:22px">
-              <button class="btn btn-outline" data-next="2">Back</button>
+              <button class="btn btn-outline" data-next="3">Back</button>
               <button class="btn btn-lg" id="calcBtn">Calculate recommendations <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m4 12 5.2 5.2L20 6.4"/></svg></button>
             </div>
           </section>
 
-          <!-- STEP 4: results -->
-          <section data-step="4" hidden>
+          <!-- STEP 5: results -->
+          <section data-step="5" hidden>
             <div class="row-between" style="margin-bottom:18px">
               <div>
                 <h2>Your ranked shortlist</h2>
@@ -97,8 +109,8 @@
 
     (function () {
       const esc = GWApp.esc, icon = GWApp.icon, money = GWApp.money;
-      const answers = { budget: null, use: null, priorities: {} };
-      const steps = [1, 2, 3, 4];
+      const answers = { category: null, budget: null, use: null, priorities: {} };
+      const steps = [1, 2, 3, 4, 5];
 
       /* ---------- step navigation ---------- */
       function show(n) {
@@ -113,12 +125,36 @@
       document.querySelectorAll("[data-next]").forEach(b =>
         b.addEventListener("click", () => {
           const n = +b.getAttribute("data-next");
-          if (n === 2 && !answers.budget) { GWApp.toast("Pick a budget first", "info"); return; }
-          if (n === 3 && !answers.use) { GWApp.toast("Pick your academic use first", "info"); return; }
+          if (n === 2 && !answers.category) { GWApp.toast("Pick a gadget type first", "info"); return; }
+          if (n === 3 && !answers.budget) { GWApp.toast("Pick a budget first", "info"); return; }
+          if (n === 4 && !answers.use) { GWApp.toast("Pick your academic use first", "info"); return; }
           show(n);
         }));
 
-      /* ---------- step 1: budget ---------- */
+      /* ---------- step 1: what are you looking for (category) ---------- */
+      const CAT_SUBS = {
+        smartphones:  "Everyday carry, notes, hotspot",
+        laptops:      "Heavy work, code, thesis builds",
+        tablets:      "Stylus notes, PDFs, media",
+        headphones:   "Focus, commutes, calls",
+        powerbanks:   "Brownout and long-day insurance",
+        smartwatches: "Alarms, health, time management"
+      };
+      const catBox = document.getElementById("catChoices");
+      catBox.innerHTML = GW.categories.map(c => `
+        <button type="button" class="choice-card" data-cat="${c.id}">
+          <div class="c-title">${esc(c.name)}</div>
+          <div class="c-sub">${esc(CAT_SUBS[c.id] || c.blurb)}</div>
+        </button>`).join("");
+      catBox.addEventListener("click", e => {
+        const card = e.target.closest("[data-cat]"); if (!card) return;
+        catBox.querySelectorAll(".choice-card").forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        answers.category = card.getAttribute("data-cat");
+        document.getElementById("indCat").textContent = GW.getCategory(answers.category).name;
+      });
+
+      /* ---------- step 2: budget ---------- */
       const budgetBox = document.getElementById("budgetChoices");
       budgetBox.innerHTML = GW.budgetBands.map(b => `
         <button type="button" class="choice-card" data-budget="${b.id}">
@@ -181,7 +217,7 @@
         else answers.priorities[seg.getAttribute("data-factor")] = level;
       });
 
-      /* ---------- step 4: calculate + render ---------- */
+      /* ---------- step 5: calculate + render ---------- */
       document.getElementById("calcBtn").addEventListener("click", () => {
         const customOn = document.getElementById("customBudgetToggle").checked;
         if (customOn) {
@@ -190,27 +226,29 @@
           if (!max) { GWApp.toast("Enter a budget ceiling", "alert"); return; }
           answers.budget = { id: "custom", label: max ? "₱" + min.toLocaleString("en-PH") + " – ₱" + max.toLocaleString("en-PH") : "", min, max };
         }
-        if (!answers.budget) { GWApp.toast("Pick a budget first", "info"); show(1); return; }
-        if (!answers.use) { GWApp.toast("Pick your academic use first", "info"); show(2); return; }
+        if (!answers.category) { GWApp.toast("Pick a gadget type first", "info"); show(1); return; }
+        if (!answers.budget) { GWApp.toast("Pick a budget first", "info"); show(2); return; }
+        if (!answers.use) { GWApp.toast("Pick your academic use first", "info"); show(3); return; }
         renderResults();
-        show(4);
-        document.getElementById("indRes").textContent = answers.budget.label + " · " + answers.use.label;
+        show(5);
+        document.getElementById("indRes").textContent = GW.getCategory(answers.category).name + " · " + answers.budget.label + " · " + answers.use.label;
       });
 
       function renderResults() {
         const { results, weights, notes } = GWRec.recommend({
-          budget: answers.budget, useCase: answers.use, priorities: answers.priorities
+          budget: answers.budget, useCase: answers.use, priorities: answers.priorities,
+          category: answers.category
         });
         const top = results.slice(0, 5);
 
         // recap + history
         document.getElementById("recapLine").textContent =
-          `Based on ${answers.budget.label} · ${answers.use.label}${Object.keys(answers.priorities).length ? " · " + Object.keys(answers.priorities).length + " priorities" : ""}`;
+          `Based on ${GW.getCategory(answers.category).name} · ${answers.budget.label} · ${answers.use.label}${Object.keys(answers.priorities).length ? " · " + Object.keys(answers.priorities).length + " priorities" : ""}`;
         try {
           const hist = JSON.parse(localStorage.getItem("gw_rec_history") || "[]");
-          hist.unshift({ date: new Date().toISOString().slice(0, 10), budget: answers.budget.label, use: answers.use.id, top: top[0] && top[0].gadget.id, score: top[0] && top[0].score });
+          hist.unshift({ date: new Date().toISOString().slice(0, 10), category: answers.category, budget: answers.budget.label, use: answers.use.id, top: top[0] && top[0].gadget.id, score: top[0] && top[0].score });
           localStorage.setItem("gw_rec_history", JSON.stringify(hist.slice(0, 12)));
-          localStorage.setItem("gw_rec_last", JSON.stringify({ budget: answers.budget.label, use: answers.use.id }));
+          localStorage.setItem("gw_rec_last", JSON.stringify({ category: answers.category, budget: answers.budget.label, use: answers.use.id }));
         } catch (e) { /* storage unavailable */ }
 
         // weights panel
