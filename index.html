@@ -47,6 +47,10 @@ nav.main-nav button.on{color:#fff;background:rgba(255,255,255,.14)}
 .avatar{width:30px;height:30px;border-radius:50%;background:#f2efe7;color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem}
 .nav-role-badge{font-size:.68rem;background:var(--orange);color:#fff;padding:2px 8px;border-radius:999px;font-weight:700;letter-spacing:.03em}
 .hamburger{display:none;background:none;border:0;color:#fff;font-size:1.4rem;padding:6px 10px}
+.nav-admin-mobile{display:none}
+.nav-admin{background:transparent;border:1px solid rgba(255,255,255,.28);color:#b9b3d9;font:inherit;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:8px;flex-shrink:0}
+.nav-admin:hover{color:#fff;border-color:rgba(255,255,255,.55)}
+.nav-admin.on{color:#fff;border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.12)}
 
 /* ============ BUTTONS ============ */
 .btn{display:inline-flex;align-items:center;gap:7px;border-radius:8px;padding:9px 16px;font-weight:700;font-size:.9rem;border:1px solid transparent;transition:filter .15s, background .15s}
@@ -108,6 +112,7 @@ section.pad-sec{padding:52px 0}
 .cat-tile{display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);transition:border-color .15s,transform .15s}
 .cat-tile:hover{border-color:var(--green);transform:translateY(-2px);text-decoration:none}
 .cat-ico{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0}
+.cat-ico svg{width:24px;height:24px}
 .cat-tile b{display:block;font-size:.98rem}
 .cat-tile span{font-size:.8rem;color:var(--ink-mute)}
 
@@ -293,6 +298,9 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
   .hamburger{display:block}
 }
 @media(max-width:640px){
+  .nav-admin{display:none}
+  .nav-admin-mobile{display:block;background:transparent;border:0;color:#b9b3d9;text-align:left;padding:8px 11px;border-radius:8px;font-size:.9rem;font-weight:600}
+  .nav-admin-mobile.on{color:#fff;background:rgba(255,255,255,.14)}
   .nav-user{max-width:none}
   .nav-user .btn-ghost{display:none}
   .nav-user .btn{padding:6px 10px;font-size:.78rem}
@@ -325,9 +333,11 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
       <button data-nav="browse" onclick="go('browse')">Browse</button>
       <button data-nav="recommend" onclick="go('recommend')">Recommend</button>
       <button data-nav="compare" onclick="go('compare')">Compare</button>
-      <button data-nav="account" data-reqlogin onclick="go('account')">Account</button>
-      <button data-nav="admin" data-reqlogin onclick="go('admin')">Admin</button>
+      <button data-nav="account" data-reqlogin onclick="go('account')">Wishlist</button>
+      <button data-nav="account" data-reqlogin onclick="go('account')">Profile</button>
+      <button data-nav="admin" data-reqlogin class="nav-admin-mobile" onclick="go('admin')">Admin</button>
     </nav>    <div class="nav-spacer"></div>
+    <button class="nav-admin" data-nav="admin" data-reqlogin onclick="go('admin')">Admin</button>
     <div class="nav-user" id="navUser"></div>
   </div>
 </header>
@@ -338,9 +348,9 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
     <div class="wrap hero-grid">
       <div>
         <h1>The right gadget for school, without the guesswork.</h1>
-        <p class="lead">Compare laptops, phones and more on what actually matters for school — battery, durability, warranty, repairability — and see what each one costs per month, not just upfront.</p>
+        <p class="lead">Compare laptops, phones, tablets and more on battery, durability, warranty and repairability, and see what each one costs per month, not just upfront.</p>
         <div class="hero-ctas">
-          <a href="#" class="btn btn-light" onclick="go('recommend');return false">Get my recommendation</a>
+          <a href="#" class="btn btn-light" onclick="go('recommend');return false">Get a recommendation</a>
           <a href="#" class="btn btn-outline-light" onclick="go('browse');return false">Browse gadgets</a>
         </div>
         <div class="hero-stats">
@@ -352,21 +362,20 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
       <div class="hero-panel">
         <div class="hero-panel-head">
           <h3>Highest-rated right now</h3>
-          <span class="badge badge-green">Top pick</span>
         </div>
         <div style="display:flex;gap:14px;align-items:center">
-          <div style="width:74px;height:74px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png" alt="MacBook Air M1" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+          <div style="width:74px;height:74px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff"><img referrerpolicy="no-referrer" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg" alt="Anker PowerCore 20100" style="max-width:100%;max-height:100%;object-fit:contain"></div>
           <div>
-            <b>MacBook Air M1</b>
-            <div style="font-size:.82rem;color:var(--ink-soft);font-family:var(--mono)">₱46,999 · 4.9★ · 14.5 hr battery · Index 78</div>
+            <b>Anker PowerCore 20100</b>
+            <div style="font-size:.82rem;color:var(--ink-soft);font-family:var(--mono)">₱2,450 · 4.8★ · 20,000 mAh · Index 82</div>
           </div>
         </div>
-        <p class="hero-quote">"Left the charger at home all week — still 30% by Saturday review sessions. The battery alone is worth it." — Kai, 3rd yr CS</p>
-        <div class="scorebar" title="Ownership Intelligence Index"><i style="width:78%;background:var(--green)"></i></div>
+        <p class="hero-quote">"Brownout insurance. Kept my router, phone and laptop alive through a 6-hour outage." — Fons, 3rd yr EE</p>
+        <div class="scorebar" title="Ownership Intelligence Index"><i style="width:82%;background:var(--green)"></i></div>
         <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--ink-mute);margin-top:6px">
-          <span>Ownership Intelligence Index · higher is better ↑</span><span style="font-family:var(--mono)"><b>78</b>/100</span>
+          <span>Ownership Index · higher is better ↑</span><span style="font-family:var(--mono)"><b>82</b>/100</span>
         </div>
-        <button class="btn btn-primary btn-sm" style="margin-top:14px" onclick="detail(1)">View full breakdown</button>
+        <button class="btn btn-primary btn-sm" style="margin-top:14px" onclick="detail(9)">View full breakdown</button>
       </div>
     </div>
   </div>
@@ -375,7 +384,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
     <div class="wrap">
       <div class="sec-head">
         <h2>Shop by category</h2>
-        <p>Six categories, each with picks tuned to campus life — long lectures, shared outlets, tight allowances.</p>
+        <p>Six categories, priced for student budgets.</p>
       </div>
       <div class="cat-grid" id="catGrid"></div>
     </div>
@@ -388,9 +397,9 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
         <p>Three things most price lists leave out.</p>
       </div>
       <div class="cat-grid">
-        <div class="cat-tile"><div class="cat-ico" style="background:var(--green-soft)">🧮</div><div><b>Monthly cost, not just price</b><span>Price ÷ realistic lifespan, plus repairs and charging — the number your allowance understands.</span></div></div>
-        <div class="cat-tile"><div class="cat-ico" style="background:var(--orange-soft)">🛠️</div><div><b>Durability &amp; repairability</b><span>Screen replacement costs, parts availability, and how owners say it holds up.</span></div></div>
-        <div class="cat-tile"><div class="cat-ico" style="background:var(--blue-soft)">🎯</div><div><b>Purpose-matched</b><span>Tell us your course load — programming, design, online classes — get matched picks.</span></div></div>
+        <div class="cat-tile"><div><b>Monthly cost, not just price</b><span>Price ÷ realistic lifespan. The number your allowance understands, not just the sticker price.</span></div></div>
+        <div class="cat-tile"><div><b>Durability and repairability</b><span>How owners say it holds up, and whether parts are available when something breaks.</span></div></div>
+        <div class="cat-tile"><div><b>Matched to your coursework</b><span>Programming, design, online classes: tell us what you use it for and the ranking adjusts.</span></div></div>
       </div>
     </div>
   </section>
@@ -399,7 +408,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
     <div class="wrap">
       <div class="sec-head">
         <h2>Price vs Ownership Index</h2>
-        <p>Every gadget plotted: what it costs against how well it holds up. Orange dots sit on the best-value frontier — nothing beats them on both price and build. Click a dot for the full breakdown.</p>
+        <p>What each gadget costs against how well it holds up. Orange dots are the best-value frontier: nothing beats them on price and build at the same time. Click a dot for details.</p>
       </div>
       <div id="scatterArea"></div>
     </div>
@@ -609,7 +618,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           <div id="acct-wish">
             <div class="panel-head"><h2>Wishlist</h2><span id="wishCount" style="font-size:.85rem;color:var(--ink-soft)"></span></div>
             <div class="gadgets" id="wishGrid"></div>
-            <div class="rec-empty" id="wishEmpty"><div class="big">♡</div>Nothing saved yet. Tap the heart on any gadget to save it here.</div>
+            <div class="rec-empty" id="wishEmpty"><div class="big">♡</div>Nothing saved yet. Use the heart on any product card to save it here for later comparison.</div>
           </div>
           <div id="acct-reviews" class="hidden">
             <div class="panel-head"><h2>My reviews</h2></div>
@@ -730,7 +739,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
     <div class="foot-grid">
       <div>
         <div class="foot-brand">GadgetWise</div>
-        <div style="max-width:44ch">Student-centered gadget comparison and recommendation — because the real price of a gadget is what it costs per month of school.</div>
+        <div style="max-width:44ch">Student-centered gadget comparison and recommendation. The real price of a gadget is what it costs per month of school.</div>
       </div>
       <div class="foot-links">
         <a href="#" onclick="go('browse');return false">Browse</a>
@@ -861,6 +870,14 @@ function frontier(ids){ // ids: array of gadget ids -> Set of Pareto-optimal ids
 const WISH_IMGS = {"laptop1":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png","laptop2":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acer_Aspire_A515-51.jpg/960px-Acer_Aspire_A515-51.jpg","laptop3":"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg","tablet1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg","tablet2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg","phone1":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmi_Note_11_front.jpg/960px-Redmi_Note_11_front.jpg","phone2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Galaxy_S23.png/960px-Galaxy_S23.png","head1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg","power1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg","watch1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg"};
 
 /* ═══════════ DATA (demo — real products, illustrative specs/prices) ═══════════ */
+const ICONS={
+ laptops:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg>',
+ smartphones:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg>',
+ tablets:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3" width="15" height="18" rx="2"/><path d="M10.5 18h3"/></svg>',
+ headphones:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4.5" height="6.5" rx="1.5"/><rect x="16.5" y="14" width="4.5" height="6.5" rx="1.5"/></svg>',
+ powerbanks:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="17.5" rx="2"/><path d="M10.5 2.5h3"/><path d="M13 9l-3 4h4l-3 4"/></svg>',
+ smartwatches:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="6.5" width="11" height="11" rx="2.5"/><path d="M9 6.5 9.7 2.5h4.6l.7 4M9 17.5l.7 4h4.6l.7-4"/></svg>'
+};
 const CATS = {
   laptops:{name:"Laptops",icon:"💻",bg:"var(--blue-soft)",lifespan:4},
   smartphones:{name:"Smartphones",icon:"📱",bg:"var(--green-soft)",lifespan:3.5},
@@ -1057,7 +1074,7 @@ function stars(r){ const f=Math.round(r); return "★".repeat(f)+"☆".repeat(5-
 function gadgetImage(g,size){
   const c=CATS[g.cat];
   const s=size||64;
-  if(g.img) return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px;overflow:hidden;flex-shrink:0"><img src="${g.img}" alt="${g.model}" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'${c.icon}',style:'font-size:${Math.round(s*.55)}px'}))"></div>`;
+  if(g.img) return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px;overflow:hidden;flex-shrink:0"><img src="${g.img}" alt="${g.model}" referrerpolicy="no-referrer" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'${c.icon}',style:'font-size:${Math.round(s*.55)}px'}))"></div>`;
   return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;font-size:${Math.round(s*.55)}px;background:linear-gradient(135deg,#efedf7,#dedbf0);border-radius:10px">${c.icon}</div>`;
 }
 function card(g){
@@ -1073,7 +1090,8 @@ function card(g){
       <div style="font-size:.78rem;color:var(--ink-mute)">${g.brand}</div>
       <div class="gcard-price">${peso(g.price)}<small>≈ ${peso(monthly(g))}/mo over ${g.lifespan} yrs</small></div>
       <ul class="spec-list">${g.specs.slice(0,3).map(s=>`<li>${s}</li>`).join("")}</ul>
-      <div class="gcard-rate"><span class="stars">${stars(g.rating)}</span> ${g.rating} <span style="color:var(--ink-mute)">(${g.raters})</span><span class="badge badge-green" style="margin-left:auto;font-family:var(--mono)" title="Ownership Intelligence Index — durability 25%, repairability 20%, battery 20%, warranty 15%, student rating 20%">∩ ${ownIndex(g)}</span></div>
+      <div class="gcard-rate"><span class="stars">${stars(g.rating)}</span> ${g.rating} <span style="color:var(--ink-mute)">(${g.raters})</span><span style="margin-left:auto;font-size:.72rem;color:var(--ink-mute)" title="Ownership Index: durability 25%, repairability 20%, battery 20%, warranty 15%, student rating 20%">Index ${ownIndex(g)}</span></div>
+      <div style="font-size:.75rem;color:var(--ink-soft)"><span style="font-family:var(--mono);font-weight:700;color:var(--green-deep)">${peso(monthly(g))}/mo</span> estimated ownership</div>
       <div class="gcard-actions">
         <button class="btn btn-ghost btn-sm" style="flex:1" onclick="detail(${g.id})">Details</button>
         <button class="btn ${inTray?"btn-primary":"btn-ghost"} btn-sm" title="Add to compare" onclick="toggleTray(${g.id})">${inTray?"✓ In tray":"⇄ Compare"}</button>
@@ -1086,7 +1104,7 @@ function card(g){
 function renderHome(){
   document.getElementById("catGrid").innerHTML = Object.entries(CATS).map(([k,c])=>`
     <a class="cat-tile" href="#" onclick="go('browse');document.querySelector('input[name=fcat][value=${k}]').checked=true;renderBrowse();return false">
-      <div class="cat-ico" style="background:${c.bg}">${c.icon}</div>
+      <div class="cat-ico" style="background:${c.bg};color:var(--ink-soft)">${ICONS[k]}</div>
       <div><b>${c.name}</b><span>Typical life: ${c.lifespan} yrs</span></div>
     </a>`).join("");
   document.getElementById("topRated").innerHTML = [...G].sort((a,b)=>b.rating-a.rating).slice(0,3).map(card).join("");
@@ -1518,7 +1536,9 @@ function renderComparePage(){
       ${ctx.map(([m,l])=>`<span class="badge badge-green">★ ${l}: ${m}</span>`).join("")}
     </div>
     <p style="font-size:.9rem;color:var(--ink-soft);margin:0">
-      Over each gadget's estimated lifetime, <b>${cheap.model}</b> costs the least per month (${peso(monthly(cheap))}/mo). Students rate <b>${rated.model}</b> highest (${rated.rating}★). Upfront price alone doesn't decide this — a cheaper gadget with a short lifespan can cost more per month than the one above it.
+      ${(()=>{ const spread=ownIndex(gs[0])-ownIndex(gs[gs.length-1]);
+      if(spread<=4) return `These are very close (Ownership Index ${ownIndex(gs[0])} vs ${ownIndex(gs[gs.length-1])}). <b>${cheap.model}</b> still costs the least per month (${peso(monthly(cheap))}/mo), so the trade-offs above should decide it, not the totals.`;
+      return `Over each gadget's estimated lifetime, <b>${cheap.model}</b> costs the least per month (${peso(monthly(cheap))}/mo). Students rate <b>${rated.model}</b> highest (${rated.rating}\u2605). Upfront price alone doesn't decide this: a cheaper gadget with a short lifespan can cost more per month.`; })()}
     </p>
   </div>
   ${S.tray.length===2?`<div style="margin-top:12px;font-size:.83rem;color:var(--ink-mute)">Room for one more — add a third gadget from Browse.</div>`:""}`;
@@ -1576,7 +1596,7 @@ function detail(id){
       <div><span style="color:var(--ink-mute)">Estimated lifespan</span><div style="font-family:var(--mono);font-weight:700">${lifeMonths} months</div></div>
       <div>=</div>
       <div><span style="color:var(--ink-mute)">Estimated ownership</span><div style="font-family:var(--mono);font-weight:700;color:var(--green-deep)">${peso(mo)}/month</div></div>
-      <div style="flex-basis:100%;font-size:.72rem;color:var(--ink-mute)">Estimate only — based on demo lifespan data, not a guaranteed market price.</div>
+      <div style="flex-basis:100%;font-size:.72rem;color:var(--ink-mute)">Estimate only, based on demo lifespan data. Not a guaranteed market price.</div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0">
       <div><h4 style="margin:0 0 6px">Good for</h4><ul class="swlist">${(g.goodFor||[]).map(s=>`<li class="good">${s}</li>`).join("")}</ul></div>
