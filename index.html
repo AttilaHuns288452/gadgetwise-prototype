@@ -378,9 +378,9 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
       <button data-nav="browse" onclick="go('browse')">Browse</button>
       <button data-nav="recommend" onclick="go('recommend')">Recommend</button>
       <button data-nav="compare" onclick="go('compare')">Compare</button>
-      <button data-nav="account" data-reqlogin onclick="go('account')">Wishlist</button>
-      <button data-nav="account" data-reqlogin onclick="go('account')">Profile</button>
-      <button data-nav="admin" data-reqlogin class="nav-admin-mobile" onclick="go('admin')">Admin</button>
+      <button data-nav="account" onclick="go('account')">Wishlist</button>
+      <button data-nav="account" onclick="go('account')">Profile</button>
+      <button data-nav="admin" class="nav-admin-mobile" onclick="go('admin')">Admin</button>
     </nav>    <div class="nav-spacer"></div>
     <form class="topbar-search" role="search" onsubmit="doHeaderSearch(event)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="width:16px;height:16px;position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-mute)"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -390,9 +390,9 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
       <button class="top-icon" title="Wishlist" aria-label="Wishlist" onclick="goWishlist()">♥<span class="count" id="hdrWlCount" hidden>0</span></button>
       <button class="top-icon" title="Compare tray" aria-label="Compare" onclick="go('compare')">⇄<span class="count" id="hdrCmpCount" hidden>0</span></button>
       <span class="topbar-divider"></span>
-      <button class="top-avatar" id="hdrAvatar" onclick="go('account')" title="Account" aria-label="Account"></button>
+      <button class="top-avatar" id="hdrAvatar" onclick="go('account')" title="Account" aria-label="Account">A</button>
     </div>
-    <button class="nav-admin" data-nav="admin" data-reqlogin onclick="go('admin')">Admin</button>
+    <button class="nav-admin" data-nav="admin" onclick="go('admin')">Admin</button>
   </div>
 </header>
 
@@ -632,7 +632,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 <main id="view-account" class="view hidden">
   <section class="pad-sec">
     <div class="wrap">
-      <div class="sec-head"><h2>Your account</h2><p>Demo account. Everything resets when you reload the page.</p></div>
+      <div class="sec-head"><h2>Your account</h2><p>Your saved gadgets, reviews, and comparisons. Everything resets when you reload the page.</p></div>
       <div class="dash">
         <aside class="side-nav card" aria-label="Account sections">
           <span class="side-label">ACCOUNT</span>
@@ -790,36 +790,6 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 </div>
 
 <!-- ══════════════ MODALS ══════════════ -->
-<div class="modal-back hidden" id="modal-auth">
-  <div class="modal" role="dialog" aria-modal="true" aria-label="Login or register">
-    <div class="modal-head"><h3 id="authTitle">Log in</h3><button class="modal-x" onclick="closeModal('modal-auth')" aria-label="Close">✕</button></div>
-    <div class="modal-body">
-      <div id="authLogin">
-        <label class="f">Email</label><input type="email" id="loginEmail" placeholder="you@student.edu.ph">
-        <label class="f">Password</label><input type="password" id="loginPass" placeholder="••••••••">
-        <div style="display:flex;gap:10px;margin-top:16px">
-          <button class="btn btn-primary" style="flex:1" onclick="doLogin('student')">Log in as student</button>
-          <button class="btn btn-ghost" style="flex:1" onclick="doLogin('admin')">Log in as admin</button>
-        </div>
-        <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin-top:12px">Demo build: any email works, no password needed.</p>
-      </div>
-      <div id="authRegister" class="hidden">
-        <div class="f-row">
-          <div><label class="f">First name</label><input type="text" id="regFirst" placeholder="Juan"></div>
-          <div><label class="f">Last name</label><input type="text" id="regLast" placeholder="Dela Cruz"></div>
-        </div>
-        <label class="f">School email</label><input type="email" id="regEmail" placeholder="juan@student.edu.ph">
-        <label class="f">Password</label><input type="password" id="regPass" placeholder="At least 8 characters">
-        <label class="f">Confirm password</label><input type="password" id="regPass2" placeholder="Repeat password">
-        <div class="check"><input type="checkbox" id="regAgree"> I agree to the demo terms — data is fake and stored locally.</div>
-        <button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="doRegister()">Create account</button>
-      </div>
-      <p id="authErr" class="hidden" style="color:var(--red);font-size:var(--fs-sm);margin-top:10px;font-weight:600"></p>
-      <p style="text-align:center;font-size:var(--fs-sm);margin-top:14px" id="authSwitch"></p>
-    </div>
-  </div>
-</div>
-
 <div class="modal-back hidden" id="modal-detail">
   <div class="modal" role="dialog" aria-modal="true" aria-label="Gadget details" style="max-width:720px">
     <div class="modal-head"><h3 id="dTitle"></h3><button class="modal-x" onclick="closeModal('modal-detail')" aria-label="Close">✕</button></div>
@@ -1037,10 +1007,6 @@ const monthly = g => Math.round(g.price / (g.lifespan*12));
 /* ═══════════ NAV ═══════════ */
 const VIEWS = ["home","browse","recommend","compare","account","admin"];
 function go(v){
-  if(v==="account"||v==="admin"){
-    if(!S.user){ openModal("modal-auth"); authMode(v==="admin"?"login":"register"); return; }
-    if(v==="admin" && S.user.role!=="admin"){ toast("Admin account required"); return; }
-  }
   VIEWS.forEach(x=>document.getElementById("view-"+x).classList.toggle("hidden",x!==v));
   document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("on",b.dataset.nav===v));
   document.getElementById("mainNav").classList.remove("open");
@@ -1051,50 +1017,13 @@ function go(v){
   if(v==="account") renderAccount();
   if(v==="admin") renderAdmin();
 }
-/* ponytail: demo auth — no backend, no real credentials */
-function doLogin(role){
-  const em = document.getElementById("loginEmail").value.trim();
-  if(!em){ authErr("Enter an email (any works in the demo)."); return; }
-  S.user = role==="admin" ? {name:"Prof. Raby",role:"admin"} : {name:em.split("@")[0],role:"student"};
-  closeModal("modal-auth"); renderUser(); toast(role==="admin"?"Logged in as admin":"Welcome back, "+S.user.name+"!");
-  if(role==="admin") go("admin"); else go("account");
-}
-function doRegister(){
-  const f=document.getElementById("regFirst").value.trim(), l=document.getElementById("regLast").value.trim(),
-        em=document.getElementById("regEmail").value.trim(), p1=document.getElementById("regPass").value, p2=document.getElementById("regPass2").value;
-  if(!f||!em||!p1){ authErr("Fill in name, email and password."); return; }
-  if(p1.length<8){ authErr("Password must be at least 8 characters."); return; }
-  if(p1!==p2){ authErr("Passwords don't match."); return; }
-  S.user={name:f+" "+l.charAt(0).toUpperCase()+".",role:"student"};
-  closeModal("modal-auth"); renderUser(); go("account"); toast("Account created — welcome, "+f+"!");
-}
-function authErr(m){ const e=document.getElementById("authErr"); e.textContent=m; e.classList.remove("hidden"); }
-function openAuth(mode){ S.user=null; openModal("modal-auth"); authMode(mode); }
-function authMode(m){
-  document.getElementById("authTitle").textContent = m==="login"?"Log in":"Create your account";
-  document.getElementById("authLogin").classList.toggle("hidden",m!=="login");
-  document.getElementById("authRegister").classList.toggle("hidden",m!=="register");
-  document.getElementById("authErr").classList.add("hidden");
-  document.getElementById("authSwitch").innerHTML = m==="login"
-    ? 'New here? <a href="#" onclick="authMode(\'register\');return false">Create an account</a>'
-    : 'Already registered? <a href="#" onclick="authMode(\'login\');return false">Log in</a>';
-}
 function renderUser(){
-  const u=document.getElementById("hdrAvatar");
-  if(S.user){
-    u.textContent = S.user.name.charAt(0).toUpperCase();
-    u.title = S.user.name + " (" + S.user.role + ")";
-  } else {
-    u.textContent = "?";
-    u.title = "Not logged in";
-  }
   // header counters
   const wl=document.getElementById("hdrWlCount"), cmp=document.getElementById("hdrCmpCount");
   if(wl){ wl.textContent=S.wish.size; wl.hidden=S.wish.size===0; }
   if(cmp){ cmp.textContent=S.tray.length; cmp.hidden=S.tray.length===0; }
 }
 function goWishlist(){
-  if(!S.user){ openAuth("login"); toast("Log in to see your wishlist"); return; }
   go("account");
 }
 function doHeaderSearch(e){
@@ -1721,7 +1650,6 @@ function detail(id){
 
 /* ═══════════ WISHLIST / REVIEWS ═══════════ */
 function toggleWish(id){
-  if(!S.user){ openAuth("register"); toast("Register or log in to save gadgets"); return; }
   if(S.wish.has(id)){ S.wish.delete(id); toast("Removed from wishlist"); } else { S.wish.add(id); toast("Saved to wishlist"); }
   renderUser(); /* header counter */
   document.querySelectorAll(".wish-btn").forEach(()=>{});
@@ -1732,7 +1660,6 @@ function toggleWish(id){
 }
 let reviewFor=null;
 function openReview(id){
-  if(!S.user){ openAuth("register"); toast("Log in to review gadgets"); return; }
   reviewFor=id; document.getElementById("rvGadName").textContent=byId(id).model;
   document.getElementById("rvText").value=""; document.getElementById("rvIssue").checked=false;
   document.getElementById("rvIssueField").classList.add("hidden"); document.getElementById("rvErr").classList.add("hidden");
@@ -1763,7 +1690,7 @@ function renderAccount(){
   // my reviews
   const rv=S.reviews;
   document.getElementById("myReviews").innerHTML = rv.map(r=>`
-    <div class="review"><div class="rev-ava">${S.user?S.user.name.charAt(0):"A"}</div>
+    <div class="review"><div class="rev-ava">A</div>
     <div class="rev-body"><div class="rev-head"><b>${byId(r.g).model}</b><span class="stars">${stars(r.stars)}</span>
       <span class="badge badge-orange">${r.status}</span><span style="font-size:var(--fs-xs);color:var(--ink-mute)">${r.date}</span></div>
     <div class="rev-text">${r.text}${r.issue?` · <span class="rev-issue">⚑ ${r.issue}</span>`:""}</div></div></div>`).join("");
