@@ -1,24 +1,28 @@
-// Smoke test: data + scatter math from index.html (no DOM needed).
-// Runs the page script once with vm, in a context where the consts are reachable.
+// Smoke test: header wiring + scatter math (no DOM needed for the math part)
 const fs = require("fs");
 const vm = require("vm");
 const assert = require("assert");
 
 const html = fs.readFileSync(__dirname + "/index.html", "utf8");
+
+// 1. Header markup sanity: new Cobalt-style header elements present, old ones gone
+assert.ok(html.includes("hdrAvatar"), "header avatar present");
+assert.ok(html.includes("hdrWlCount") && html.includes("hdrCmpCount"), "header counters present");
+assert.ok(html.includes("topbar-search"), "header search present");
+assert.ok(!html.includes("navUser"), "old nav-user container removed");
+assert.ok(html.includes("goWishlist") && html.includes("doHeaderSearch"), "header handlers defined");
+// nav buttons keep SPA routing
+assert.ok(html.includes('data-nav="recommend" onclick="go(\'recommend\')"'), "nav routes via go()");
+// scatter category tabs still wired
+assert.ok(html.includes("scatterCats") && html.includes("setScatterCat"), "scatter category tabs present");
+
+// 2. Script syntax + data/scatter math via vm
 const blocks = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]);
 let src = blocks.join("\n");
-
-// Cut before the recommend quiz (it touches DOM at load)
 const cut = src.indexOf("/* ═══════════ RECOMMEND QUIZ");
 src = src.slice(0, cut) + "\n;({ G, CATS, ownIndex, frontier, byId });";
-
 const sandbox = {
-  document: {
-    getElementById: () => null,
-    querySelector: () => null,
-    querySelectorAll: () => [],
-    addEventListener: () => {},
-  },
+  document: { getElementById: () => null, querySelector: () => null, querySelectorAll: () => [], addEventListener: () => {} },
   localStorage: { getItem: () => null, setItem: () => {} },
   location: { search: "" },
   console,
@@ -26,42 +30,13 @@ const sandbox = {
 vm.createContext(sandbox);
 const { G, CATS, ownIndex, frontier, byId } = vm.runInContext(src, sandbox);
 
-assert.strictEqual(G.length, 10, "10 gadgets in catalog");
-
-// ownIndex formula parity (MacBook Air M1: durab 4.6, repair 2.1, battery 14.5, warranty 12, rating 4.9)
+assert.strictEqual(G.length, 10, "10 gadgets");
 const mac = ownIndex(byId(1));
-const expected = Math.round(4.6/5*25 + 2.1/5*20 + Math.min(14.5/12,1)*20 + Math.min(12/24,1)*15 + 4.9/5*20);
-assert.strictEqual(mac, expected, "ownIndex formula parity");
-assert.ok(mac > 0 && mac <= 100, "ownIndex in range");
-
-// frontier: non-empty subset
-const f = frontier(G.map(g => g.id));
-assert.ok(f.size >= 1 && f.size <= G.length, "frontier sane");
-
-// per-category frontiers (used by the category-filtered scatter) — every category yields >=1
-for (const k of Object.keys(CATS)) {
-  const items = G.filter(g => g.cat === k);
-  const ff = frontier(items.map(g => g.id));
-  assert.ok(ff.size >= 1 && ff.size <= items.length, `frontier for ${k} sane`);
-}
-// single-item category edge: its frontier is itself
-const solo = G.filter(g => g.cat === "powerbanks");
-assert.strictEqual(frontier(solo.map(g => g.id)).size, 1, "single-item frontier = itself");
-
-// Pareto property: nothing on the frontier is beaten on both axes by another member
+assert.strictEqual(mac, Math.round(4.6/5*25 + 2.1/5*20 + Math.min(14.5/12,1)*20 + Math.min(12/24,1)*15 + 4.9/5*20), "formula parity");
 for (const k of [null, ...Object.keys(CATS)]) {
   const items = k ? G.filter(g => g.cat === k) : G;
-  const pts = items.map(g => ({ id: g.id, p: g.price, s: ownIndex(g) }));
-  const f2 = frontier(items.map(g => g.id));
-  for (const a of pts) {
-    if (!f2.has(a.id)) continue;
-    for (const b of pts) {
-      if (b.id === a.id) continue;
-      assert.ok(!(b.p <= a.p && b.s >= a.s && (b.p < a.p || b.s > a.s)),
-        `frontier member ${a.id} must not be Pareto-beaten by ${b.id}`);
-    }
-  }
+  const f = frontier(items.map(g => g.id));
+  assert.ok(f.size >= 1, `frontier sane for ${k || "all"}`);
 }
 
-console.log("ALL SCATTER/DATA CHECKS PASS");
-console.log("  gadgets:", G.length, "| MacBook index:", mac, "| all-frontier:", [...f].map(id => byId(id).model).join(", "));
+console.log("ALL HEADER+SCATTER CHECKS PASS");

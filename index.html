@@ -43,24 +43,31 @@ input,select{font:inherit}
 .hidden{display:none!important}
 
 main{padding-bottom:80px}
-/* ============ TOPBAR ============ */
-.topbar{background:var(--violet-ink);color:#f2f0fa;position:sticky;top:0;z-index:50;box-shadow:0 1px 0 rgba(0,0,0,.25)}
-.topbar-in{display:flex;align-items:center;gap:22px;height:58px;max-width:1120px;margin:0 auto;padding:0 20px}
+/* ============ TOPBAR (light, Cobalt-Ledger header style) ============ */
+.topbar{background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);color:var(--ink);position:sticky;top:0;z-index:50}
+.topbar-in{display:flex;align-items:center;gap:18px;height:62px;max-width:1120px;margin:0 auto;padding:0 20px}
 .nav-spacer{flex:1}
-.nav-user{display:flex;align-items:center;gap:10px;font-size:var(--fs-sm);color:#b9b3d9;flex-shrink:0;max-width:44vw}
-.logo{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em;color:#fff;display:flex;align-items:center;gap:9px}
+.logo{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em;color:var(--ink);display:flex;align-items:center;gap:9px}
 .logo svg{flex-shrink:0}
 nav.main-nav{display:flex;gap:4px;margin-left:8px}
-nav.main-nav button{background:none;border:0;color:#b9b3d9;padding:8px 11px;border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600}
-nav.main-nav button:hover{color:#fff;background:rgba(255,255,255,.08)}
-nav.main-nav button.on{color:#fff;background:rgba(255,255,255,.14)}
-.avatar{width:30px;height:30px;border-radius:50%;background:#f2efe7;color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:var(--fs-sm)}
-.nav-role-badge{font-size:var(--fs-xs);background:var(--orange);color:#fff;padding:2px 8px;border-radius:999px;font-weight:700;letter-spacing:.03em}
-.hamburger{display:none;background:none;border:0;color:#fff;font-size:var(--fs-lg);padding:6px 10px}
+nav.main-nav button{background:none;border:0;color:var(--ink-soft);padding:8px 11px;border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600}
+nav.main-nav button:hover{color:var(--ink);background:var(--green-soft)}
+nav.main-nav button.on{color:var(--green-deep);background:var(--green-soft)}
+.topbar-search{position:relative;flex:1;max-width:300px;margin-left:auto}
+.topbar-search input{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--surface);font:inherit;font-size:var(--fs-sm);color:var(--ink)}
+.topbar-search input:focus{outline:2px solid var(--green);outline-offset:0;border-color:var(--green)}
+.topbar-search input::placeholder{color:var(--ink-mute)}
+.topbar-actions{display:flex;align-items:center;gap:6px}
+.top-icon{position:relative;width:38px;height:38px;border-radius:var(--radius-sm);border:1px solid transparent;background:none;color:var(--ink-soft);font-size:var(--fs-md);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.top-icon:hover{background:var(--green-soft);color:var(--ink)}
+.top-icon .count{position:absolute;top:2px;right:2px;min-width:16px;height:16px;border-radius:8px;background:var(--green);color:#fff;font-size:var(--fs-xs);font-weight:700;line-height:16px;text-align:center;padding:0 4px}
+.topbar-divider{width:1px;height:24px;background:var(--line)}
+.top-avatar{width:32px;height:32px;border-radius:50%;background:var(--green-soft);color:var(--green-deep);border:1px solid var(--line-strong);display:inline-flex;align-items:center;justify-content:center;font-size:var(--fs-xs);font-weight:800;cursor:pointer}
+.hamburger{display:none;background:none;border:0;color:var(--ink);font-size:var(--fs-lg);padding:6px 10px}
 .nav-admin-mobile{display:none}
-.nav-admin{background:transparent;border:1px solid rgba(255,255,255,.28);color:#b9b3d9;font:inherit;font-size:var(--fs-sm);font-weight:600;padding:5px 12px;border-radius:var(--radius-sm);flex-shrink:0}
-.nav-admin:hover{color:#fff;border-color:rgba(255,255,255,.55)}
-.nav-admin.on{color:#fff;border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.12)}
+.nav-admin{background:transparent;border:1px solid var(--line-strong);color:var(--ink-soft);font:inherit;font-size:var(--fs-sm);font-weight:600;padding:5px 12px;border-radius:var(--radius-sm);flex-shrink:0}
+.nav-admin:hover{color:var(--ink);border-color:var(--ink-soft)}
+.nav-admin.on{color:var(--green-deep);border-color:var(--green);background:var(--green-soft)}
 
 /* ============ BUTTONS ============ */
 .btn{display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);padding:9px 16px;font-weight:700;font-size:var(--fs-base);border:1px solid transparent;transition:filter .15s, background .15s}
@@ -330,17 +337,16 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
   .side-nav .side-label{display:none}
 }
 @media(max-width:900px){
-  nav.main-nav{display:none;position:absolute;top:58px;left:0;right:0;background:var(--violet-ink);flex-direction:column;padding:10px 14px 16px;border-top:1px solid rgba(255,255,255,.12)}
+  nav.main-nav{display:none;position:absolute;top:62px;left:0;right:0;background:var(--surface);flex-direction:column;padding:10px 14px 16px;border-top:1px solid var(--line);box-shadow:var(--shadow-raised)}
   nav.main-nav.open{display:flex}
   .hamburger{display:block}
+  .topbar-search{display:none}
 }
 @media(max-width:640px){
   .nav-admin{display:none}
-  .nav-admin-mobile{display:block;background:transparent;border:0;color:#b9b3d9;text-align:left;padding:8px 11px;border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600}
-  .nav-admin-mobile.on{color:#fff;background:rgba(255,255,255,.14)}
-  .nav-user{max-width:none}
-  .nav-user .btn-ghost{display:none}
-  .nav-user .btn{padding:6px 10px;font-size:var(--fs-sm)}
+  .nav-admin-mobile{display:block;background:transparent;border:0;color:var(--ink-soft);text-align:left;padding:8px 11px;border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600}
+  .nav-admin-mobile.on{color:var(--green-deep);background:var(--green-soft)}
+  .topbar-actions{margin-left:auto}
   .cat-grid,.gadgets{grid-template-columns:1fr}
   .compare-page{padding-bottom:90px}
 .cmp-grid{grid-template-columns:120px 1fr}
@@ -359,12 +365,12 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 </head>
 <body>
 
-<!-- ══════════════ TOPBAR ══════════════ -->
+<!-- ══════════════ TOPBAR (light Cobalt-Ledger style header: logo · nav · search · wishlist/compare counters · avatar) ══════════════ -->
 <header class="topbar">
   <div class="topbar-in">
     <a class="logo" href="#" onclick="go('home');return false">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b79cf7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 18h.01M13 18h.01"/></svg>
-      GadgetWise
+      <svg width="26" height="26" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="1.5" width="25" height="25" rx="6" fill="#1a56db"/><path d="M14 6.5 7.5 10v8L14 21.5 20.5 18v-8L14 6.5Z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 10v8M10.7 8.9v10.2M17.3 8.9v10.2" stroke="#7cc9f5" stroke-width="1.4"/></svg>
+      Gadget<span style="color:var(--green-deep)">Wise</span>
     </a>
     <button class="hamburger" onclick="document.querySelector('nav.main-nav').classList.toggle('open')" aria-label="Menu">☰</button>
     <nav class="main-nav" id="mainNav">
@@ -376,8 +382,17 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
       <button data-nav="account" data-reqlogin onclick="go('account')">Profile</button>
       <button data-nav="admin" data-reqlogin class="nav-admin-mobile" onclick="go('admin')">Admin</button>
     </nav>    <div class="nav-spacer"></div>
+    <form class="topbar-search" role="search" onsubmit="doHeaderSearch(event)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="width:16px;height:16px;position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-mute)"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="search" id="hdrSearch" placeholder="Search gadgets, brands…" aria-label="Search gadgets">
+    </form>
+    <div class="topbar-actions">
+      <button class="top-icon" title="Wishlist" aria-label="Wishlist" onclick="goWishlist()">♥<span class="count" id="hdrWlCount" hidden>0</span></button>
+      <button class="top-icon" title="Compare tray" aria-label="Compare" onclick="go('compare')">⇄<span class="count" id="hdrCmpCount" hidden>0</span></button>
+      <span class="topbar-divider"></span>
+      <button class="top-avatar" id="hdrAvatar" onclick="go('account')" title="Account" aria-label="Account"></button>
+    </div>
     <button class="nav-admin" data-nav="admin" data-reqlogin onclick="go('admin')">Admin</button>
-    <div class="nav-user" id="navUser"></div>
   </div>
 </header>
 
@@ -1065,13 +1080,31 @@ function authMode(m){
     : 'Already registered? <a href="#" onclick="authMode(\'login\');return false">Log in</a>';
 }
 function renderUser(){
-  const u=document.getElementById("navUser");
+  const u=document.getElementById("hdrAvatar");
   if(S.user){
-    u.innerHTML = `<span class="nav-role-badge">${S.user.role}</span><div class="avatar" title="${S.user.name}">${S.user.name.charAt(0).toUpperCase()}</div>`;
+    u.textContent = S.user.name.charAt(0).toUpperCase();
+    u.title = S.user.name + " (" + S.user.role + ")";
   } else {
-    u.innerHTML = '<button class="btn btn-ghost btn-sm" style="color:#f2efe7;border-color:rgba(255,255,255,.4)" onclick="openAuth(\'login\')">Log in</button> <button class="btn btn-light btn-sm" onclick="openAuth(\'register\')">Register</button>';
+    u.textContent = "?";
+    u.title = "Not logged in";
   }
+  // header counters
+  const wl=document.getElementById("hdrWlCount"), cmp=document.getElementById("hdrCmpCount");
+  if(wl){ wl.textContent=S.wish.size; wl.hidden=S.wish.size===0; }
+  if(cmp){ cmp.textContent=S.tray.length; cmp.hidden=S.tray.length===0; }
 }
+function goWishlist(){
+  if(!S.user){ openAuth("login"); toast("Log in to see your wishlist"); return; }
+  go("account");
+}
+function doHeaderSearch(e){
+  e.preventDefault();
+  const q=document.getElementById("hdrSearch").value.trim();
+  go("browse");
+  document.getElementById("searchBox").value=q;
+  renderBrowse();
+}
+function renderHeaderCounters(){ renderUser(); }
 
 /* ═══════════ MODALS / TOAST ═══════════ */
 function openModal(id){ document.getElementById(id).classList.remove("hidden"); }
@@ -1506,6 +1539,7 @@ function toggleTray(id){
   if(i>-1){ S.tray.splice(i,1); toast("Removed from compare tray"); }
   else{ if(S.tray.length>=3){ toast("Tray holds 3. Remove one first."); return; } S.tray.push(id); toast("Added to compare tray"); }
   renderTray();
+  renderUser(); /* header counter */
   if(!document.getElementById("view-browse").classList.contains("hidden")) renderBrowse();
   if(!document.getElementById("view-recommend").classList.contains("hidden")) renderRec();
 }
@@ -1689,6 +1723,7 @@ function detail(id){
 function toggleWish(id){
   if(!S.user){ openAuth("register"); toast("Register or log in to save gadgets"); return; }
   if(S.wish.has(id)){ S.wish.delete(id); toast("Removed from wishlist"); } else { S.wish.add(id); toast("Saved to wishlist"); }
+  renderUser(); /* header counter */
   document.querySelectorAll(".wish-btn").forEach(()=>{});
   if(!document.getElementById("view-browse").classList.contains("hidden")) renderBrowse();
   if(!document.getElementById("view-home").classList.contains("hidden")) renderHome();
