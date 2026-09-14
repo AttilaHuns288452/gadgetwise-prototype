@@ -1375,14 +1375,14 @@ GW.currentUser = {
   avatarInitials: "AV"
 };
 
-/* Seeded history for the prototype account (mock) */
+/* Seeded history for the prototype account (mock) — real catalog ids */
 GW.seedCompareHistory = [
-  { id: "ch1", date: "2026-08-14", items: ["novatek-probook-15", "kaido-airbook-14"] },
-  { id: "ch2", date: "2026-08-29", items: ["aurio-x9-pro", "kaido-note-12-lite", "lumina-ultra-5g"] }
+  { id: "ch1", date: "2026-08-14", items: ["acer-aspire-5-a515", "apple-macbook-air-m1"] },
+  { id: "ch2", date: "2026-08-29", items: ["samsung-galaxy-s23", "redmi-note-11", "apple-ipad-9"] }
 ];
 GW.seedRecommendationHistory = [
   { id: "rh1", date: "2026-09-10", budget: 45000, use: "graphic-design",
-    top: { id: "lumina-tab-pro-129", score: 91 } }
+    top: { id: "apple-ipad-9", score: 91 } }
 ];
 
 /* ---------- Lookups ---------- */
