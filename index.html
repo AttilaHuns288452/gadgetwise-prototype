@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>GadgetWise — Student-Centered Gadget Comparison & Recommendation System</title>
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#f7f7f9; --surface:#ffffff; --ink:#16151a; --ink-soft:#4c4a55; --ink-mute:#767386;
+  --line:#e6e5ec; --line-strong:#cdcbe0;
+  --green:#7f4bf3; --green-soft:#f0eaff; --green-deep:#5b2fd1;
+  --orange:#e85d04; --orange-soft:#ffefe3;
+  --blue:#2f5f9e; --blue-soft:#e5ecf6;
+  --red:#d3264f; --red-soft:#ffe4ea;
+  --violet-ink:#231a3a;
+  --radius:12px; --radius-sm:8px;
+  --shadow:0 1px 2px rgba(22,21,26,.06),0 8px 24px -12px rgba(22,21,26,.18);
+  --font:'Avenir Next','Segoe UI Variable Display','Segoe UI',system-ui,sans-serif;
+  --mono:ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{line-height:1.2;font-weight:700;letter-spacing:-.01em}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%}
+button{font:inherit;cursor:pointer}
+input,select{font:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.hidden{display:none!important}
+
+main{padding-bottom:80px}
+/* ============ TOPBAR ============ */
+.topbar{background:var(--violet-ink);color:#f2f0fa;position:sticky;top:0;z-index:50;box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.topbar-in{display:flex;align-items:center;gap:22px;height:58px;max-width:1120px;margin:0 auto;padding:0 20px}
+.nav-spacer{flex:1}
+.nav-user{display:flex;align-items:center;gap:10px;font-size:.85rem;color:#b9b3d9;flex-shrink:0;max-width:44vw}
+.logo{font-size:1.25rem;font-weight:800;letter-spacing:-.02em;color:#fff;display:flex;align-items:center;gap:9px}
+.logo svg{flex-shrink:0}
+nav.main-nav{display:flex;gap:4px;margin-left:8px}
+nav.main-nav button{background:none;border:0;color:#b9b3d9;padding:8px 11px;border-radius:8px;font-size:.9rem;font-weight:600}
+nav.main-nav button:hover{color:#fff;background:rgba(255,255,255,.08)}
+nav.main-nav button.on{color:#fff;background:rgba(255,255,255,.14)}
+.avatar{width:30px;height:30px;border-radius:50%;background:#f2efe7;color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem}
+.nav-role-badge{font-size:.68rem;background:var(--orange);color:#fff;padding:2px 8px;border-radius:999px;font-weight:700;letter-spacing:.03em}
+.hamburger{display:none;background:none;border:0;color:#fff;font-size:1.4rem;padding:6px 10px}
+
+/* ============ BUTTONS ============ */
+.btn{display:inline-flex;align-items:center;gap:7px;border-radius:8px;padding:9px 16px;font-weight:700;font-size:.9rem;border:1px solid transparent;transition:filter .15s, background .15s}
+.btn:hover{filter:brightness(.96);text-decoration:none}
+.btn-primary{background:var(--green);color:#fff}
+.btn-ghost{background:transparent;color:var(--green);border-color:var(--green)}
+.btn-ghost:hover{background:var(--green-soft)}
+.btn-sm{padding:6px 12px;font-size:.8rem}
+.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
+
+/* ============ BADGES / CHIPS ============ */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700}
+.badge-green{background:var(--green-soft);color:var(--green-deep)}
+.badge-orange{background:var(--orange-soft);color:var(--orange)}
+.badge-blue{background:var(--blue-soft);color:var(--blue)}
+.badge-red{background:var(--red-soft);color:var(--red)}
+
+/* ============ CARDS ============ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.pad{padding:22px}
+
+/* ============ FORMS ============ */
+label.f{display:block;font-size:.8rem;font-weight:700;color:var(--ink-soft);margin:14px 0 5px}
+label.f:first-child{margin-top:0}
+input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{
+  width:100%;padding:9px 12px;border:1px solid var(--line-strong);border-radius:8px;background:#fff;font-size:.92rem}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--green);outline-offset:0;border-color:var(--green)}
+textarea{resize:vertical;min-height:70px}
+.f-row{display:flex;gap:14px;flex-wrap:wrap}
+.f-row>*{flex:1;min-width:130px}
+.check{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-soft);margin-top:14px}
+.check input{width:auto}
+
+/* ============ HERO ============ */
+.hero{background:linear-gradient(165deg,var(--violet-ink) 0%,#3d2a80 100%);color:#f2f0fa;padding:58px 0 64px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+.hero h1{font-size:clamp(1.9rem,4.2vw,2.9rem);color:#fff;margin-bottom:14px}
+.hero p.lead{font-size:1.05rem;color:#c9c3e8;max-width:46ch;margin-bottom:24px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn-light{background:#f0eaff;color:var(--violet-ink)}
+.btn-outline-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18);border-radius:10px;overflow:hidden;margin-top:30px}
+.hero-stats div{background:rgba(35,26,58,.62);padding:14px 16px}
+.hero-stats b{display:block;font-size:1.5rem;color:#fff;font-family:var(--mono)}
+.hero-stats span{font-size:.75rem;color:#c9c3e8}
+.hero-panel{background:#fff;color:var(--ink);border-radius:14px;box-shadow:0 24px 60px -24px rgba(0,0,0,.45);padding:20px}
+.hero-panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.hero-panel-head h3{font-size:1rem}
+.hero-quote{font-size:.88rem;color:var(--ink-soft);border-left:3px solid var(--green);padding-left:12px;margin:14px 0 16px}
+
+/* ============ SECTIONS ============ */
+section.pad-sec{padding:52px 0}
+.sec-head{max-width:640px;margin-bottom:30px}
+.sec-head h2{font-size:1.6rem;margin-bottom:8px}
+.sec-head p{color:var(--ink-soft)}
+
+/* ============ CATEGORY TILES ============ */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cat-tile{display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);transition:border-color .15s,transform .15s}
+.cat-tile:hover{border-color:var(--green);transform:translateY(-2px);text-decoration:none}
+.cat-ico{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0}
+.cat-tile b{display:block;font-size:.98rem}
+.cat-tile span{font-size:.8rem;color:var(--ink-mute)}
+
+/* ============ BROWSE LAYOUT ============ */
+.browse{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:start}
+.filters{position:sticky;top:74px}
+.filters .card{padding:18px}
+.f-group{margin-bottom:16px}
+.f-group>span{display:block;font-size:.72rem;font-weight:800;letter-spacing:.06em;color:var(--ink-mute);margin-bottom:8px}
+.chk{display:flex;align-items:center;gap:8px;font-size:.86rem;padding:4px 0;color:var(--ink-soft);cursor:pointer}
+.chk input{width:auto}
+.range-row{display:flex;align-items:center;gap:8px;font-size:.85rem}
+.range-row input{padding:6px 8px}
+input[type=range]{width:100%;accent-color:var(--green)}
+.result-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+select.inline{width:auto;padding:7px 30px 7px 10px;font-size:.85rem}
+
+/* ============ GADGET CARDS ============ */
+.gadgets{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gcard{display:flex;flex-direction:column;overflow:hidden;position:relative;transition:transform .15s,box-shadow .15s}
+.gcard:hover{transform:translateY(-3px);box-shadow:0 4px 6px rgba(28,27,24,.05),0 18px 40px -16px rgba(28,27,24,.25)}
+.gcard-img{position:relative;height:150px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#efedf7,#dedbf0)}
+.gcard-img img{width:100%;height:100%;object-fit:contain;padding:12px;background:#fff}
+.gcard-img svg{width:64px;height:64px;color:var(--ink-soft)}
+.gcard-cat{position:absolute;top:10px;left:10px}
+.wish-btn{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--ink-soft);transition:transform .15s}
+.wish-btn:hover{transform:scale(1.12)}
+.wish-btn.on{color:var(--red)}
+.gcard-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.gcard-body h3{font-size:1rem}
+.gcard-price{font-size:1.15rem;font-weight:800;color:var(--green-deep)}
+.gcard-price small{font-weight:600;font-size:.72rem;color:var(--ink-mute);display:block}
+.spec-list{list-style:none;font-size:.8rem;color:var(--ink-soft);display:flex;flex-direction:column;gap:3px}
+.spec-list li{display:flex;gap:7px}
+.spec-list li::before{content:"✓";color:var(--green);font-weight:700}
+.gcard-rate{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--ink-soft)}
+.stars{color:var(--orange);letter-spacing:1px;font-size:.85rem}
+.gcard-actions{display:flex;gap:8px;margin-top:auto;padding-top:6px}
+
+/* ============ COMPARE TRAY / BAR ============ */
+.tray{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(0);background:var(--ink);color:#f2efe7;border-radius:14px;padding:10px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 16px 40px -12px rgba(0,0,0,.5);z-index:60;max-width:min(92vw,720px)}
+.tray-label{font-size:.75rem;font-weight:800;letter-spacing:.05em;color:#b8b3a4}
+.tray-items{display:flex;gap:8px;flex-wrap:wrap}
+.tray-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border-radius:8px;padding:5px 8px 5px 10px;font-size:.8rem}
+.tray-chip button{background:none;border:0;color:#f2efe7;font-size:.9rem;padding:0 2px;opacity:.7}
+.tray-chip button:hover{opacity:1}
+.tray .btn{padding:8px 14px;font-size:.82rem}
+
+/* ============ MODAL ============ */
+.modal-back{position:fixed;inset:0;background:rgba(28,27,24,.55);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal{background:#fff;border-radius:14px;max-width:560px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 30px 80px -20px rgba(0,0,0,.5)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2}
+.modal-head h3{font-size:1.05rem}
+.modal-x{background:none;border:0;font-size:1.3rem;color:var(--ink-mute);padding:2px 6px}
+.modal-body{padding:22px}
+.modal-foot{display:flex;gap:10px;justify-content:flex-end;padding:16px 22px;border-top:1px solid var(--line)}
+
+/* ============ DASHBOARD SHELL ============ */
+.dash{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:start;padding:28px 0 60px}
+.side-nav{display:flex;flex-direction:column;gap:2px;position:sticky;top:74px}
+.side-nav button{display:flex;align-items:center;gap:10px;background:none;border:0;text-align:left;padding:10px 12px;border-radius:8px;font-size:.9rem;font-weight:600;color:var(--ink-soft)}
+.side-nav button:hover{background:var(--green-soft);color:var(--green-deep)}
+.side-nav button.on{background:var(--green);color:#fff}
+.side-nav .side-label{font-size:.68rem;font-weight:800;letter-spacing:.08em;color:var(--ink-mute);padding:12px 12px 6px}
+.dash-panel{min-width:0}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.panel-head h2{font-size:1.35rem}
+.panel-head p{font-size:.85rem;color:var(--ink-soft)}
+
+/* stat cards */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.stat{padding:16px}
+.stat b{display:block;font-size:1.6rem}
+.stat span{font-size:.78rem;color:var(--ink-mute)}
+
+/* tables */
+.tbl-wrap{overflow-x:auto}
+table.tbl{width:100%;border-collapse:collapse;font-size:.87rem}
+.tbl th{text-align:left;font-size:.72rem;letter-spacing:.05em;color:var(--ink-mute);border-bottom:1px solid var(--line);padding:9px 12px;white-space:nowrap}
+.tbl td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr:hover td{background:#faf9f5}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.dot-g{background:var(--green)} .dot-o{background:var(--orange)} .dot-r{background:var(--red)} .dot-b{background:var(--blue)}
+
+/* ============ RECOMMENDER ============ */
+.rec-grid{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start}
+.rec-result{display:flex;flex-direction:column;gap:14px}
+.rec-empty{text-align:center;color:var(--ink-mute);padding:50px 20px;font-size:.92rem}
+.rec-empty .big{font-size:2rem;margin-bottom:10px}
+
+/* score bars */
+.scorebar{height:8px;border-radius:6px;background:var(--line);overflow:hidden}
+.scorebar i{display:block;height:100%;border-radius:6px;background:var(--green)}
+.matchnum{font-size:1.7rem;font-weight:800;color:var(--green-deep)}
+
+/* ============ COMPARE TABLE ============ */
+.cmp-grid{display:grid;grid-template-columns:210px repeat(2,1fr);gap:0}
+.cmp-grid.c3{grid-template-columns:210px repeat(3,1fr)}
+.cmp-cell{padding:12px 14px;border-bottom:1px solid var(--line);font-size:.87rem;display:flex;align-items:center;min-height:46px}
+.cmp-head{background:var(--surface);border-bottom:2px solid var(--line-strong);flex-direction:column;align-items:flex-start;gap:4px;padding:16px 14px}
+.cmp-head b{font-size:.95rem}
+.cmp-head .btn{margin-top:4px}
+.cmp-lab{font-weight:700;color:var(--ink-soft);background:#faf9f5;font-size:.8rem}
+.cmp-best{background:var(--green-soft);font-weight:700;color:var(--green-deep)}
+.cmp-cell.cmp-best::after{content:" ★";color:var(--orange)}
+
+/* ============ REVIEWS ============ */
+.review{display:flex;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+.review:last-child{border-bottom:0}
+.rev-ava{width:36px;height:36px;border-radius:50%;background:var(--green-soft);color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;flex-shrink:0}
+.rev-body{flex:1}
+.rev-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rev-head b{font-size:.9rem}
+.rev-issue{background:var(--orange-soft);border:1px solid #ecd3b2;color:#7a4a12;font-size:.78rem;padding:3px 9px;border-radius:999px;font-weight:700}
+.rev-text{font-size:.88rem;color:var(--ink-soft);margin-top:4px}
+
+/* ============ TOAST ============ */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;padding:12px 18px;border-radius:10px;font-size:.88rem;font-weight:600;box-shadow:0 12px 30px -8px rgba(0,0,0,.4);opacity:0;transform:translateY(12px);transition:all .25s;z-index:200;pointer-events:none}
+#toast.show{opacity:1;transform:translateY(0)}
+
+/* ============ FOOTER ============ */
+footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-size:.85rem}
+.foot-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.foot-brand{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:6px}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap}
+.foot-links a{color:#b8b3a4}
+.foot-links a:hover{color:#fff}
+.foot-note{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);font-size:.75rem;color:#8a857a}
+.foot-note .demo-label{color:#8a857a;font-style:italic}
+
+/* ============ TABS (admin sub-sections) ============ */
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:18px;flex-wrap:wrap}
+.tabs button{background:none;border:0;padding:9px 14px;font-size:.88rem;font-weight:700;color:var(--ink-mute);border-bottom:2px solid transparent;margin-bottom:-2px}
+.tabs button.on{color:var(--green-deep);border-bottom-color:var(--green)}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr}
+  .cat-grid,.gadgets{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .browse{grid-template-columns:1fr}
+  .filters{position:static}
+  .rec-grid{grid-template-columns:1fr}
+  .dash{grid-template-columns:1fr}
+  .side-nav{flex-direction:row;flex-wrap:wrap;position:static;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px}
+  .side-nav .side-label{display:none}
+}
+@media(max-width:640px){
+  .nav-user{max-width:none}
+  .nav-user .btn-ghost{display:none}
+  .nav-user .btn{padding:6px 10px;font-size:.78rem}
+  nav.main-nav{display:none;position:absolute;top:58px;left:0;right:0;background:var(--green-deep);flex-direction:column;padding:10px 14px 16px;border-top:1px solid rgba(255,255,255,.12)}
+  nav.main-nav.open{display:flex}
+  .hamburger{display:block}
+  .cat-grid,.gadgets{grid-template-columns:1fr}
+  .cmp-grid{grid-template-columns:120px 1fr}
+  .cmp-grid.c3{grid-template-columns:120px 1fr 1fr}
+  .cmp-grid{overflow-x:auto;min-width:0}
+  .tray{flex-wrap:wrap;justify-content:center}
+  .stats{grid-template-columns:1fr}
+  .hero{padding:40px 0 48px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto}
+}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ TOPBAR ══════════════ -->
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="logo" href="#" onclick="go('home');return false">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b79cf7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 18h.01M13 18h.01"/></svg>
+      GadgetWise
+    </a>
+    <button class="hamburger" onclick="document.querySelector('nav.main-nav').classList.toggle('open')" aria-label="Menu">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <button data-nav="home" onclick="go('home')">Home</button>
+      <button data-nav="browse" onclick="go('browse')">Browse</button>
+      <button data-nav="recommend" onclick="go('recommend')">Recommend</button>
+      <button data-nav="compare" onclick="go('compare')">Compare</button>
+      <button data-nav="account" data-reqlogin onclick="go('account')">Account</button>
+      <button data-nav="admin" data-reqlogin onclick="go('admin')">Admin</button>
+    </nav>    <div class="nav-spacer"></div>
+    <div class="nav-user" id="navUser"></div>
+  </div>
+</header>
+
+<!-- ══════════════ HOME ══════════════ -->
+<main id="view-home" class="view">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>The right gadget for school, without the guesswork.</h1>
+        <p class="lead">GadgetWise compares laptops, phones and more on the things students actually feel — battery, durability, warranty, repairability — and turns the price tag into a monthly number you can plan around.</p>
+        <div class="hero-ctas">
+          <a href="#" class="btn btn-light" onclick="go('recommend');return false">Get my recommendation</a>
+          <a href="#" class="btn btn-outline-light" onclick="go('browse');return false">Browse gadgets</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>10</b><span>gadgets in the demo catalog</span></div>
+          <div><b>6</b><span>categories, school-priced</span></div>
+          <div><b>1,995</b><span>student reviews</span></div>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="hero-panel-head">
+          <h3>⚡ Most recommended this month</h3>
+          <span class="badge badge-green">Top pick</span>
+        </div>
+        <div style="display:flex;gap:14px;align-items:center">
+          <div style="width:74px;height:74px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png" alt="MacBook Air M1" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+          <div>
+            <b>MacBook Air M1</b>
+            <div style="font-size:.82rem;color:var(--ink-soft);font-family:var(--mono)">₱46,999 · 4.9★ · 14.5 hr battery · Index 78</div>
+          </div>
+        </div>
+        <p class="hero-quote">"Left the charger at home all week — still 30% by Saturday review sessions. The battery alone is worth it." — Kai, 3rd yr CS</p>
+        <div class="scorebar" title="Ownership Intelligence Index"><i style="width:78%;background:var(--green)"></i></div>
+        <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--ink-mute);margin-top:6px">
+          <span>Ownership Intelligence Index · higher is better ↑</span><span style="font-family:var(--mono)"><b>78</b>/100</span>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:14px" onclick="detail(1)">View full breakdown</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="pad-sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Shop by category</h2>
+        <p>Six categories, each with picks tuned to campus life — long lectures, shared outlets, tight allowances.</p>
+      </div>
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+  </section>
+
+  <section class="pad-sec" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Why students use GadgetWise</h2>
+        <p>Built around how gadgets actually get used between lectures, group work and late-night deadlines.</p>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-tile"><div class="cat-ico" style="background:var(--green-soft)">🧮</div><div><b>Monthly cost, not just price</b><span>Price ÷ realistic lifespan, plus repairs and charging — the number your allowance understands.</span></div></div>
+        <div class="cat-tile"><div class="cat-ico" style="background:var(--orange-soft)">🛠️</div><div><b>Durability &amp; repairability</b><span>Screen replacement costs, parts availability, and how owners say it holds up.</span></div></div>
+        <div class="cat-tile"><div class="cat-ico" style="background:var(--blue-soft)">🎯</div><div><b>Purpose-matched</b><span>Tell us your course load — programming, design, online classes — get matched picks.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad-sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Price vs Ownership Index</h2>
+        <p>Every gadget plotted: what it costs against how well it holds up. Orange dots sit on the best-value frontier — nothing beats them on both price and build. Click a dot for the full breakdown.</p>
+      </div>
+      <div id="scatterArea"></div>
+    </div>
+  </section>
+
+  <section class="pad-sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Top rated by students</h2>
+        <p>Ranked from real ratings and reviews in the system. Updated as students review.</p>
+      </div>
+      <div class="gadgets" id="topRated"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ══════════════ BROWSE ══════════════ -->
+<main id="view-browse" class="view hidden">
+  <section class="pad-sec">
+    <div class="wrap">
+      <div class="sec-head"><h2>Browse gadgets</h2><p>Search, filter and sort the catalog. Tap the scale icons to add gadgets to the compare tray.</p></div>
+      <div class="browse">
+        <aside class="filters card" aria-label="Filters">
+          <div class="f-group">
+            <span>Category</span>
+            <label class="chk"><input type="radio" name="fcat" value="" checked onchange="renderBrowse()"> All</label>
+            <label class="chk"><input type="radio" name="fcat" value="smartphones" onchange="renderBrowse()"> Smartphones</label>
+            <label class="chk"><input type="radio" name="fcat" value="laptops" onchange="renderBrowse()"> Laptops</label>
+            <label class="chk"><input type="radio" name="fcat" value="tablets" onchange="renderBrowse()"> Tablets</label>
+            <label class="chk"><input type="radio" name="fcat" value="headphones" onchange="renderBrowse()"> Headphones</label>
+            <label class="chk"><input type="radio" name="fcat" value="powerbanks" onchange="renderBrowse()"> Power banks</label>
+            <label class="chk"><input type="radio" name="fcat" value="smartwatches" onchange="renderBrowse()"> Smartwatches</label>
+          </div>
+          <div class="f-group">
+            <span>Price range (₱)</span>
+            <div class="range-row"><input type="number" id="priceMin" value="0" min="0" step="500" onchange="renderBrowse()" aria-label="Minimum price">–<input type="number" id="priceMax" value="100000" min="0" step="500" onchange="renderBrowse()" aria-label="Maximum price"></div>
+          </div>
+          <div class="f-group">
+            <span>Features</span>
+            <label class="chk"><input type="checkbox" id="fLong" onchange="renderBrowse()"> Long battery (8h+)</label>
+            <label class="chk"><input type="checkbox" id="fBudget" onchange="renderBrowse()"> Under ₱15,000</label>
+            <label class="chk"><input type="checkbox" id="fDurable" onchange="renderBrowse()"> High durability</label>
+            <label class="chk"><input type="checkbox" id="fRepair" onchange="renderBrowse()"> Easy to repair</label>
+          </div>
+          <button class="btn btn-ghost btn-sm" style="width:100%" onclick="resetFilters()">Reset filters</button>
+        </aside>
+        <div>
+          <div class="result-meta">
+            <span id="resultCount" style="font-size:.88rem;color:var(--ink-soft)"></span>
+            <div style="display:flex;gap:10px;align-items:center">
+              <input type="text" id="searchBox" placeholder="Search name, brand…" oninput="renderBrowse()" style="width:220px" aria-label="Search gadgets">
+              <select class="inline" id="sortBy" onchange="renderBrowse()" aria-label="Sort by">
+                <option value="pop">Most popular</option>
+                <option value="rating">Highest rated</option>
+                <option value="price-asc">Price: low to high</option>
+                <option value="price-desc">Price: high to low</option>
+              </select>
+            </div>
+          </div>
+          <div class="gadgets" id="browseGrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ══════════════ RECOMMEND ══════════════ -->
+<main id="view-recommend" class="view hidden">
+  <section class="pad-sec">
+    <div class="wrap">
+      <div class="sec-head"><h2>Find your match</h2><p>Answer four quick questions. GadgetWise scores every gadget on budget fit, purpose, battery, and what students say about it.</p></div>
+      <div class="rec-grid">
+        <div class="card pad">
+          <h3 style="margin-bottom:4px">Your profile</h3>
+          <p style="font-size:.82rem;color:var(--ink-mute);margin-bottom:8px">Nothing here is stored — demo data only.</p>
+          <label class="f">Category</label>
+          <select id="recCat" onchange="renderRec()">
+            <option value="">Any category</option>
+            <option value="laptops" selected>Laptops</option>
+            <option value="smartphones">Smartphones</option>
+            <option value="tablets">Tablets</option>
+            <option value="headphones">Headphones</option>
+            <option value="powerbanks">Power banks</option>
+            <option value="smartwatches">Smartwatches</option>
+          </select>
+          <label class="f">Monthly budget (₱)</label>
+          <input type="range" id="recBudget" min="3000" max="60000" step="500" value="25000" oninput="renderRec()">
+          <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-top:4px"><span id="recBudgetLbl" style="font-weight:700">₱25,000</span><span style="color:var(--ink-mute)">to spend</span></div>
+          <label class="f">Main academic use</label>
+          <select id="recUse" onchange="renderRec()">
+            <option value="programming" selected>Programming &amp; coding</option>
+            <option value="design">Design &amp; multimedia</option>
+            <option value="classes">Online classes &amp; notes</option>
+            <option value="research">Research &amp; reading</option>
+          </select>
+          <label class="f">What matters most?</label>
+          <select id="recPrior" onchange="renderRec()">
+            <option value="value">Long-term value</option>
+            <option value="battery" selected>Battery life</option>
+            <option value="durability">Durability</option>
+            <option value="price">Lowest price</option>
+          </select>
+          <div class="check"><input type="checkbox" id="recRepair" onchange="renderRec()" checked> Prefer repairable gadgets</div>
+          <button class="btn btn-ghost btn-sm" style="margin-top:14px" onclick="resetRec()">Reset</button>
+        </div>
+        <div>
+          <div class="rec-result" id="recResults"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ══════════════ COMPARE ══════════════ -->
+<main id="view-compare" class="view hidden">
+  <section class="pad-sec">
+    <div class="wrap">
+      <div class="sec-head"><h2>Side-by-side comparison</h2><p>Differences are highlighted. The best value in each row is marked ★. Monthly cost = price ÷ realistic lifespan ÷ 12.</p></div>
+      <div id="cmpArea"></div>
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="cmpSeedSample()">Load example: two laptops</button>
+        <button class="btn btn-ghost btn-sm" onclick="clearCompare()">Clear all</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ══════════════ ACCOUNT ══════════════ -->
+<main id="view-account" class="view hidden">
+  <section class="pad-sec">
+    <div class="wrap">
+      <div class="sec-head"><h2>Your account</h2><p>Demo account — everything resets when you reload the page.</p></div>
+      <div class="dash">
+        <aside class="side-nav card" aria-label="Account sections">
+          <span class="side-label">ACCOUNT</span>
+          <button data-tab="acct-wish" class="on" onclick="acctTab('acct-wish')">♡ Wishlist</button>
+          <button data-tab="acct-reviews" onclick="acctTab('acct-reviews')">✎ My reviews</button>
+          <button data-tab="acct-comp" onclick="acctTab('acct-comp')">⇄ Past comparisons</button>
+          <button data-tab="acct-profile" onclick="acctTab('acct-profile')">⚙ Profile</button>
+        </aside>
+        <div class="dash-panel">
+          <div id="acct-wish">
+            <div class="panel-head"><h2>Wishlist</h2><span id="wishCount" style="font-size:.85rem;color:var(--ink-soft)"></span></div>
+            <div class="gadgets" id="wishGrid"></div>
+            <div class="rec-empty" id="wishEmpty"><div class="big">♡</div>Nothing saved yet. Tap the heart on any gadget to save it here.</div>
+          </div>
+          <div id="acct-reviews" class="hidden">
+            <div class="panel-head"><h2>My reviews</h2></div>
+            <div class="card pad" id="myReviews"></div>
+            <div class="rec-empty hidden" id="myRevEmpty"><div class="big">✎</div>You haven't reviewed anything yet. Open a gadget and share your experience.</div>
+          </div>
+          <div id="acct-comp" class="hidden">
+            <div class="panel-head"><h2>Past comparisons</h2></div>
+            <div class="card tbl-wrap pad" id="pastComp"></div>
+            <div class="rec-empty hidden" id="pastCompEmpty"><div class="big">⇄</div>No comparisons yet. Add gadgets to the compare tray and compare them.</div>
+          </div>
+          <div id="acct-profile" class="hidden">
+            <div class="panel-head"><h2>Profile</h2></div>
+            <div class="card pad" style="max-width:440px">
+              <label class="f">Full name</label><input type="text" value="Attila Sabiniano">
+              <label class="f">School email</label><input type="email" value="a.sabiniano@student.edu.ph">
+              <label class="f">Course &amp; year</label><input type="text" value="BS Computer Science · 3rd Year">
+              <div class="f-row">
+                <div style="flex:1"><label class="f">Usual budget (₱)</label><input type="number" value="25000" step="500"></div>
+                <div style="flex:1"><label class="f">Primary use</label><select><option selected>Programming</option><option>Design</option><option>Online classes</option></select></div>
+              </div>
+              <button class="btn btn-primary btn-sm" style="margin-top:16px" onclick="toast('Profile saved (demo)')">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ══════════════ ADMIN ══════════════ -->
+<main id="view-admin" class="view hidden">
+  <section class="pad-sec">
+    <div class="wrap">
+      <div class="sec-head"><h2>Admin dashboard</h2><p>Demo admin view — sample data only. Product API fetch and moderation actions are simulated.</p></div>
+      <div class="dash">
+        <aside class="side-nav card" aria-label="Admin sections">
+          <span class="side-label">MANAGE</span>
+          <button data-tab="adm-overview" class="on" onclick="admTab('adm-overview')">▦ Overview</button>
+          <button data-tab="adm-gadgets" onclick="admTab('adm-gadgets')">▢ Gadgets</button>
+          <button data-tab="adm-reviews" onclick="admTab('adm-reviews')">✎ Reviews</button>
+          <button data-tab="adm-issues" onclick="admTab('adm-issues')">⚑ Reported issues</button>
+          <button data-tab="adm-reports" onclick="admTab('adm-reports')">▤ Reports</button>
+        </aside>
+        <div class="dash-panel">
+
+          <div id="adm-overview">
+            <div class="stats">
+              <div class="card stat"><b>142</b><span>Gadgets in catalog</span></div>
+              <div class="card stat"><b>318</b><span>Registered users</span></div>
+              <div class="card stat"><b>2,380</b><span>Reviews total</span></div>
+              <div class="card stat"><b>7</b><span>Open reported issues</span></div>
+            </div>
+            <div class="card pad">
+              <h3 style="margin-bottom:12px">Popular categories this month</h3>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div><div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px"><span>Laptops</span><b>38%</b></div><div class="scorebar"><i style="width:38%"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px"><span>Smartphones</span><b>27%</b></div><div class="scorebar"><i style="width:27%;background:var(--orange)"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px"><span>Headphones</span><b>14%</b></div><div class="scorebar"><i style="width:14%;background:var(--blue)"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px"><span>Tablets</span><b>11%</b></div><div class="scorebar"><i style="width:11%;background:var(--ink-mute)"></i></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="adm-gadgets" class="hidden">
+            <div class="panel-head">
+              <div><h2>Gadget records</h2><p>Add gadgets manually, or fetch basics from the external product API (server-side).</p></div>
+              <button class="btn btn-primary" onclick="openModal('modal-add')">+ Add gadget</button>
+            </div>
+            <div class="card tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Gadget</th><th>Category</th><th>Price</th><th>Source</th><th>Status</th><th></th></tr></thead>
+                <tbody id="admGadgetsBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="adm-reviews" class="hidden">
+            <div class="panel-head"><div><h2>Review moderation</h2><p>Verify reviews before they go public.</p></div></div>
+            <div class="card tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Review</th><th>Gadget</th><th>Rating</th><th>Submitted</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="admRevBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="adm-issues" class="hidden">
+            <div class="panel-head"><div><h2>Reported gadget issues</h2><p>Common problems students reported.</p></div></div>
+            <div class="card tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Issue</th><th>Gadget</th><th>Reports</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="admIssueBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="adm-reports" class="hidden">
+            <div class="panel-head"><div><h2>Reports</h2><p>Summary of popular gadgets and categories.</p></div></div>
+            <div class="card tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Rank</th><th>Gadget</th><th>Category</th><th>Views</th><th>Comparisons</th><th>Wishlist adds</th></tr></thead>
+                <tbody id="admReportBody"></tbody>
+              </table>
+            </div>
+            <button class="btn btn-ghost btn-sm" style="margin-top:14px" onclick="toast('Report exported (demo)')">Export CSV</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">GadgetWise</div>
+        <div style="max-width:44ch">Student-centered gadget comparison and recommendation — because the real price of a gadget is what it costs per month of school.</div>
+      </div>
+      <div class="foot-links">
+        <a href="#" onclick="go('browse');return false">Browse</a>
+        <a href="#" onclick="go('recommend');return false">Recommend</a>
+        <a href="#" onclick="go('compare');return false">Compare</a>
+        <a href="#" onclick="go('admin');return false">Admin</a>
+      </div>
+    </div>
+    <div class="foot-note">
+      CC116 Advanced Web Systems and Technologies · Austria · Banting · Candano · Jacobe · Sabiniano<br>
+      <span class="demo-label">Demo catalog: real products, illustrative specs and prices. Ownership Index computed from demo scores — not manufacturer data.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════ TRAY ══════════════ -->
+<div class="tray hidden" id="tray">
+  <span class="tray-label">COMPARE</span>
+  <div class="tray-items" id="trayItems"></div>
+  <button class="btn btn-primary" onclick="runCompare()">Compare now</button>
+</div>
+
+<!-- ══════════════ MODALS ══════════════ -->
+<div class="modal-back hidden" id="modal-auth">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Login or register">
+    <div class="modal-head"><h3 id="authTitle">Log in</h3><button class="modal-x" onclick="closeModal('modal-auth')" aria-label="Close">✕</button></div>
+    <div class="modal-body">
+      <div id="authLogin">
+        <label class="f">Email</label><input type="email" id="loginEmail" placeholder="you@student.edu.ph">
+        <label class="f">Password</label><input type="password" id="loginPass" placeholder="••••••••">
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button class="btn btn-primary" style="flex:1" onclick="doLogin('student')">Log in as student</button>
+          <button class="btn btn-ghost" style="flex:1" onclick="doLogin('admin')">Log in as admin</button>
+        </div>
+        <p style="font-size:.8rem;color:var(--ink-mute);margin-top:12px">Demo build: any email works, no password needed.</p>
+      </div>
+      <div id="authRegister" class="hidden">
+        <div class="f-row">
+          <div><label class="f">First name</label><input type="text" id="regFirst" placeholder="Juan"></div>
+          <div><label class="f">Last name</label><input type="text" id="regLast" placeholder="Dela Cruz"></div>
+        </div>
+        <label class="f">School email</label><input type="email" id="regEmail" placeholder="juan@student.edu.ph">
+        <label class="f">Password</label><input type="password" id="regPass" placeholder="At least 8 characters">
+        <label class="f">Confirm password</label><input type="password" id="regPass2" placeholder="Repeat password">
+        <div class="check"><input type="checkbox" id="regAgree"> I agree to the demo terms — data is fake and stored locally.</div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="doRegister()">Create account</button>
+      </div>
+      <p id="authErr" class="hidden" style="color:var(--red);font-size:.82rem;margin-top:10px;font-weight:600"></p>
+      <p style="text-align:center;font-size:.85rem;margin-top:14px" id="authSwitch"></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-back hidden" id="modal-detail">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Gadget details" style="max-width:720px">
+    <div class="modal-head"><h3 id="dTitle"></h3><button class="modal-x" onclick="closeModal('modal-detail')" aria-label="Close">✕</button></div>
+    <div class="modal-body" id="dBody"></div>
+  </div>
+</div>
+
+<div class="modal-back hidden" id="modal-review">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Write a review">
+    <div class="modal-head"><h3>Review <span id="rvGadName"></span></h3><button class="modal-x" onclick="closeModal('modal-review')" aria-label="Close">✕</button></div>
+    <div class="modal-body">
+      <label class="f">Rating</label>
+      <select id="rvStars"><option>★★★★★ (5)</option><option>★★★★ (4)</option><option>★★★ (3)</option><option>★★ (2)</option><option>★ (1)</option></select>
+      <label class="f">Your review</label>
+      <textarea id="rvText" placeholder="How does it hold up for school work? Battery? Build?"></textarea>
+      <div class="check"><input type="checkbox" id="rvIssue" onchange="document.getElementById('rvIssueField').classList.toggle('hidden',!this.checked)"> Report a common issue with this gadget</div>
+      <div id="rvIssueField" class="hidden">
+        <label class="f">Issue type</label>
+        <select id="rvIssueType"><option>Battery drains fast</option><option>Overheats</option><option>Slow performance</option><option>Broken charging port</option><option>Screen / display problem</option><option>Other</option></select>
+      </div>
+      <div class="modal-foot" style="padding:14px 0 0;border:0">
+        <button class="btn btn-ghost" onclick="closeModal('modal-review')">Cancel</button>
+        <button class="btn btn-primary" onclick="submitReview()">Submit review</button>
+      </div>
+      <p id="rvErr" class="hidden" style="color:var(--red);font-size:.82rem;margin-top:10px;font-weight:600"></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-back hidden" id="modal-add">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Add gadget">
+    <div class="modal-head"><h3>Add gadget</h3><button class="modal-x" onclick="closeModal('modal-add')" aria-label="Close">✕</button></div>
+    <div class="modal-body">
+      <div style="background:var(--blue-soft);border:1px solid #c9d7ec;border-radius:8px;padding:12px 14px;font-size:.83rem;color:var(--blue);margin-bottom:6px">
+        <b>External product API (server-side).</b> Fetches name, brand, category and image only. Used during admin encoding — optional, manual entry always works. The browser never calls the API directly; this demo simulates the server call.
+      </div>
+      <label class="f">Product lookup (e.g., barcode or product name)</label>
+      <div style="display:flex;gap:8px">
+        <input type="text" id="apiQuery" placeholder='e.g. "Aerolite Book 14"' style="flex:1">
+        <button class="btn btn-ghost" onclick="apiFetch()">Fetch from API</button>
+      </div>
+      <p id="apiStatus" style="font-size:.8rem;color:var(--ink-mute);margin:6px 0 0"></p>
+      <label class="f">Brand</label><input type="text" id="fBrand" placeholder="e.g. Aerolite">
+      <label class="f">Model</label><input type="text" id="fModel" placeholder="e.g. Book 14 (2026)">
+      <label class="f">Category</label>
+      <select id="fCat"><option value="">Select…</option><option>Smartphones</option><option>Laptops</option><option>Tablets</option><option>Headphones</option><option>Power banks</option><option>Smartwatches</option></select>
+      <div class="f-row">
+        <div><label class="f">Price (₱)</label><input type="number" id="fPrice" placeholder="24999" min="0" step="100"></div>
+        <div><label class="f">Warranty (months)</label><input type="number" id="fWarranty" placeholder="12" min="0"></div>
+      </div>
+      <label class="f">Key specifications</label><textarea id="fSpecs" placeholder="One per line — CPU, RAM, battery…"></textarea>
+      <div class="modal-foot" style="padding:14px 0 0;border:0">
+        <button class="btn btn-ghost" onclick="closeModal('modal-add')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveGadget()">Save gadget</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ═══════════ OWNERSHIP INTELLIGENCE INDEX (AA-style) ═══════════
+   0–100, weighted: durability 25, repairability 20, battery 20,
+   warranty 15 (24mo=full), student rating 20 (5★=full).
+   Pareto frontier = no other gadget is both cheaper AND higher-indexed. */
+function ownIndex(g){
+  const s = g.durab/5*25 + g.repair/5*20 + Math.min(g.battery/12,1)*20 + Math.min(g.warranty/24,1)*15 + g.rating/5*20;
+  return Math.round(s);
+}
+function frontier(ids){ // ids: array of gadget ids -> Set of Pareto-optimal ids
+  const gs = ids.map(byId).filter(Boolean).map(g=>({id:g.id,p:g.price,s:ownIndex(g)}));
+  return new Set(gs.filter(a=>!gs.some(b=>b!==a && b.p<=a.p && b.s>=a.s && (b.p<a.p||b.s>a.s))).map(a=>a.id));
+}
+const WISH_IMGS = {"laptop1":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png","laptop2":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acer_Aspire_A515-51.jpg/960px-Acer_Aspire_A515-51.jpg","laptop3":"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg","tablet1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg","tablet2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg","phone1":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmi_Note_11_front.jpg/960px-Redmi_Note_11_front.jpg","phone2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Galaxy_S23.png/960px-Galaxy_S23.png","head1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg","power1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg","watch1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg"};
+
+/* ═══════════ DATA (demo — real products, illustrative specs/prices) ═══════════ */
+const CATS = {
+  laptops:{name:"Laptops",icon:"💻",bg:"var(--blue-soft)",lifespan:4},
+  smartphones:{name:"Smartphones",icon:"📱",bg:"var(--green-soft)",lifespan:3.5},
+  tablets:{name:"Tablets",icon:"📋",bg:"var(--orange-soft)",lifespan:4},
+  headphones:{name:"Headphones",icon:"🎧",bg:"var(--blue-soft)",lifespan:2.5},
+  powerbanks:{name:"Power banks",icon:"🔋",bg:"var(--green-soft)",lifespan:2},
+  smartwatches:{name:"Smartwatches",icon:"⌚",bg:"var(--orange-soft)",lifespan:3}
+};
+// ponytail: flat array + fields, a DB behind an API replaces this in the real build
+// Demo catalog: real products, illustrative specs and prices.
+const G = [
+ {id:1,brand:"Apple",model:"MacBook Air M1",cat:"laptops",price:46999,warranty:12,lifespan:5,img:WISH_IMGS.laptop1,
+  specs:["Apple M1 8-core CPU","8GB unified · 256GB SSD","13.3-inch Retina 2560×1600","Real-world battery 14–15 hr · 30W USB-C","1.29 kg, fanless"],
+  battery:14.5,durab:4.6,repair:2.1,rating:4.9,raters:180,pop:88,
+  reviews:[{n:"Kai M.",y:3,r:5,t:"Left the charger at home all week. Still on 30% by Saturday review sessions. The battery alone is worth it."},{n:"Rina P.",y:2,r:5,t:"Compiles our thesis Android app in seconds. Speakers embarrass laptops twice the price."},{n:"Doms L.",y:1,r:4,t:"One dent after a backpack drop. Screen replacement quote was ₱18k — insure this one."}],
+  issue:"256GB base storage fills fast",
+  uses:{programming:3,design:3,classes:3,research:3},mo:783},
+ {id:2,brand:"Acer",model:"Acer Aspire 5 A515",cat:"laptops",price:28999,warranty:12,lifespan:4,img:WISH_IMGS.laptop2,
+  specs:["AMD Ryzen 5 7520U","8GB RAM · 512GB SSD","15.6-inch IPS FHD","Battery 9 hr claimed · 65W USB-C","1.78 kg"],
+  battery:7.5,durab:3.8,repair:4.2,rating:4.3,raters:240,pop:85,
+  reviews:[{n:"JC R.",y:2,r:4,t:"Handles docs, Zoom, VS Code and light Blender. Keyboard flex is the only gripe."},{n:"Mai S.",y:1,r:5,t:"Upgraded the SSD myself in 15 minutes. Every part is a standard size — repairs are cheap here."},{n:"Fons M.",y:3,r:4,t:"Charger brick is small, fits the same pouch as my power bank."}],
+  issue:"Early batches had a rattly trackpad",
+  uses:{programming:2,design:1,classes:3,research:3},mo:604},
+ {id:3,brand:"ASUS",model:"ASUS Vivobook 15",cat:"laptops",price:32999,warranty:24,lifespan:4,img:WISH_IMGS.laptop3,
+  specs:["Intel Core i5-1335U","16GB RAM · 512GB SSD","15.6-inch OLED option","Battery 7 hr · 65W USB-C","1.7 kg"],
+  battery:7.0,durab:4.4,repair:4.3,rating:4.4,raters:160,pop:74,
+  reviews:[{n:"Bea T.",y:2,r:5,t:"The OLED makes Figma layouts pop. 16GB out of the box means no upgrade tax."},{n:"Ogie W.",y:1,r:4,t:"Fan gets chatty on long compiles but never thermal-throttled on me."},{n:"Shai G.",y:2,r:4,t:"Two-year warranty sealed it for me. Service center fixed a hinge in 3 days."}],
+  issue:"Fan spins up under sustained load",
+  uses:{programming:3,design:2,classes:3,research:2},mo:687},
+ {id:4,brand:"Apple",model:"iPad 9th Generation",cat:"tablets",price:19499,warranty:12,lifespan:5,img:WISH_IMGS.tablet1,
+  specs:["A13 Bionic chip","64GB · Wi-Fi","10.2-inch Retina","Battery 9–10 hr video","Apple Pencil (1st gen) supported"],
+  battery:9.0,durab:4.3,repair:2.8,rating:4.7,raters:210,pop:79,
+  reviews:[{n:"Nadine C.",y:3,r:5,t:"GoodNotes replaced all my notebooks. Still gets iPadOS updates years in — that's the long-term value."},{n:"Iya V.",y:1,r:4,t:"Split-screen lecture PDF + Zoom runs smooth. Storage is tight though."},{n:"Trina U.",y:2,r:5,t:"Cheapest real iPad. Resale after 3 years still recovers half the price."}],
+  issue:"Non-laminated display shows more glare",
+  uses:{programming:1,design:2,classes:3,research:3},mo:325},
+ {id:5,brand:"Xiaomi",model:"Xiaomi Pad 7",cat:"tablets",price:16999,warranty:12,lifespan:4,img:WISH_IMGS.tablet2,
+  specs:["Snapdragon 7+ Gen 3","8GB RAM · 128GB","11.2-inch 3.2K 144Hz","Battery 8,850 mAh · 45W","Focus stylus + keyboard support"],
+  battery:10.0,durab:4.0,repair:3.0,rating:4.5,raters:130,pop:68,
+  reviews:[{n:"Enzo H.",y:2,r:5,t:"144Hz at this price is unfair. A full Thursday of classes on one charge."},{n:"Paolo D.",y:1,r:4,t:"Great for notes and video. App ecosystem still behind iPad for note apps."},{n:"Luigi B.",y:2,r:4,t:"Doubles as my second monitor for the laptop. Stylus buying separately stings."}],
+  issue:"Stylus sold separately",
+  uses:{programming:1,design:2,classes:3,research:3},mo:354},
+ {id:6,brand:"Redmi",model:"Redmi Note 11",cat:"smartphones",price:6999,warranty:12,lifespan:3,img:WISH_IMGS.phone1,
+  specs:["6.43-inch AMOLED 90Hz","Helio G96","6GB RAM · 128GB","5,000 mAh · 33W","50MP main camera"],
+  battery:8.2,durab:3.6,repair:3.9,rating:4.2,raters:300,pop:86,
+  reviews:[{n:"Tin A.",y:3,r:5,t:"AMOLED at ₱7k carried my whole first year. Charges during one lunch break."},{n:"Rey F.",y:2,r:4,t:"Camera is fine for board notes and GCash scans. Loads ML files slowly."},{n:"Kaye L.",y:1,r:4,t:"Dropped screen-first twice with a case — survived. Parts are everywhere."}],
+  issue:"Preloaded bloatware",
+  uses:{programming:1,design:1,classes:3,research:2},mo:194},
+ {id:7,brand:"Samsung",model:"Samsung Galaxy S23",cat:"smartphones",price:38990,warranty:12,lifespan:4,img:WISH_IMGS.phone2,
+  specs:["6.1-inch Dynamic AMOLED 120Hz","Snapdragon 8 Gen 2","8GB RAM · 256GB","3,900 mAh · 25W","IP68 water resistant"],
+  battery:8.0,durab:4.4,repair:2.9,rating:4.7,raters:190,pop:81,
+  reviews:[{n:"Jopay K.",y:3,r:5,t:"Flagship camera for thesis documentation. Night mode saves my Indoors shots."},{n:"Doms L.",y:2,r:4,t:"Compact size is the selling point — actually fits one hand. Battery needs a power bank on long days."},{n:"Aira S.",y:2,r:5,t:"Four years of updates promised. Cost per year beats cheaper phones."}],
+  issue:"Battery health dips faster than expected",
+  uses:{programming:2,design:2,classes:3,research:2},mo:812},
+ {id:8,brand:"JBL",model:"JBL Synchros E50BT",cat:"headphones",price:4499,warranty:12,lifespan:2.5,img:WISH_IMGS.head1,
+  specs:["Over-ear, wireless","JBL Pure Bass sound","Battery ~16 hr","Bluetooth + aux fallback","Foldable, padded headband"],
+  battery:7.5,durab:3.5,repair:3.2,rating:4.0,raters:95,pop:55,
+  reviews:[{n:"Shai G.",y:2,r:4,t:"Bass drowns the LRT noise during commute reviews. Pads get warm after 2 hours."},{n:"Enzo H.",y:1,r:4,t:"Aux cable saved me when the battery died mid-library session."},{n:"Mai S.",y:2,r:3,t:"Pads started flaking at month 11. Replaceable, but annoying."}],
+  issue:"Ear pads flake after about a year",
+  uses:{programming:1,design:1,classes:3,research:2},mo:150},
+ {id:9,brand:"Anker",model:"Anker PowerCore 20100",cat:"powerbanks",price:2450,warranty:18,lifespan:3,img:WISH_IMGS.power1,
+  specs:["20,000 mAh","18W USB-C PD in/out","Charges a laptop (trickle)","4-LED charge display","Airline-safe capacity"],
+  battery:9.5,durab:4.5,repair:3.4,rating:4.8,raters:350,pop:82,
+  reviews:[{n:"Fons M.",y:3,r:5,t:"Brownout insurance. Kept my router, phone and laptop alive through a 6-hour outage."},{n:"Kaye L.",y:2,r:5,t:"Heavy, but that's physics. Four years of daily service and it never swelled."},{n:"Iya V.",y:1,r:5,t:"Pays for itself the first time it saves a 20% battery before a quiz."}],
+  issue:"None reported yet",
+  uses:{programming:2,design:1,classes:3,research:2},mo:68},
+ {id:10,brand:"Amazfit",model:"Amazfit Bip",cat:"smartwatches",price:3190,warranty:12,lifespan:3,img:WISH_IMGS.watch1,
+  specs:["1.28-inch always-on display","Up to 30-day battery","GPS + SpO2 + heart rate","5 ATM water resistant","Silent vibrating alarms"],
+  battery:9.9,durab:3.8,repair:2.9,rating:4.3,raters:140,pop:58,
+  reviews:[{n:"Trina U.",y:2,r:5,t:"Silent alarms for 7:30am classes saved my attendance. Charges like once a month."},{n:"Ogie W.",y:1,r:4,t:"Tracks my commute walks honestly. GPS takes a minute to lock near buildings."},{n:"Luigi B.",y:2,r:4,t:"Paired with Google Fit fine. Screen scratches if you're careless."}],
+  issue:"GPS locks slowly near tall buildings",
+  uses:{programming:1,design:1,classes:3,research:1},mo:89}
+];
+const byId = id => G.find(g=>g.id===id);
+
+/* ═══════════ STATE ═══════════ */
+const S = { user:null, tray:[], wish:new Set(), compared:[], reviews:[] };
+const peso = n => "₱" + n.toLocaleString("en-PH");
+const monthly = g => Math.round(g.price / (g.lifespan*12));
+
+/* ═══════════ NAV ═══════════ */
+const VIEWS = ["home","browse","recommend","compare","account","admin"];
+function go(v){
+  if(v==="account"||v==="admin"){
+    if(!S.user){ openModal("modal-auth"); authMode(v==="admin"?"login":"register"); return; }
+    if(v==="admin" && S.user.role!=="admin"){ toast("Admin account required"); return; }
+  }
+  VIEWS.forEach(x=>document.getElementById("view-"+x).classList.toggle("hidden",x!==v));
+  document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("on",b.dataset.nav===v));
+  document.getElementById("mainNav").classList.remove("open");
+  window.scrollTo({top:0});
+  if(v==="browse") renderBrowse();
+  if(v==="recommend") renderRec();
+  if(v==="compare") renderComparePage();
+  if(v==="account") renderAccount();
+  if(v==="admin") renderAdmin();
+}
+/* ponytail: demo auth — no backend, no real credentials */
+function doLogin(role){
+  const em = document.getElementById("loginEmail").value.trim();
+  if(!em){ authErr("Enter an email (any works in the demo)."); return; }
+  S.user = role==="admin" ? {name:"Prof. Raby",role:"admin"} : {name:em.split("@")[0],role:"student"};
+  closeModal("modal-auth"); renderUser(); toast(role==="admin"?"Logged in as admin":"Welcome back, "+S.user.name+"!");
+  if(role==="admin") go("admin"); else go("account");
+}
+function doRegister(){
+  const f=document.getElementById("regFirst").value.trim(), l=document.getElementById("regLast").value.trim(),
+        em=document.getElementById("regEmail").value.trim(), p1=document.getElementById("regPass").value, p2=document.getElementById("regPass2").value;
+  if(!f||!em||!p1){ authErr("Fill in name, email and password."); return; }
+  if(p1.length<8){ authErr("Password must be at least 8 characters."); return; }
+  if(p1!==p2){ authErr("Passwords don't match."); return; }
+  S.user={name:f+" "+l.charAt(0).toUpperCase()+".",role:"student"};
+  closeModal("modal-auth"); renderUser(); go("account"); toast("Account created — welcome, "+f+"!");
+}
+function authErr(m){ const e=document.getElementById("authErr"); e.textContent=m; e.classList.remove("hidden"); }
+function openAuth(mode){ S.user=null; openModal("modal-auth"); authMode(mode); }
+function authMode(m){
+  document.getElementById("authTitle").textContent = m==="login"?"Log in":"Create your account";
+  document.getElementById("authLogin").classList.toggle("hidden",m!=="login");
+  document.getElementById("authRegister").classList.toggle("hidden",m!=="register");
+  document.getElementById("authErr").classList.add("hidden");
+  document.getElementById("authSwitch").innerHTML = m==="login"
+    ? 'New here? <a href="#" onclick="authMode(\'register\');return false">Create an account</a>'
+    : 'Already registered? <a href="#" onclick="authMode(\'login\');return false">Log in</a>';
+}
+function renderUser(){
+  const u=document.getElementById("navUser");
+  if(S.user){
+    u.innerHTML = `<span class="nav-role-badge">${S.user.role}</span><div class="avatar" title="${S.user.name}">${S.user.name.charAt(0).toUpperCase()}</div>`;
+  } else {
+    u.innerHTML = '<button class="btn btn-ghost btn-sm" style="color:#f2efe7;border-color:rgba(255,255,255,.4)" onclick="openAuth(\'login\')">Log in</button> <button class="btn btn-light btn-sm" onclick="openAuth(\'register\')">Register</button>';
+  }
+}
+
+/* ═══════════ MODALS / TOAST ═══════════ */
+function openModal(id){ document.getElementById(id).classList.remove("hidden"); }
+function closeModal(id){ document.getElementById(id).classList.add("hidden"); }
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") document.querySelectorAll(".modal-back").forEach(m=>m.classList.add("hidden")); });
+document.addEventListener("click",e=>{ if(e.target.classList&&e.target.classList.contains("modal-back")) e.target.classList.add("hidden"); });
+let toastTimer;
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2600); }
+
+/* ═══════════ CARDS ═══════════ */
+function stars(r){ const f=Math.round(r); return "★".repeat(f)+"☆".repeat(5-f); }
+function gadgetImage(g,size){
+  const c=CATS[g.cat];
+  const s=size||64;
+  if(g.img) return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px;overflow:hidden;flex-shrink:0"><img src="${g.img}" alt="${g.model}" loading="lazy" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'${c.icon}',style:'font-size:${Math.round(s*.55)}px'}))"></div>`;
+  return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;font-size:${Math.round(s*.55)}px;background:linear-gradient(135deg,#efedf7,#dedbf0);border-radius:10px">${c.icon}</div>`;
+}
+function card(g){
+  const inTray = S.tray.includes(g.id);
+  return `
+  <article class="card gcard">
+    <div class="gcard-img">${gadgetImage(g,80)}
+      <span class="gcard-cat badge badge-green">${CATS[g.cat].name}</span>
+      <button class="wish-btn ${S.wish.has(g.id)?"on":""}" title="Save to wishlist" aria-label="Save to wishlist" onclick="toggleWish(${g.id},this)">♥</button>
+    </div>
+    <div class="gcard-body">
+      <h3>${g.model}</h3>
+      <div style="font-size:.78rem;color:var(--ink-mute)">${g.brand}</div>
+      <div class="gcard-price">${peso(g.price)}<small>≈ ${peso(monthly(g))}/mo over ${g.lifespan} yrs</small></div>
+      <ul class="spec-list">${g.specs.slice(0,3).map(s=>`<li>${s}</li>`).join("")}</ul>
+      <div class="gcard-rate"><span class="stars">${stars(g.rating)}</span> ${g.rating} <span style="color:var(--ink-mute)">(${g.raters})</span><span class="badge badge-green" style="margin-left:auto;font-family:var(--mono)" title="Ownership Intelligence Index — durability 25%, repairability 20%, battery 20%, warranty 15%, student rating 20%">∩ ${ownIndex(g)}</span></div>
+      <div class="gcard-actions">
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="detail(${g.id})">Details</button>
+        <button class="btn ${inTray?"btn-primary":"btn-ghost"} btn-sm" title="Add to compare" onclick="toggleTray(${g.id})">${inTray?"✓ In tray":"⇄ Compare"}</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* ═══════════ HOME ═══════════ */
+function renderHome(){
+  document.getElementById("catGrid").innerHTML = Object.entries(CATS).map(([k,c])=>`
+    <a class="cat-tile" href="#" onclick="go('browse');document.querySelector('input[name=fcat][value=${k}]').checked=true;renderBrowse();return false">
+      <div class="cat-ico" style="background:${c.bg}">${c.icon}</div>
+      <div><b>${c.name}</b><span>Typical life: ${c.lifespan} yrs</span></div>
+    </a>`).join("");
+  document.getElementById("topRated").innerHTML = [...G].sort((a,b)=>b.rating-a.rating).slice(0,3).map(card).join("");
+}
+
+/* ═══════════ BROWSE ═══════════ */
+function resetFilters(){ document.getElementById("priceMin").value=0; document.getElementById("priceMax").value=100000;
+  ["fLong","fBudget","fDurable","fRepair"].forEach(i=>document.getElementById(i).checked=false);
+  document.querySelector('input[name=fcat][value=""]').checked=true; renderBrowse(); }
+function renderBrowse(){
+  const q=(document.getElementById("searchBox").value||"").toLowerCase();
+  const cat=document.querySelector('input[name=fcat]:checked').value;
+  const min=+document.getElementById("priceMin").value||0, max=+document.getElementById("priceMax").value||1e9;
+  const long=document.getElementById("fLong").checked, budget=document.getElementById("fBudget").checked,
+        dur=document.getElementById("fDurable").checked, rep=document.getElementById("fRepair").checked;
+  let list=G.filter(g=>
+    (!cat||g.cat===cat) && g.price>=min && g.price<=max &&
+    (!long||g.battery>=8) && (!budget||g.price<15000) && (!dur||g.durab>=4) && (!rep||g.repair>=3.8) &&
+    (!q || (g.model+" "+g.brand).toLowerCase().includes(q)));
+  const sort=document.getElementById("sortBy").value;
+  list.sort((a,b)=> sort==="rating"?b.rating-a.rating : sort==="price-asc"?a.price-b.price : sort==="price-desc"?b.price-a.price : b.pop-a.pop);
+  document.getElementById("resultCount").textContent = list.length+" gadget"+(list.length===1?"":"s")+" found";
+  document.getElementById("browseGrid").innerHTML = list.map(card).join("") || '<div class="rec-empty" style="grid-column:1/-1"><div class="big">🔍</div>No gadgets match. Widen the filters or reset.</div>';
+}
+
+/* ═══════════ RECOMMEND ═══════════ */
+function resetRec(){ document.getElementById("recBudget").value=25000; document.getElementById("recUse").value="programming";
+  document.getElementById("recPrior").value="value"; document.getElementById("recRepair").checked=true;
+  document.getElementById("recCat").value="laptops"; renderRec(); }
+function renderRec(){
+  const b=+document.getElementById("recBudget").value;
+  document.getElementById("recBudgetLbl").textContent=peso(b);
+  const cat=document.getElementById("recCat").value, use=document.getElementById("recUse").value,
+        prior=document.getElementById("recPrior").value, wantRepair=document.getElementById("recRepair").checked;
+  let scored=G.filter(g=>!cat||g.cat===cat).map(g=>{
+    let s=0, reasons=[];
+    const fit=Math.min(g.price/b,1);                        // budget fit: ≤ budget is best
+    const fscore=Math.round(30*(1-fit)+ (g.price<=b?6:0));  // up to 36 pts
+    s+=fscore; reasons.push(g.price<=b?`fits your budget`:`₱${(g.price-b).toLocaleString()} over budget`);
+    const us=(g.uses[use]||1); s+=us*8; reasons.push(us>=3?"great for "+use:us===2?"decent for "+use:"marginal for "+use);
+    s+=Math.min(g.battery/12,1)*12; reasons.push(g.battery>=8?"strong battery":"average battery");
+    if(prior==="battery"){ s+=g.battery*1.2; } if(prior==="durability"){ s+=g.durab*2.4; }
+    if(prior==="value"){ s+=(g.durab+g.repair)*1.5; } if(prior==="price"){ s+=(g.price<=b?12:0)+(g.price/b<.7?8:0); }
+    if(wantRepair){ s+=g.repair*2; }
+    s+=g.rating*2.4;                                        // student voice
+    return {g,s:Math.min(Math.round(s),99),reasons};
+  }).sort((a,b)=>b.s-a.s).slice(0,3);
+  const out=document.getElementById("recResults");
+  if(!scored.length){ out.innerHTML='<div class="card rec-empty"><div class="big">🎯</div>No gadgets in this category yet.</div>'; return; }
+  out.innerHTML = scored.map((r,i)=>`
+    <div class="card pad">
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        ${gadgetImage(r.g,72)}
+        <div style="flex:1;min-width:180px">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <b style="font-size:1.05rem">${r.g.model}</b>
+            ${i===0?'<span class="badge badge-green">Best match</span>':''}
+          </div>
+          <div style="font-size:.82rem;color:var(--ink-mute)">${r.g.brand} · ${CATS[r.g.cat].name} · <b style="color:var(--green-deep)">${peso(r.g.price)}</b> ≈ ${peso(monthly(r.g))}/mo</div>
+          <div style="font-size:.8rem;margin-top:6px;color:var(--ink-soft)">${r.reasons.slice(0,3).join(" · ")}</div>
+        </div>
+        <div style="text-align:center;min-width:86px">
+          <div class="matchnum">${r.s}%</div>
+          <div class="scorebar" style="margin-top:4px"><i style="width:${r.s}%"></i></div>
+          <div style="font-size:.7rem;color:var(--ink-mute);margin-top:4px">match score</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="detail(${r.g.id})">Details</button>
+          <button class="btn btn-primary btn-sm" onclick="toggleTray(${r.g.id})">⇄ Compare</button>
+        </div>
+      </div>
+    </div>`).join("");
+}
+
+/* ═══════════ COMPARE ═══════════ */
+function toggleTray(id){
+  const i=S.tray.indexOf(id);
+  if(i>-1){ S.tray.splice(i,1); toast("Removed from compare tray"); }
+  else{ if(S.tray.length>=3){ toast("Tray holds 3 — remove one first"); return; } S.tray.push(id); toast("Added to compare tray"); }
+  renderTray();
+  if(!document.getElementById("view-browse").classList.contains("hidden")) renderBrowse();
+  if(!document.getElementById("view-recommend").classList.contains("hidden")) renderRec();
+}
+function renderTray(){
+  const t=document.getElementById("tray");
+  t.classList.toggle("hidden",S.tray.length===0);
+  document.getElementById("trayItems").innerHTML = S.tray.map(id=>{ const g=byId(id);
+    return `<span class="tray-chip">${g.model}<button title="Remove" onclick="toggleTray(${id})">✕</button></span>`; }).join("");
+}
+function cmpSeedSample(){ S.tray=[1,3]; renderTray(); renderComparePage(); }
+function clearCompare(){ S.tray=[]; renderTray(); renderComparePage(); }
+function runCompare(){
+  if(S.tray.length<2){ toast("Add at least 2 gadgets to compare"); return; }
+  S.compared.unshift([...S.tray]); S.compared=S.compared.slice(0,5);
+  go("compare");
+}
+function bestRow(vals,dir){ // dir: "lo" = lower wins, "hi" = higher wins
+  const best=dir==="lo"?Math.min(...vals):Math.max(...vals);
+  return vals.map(v=>v===best);
+}
+function renderComparePage(){
+  const area=document.getElementById("cmpArea");
+  if(S.tray.length<2){
+    area.innerHTML=`<div class="card rec-empty"><div class="big">⇄</div>Compare tray holds ${S.tray.length} of 3. Add gadgets from Browse or Recommendations, then hit “Compare now”.<div style="margin-top:14px"><button class="btn btn-primary btn-sm" onclick="go('browse')">Browse gadgets</button></div></div>`;
+    return;
+  }
+  const gs=S.tray.map(byId);
+  // [label, raw value (for best-pick math), formatter, dir]
+  const specRows=[["Price ↓",g=>g.price,g=>peso(g.price),"lo"],["Est. monthly cost ↓",g=>monthly(g),g=>peso(monthly(g))+"/mo","lo"],
+    ["Battery life ↑",g=>g.battery,g=>g.battery+" hr","hi"],["Durability ↑",g=>g.durab,g=>g.durab.toFixed(1)+" / 5","hi"],
+    ["Repairability ↑",g=>g.repair,g=>g.repair.toFixed(1)+" / 5","hi"],["Warranty ↑",g=>g.warranty,g=>g.warranty+" months","hi"],
+    ["Realistic lifespan ↑",g=>g.lifespan,g=>g.lifespan+" yrs","hi"],["Student rating ↑",g=>g.rating,g=>g.rating+" ★ ("+g.raters+")","hi"],
+    ["Ownership Index ↑",g=>ownIndex(g),g=>ownIndex(g)+" / 100","hi"]];
+  const rows=specRows.map(([lab,raw,fmt,dir])=>{
+    const vals=gs.map(raw), marks=bestRow(vals,dir);
+    return `<div class="cmp-cell cmp-lab">${lab}</div>` + gs.map((g,i)=>`<div class="cmp-cell ${marks[i]?"cmp-best":""}">${fmt(g)}</div>`).join("");
+  }).join("");
+  const maxLen=Math.max(...gs.map(g=>g.specs.length));
+  let specComp="";
+  for(let r=0;r<maxLen;r++){
+    specComp+=`<div class="cmp-cell cmp-lab">Spec ${r+1}</div>`+gs.map(g=>`<div class="cmp-cell">${g.specs[r]||"—"}</div>`).join("");
+  }
+  const knownIssue=gs.length===gs.filter(g=>g.issue&&g.issue!=="None reported yet").length;
+  area.innerHTML=`
+  <div class="card" style="overflow:hidden">
+    <div class="cmp-grid ${gs.length===3?"c3":""}">
+      <div class="cmp-cell cmp-lab"></div>
+      ${gs.map(g=>`<div class="cmp-cell cmp-head">${gadgetImage(g,56)}<b>${g.model}</b>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTray(${g.id})">Remove</button></div>`).join("")}
+      ${rows}
+      <div class="cmp-cell cmp-lab">Key specs</div>${gs.map(()=>`<div class="cmp-cell" style="color:var(--ink-mute);font-size:.78rem">line-by-line below</div>`).join("")}
+      ${specComp}
+      <div class="cmp-cell cmp-lab">Common issue</div>${gs.map(g=>`<div class="cmp-cell" style="${g.issue&&g.issue!=="None reported yet"?"color:var(--orange);font-weight:600":""}">${g.issue||"—"}</div>`).join("")}
+      <div class="cmp-cell cmp-lab">Verdict</div>${gs.map(g=>`<div class="cmp-cell"><div><b>${peso(monthly(g))}/mo</b><div style="font-size:.78rem;color:var(--ink-soft)">${g.rating}★ from ${g.raters} students</div></div></div>`).join("")}
+    </div>
+  </div>
+  <div class="card pad" style="margin-top:16px">
+    <h3 style="margin-bottom:6px">What this comparison says</h3>
+    <p style="font-size:.9rem;color:var(--ink-soft)">
+      ${(()=>{ const cheap=[...gs].sort((a,b)=>monthly(a)-monthly(b))[0], rated=[...gs].sort((a,b)=>b.rating-a.rating)[0];
+      return `On pure monthly cost, <b>${cheap.model}</b> wins at ${peso(monthly(cheap))}/mo. Students rate <b>${rated.model}</b> highest (${rated.rating}★). Weigh warranty and repairability against your course load — a ₱1,000–2,000 yearly repair risk can erase a cheaper sticker price.`; })()}
+    </p>
+  </div>
+  ${S.tray.length===2?`<div style="margin-top:12px;font-size:.83rem;color:var(--ink-mute)">Room for one more — add a third gadget from Browse.</div>`:""}`;
+}
+
+/* ═══════════ SCATTER (AA-style price vs index) ═══════════ */
+function renderScatter(){
+  const area=document.getElementById("scatterArea"); if(!area) return;
+  const W=760,H=380,P={l:56,r:24,t:26,b:46};
+  const px=p=>P.l+(Math.min(p,50000)/50000)*(W-P.l-P.r);
+  const py=s=>H-P.b-((s-50)/45)*(H-P.t-P.b);
+  const f=frontier(G.map(g=>g.id));
+  const fr=[...f].map(byId).sort((a,b)=>a.price-b.price);
+  let grid="";
+  for(const t of [10000,20000,30000,40000,50000]) grid+=`<line x1="${px(t)}" y1="${P.t}" x2="${px(t)}" y2="${H-P.b}" stroke="var(--line)" stroke-width="1"/><text x="${px(t)}" y="${H-P.b+18}" text-anchor="middle" font-size="11" fill="var(--ink-mute)" font-family="var(--mono)">₱${(t/1000)}k</text>`;
+  for(const t of [50,60,70,80,90]) grid+=`<line x1="${P.l}" y1="${py(t)}" x2="${W-P.r}" y2="${py(t)}" stroke="var(--line)" stroke-width="1"/><text x="${P.l-10}" y="${py(t)+4}" text-anchor="end" font-size="11" fill="var(--ink-mute)" font-family="var(--mono)">${t}</text>`;
+  const dots=G.map(g=>`<circle cx="${px(g.price).toFixed(1)}" cy="${py(ownIndex(g)).toFixed(1)}" r="${f.has(g.id)?8:6.5}" fill="${f.has(g.id)?"var(--orange)":"var(--green)"}" fill-opacity=".9" stroke="#fff" stroke-width="1.5" style="cursor:pointer" onclick="detail(${g.id})"><title>${g.model} — ₱${g.price.toLocaleString()} · Index ${ownIndex(g)}${f.has(g.id)?" · on best-value frontier":""}</title></circle>`).join("");
+  const path=fr.map((g,i)=>`${i?"L":"M"}${px(g.price).toFixed(1)},${py(ownIndex(g)).toFixed(1)}`).join(" ");
+  area.innerHTML=`
+  <div class="card pad">
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" role="img" aria-label="Scatter plot of gadget price versus Ownership Intelligence Index">
+      ${grid}
+      <text x="${W-P.r}" y="${H-P.b+34}" text-anchor="end" font-size="11" fill="var(--ink-soft)">Price — lower is better ↓</text>
+      <text x="${P.l}" y="${P.t-10}" font-size="11" fill="var(--ink-soft)">Ownership Index — higher is better ↑</text>
+      <path d="${path}" fill="none" stroke="var(--orange)" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8"/>
+      ${dots}
+    </svg>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--ink-soft);margin-top:8px">
+      <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);margin-right:5px"></span>Catalog gadget</span>
+      <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--orange);margin-right:5px"></span>Best-value frontier (Pareto)</span>
+      <span style="margin-left:auto">Index = durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20, rescaled to 100.</span>
+    </div>
+  </div>`;
+}
+
+/* ═══════════ DETAIL MODAL ═══════════ */
+let currentDetail=null;
+function detail(id){
+  const g=byId(id); currentDetail=id;
+  document.getElementById("dTitle").textContent=g.model;
+  const c=CATS[g.cat];
+  document.getElementById("dBody").innerHTML=`
+    <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start">
+      ${gadgetImage(g,96)}
+      <div style="flex:1;min-width:220px">
+        <span class="badge badge-green">${c.name}</span>
+        <div class="gcard-price" style="margin-top:8px">${peso(g.price)}<small>≈ ${peso(monthly(g))}/mo over ${g.lifespan} yrs · warranty ${g.warranty} mo</small></div>
+        <div class="gcard-rate" style="margin-top:6px"><span class="stars">${stars(g.rating)}</span> <b>${g.rating}</b> <span style="color:var(--ink-mute)">(${g.raters} student ratings)</span></div>
+      </div>
+    </div>
+    <h4 style="margin:18px 0 8px">Specifications</h4>
+    <ul class="spec-list" style="font-size:.88rem">${g.specs.map(s=>`<li>${s}</li>`).join("")}</ul>
+    <h4 style="margin:18px 0 8px">Ownership scores</h4>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      ${[["Durability",g.durab],["Repairability",g.repair],["Battery",Math.min(g.battery/12*5,5)]].map(([l,v])=>`
+        <div><div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px"><span>${l}</span><b>${v.toFixed(1)}</b></div><div class="scorebar"><i style="width:${v/5*100}%"></i></div></div>`).join("")}
+    </div>
+    <h4 style="margin:18px 0 8px">Student reviews</h4>
+    ${g.reviews.map(r=>`<div class="review"><div class="rev-ava">${r.n.charAt(0)}</div>
+      <div class="rev-body"><div class="rev-head"><b>${r.n}</b><span style="font-size:.75rem;color:var(--ink-mute)">Year ${r.y} student</span><span class="stars">${stars(r.r)}</span></div>
+      <div class="rev-text">${r.t}</div></div></div>`).join("")}
+    ${g.issue&&g.issue!=="None reported yet"?`<div style="margin-top:12px;background:var(--orange-soft);border:1px solid #ecd3b2;border-radius:8px;padding:10px 14px;font-size:.83rem;color:#7a4a12"><b>Common issue:</b> ${g.issue}</div>`:""}
+    <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="toggleTray(${g.id});closeModal('modal-detail')">⇄ Add to compare</button>
+      <button class="btn btn-ghost" onclick="toggleWish(${g.id})">${S.wish.has(g.id)?"♥ In wishlist":"♡ Save to wishlist"}</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-detail');openReview(${g.id})">✎ Write a review</button>
+    </div>`;
+  openModal("modal-detail");
+}
+
+/* ═══════════ WISHLIST / REVIEWS ═══════════ */
+function toggleWish(id){
+  if(!S.user){ openAuth("register"); toast("Register or log in to save gadgets"); return; }
+  if(S.wish.has(id)){ S.wish.delete(id); toast("Removed from wishlist"); } else { S.wish.add(id); toast("Saved to wishlist"); }
+  document.querySelectorAll(".wish-btn").forEach(()=>{});
+  if(!document.getElementById("view-browse").classList.contains("hidden")) renderBrowse();
+  if(!document.getElementById("view-home").classList.contains("hidden")) renderHome();
+  if(!document.getElementById("view-account").classList.contains("hidden")) renderAccount();
+  if(currentDetail && !document.getElementById("modal-detail").classList.contains("hidden")) detail(currentDetail);
+}
+let reviewFor=null;
+function openReview(id){
+  if(!S.user){ openAuth("register"); toast("Log in to review gadgets"); return; }
+  reviewFor=id; document.getElementById("rvGadName").textContent=byId(id).model;
+  document.getElementById("rvText").value=""; document.getElementById("rvIssue").checked=false;
+  document.getElementById("rvIssueField").classList.add("hidden"); document.getElementById("rvErr").classList.add("hidden");
+  openModal("modal-review");
+}
+function submitReview(){
+  const t=document.getElementById("rvText").value.trim();
+  if(t.length<10){ const e=document.getElementById("rvErr"); e.textContent="Give it at least a sentence (10+ characters)."; e.classList.remove("hidden"); return; }
+  const starMap=[5,4,3,2,1];
+  S.reviews.unshift({g:reviewFor,stars:starMap[document.getElementById("rvStars").selectedIndex],
+    text:t,issue:document.getElementById("rvIssue").checked?document.getElementById("rvIssueType").value:null,
+    date:new Date().toLocaleDateString("en-PH",{month:"short",day:"numeric"}),status:"Pending verification"});
+  closeModal("modal-review"); toast("Review submitted — pending admin verification (demo)");
+  renderAccount();
+}
+
+/* ═══════════ ACCOUNT ═══════════ */
+function acctTab(t){
+  ["acct-wish","acct-reviews","acct-comp","acct-profile"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==t));
+  document.querySelectorAll(".side-nav [data-tab^=acct]").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));
+}
+function renderAccount(){
+  // wishlist
+  const wl=[...S.wish].map(byId).filter(Boolean);
+  document.getElementById("wishCount").textContent = wl.length? wl.length+" saved":"";
+  document.getElementById("wishGrid").innerHTML = wl.map(card).join("");
+  document.getElementById("wishEmpty").classList.toggle("hidden",wl.length>0);
+  // my reviews
+  const rv=S.reviews;
+  document.getElementById("myReviews").innerHTML = rv.map(r=>`
+    <div class="review"><div class="rev-ava">${S.user?S.user.name.charAt(0):"A"}</div>
+    <div class="rev-body"><div class="rev-head"><b>${byId(r.g).model}</b><span class="stars">${stars(r.stars)}</span>
+      <span class="badge badge-orange">${r.status}</span><span style="font-size:.75rem;color:var(--ink-mute)">${r.date}</span></div>
+    <div class="rev-text">${r.text}${r.issue?` · <span class="rev-issue">⚑ ${r.issue}</span>`:""}</div></div></div>`).join("");
+  document.getElementById("myRevEmpty").classList.toggle("hidden",rv.length>0);
+  document.getElementById("myReviews").classList.toggle("hidden",rv.length===0);
+  // past comparisons
+  const pc=S.compared;
+  document.getElementById("pastComp").innerHTML = pc.length? pc.map(ids=>{
+    const gs=ids.map(byId);
+    const cheap=[...gs].sort((a,b)=>monthly(a)-monthly(b))[0];
+    return `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap">
+      <div style="font-size:.88rem"><b>${gs.map(g=>g.model).join(" vs ")}</b>
+      <div style="font-size:.78rem;color:var(--ink-mute)">Cheapest monthly: ${cheap.model} at ${peso(monthly(cheap))}/mo</div></div>
+      <div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" onclick="S.tray=[${ids}];renderTray();renderComparePage();go('compare')">Re-open</button></div>
+    </div>`;}).join("")
+    : "";
+  document.getElementById("pastComp").classList.toggle("hidden",pc.length===0);
+  document.getElementById("pastCompEmpty").classList.toggle("hidden",pc.length>0);
+}
+
+/* ═══════════ ADMIN ═══════════ */
+const ADMIN = {
+  gadgets:[
+    {name:"MacBook Air M1",cat:"Laptops",price:46999,src:"API",status:"Live"},
+    {name:"Acer Aspire 5 A515",cat:"Laptops",price:28999,src:"Manual",status:"Live"},
+    {name:"ASUS Vivobook 15",cat:"Laptops",price:32999,src:"API",status:"Live"},
+    {name:"iPad 9th Generation",cat:"Tablets",price:19499,src:"API",status:"Live"},
+    {name:"Xiaomi Pad 7",cat:"Tablets",price:16999,src:"Manual",status:"Live"},
+    {name:"Redmi Note 11",cat:"Smartphones",price:6999,src:"API",status:"Live"},
+    {name:"Samsung Galaxy S23",cat:"Smartphones",price:38990,src:"API",status:"Live"},
+    {name:"JBL Synchros E50BT",cat:"Headphones",price:4499,src:"Manual",status:"Live"},
+    {name:"Anker PowerCore 20100",cat:"Power banks",price:2450,src:"API",status:"Live"},
+    {name:"Amazfit Bip",cat:"Smartwatches",price:3190,src:"Manual",status:"Draft"}
+  ],
+  revQueue:[
+    {who:"A. Sabiniano",txt:"Battery still 60% after a full Friday.",g:"MacBook Air M1",r:5,st:"pending"},
+    {who:"L. Banting",txt:"Pads started flaking at month 11.",g:"JBL Synchros E50BT",r:3,st:"pending"},
+    {who:"J. Candano",txt:"Charges during one lunch break.",g:"Redmi Note 11",r:5,st:"approved"},
+    {who:"A. Austria",txt:"Wish the stylus came in the box.",g:"Xiaomi Pad 7",r:4,st:"pending"}
+  ],
+  issues:[
+    {txt:"Ear pads flake",g:"JBL Synchros E50BT",n:23,st:"open"},
+    {txt:"Battery health dips",g:"Samsung Galaxy S23",n:11,st:"investigating"},
+    {txt:"Rattly trackpad",g:"Acer Aspire 5 A515",n:9,st:"open"},
+    {txt:"GPS locks slowly",g:"Amazfit Bip",n:5,st:"resolved"}
+  ],
+  reports:[
+    {rank:1,g:"MacBook Air M1",c:"Laptops",v:1240,cmp:89,w:54},
+    {rank:2,g:"Redmi Note 11",c:"Smartphones",v:980,cmp:61,w:47},
+    {rank:3,g:"Anker PowerCore 20100",c:"Power banks",v:760,cmp:12,w:33},
+    {rank:4,g:"iPad 9th Generation",c:"Tablets",v:540,cmp:29,w:21},
+    {rank:5,g:"JBL Synchros E50BT",c:"Headphones",v:510,cmp:8,w:19}
+  ]
+};
+function admTab(t){
+  ["adm-overview","adm-gadgets","adm-reviews","adm-issues","adm-reports"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==t));
+  document.querySelectorAll(".side-nav [data-tab^=adm]").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));
+}
+function renderAdmin(){
+  document.getElementById("admGadgetsBody").innerHTML=ADMIN.gadgets.map((g,i)=>`
+    <tr><td><b>${g.name}</b></td><td>${g.cat}</td><td>${peso(g.price)}</td>
+    <td><span class="badge ${g.src==="API"?"badge-blue":"badge-orange"}">${g.src==="API"?"⚡ API fetched":"✎ Manual"}</span></td>
+    <td><span class="status"><span class="dot ${g.status==="Live"?"dot-g":"dot-o"}"></span>${g.status}</span></td>
+    <td style="text-align:right"><button class="btn btn-ghost btn-sm" onclick="openModal('modal-add')">Edit</button></td></tr>`).join("");
+  document.getElementById("admRevBody").innerHTML=ADMIN.revQueue.map((r,i)=>`
+    <tr><td><b>${r.who}</b><div style="font-size:.78rem;color:var(--ink-soft);max-width:280px">"${r.txt}"</div></td>
+    <td>${r.g}</td><td><span class="stars">${stars(r.r)}</span></td><td>2d ago</td>
+    <td><span class="status"><span class="dot ${r.st==="approved"?"dot-g":"dot-o"}"></span>${r.st}</span></td>
+    <td>${r.st==="pending"?`<div style="display:flex;gap:6px"><button class="btn btn-primary btn-sm" onclick="modReview(${i},1)">Approve</button><button class="btn btn-ghost btn-sm" onclick="modReview(${i},0)">Reject</button></div>`:'<span style="color:var(--ink-mute);font-size:.8rem">done</span>'}</td></tr>`).join("");
+  document.getElementById("admIssueBody").innerHTML=ADMIN.issues.map(x=>`
+    <tr><td><b>${x.txt}</b></td><td>${x.g}</td><td><span class="badge badge-red">${x.n} reports</span></td>
+    <td><span class="status"><span class="dot ${x.st==="resolved"?"dot-g":x.st==="open"?"dot-r":"dot-b"}"></span>${x.st}</span></td>
+    <td><button class="btn btn-ghost btn-sm" onclick="toast('Issue marked for review')">${x.st==="resolved"?"Reopen":"Mark reviewed"}</button></td></tr>`).join("");
+  document.getElementById("admReportBody").innerHTML=ADMIN.reports.map(x=>`
+    <tr><td><b>#${x.rank}</b></td><td><b>${x.g}</b></td><td>${x.c}</td><td>${x.v.toLocaleString()}</td><td>${x.cmp}</td><td>${x.w}</td></tr>`).join("");
+}
+function modReview(i,ok){
+  ADMIN.revQueue[i].st = ok?"approved":"rejected";
+  toast(ok?"Review approved and published":"Review rejected");
+  renderAdmin();
+}
+/* simulated SERVER-SIDE product API call — browser never hits the API directly */
+function apiFetch(){
+  const q=document.getElementById("apiQuery").value.trim();
+  const st=document.getElementById("apiStatus");
+  if(!q){ st.textContent="Enter a product name first."; return; }
+  st.innerHTML="→ POST /api/admin/product-lookup (server-side fetch)…";
+  setTimeout(()=>{
+    const fake={name:q.replace(/^\w/,c=>c.toUpperCase()),brand:q.split(" ")[0].replace(/^\w/,c=>c.toUpperCase()),category:"Laptops",image:"via CDN"};
+    document.getElementById("fBrand").value=fake.brand;
+    document.getElementById("fModel").value=fake.name;
+    document.getElementById("fCat").value=fake.category;
+    st.innerHTML='✓ API returned name, brand, category + image — verify and complete price, specs and warranty before saving.';
+  },900);
+}
+function saveGadget(){
+  const b=document.getElementById("fBrand").value.trim(), m=document.getElementById("fModel").value.trim(),
+        c=document.getElementById("fCat").value, p=+document.getElementById("fPrice").value;
+  if(!b||!m||!c||!p){ toast("Brand, model, category and price are required"); return; }
+  ADMIN.gadgets.unshift({name:m,cat:c,price:p,src:document.getElementById("apiStatus").textContent.includes("✓")?"API":"Manual",status:"Draft"});
+  ADMIN.gadgets[0].name = m; // keep name/model consistent
+  renderAdmin(); closeModal("modal-add"); admTab("adm-gadgets"); toast("Gadget saved as Draft — add specs, then publish");
+}
+
+/* ═══════════ INIT ═══════════ */
+renderHome(); renderUser(); renderTray(); renderScatter();
+</script>
+</body>
+</html>
