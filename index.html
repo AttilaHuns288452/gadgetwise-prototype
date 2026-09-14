@@ -263,6 +263,17 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 .wrow input[type=range]{flex:1.2;min-width:90px;accent-color:var(--green)}
 .rdot{width:26px;height:5px;border-radius:4px;background:var(--line-strong);transition:background .2s}
 .rdot.on{background:var(--green)}
+.prow{margin-bottom:20px}
+.prow-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.prow-top span{font-size:var(--fs-base);font-weight:600;color:var(--ink)}
+.prow-top output{font-size:var(--fs-xs);font-weight:700;color:var(--green-deep);font-family:var(--mono)}
+.prow input[type=range]{width:100%;height:28px;accent-color:var(--green)}
+.prow input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:linear-gradient(to right,var(--green) 0%,var(--green) var(--fill,50%),var(--line-strong) var(--fill,50%))}
+.prow input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-7px;border-radius:50%;background:var(--green);border:3px solid #fff;box-shadow:0 1px 4px rgba(28,27,24,.35)}
+.prow input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:var(--line-strong)}
+.prow input[type=range]::-moz-range-progress{height:6px;border-radius:999px;background:var(--green)}
+.prow input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--green);border:3px solid #fff;box-shadow:0 1px 4px rgba(28,27,24,.35)}
+.prow-scale{display:flex;justify-content:space-between;font-size:var(--fs-xs);color:var(--ink-soft);margin-top:2px}
 .quiz-nav{display:flex;align-items:center;gap:14px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
 .quiz-nav .btn{min-width:110px}
 .quiz-nav-step{flex:1;text-align:center;font-size:var(--fs-sm);color:var(--ink-mute);font-family:var(--mono)}
@@ -499,14 +510,14 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 <main id="view-recommend" class="view hidden">
   <section class="pad-sec">
     <div class="wrap">
-      <div class="sec-head" style="max-width:680px;margin-left:auto;margin-right:auto;text-align:left"><h2>Find your best match</h2><p>Answer a few questions about how you will use it. Products that fail your requirements are filtered out first, the rest are scored against your priorities, and the full math is shown with every result.</p></div>
+      <div class="sec-head" style="max-width:680px;margin-left:auto;margin-right:auto;text-align:left"><h2>Find your best match</h2><p>Set your budget, your main use, and what matters most. GadgetWise ranks the catalog against those criteria. Products that fail your requirements are filtered out first, the rest are scored against your priorities, and the full math is shown with every result.</p></div>
       <div id="recStage" style="max-width:720px;margin:0 auto">
         <div class="card pad" id="quizCard">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
             <h3 style="font-size:var(--fs-md)" id="rstepLbl">What are you looking for?</h3>
           </div>
           <div style="display:flex;gap:6px;margin-bottom:16px" aria-hidden="true">
-            <span class="rdot on"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span>
+            <span class="rdot on"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span>
           </div>
 
           <div id="rstep1">
@@ -544,41 +555,16 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           </div>
 
           <div id="rstep4" class="hidden">
-            <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">Select up to 3. Each pick raises that factor’s weight in the score. Skip it and we use sensible defaults.</p>
-            <div class="chipgrid" id="featGrid"></div>
+            <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 14px">Set how much each factor matters. The ranking follows these settings exactly.</p>
+            <div id="prioGrid"></div>
           </div>
 
           <div id="rstep5" class="hidden">
-            <label class="f" style="margin-top:0">How often are you away from a charger?</label>
-            <div class="chipgrid">
-              <label class="fchip"><input type="radio" name="qCharger" value="0">Rarely</label>
-              <label class="fchip"><input type="radio" name="qCharger" value="1" checked>Sometimes</label>
-              <label class="fchip"><input type="radio" name="qCharger" value="2">Most of the day</label>
-              <label class="fchip"><input type="radio" name="qCharger" value="3">Almost always</label>
-            </div>
-            <label class="f" style="margin-top:14px">How often will you carry it around campus?</label>
-            <div class="chipgrid">
-              <label class="fchip"><input type="radio" name="qCarry" value="0">Rarely</label>
-              <label class="fchip"><input type="radio" name="qCarry" value="1" checked>Sometimes</label>
-              <label class="fchip"><input type="radio" name="qCarry" value="2">Often</label>
-              <label class="fchip"><input type="radio" name="qCarry" value="3">Every day</label>
-            </div>
-            <label class="f" style="margin-top:14px">What would bother you most?</label>
-            <div class="chipgrid">
-              <label class="fchip"><input type="radio" name="qAnnoy" value="slow">Slow performance</label>
-              <label class="fchip"><input type="radio" name="qAnnoy" value="battery" checked>Short battery life</label>
-              <label class="fchip"><input type="radio" name="qAnnoy" value="heavy">Heavy device</label>
-              <label class="fchip"><input type="radio" name="qAnnoy" value="price">High price</label>
-              <label class="fchip"><input type="radio" name="qAnnoy" value="fragile">Poor durability</label>
-            </div>
-          </div>
-
-          <div id="rstep6" class="hidden">
-            <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">Hard requirements. Anything that fails is filtered out before scoring. Optional.</p>
+            <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">Hard requirements. Products that do not meet these will not be recommended. Optional.</p>
             <div class="chipgrid" id="dbGrid"></div>
           </div>
 
-          <div id="rstep7" class="hidden">
+          <div id="rstep6" class="hidden">
             <h4 style="margin:0 0 8px">Your requirements</h4>
             <div id="reqReview" style="font-size:var(--fs-sm)"></div>
             <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
@@ -589,7 +575,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 
           <div class="quiz-nav">
             <button class="btn btn-ghost" id="rback" onclick="goRecStep(recStep-1)" style="visibility:hidden">Back</button>
-            <span class="quiz-nav-step" id="rnavStep">Step 1 of 7</span>
+            <span class="quiz-nav-step" id="rnavStep">Step 1 of 6</span>
             <button class="btn btn-primary" id="rnext" onclick="recNext()">Next</button>
           </div>
           <button class="btn btn-ghost btn-sm" style="margin-top:12px;width:100%;border:0;color:var(--ink-mute)" onclick="resetRec()">Start over</button>
@@ -1150,7 +1136,9 @@ function renderBrowse(){
 
 /* ═══════════ RECOMMEND QUIZ v3 — centered decision flow, deterministic, explainable ═══════════ */
 let recStep=1, recFinished=false;
-const RSTEPS=["What are you looking for?","What\u2019s your maximum budget?","What will you mainly use it for?","What matters most?","Your daily routine","Must-haves","Review your requirements"];
+const RSTEPS=["What are you looking for?","What\u2019s your maximum budget?","What will you mainly use it for?","What matters most to you?","Anything you absolutely need?","Review your requirements"];
+/* AA-style labeled priority scale: internal weight 0/1/2/3/4 */
+const PLABELS=["Skip it","Nice to have","Important","Very important","Top priority"];
 /* Category-specific academic purposes (proposal: intended academic purpose) */
 const USES={
  laptops:[["programming","Programming / development","IDEs, compilers, thesis builds"],["documents","Office work / documents","Papers, slides, spreadsheets"],["research","Research / browsing","Papers, PDFs, long sessions"],["creative","Creative work","Figma, photo, layout work"],["engineering","Engineering / technical software","CAD, MATLAB, simulations"],["gaming","Gaming + school","After-hours relief"]],
@@ -1186,23 +1174,27 @@ function buildStep3to6(){
     `<label class="tileopt"><input type="radio" name="qcUse" value="${v}" ${i===0?"checked":""}><span>${l}</span><small>${s}</small></label>`).join("");
   document.getElementById("use2Grid").innerHTML = USES[cat].slice(1).map(([v,l])=>
     `<label class="fchip"><input type="checkbox" name="qUse2" value="${v}">${l}</label>`).join("");
-  document.getElementById("featGrid").innerHTML = FEATURES[cat].map(([v,l])=>
-    `<label class="fchip"><input type="checkbox" name="qFeat" value="${v}">${l}</label>`).join("");
+  document.getElementById("prioGrid").innerHTML = FEATURES[cat].map(([v,l])=>`
+    <div class="prow">
+      <div class="prow-top"><span>${l}</span><output id="po_${v}">Important</output></div>
+      <input type="range" min="0" max="4" step="1" value="2" id="w_${v}" data-k="${v}" style="--fill:50%" oninput="recPrioInput('${v}')" aria-label="${l} priority">
+      <div class="prow-scale"><span>Skip it</span><span>Nice to have</span><span>Important</span><span>Very important</span><span>Top priority</span></div>
+    </div>`).join("");
   document.getElementById("dbGrid").innerHTML = MUSTHAVES[cat].map(([v,l])=>
     `<label class="fchip"><input type="checkbox" name="qDb" value="${v}">${l}</label>`).join("");
 }
 function goRecStep(n){
-  recStep=Math.max(1,Math.min(7,n));
-  for(let i=1;i<=7;i++) document.getElementById("rstep"+i).classList.toggle("hidden",i!==recStep);
+  recStep=Math.max(1,Math.min(6,n));
+  for(let i=1;i<=6;i++) document.getElementById("rstep"+i).classList.toggle("hidden",i!==recStep);
   document.getElementById("rstepLbl").textContent=RSTEPS[recStep-1];
   // step position lives in the dots + footer counter; no third display
   document.querySelectorAll(".rdot").forEach((d,i)=>d.classList.toggle("on",i<recStep));
   document.getElementById("rback").style.visibility=recStep===1?"hidden":"visible";
-  document.getElementById("rnavStep").textContent="Step "+recStep+" of 7";
+  document.getElementById("rnavStep").textContent="Step "+recStep+" of 6";
   const nb=document.getElementById("rnext");
-  nb.textContent=recStep===7?(recFinished?"Update matches":"See my matches"):"Next";
+  nb.textContent=recStep===6?(recFinished?"Update matches":"See my matches"):"Continue";
   if(recStep===7) nb.classList.add("btn-finish"); else nb.classList.remove("btn-finish");
-  if(recStep===7) renderReqReview();
+  if(recStep===6) renderReqReview();
   else if(recFinished===false) renderIdleSummary();
 }
 function renderIdleSummary(){
@@ -1226,7 +1218,7 @@ function renderReqReview(){
   const budgetTxt = bl.value==="custom" ? "Exact: "+peso(a.budget) : {10000:"Under \u20b110,000","15000":"\u20b110,000\u201315,000","20000":"\u20b115,000\u201320,000","30000":"\u20b120,000\u201330,000","40000":"\u20b130,000\u201340,000","60000":"\u20b140,000+"}[bl.value]||peso(a.budget);
   const use1 = (USES[a.cat].find(u=>u[0]===a.use)||["","",""])[1];
   const use2 = a.use2.map(v=>(USES[a.cat].find(u=>u[0]===v)||["",""])[1]);
-  const feats = a.feats.map(f=>(FEATURES[a.cat].find(x=>x[0]===f)||["",""])[1]);
+  const prios = FEATURES[a.cat].filter(([v])=>(a.prio[v]??2)>=3).map(([v,l])=>`${l} — ${PLABELS[a.prio[v]??2]}`);
   const dbs = a.dbs.map(v=>(MUSTHAVES[a.cat].find(x=>x[0]===v)||["",""])[1]);
   document.getElementById("reqReview").innerHTML=`
     <div style="display:grid;grid-template-columns:110px 1fr;gap:6px 12px">
@@ -1234,11 +1226,15 @@ function renderReqReview(){
       <span style="color:var(--ink-mute)">Budget</span><b>${budgetTxt}</b>
       <span style="color:var(--ink-mute)">Main use</span><b>${use1}</b>
       ${use2.length?`<span style="color:var(--ink-mute)">Secondary</span><b>${use2.join(", ")}</b>`:""}
-      ${feats.length?`<span style="color:var(--ink-mute)">Priorities</span><b>${feats.join(", ")}</b>`:""}
-      <span style="color:var(--ink-mute)">Routine</span><b>${["rarely","sometimes","most of the day","almost always"][a.charger]} away from a charger · carried ${["rarely","sometimes","often","every day"][a.carry]}</b>
+      ${prios.length?`<span style="color:var(--ink-mute)">Priorities</span><b>${prios.join("; ")}</b>`:""}
       ${dbs.length?`<span style="color:var(--ink-mute)">Must-haves</span><b>${dbs.join("; ")}</b>`:""}
     </div>
     <div style="margin-top:10px;font-size:var(--fs-sm);color:var(--ink-mute)">Anything here wrong? Use Back to fix it — your other answers are kept.</div>`;
+}
+function recPrioInput(k){
+  const el=document.getElementById("w_"+k), out=document.getElementById("po_"+k);
+  if(out) out.textContent=PLABELS[+el.value];
+  el.style.setProperty("--fill", (el.value/4*100)+"%");
 }
 function recQuizChange(){
   buildStep3to6();
@@ -1249,7 +1245,7 @@ function recQuizChange(){
   }
 }
 function recNext(){
-  if(recStep<7){ goRecStep(recStep+1); return; }
+  if(recStep<6){ goRecStep(recStep+1); return; }
   recFinished=true;
   document.getElementById("quizCard").classList.add("hidden");
   document.getElementById("recIdle").classList.add("hidden");
@@ -1271,8 +1267,8 @@ function resetRec(){
   document.querySelector('input[name="qBudget"][value="30000"]').checked=true;
   document.getElementById("recBudget").value=30000; document.getElementById("recBudgetLbl").textContent="\u20b130,000";
   document.getElementById("customBudget").classList.add("hidden");
-  document.querySelectorAll('input[name="qFeat"]').forEach(c=>c.checked=false);
-  document.querySelectorAll('input[name="qDb"]').forEach(c=>c.checked=false);
+  document.querySelectorAll('#prioGrid input[type=range]').forEach(s=>s.value=2);
+  document.querySelectorAll('#dbGrid input').forEach(c=>c.checked=false);
   recFinished=false;
   document.getElementById("quizCard").classList.remove("hidden");
   document.getElementById("recIdle").classList.remove("hidden");
@@ -1295,10 +1291,7 @@ function recAnswers(){
     budget:recBudgetVal(),
     use:document.querySelector('input[name="qcUse"]:checked')?.value||USES[cat][0][0],
     use2:[...document.querySelectorAll('input[name="qUse2"]:checked')].map(c=>c.value),
-    feats:[...document.querySelectorAll('input[name="qFeat"]:checked')].map(c=>c.value),
-    charger:+(document.querySelector('input[name="qCharger"]:checked')?.value||1),
-    carry:+(document.querySelector('input[name="qCarry"]:checked')?.value||1),
-    annoy:document.querySelector('input[name="qAnnoy"]:checked')?.value||"battery",
+    prio:Object.fromEntries(FEATURES[cat].map(([v])=>[v, +(document.getElementById("w_"+v)?.value ?? 2)])),
     dbs:[...document.querySelectorAll('input[name="qDb"]:checked')].map(c=>c.value)
   };
 }
@@ -1344,10 +1337,14 @@ function scoreGadget(g, ans, adj){
   c.value   = Math.round(Math.max(0,Math.min(100, 100-(monthly(g)-50)/9)));
   /* weights from answers — no manual sliders */
   const tight=Math.max(0,g.price-ans.budget)/ans.budget;
-  const w={budget:3+Math.round(tight*6), purpose:3, perf:1, battery:1+ans.charger, portab:ans.carry, durab:1, repair:1, warranty:1, rating:1, value:2};
-  if(ans.annoy==="battery") w.battery+=1; if(ans.annoy==="slow") w.perf+=2;
-  if(ans.annoy==="heavy") w.portab+=2; if(ans.annoy==="price") w.budget+=2; if(ans.annoy==="fragile") w.durab+=2;
-  ans.feats.slice(0,3).forEach(f=>{ if(w[f]!=null) w[f]+=2; });
+  /* weights: user priority sliders (0=skip..4=top) + baseline for non-slider factors */
+  const P=ans.prio||{};
+  const w={
+    budget:3+Math.round(tight*6), purpose:3,
+    perf:1+(P.perf??2), battery:(P.battery!=null?P.battery:2)+1, portab:P.portability??2,
+    durab:1+(P.durab??2), repair:1+(P.repair??2), warranty:1, rating:1, value:2,
+    display:P.display??0, camera:P.camera??0, storage:P.storage??0, comfort:P.comfort??0, mic:P.mic??0
+  };
   if(adj&&adj.boost&&w[adj.boost]!=null) w[adj.boost]+=4;
   const parts=Object.entries(w).filter(([k])=>c[k]!=null).map(([k,wt])=>[LUX[k],c[k],wt]);
   let s=Math.round(parts.reduce((a,[,v,wt])=>a+v*wt,0)/parts.reduce((a,[,,wt])=>a+wt,0));
@@ -1469,7 +1466,7 @@ function renderRec(){
     <h3 style="font-size:var(--fs-md);margin-bottom:4px">Adjust your priorities</h3>
     <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">Re-ranks the same products with the same formula, one weight at a time.</p>
     <div class="chipgrid">
-      ${[["perf","Performance"],["battery","Battery"],["portab","Portability"],["durab","Durability"],["repair","Repairability"],["value","Lowest ownership cost"]].map(([k,l])=>`<button class="wifchip" data-k="${k}">${l}</button>`).join("")}
+      ${[["perf","Performance"],["battery","Battery"],["portab","Portability"],["durab","Durability"],["repair","Repairability"],["value","Lowest ownership cost"]].filter(([k])=>true).map(([k,l])=>`<button class="wifchip" data-k="${k}">${l}</button>`).join("")}
     </div>
     <div id="wifOut" style="margin-top:10px"></div>
   </div>
