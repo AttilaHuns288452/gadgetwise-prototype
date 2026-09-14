@@ -240,6 +240,12 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 .foot-note{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);font-size:.75rem;color:#8a857a}
 .foot-note .demo-label{color:#8a857a;font-style:italic}
 
+/* ═══════════ RECOMMENDER (AA-Model-Recommender style) ═══════════ */
+.wrow{display:flex;align-items:center;gap:10px;margin:8px 0}
+.wrow span{flex:1;font-size:.83rem;color:var(--ink-soft)}
+.wrow output{width:22px;text-align:center;font-family:var(--mono);font-size:.85rem;font-weight:700;color:var(--green-deep);background:var(--green-soft);border-radius:6px;padding:2px 0}
+.wrow input[type=range]{flex:1.2;min-width:90px;accent-color:var(--green)}
+
 /* ============ TABS (admin sub-sections) ============ */
 .tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:18px;flex-wrap:wrap}
 .tabs button{background:none;border:0;padding:9px 14px;font-size:.88rem;font-weight:700;color:var(--ink-mute);border-bottom:2px solid transparent;margin-bottom:-2px}
@@ -438,7 +444,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 <main id="view-recommend" class="view hidden">
   <section class="pad-sec">
     <div class="wrap">
-      <div class="sec-head"><h2>Find your match</h2><p>Answer four quick questions. GadgetWise scores every gadget on budget fit, purpose, battery, and what students say about it.</p></div>
+      <div class="sec-head"><h2>Find your match</h2><p>Set a budget and purpose, then weight what matters to you. Every gadget is scored on six components — the math is fully visible, and results recompute as you slide.</p></div>
       <div class="rec-grid">
         <div class="card pad">
           <h3 style="margin-bottom:4px">Your profile</h3>
@@ -463,14 +469,14 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
             <option value="classes">Online classes &amp; notes</option>
             <option value="research">Research &amp; reading</option>
           </select>
-          <label class="f">What matters most?</label>
-          <select id="recPrior" onchange="renderRec()">
-            <option value="value">Long-term value</option>
-            <option value="battery" selected>Battery life</option>
-            <option value="durability">Durability</option>
-            <option value="price">Lowest price</option>
-          </select>
-          <div class="check"><input type="checkbox" id="recRepair" onchange="renderRec()" checked> Prefer repairable gadgets</div>
+          <h4 style="margin:18px 0 2px">Weight your priorities</h4>
+          <p style="font-size:.78rem;color:var(--ink-mute);margin-bottom:8px">Slide each factor from 0 (ignore) to 5 (decisive). Scores recompute live — nothing hidden.</p>
+          <div class="wrow"><span>Budget fit</span><input type="range" min="0" max="5" value="3" id="wPrice" oninput="renderRec()" aria-label="Budget fit weight"><output id="oprice">3</output></div>
+          <div class="wrow"><span>Purpose fit</span><input type="range" min="0" max="5" value="3" id="wUse" oninput="renderRec()" aria-label="Purpose fit weight"><output id="ouse">3</output></div>
+          <div class="wrow"><span>Battery life</span><input type="range" min="0" max="5" value="2" id="wBattery" oninput="renderRec()" aria-label="Battery weight"><output id="obattery">2</output></div>
+          <div class="wrow"><span>Durability</span><input type="range" min="0" max="5" value="2" id="wDurab" oninput="renderRec()" aria-label="Durability weight"><output id="odurab">2</output></div>
+          <div class="wrow"><span>Repairability</span><input type="range" min="0" max="5" value="2" id="wRepair" oninput="renderRec()" aria-label="Repairability weight"><output id="orepair">2</output></div>
+          <div class="wrow"><span>Student rating</span><input type="range" min="0" max="5" value="2" id="wRating" oninput="renderRec()" aria-label="Student rating weight"><output id="orating">2</output></div>
           <button class="btn btn-ghost btn-sm" style="margin-top:14px" onclick="resetRec()">Reset</button>
         </div>
         <div>
@@ -967,25 +973,32 @@ function renderBrowse(){
 
 /* ═══════════ RECOMMEND ═══════════ */
 function resetRec(){ document.getElementById("recBudget").value=25000; document.getElementById("recUse").value="programming";
-  document.getElementById("recPrior").value="value"; document.getElementById("recRepair").checked=true;
-  document.getElementById("recCat").value="laptops"; renderRec(); }
+  document.getElementById("recCat").value="laptops";
+  [["wPrice",3],["wUse",3],["wBattery",2],["wDurab",2],["wRepair",2],["wRating",2]].forEach(([id,v])=>document.getElementById(id).value=v);
+  renderRec(); }
 function renderRec(){
   const b=+document.getElementById("recBudget").value;
   document.getElementById("recBudgetLbl").textContent=peso(b);
-  const cat=document.getElementById("recCat").value, use=document.getElementById("recUse").value,
-        prior=document.getElementById("recPrior").value, wantRepair=document.getElementById("recRepair").checked;
+  const cat=document.getElementById("recCat").value, use=document.getElementById("recUse").value;
+  // slider weights: budget fit, purpose, battery, durability, repairability, rating — 0..5 each
+  const W={price:+document.getElementById("wPrice").value, use:+document.getElementById("wUse").value,
+           battery:+document.getElementById("wBattery").value, durab:+document.getElementById("wDurab").value,
+           repair:+document.getElementById("wRepair").value, rating:+document.getElementById("wRating").value};
+  ["oprice","ouse","obattery","odurab","orepair","orating"].forEach((id,i)=>document.getElementById(id).value=[W.price,W.use,W.battery,W.durab,W.repair,W.rating][i]);
+  const wsum = W.price+W.use+W.battery+W.durab+W.repair+W.rating;
+  // component scores 0..100 each, weighted by sliders, normalized to 100
   let scored=G.filter(g=>!cat||g.cat===cat).map(g=>{
-    let s=0, reasons=[];
-    const fit=Math.min(g.price/b,1);                        // budget fit: ≤ budget is best
-    const fscore=Math.round(30*(1-fit)+ (g.price<=b?6:0));  // up to 36 pts
-    s+=fscore; reasons.push(g.price<=b?`fits your budget`:`₱${(g.price-b).toLocaleString()} over budget`);
-    const us=(g.uses[use]||1); s+=us*8; reasons.push(us>=3?"great for "+use:us===2?"decent for "+use:"marginal for "+use);
-    s+=Math.min(g.battery/12,1)*12; reasons.push(g.battery>=8?"strong battery":"average battery");
-    if(prior==="battery"){ s+=g.battery*1.2; } if(prior==="durability"){ s+=g.durab*2.4; }
-    if(prior==="value"){ s+=(g.durab+g.repair)*1.5; } if(prior==="price"){ s+=(g.price<=b?12:0)+(g.price/b<.7?8:0); }
-    if(wantRepair){ s+=g.repair*2; }
-    s+=g.rating*2.4;                                        // student voice
-    return {g,s:Math.min(Math.round(s),99),reasons};
+    const cPrice = Math.round(Math.max(0, 100 - Math.max(0,(g.price-b))/b*120));
+    const cUse   = Math.round(((g.uses[use]||1)-1)/2*100);
+    const cBatt  = Math.round(Math.min(g.battery/14,1)*100);
+    const cDurab = Math.round(g.durab/5*100);
+    const cRepair= Math.round(g.repair/5*100);
+    const cRating= Math.round((g.rating-3)/2*100);
+    const parts=[["Budget fit",cPrice,W.price],["Purpose fit",cUse,W.use],["Battery",cBatt,W.battery],["Durability",cDurab,W.durab],["Repairability",cRepair,W.repair],["Student rating",cRating,W.rating]];
+    const s = wsum ? Math.round(parts.reduce((a,[,v,w])=>a+v*w,0)/wsum) : 0;
+    const reasons = parts.filter(([,v,w])=>w>0).sort((a,b)=>b[1]*b[2]-a[1]*a[2]).slice(0,3)
+      .map(([l,v,w])=>`${l} ${v} ×${w}`);
+    return {g,s,parts,reasons};
   }).sort((a,b)=>b.s-a.s).slice(0,3);
   const out=document.getElementById("recResults");
   if(!scored.length){ out.innerHTML='<div class="card rec-empty"><div class="big">🎯</div>No gadgets in this category yet.</div>'; return; }
@@ -999,12 +1012,18 @@ function renderRec(){
             ${i===0?'<span class="badge badge-green">Best match</span>':''}
           </div>
           <div style="font-size:.82rem;color:var(--ink-mute)">${r.g.brand} · ${CATS[r.g.cat].name} · <b style="color:var(--green-deep)">${peso(r.g.price)}</b> ≈ ${peso(monthly(r.g))}/mo</div>
-          <div style="font-size:.8rem;margin-top:6px;color:var(--ink-soft)">${r.reasons.slice(0,3).join(" · ")}</div>
+          <div style="font-size:.78rem;margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px 14px">
+            ${r.parts.map(([l,v,w])=>`
+              <div style="opacity:${w?1:.4}">
+                <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--ink-soft)"><span>${l}${w?` ×${w}`:' <span aria-hidden="true">(off)</span>'}</span><span style="font-family:var(--mono)">${v}</span></div>
+                <div class="scorebar" style="height:5px;margin-top:2px"><i style="width:${v}%;background:${w?"var(--green)":"var(--line-strong)"}"></i></div>
+              </div>`).join("")}
+          </div>
         </div>
         <div style="text-align:center;min-width:86px">
           <div class="matchnum">${r.s}%</div>
           <div class="scorebar" style="margin-top:4px"><i style="width:${r.s}%"></i></div>
-          <div style="font-size:.7rem;color:var(--ink-mute);margin-top:4px">match score</div>
+          <div style="font-size:.7rem;color:var(--ink-mute);margin-top:4px">weighted match</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn btn-ghost btn-sm" onclick="detail(${r.g.id})">Details</button>
