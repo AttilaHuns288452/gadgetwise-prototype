@@ -276,7 +276,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 .prow-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
 .prow-top span{font-size:var(--fs-base);font-weight:600;color:var(--ink)}
 .prow-top output{font-size:var(--fs-xs);font-weight:700;color:var(--green-deep);font-family:var(--mono)}
-.prow input[type=range]{width:100%;height:28px;accent-color:var(--green)}
+.prow input[type=range]{width:100%;height:36px;accent-color:var(--green)}
 .prow input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:linear-gradient(to right,var(--green) 0%,var(--green) var(--fill,50%),var(--line-strong) var(--fill,50%))}
 .prow input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-7px;border-radius:50%;background:var(--green);border:3px solid #fff;box-shadow:0 1px 4px rgba(28,27,24,.35)}
 .prow input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:var(--line-strong)}
@@ -406,8 +406,10 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
         </div>
         <p class="hero-quote">"Brownout insurance. Kept my router, phone and laptop alive through a 6-hour outage." — Fons, 3rd yr EE</p>
         <div class="scorebar" title="Ownership Index"><i style="width:82%;background:var(--green)"></i></div>
-        <div style="display:flex;justify-content:space-between;font-size:var(--fs-xs);color:var(--ink-mute);margin-top:6px">
-          <span>Ownership Index — durability, repairability, warranty, battery, student rating</span><span style="font-family:var(--mono)"><b>82</b>/100</span>
+        <div style="margin-top:10px">
+          <span style="font-family:var(--mono);font-size:var(--fs-lg);font-weight:700;color:var(--green-deep)">82<span style="font-weight:400;color:var(--ink-mute)"> / 100</span></span>
+          <span style="font-size:var(--fs-xs);color:var(--ink-mute);margin-left:6px">Ownership Index</span>
+          <div style="font-size:var(--fs-xs);color:var(--ink-mute);margin-top:2px">Based on durability, repairability, warranty, battery and student ratings.</div>
         </div>
         <button class="btn btn-ghost btn-sm" style="margin-top:14px" onclick="detail(9)">See the details</button>
       </div>
@@ -575,7 +577,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
             <div id="reqReview" style="font-size:var(--fs-sm)"></div>
             <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
               <h4 style="margin:0 0 6px">How GadgetWise chooses</h4>
-              <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0;line-height:1.55">We check your answers against each product’s specs and ownership cost. Products that miss your must-haves are filtered out first. The rest are scored on budget fit, academic suitability, performance, battery, portability, durability, repairability, warranty, student rating and long-term value — weighted by what you told us. No AI is used to choose the product.</p>
+              <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0;line-height:1.55">We check your answers against each product’s specs and ownership cost. Products that miss your must-haves are filtered out first. The rest are scored on budget fit, academic suitability, performance, battery, portability, durability, repairability, warranty, student rating and long-term value, weighted by what you told us. No AI is used to choose the product.</p>
             </div>
           </div>
 
@@ -588,7 +590,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
         </div>
         <div id="recIdle" class="card pad" style="margin-top:16px">
           <h3 style="font-size:var(--fs-md);margin:0 0 6px">Your requirements</h3>
-          <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0">As you answer, your requirements are collected on the review step. When you finish, every eligible product is scored and ranked here — with the full scoring breakdown and the trade-offs.</p>
+          <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0">As you answer, your requirements are collected on the review step. When you finish, every eligible product is scored and ranked here, with the full scoring breakdown and the trade-offs.</p>
         </div>
         <div id="recResultsWrap" class="hidden"></div>
       </div>
@@ -600,7 +602,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 <main id="view-compare" class="view hidden">
   <section class="pad-sec">
     <div class="wrap">
-      <div class="sec-head"><h2>Side-by-side comparison</h2><p>Arrows show which way is better (↓ lower wins, ↑ higher wins). The better gadget for each row is marked ★ — identical values are left plain, a tie is not a win. Monthly cost = price ÷ realistic lifespan ÷ 12.</p></div>
+      <div class="sec-head"><h2>Side-by-side comparison</h2><p>Arrows show which way is better (↓ lower wins, ↑ higher wins). The better gadget for each row is marked ★; identical values are left plain, a tie is not a win. Monthly cost = price ÷ realistic lifespan ÷ 12.</p></div>
       <div id="cmpArea"></div>
       <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn btn-ghost btn-sm" onclick="cmpSeedSample()">Load example: two laptops</button>
@@ -614,7 +616,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 <main id="view-account" class="view hidden">
   <section class="pad-sec">
     <div class="wrap">
-      <div class="sec-head"><h2>Your account</h2><p>Demo account — everything resets when you reload the page.</p></div>
+      <div class="sec-head"><h2>Your account</h2><p>Demo account. Everything resets when you reload the page.</p></div>
       <div class="dash">
         <aside class="side-nav card" aria-label="Account sections">
           <span class="side-label">ACCOUNT</span>
@@ -759,7 +761,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
     </div>
     <div class="foot-note">
       CC116 Advanced Web Systems and Technologies · Austria · Banting · Candano · Jacobe · Sabiniano<br>
-      <span class="demo-label">Demo catalog: real products, illustrative specs and prices. Ownership Index computed from demo scores — not manufacturer data.</span>
+      <span class="demo-label">Demo catalog: real products, illustrative specs and prices. Ownership Index computed from demo scores, not manufacturer data.</span>
     </div>
   </div>
 </footer>
@@ -1238,7 +1240,7 @@ function renderReqReview(){
       ${prios.length?`<span style="color:var(--ink-mute)">Priorities</span><b>${prios.join("; ")}</b>`:""}
       ${dbs.length?`<span style="color:var(--ink-mute)">Must-haves</span><b>${dbs.join("; ")}</b>`:""}
     </div>
-    <div style="margin-top:10px;font-size:var(--fs-sm);color:var(--ink-mute)">Anything here wrong? Use Back to fix it — your other answers are kept.</div>`;
+    <div style="margin-top:10px;font-size:var(--fs-sm);color:var(--ink-mute)">Anything here wrong? Use Back to fix it; your other answers are kept.</div>`;
 }
 function recPrioInput(k){
   const el=document.getElementById("w_"+k), out=document.getElementById("po_"+k);
@@ -1389,7 +1391,7 @@ function renderRec(){
         ${wasCustom?`<button class="btn btn-ghost btn-sm" onclick="goRecStep(2)">Raise the budget</button>`:`<button class="btn btn-ghost btn-sm" onclick="recBudgetPlus()">Try +\u20b15,000 budget</button>`}
         <button class="btn btn-ghost btn-sm" onclick="resetRec()">Start over</button>
       </div>
-      <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:12px 0 0">Closest alternatives — these went over budget (some also missed a must-have): ${excluded.filter(x=>x.why.some(w=>w.includes("budget"))).sort((a,b)=>a.g.price-b.g.price).slice(0,2).map(x=>`${x.g.model} (${peso(x.g.price)})`).join(", ")||"none"}. You can view them from Browse.</p>
+      <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:12px 0 0">Closest alternatives: these went over budget (some also missed a must-have): ${excluded.filter(x=>x.why.some(w=>w.includes("budget"))).sort((a,b)=>a.g.price-b.g.price).slice(0,2).map(x=>`${x.g.model} (${peso(x.g.price)})`).join(", ")||"none"}. You can view them from Browse.</p>
     </div>`;
     out.innerHTML=html; return;
   }
@@ -1402,12 +1404,12 @@ function renderRec(){
   addWhy(top.comp.purpose>=80, `Strong match for ${((USES[ans.cat].find(u=>u[0]===ans.use)||["",""])[1]||"your main use").toLowerCase()}`);
   addWhy(top.comp.perf>=75, "High performance score");
   addWhy(top.comp.battery>=75, "Excellent battery life");
-  addWhy(top.comp.repair>=70, "Good repairability — cheap to fix");
-  addWhy(top.comp.durab>=75, "Built to handle daily student wear");
+  addWhy(top.comp.repair>=70, "Easy and cheap to repair");
+  addWhy(top.comp.durab>=75, "Durable enough for daily student use");
   addWhy(top.comp.warranty>=70, "Warranty covers a large part of its lifespan");
   addWhy(top.comp.rating>=70, `Strong student rating (${top.g.rating}\u2605 from ${top.g.raters} students)`);
-  addWhy(top.comp.value>=65, `Long-term value: only ${peso(monthly(top.g))}/month over its lifespan`);
-  if(!whyFacts.length) whyFacts.push("Best overall fit under the weighted scoring");
+  addWhy(top.comp.value>=65, `Est. monthly cost is only ${peso(monthly(top.g))} over its lifespan`);
+  if(!whyFacts.length) whyFacts.push("Best overall fit for your requirements");
   const tradeoff=(top.g.weaknesses||[]).slice(0,2);
   const weakest=[...top.parts].sort((a,b)=>a[1]-b[1])[0];
   const catName={laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[ans.cat];
@@ -1418,17 +1420,18 @@ function renderRec(){
       ${gadgetImage(top.g,72)}
       <div>
         <b style="font-size:var(--fs-lg)">${top.g.model}</b>
+        <div style="font-size:var(--fs-sm);color:var(--ink-soft);margin-top:4px;max-width:52ch">${whyFacts.slice(0,3).join("; ")}.</div>
         <div style="font-size:var(--fs-base);color:var(--ink-mute);margin-top:2px">${top.g.brand} · <b style="color:var(--ink);font-family:var(--mono)">${peso(top.g.price)}</b> · <b style="font-family:var(--mono);color:var(--green-deep)">${peso(monthly(top.g))}/month</b> monthly ownership</div>
         <div style="font-size:var(--fs-sm);color:var(--ink-mute);margin-top:2px">Score <b style="font-family:var(--mono);color:var(--ink)">${top.s} / 100</b> · ${Math.round(top.g.lifespan*12)}-month lifespan · warranty ${top.g.warranty} mo</div>
       </div>
     </div>
     <h4 style="margin:16px 0 6px">Score breakdown</h4>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:7px 16px;font-size:var(--fs-sm)">
-      ${top.parts.map(([l,v,w])=>`<div style="opacity:${w?1:.4}"><div style="display:flex;justify-content:space-between;gap:6px;white-space:nowrap;color:var(--ink-soft)"><span>${l}</span><span style="font-family:var(--mono)">${v}${w?` \u00d7${w}`:""}</span></div><div class="scorebar" style="height:5px;margin-top:2px"><i style="width:${v}%;background:${!w?"var(--line-strong)":v>=75?"var(--ok)":v>=50?"var(--green)":"var(--red)"}"></i></div></div>`).join("")}
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px 18px;font-size:var(--fs-sm)">
+      ${[...top.parts].sort((a,b)=>(b[2]-a[2])||(b[1]-a[1])).map(([l,v,w])=>`<div style="opacity:${w?1:.4}"><div style="display:flex;justify-content:space-between;gap:8px;color:var(--ink-soft)"><span>${l}</span><span style="font-family:var(--mono);flex-shrink:0">${v}${w?` \u00d7${w}`:""}</span></div><div class="scorebar" style="height:5px;margin-top:2px"><i style="width:${v}%;background:${!w?"var(--line-strong)":v>=75?"var(--ok)":v>=50?"var(--green)":"var(--red)"}"></i></div></div>`).join("")}
     </div>
     <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:8px 0 0">The \u00d7N shows how heavily each factor counted \u2014 \u00d73 counts triple. The overall score combines all ten factors. Only products that passed your must-haves are scored.</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px">
-      <div><h4 style="margin:0 0 6px">Why it ranked first</h4><ul class="swlist">${whyFacts.slice(0,5).map(t=>`<li class="good">${t}</li>`).join("")}</ul></div>
+      <div><h4 style="margin:0 0 6px">Why this ranks highest</h4><ul class="swlist">${whyFacts.slice(0,5).map(t=>`<li class="good">${t}</li>`).join("")}</ul></div>
       <div><h4 style="margin:0 0 6px">Trade-offs</h4><ul class="swlist">${tradeoff.map(t=>`<li class="bad">${t}</li>`).join("")}${weakest&&weakest[1]<55?`<li class="bad">Lowest-scoring factor: ${weakest[0].toLowerCase()} (${weakest[1]}/100)</li>`:""}</ul></div>
     </div>
     <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
@@ -1440,15 +1443,15 @@ function renderRec(){
   ${alt?`
   <div class="card pad">
     <h3 style="font-size:var(--fs-md);margin-bottom:4px">${(top.s-alt.s)<=3?`Nearly tied: ${top.g.model} scored ${top.s-alt.s} point${top.s-alt.s===1?"":"s"} higher`:`Why ${top.g.model} ranked above ${alt.g.model}`}</h3>
-    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 12px">${(top.s-alt.s)<=3?`${top.s} vs ${alt.s} — close enough that the trade-offs below should decide it, not the total.`:`${top.s} vs ${alt.s} — both eligible; exactly where they differ.`}</p>
+    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 12px">${(top.s-alt.s)<=3?`${top.s} vs ${alt.s}, close enough that the trade-offs below should decide it, not the total.`:`${top.s} vs ${alt.s}, both eligible; exactly where they differ.`}</p>
     ${(()=>{ const diffs=top.parts.map(([l,va])=>{ const li=alt.parts.find(p=>p[0]===l); return [l, va, li[1]]; });
       const betterFor=diffs.filter(([l,a,b])=>a>b).sort((a,b)=>(b[1]-b[2])-(a[1]-a[2])).slice(0,3);
       const betterForAlt=diffs.filter(([l,a,b])=>b>a).sort((a,b)=>(b[2]-b[1])-(a[2]-a[1])).slice(0,3);
       return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:var(--fs-sm)">
         <div><b style="font-size:var(--fs-sm);color:var(--green-deep)">${top.g.model} scored higher in</b>
-          <ul class="swlist" style="margin-top:6px">${betterFor.map(([l,a,b])=>`<li class="good">${l} +${a-b} <span style="font-family:var(--mono);color:var(--ink-mute)">(${a} vs ${b})</span></li>`).join("")||'<li class="good">No factor — dead heat</li>'}</ul></div>
+          <ul class="swlist" style="margin-top:6px">${betterFor.map(([l,a,b])=>`<li class="good">${l} +${a-b} <span style="font-family:var(--mono);color:var(--ink-mute)">(${a} vs ${b})</span></li>`).join("")||'<li class="good">No factor: dead heat</li>'}</ul></div>
         <div><b style="font-size:var(--fs-sm);color:var(--ink-soft)">${alt.g.model} scored higher in</b>
-          <ul class="swlist" style="margin-top:6px">${betterForAlt.map(([l,a,b])=>`<li class="bad">${l} +${b-a} <span style="font-family:var(--mono);color:var(--ink-mute)">(${b} vs ${a})</span></li>`).join("")||'<li class="bad">No factor — dead heat</li>'}</ul></div>
+          <ul class="swlist" style="margin-top:6px">${betterForAlt.map(([l,a,b])=>`<li class="bad">${l} +${b-a} <span style="font-family:var(--mono);color:var(--ink-mute)">(${b} vs ${a})</span></li>`).join("")||'<li class="bad">No factor: dead heat</li>'}</ul></div>
       </div>
       <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:12px 0 0">Pick <b>${alt.g.model}</b> instead if ${alt.comp.budget>top.comp.budget?`its lower price (${peso(alt.g.price)})`:((bestIn("battery").g.id===alt.g.id&&alt.comp.battery>top.comp.battery)?"longer battery life":"those strengths")} matters more to you than ${top.g.model}\u2019s lead.</p>`;
     })()}
@@ -1466,7 +1469,7 @@ function renderRec(){
   </div>`:""}
   ${excluded.length?`<div class="card pad">
     <h3 style="font-size:var(--fs-md);margin-bottom:4px">Filtered out by your must-haves</h3>
-    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">These failed a hard requirement, so they were removed before scoring — scoring can\u2019t rescue them.</p>
+    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">These failed a hard requirement, so they were removed before scoring; scoring can\u2019t rescue them.</p>
     <div style="display:flex;flex-direction:column;gap:8px">
       ${excluded.map(x=>`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:var(--fs-sm);padding:8px 0;border-bottom:1px solid var(--line)"><b>${x.g.model}</b><span style="color:var(--ink-soft);font-size:var(--fs-sm)">${x.why.join(" · ")}</span></div>`).join("")}
     </div>
@@ -1491,7 +1494,7 @@ function renderRec(){
     const wn=rescored[0];
     out.getElementById?.("wifOut");
     document.getElementById("wifOut").innerHTML = wn.g.id===top.g.id
-      ? `<div style="font-size:var(--fs-sm);color:var(--ink-soft)">Same winner: <b>${wn.g.model}</b> (${wn.s}/100) — your pick holds up when ${ch.textContent.toLowerCase()} is prioritized.</div>`
+      ? `<div style="font-size:var(--fs-sm);color:var(--ink-soft)">Same winner: <b>${wn.g.model}</b> (${wn.s}/100); your pick holds up when ${ch.textContent.toLowerCase()} is prioritized.</div>`
       : `<div style="font-size:var(--fs-sm);color:var(--ink-soft)">New winner: <b>${wn.g.model}</b> at ${wn.s}/100 — it was #${scored.findIndex(x=>x.g.id===wn.g.id)+1} under your original priorities. <button class="btn btn-ghost btn-sm" onclick="detail(${wn.g.id})">Details</button></div>`;
   }));
 }
@@ -1500,7 +1503,7 @@ function renderRec(){
 function toggleTray(id){
   const i=S.tray.indexOf(id);
   if(i>-1){ S.tray.splice(i,1); toast("Removed from compare tray"); }
-  else{ if(S.tray.length>=3){ toast("Tray holds 3 — remove one first"); return; } S.tray.push(id); toast("Added to compare tray"); }
+  else{ if(S.tray.length>=3){ toast("Tray holds 3. Remove one first."); return; } S.tray.push(id); toast("Added to compare tray"); }
   renderTray();
   if(!document.getElementById("view-browse").classList.contains("hidden")) renderBrowse();
   if(!document.getElementById("view-recommend").classList.contains("hidden")) renderRec();
@@ -1572,7 +1575,7 @@ function renderComparePage(){
       return `Over each gadget's estimated lifetime, <b>${cheap.model}</b> costs the least per month (${peso(monthly(cheap))}/mo). Students rate <b>${rated.model}</b> highest (${rated.rating}\u2605). Upfront price alone doesn't decide this: a cheaper gadget with a short lifespan can cost more per month.`; })()}
     </p>
   </div>
-  ${S.tray.length===2?`<div style="margin-top:12px;font-size:var(--fs-sm);color:var(--ink-mute)">Room for one more — add a third gadget from Browse.</div>`:""}`;
+  ${S.tray.length===2?`<div style="margin-top:12px;font-size:var(--fs-sm);color:var(--ink-mute)">Room for one more. Add a third gadget from Browse.</div>`:""}`;
 }
 
 /* ═══════════ SCATTER (AA-style price vs index) ═══════════ */
@@ -1684,7 +1687,7 @@ function submitReview(){
   S.reviews.unshift({g:reviewFor,stars:starMap[document.getElementById("rvStars").selectedIndex],
     text:t,issue:document.getElementById("rvIssue").checked?document.getElementById("rvIssueType").value:null,
     date:new Date().toLocaleDateString("en-PH",{month:"short",day:"numeric"}),status:"Pending verification"});
-  closeModal("modal-review"); toast("Review submitted — pending admin verification (demo)");
+  closeModal("modal-review"); toast("Review submitted; pending admin verification (demo)");
   renderAccount();
 }
 
@@ -1808,7 +1811,7 @@ function apiFetch(){
   const q=document.getElementById("apiQuery").value.trim();
   const st=document.getElementById("apiStatus");
   if(!q){ st.textContent="Enter a product name first."; return; }
-  st.textContent="Looking it up… (demo API — simulated server-side fetch)";
+  st.textContent="Looking it up… (demo API, simulated server-side fetch)";
   setTimeout(()=>{
     const key=Object.keys(MOCK_PRODUCT_DB).find(k=>q.toLowerCase().includes(k)||k.includes(q.toLowerCase()));
     const resp = key ? {status:"found",data:MOCK_PRODUCT_DB[key]} : {status:"not_found",data:null};
@@ -1819,7 +1822,7 @@ function apiFetch(){
       document.getElementById("fCat").value=d.category;
       st.innerHTML='✓ Mock API returned: name, brand, category, image. Verify these, then complete price, specs and warranty manually.';
     } else {
-      st.innerHTML='✗ Mock API: no product matched "'+q+'". Try "Lenovo IdeaPad", "Anker Zolo" or "Galaxy A16" — or add the gadget manually below.';
+      st.innerHTML='✗ Mock API: no product matched "'+q+'". Try "Lenovo IdeaPad", "Anker Zolo" or "Galaxy A16" Or add the gadget manually below.';
     }
   },900);
 }
