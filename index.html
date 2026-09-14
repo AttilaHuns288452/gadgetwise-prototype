@@ -98,14 +98,14 @@ textarea{resize:vertical;min-height:70px}
 .hero{background:var(--violet-ink);color:#f2f0fa;padding:64px 0 72px;border-bottom:4px solid var(--ok)}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
 .hero h1{font-size:clamp(1.9rem,4.2vw,2.9rem);color:#fff;margin-bottom:14px}
-.hero p.lead{font-size:var(--fs-lg);color:#c9c3e8;max-width:46ch;margin-bottom:24px}
+.hero p.lead{font-size:var(--fs-lg);color:#ddd7f2;max-width:46ch;margin-bottom:24px}
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
 .btn-light{background:#f0eaff;color:var(--violet-ink)}
 .btn-outline-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
 .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);overflow:hidden;margin-top:30px}
 .hero-stats div{background:rgba(35,26,58,.62);padding:14px 16px}
-.hero-stats b{display:block;font-size:1.5rem;color:#fff;font-family:var(--mono)}
-.hero-stats span{font-size:var(--fs-xs);color:#c9c3e8}
+.hero-stats b{display:block;font-size:1.5rem;color:#fff;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.hero-stats span{font-size:var(--fs-xs);color:#ddd7f2}
 .hero-panel{background:#fff;color:var(--ink);border-radius:var(--radius-lg);box-shadow:var(--shadow-raised);padding:20px}
 .hero-panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .hero-panel-head h3{font-size:var(--fs-md)}
@@ -144,7 +144,7 @@ select.inline{width:auto;padding:7px 30px 7px 10px;font-size:var(--fs-sm)}
 .gadgets{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .gcard{display:flex;flex-direction:column;overflow:hidden;position:relative;transition:transform .15s,box-shadow .15s}
 .gcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-raised)}
-.gcard-img{position:relative;height:150px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#efedf7,#dedbf0)}
+.gcard-img{position:relative;height:150px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff}
 .gcard-img img{width:100%;height:100%;object-fit:contain;padding:12px;background:#fff}
 .rec-result img{background:#fff}
 .gcard-img svg{width:64px;height:64px;color:var(--ink-soft)}
@@ -222,6 +222,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:var(--fs-sm)}
 .matchnum{font-size:1.7rem;font-weight:800;color:var(--green-deep)}
 
 /* ============ COMPARE TABLE ============ */
+.compare-page{padding-bottom:90px}
 .cmp-grid{display:grid;grid-template-columns:210px repeat(2,1fr);gap:0}
 .cmp-grid.c3{grid-template-columns:210px repeat(3,1fr)}
 .cmp-cell{padding:12px 14px;border-bottom:1px solid var(--line);font-size:var(--fs-sm);display:flex;align-items:center;min-height:46px}
@@ -333,9 +334,11 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
   .nav-user .btn-ghost{display:none}
   .nav-user .btn{padding:6px 10px;font-size:var(--fs-sm)}
   .cat-grid,.gadgets{grid-template-columns:1fr}
-  .cmp-grid{grid-template-columns:120px 1fr}
+  .compare-page{padding-bottom:90px}
+.cmp-grid{grid-template-columns:120px 1fr}
   .cmp-grid.c3{grid-template-columns:120px 1fr 1fr}
-  .cmp-grid{overflow-x:auto;min-width:0}
+  .compare-page{padding-bottom:90px}
+.cmp-grid{overflow-x:auto;min-width:0}
   .tray{flex-wrap:wrap;justify-content:center}
   .stats{grid-template-columns:1fr}
   .hero{padding:40px 0 48px}
@@ -457,7 +460,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 <main id="view-browse" class="view hidden">
   <section class="pad-sec">
     <div class="wrap">
-      <div class="sec-head"><h2>Browse gadgets</h2><p>Search, filter and sort the catalog. Tap the scale icons to add gadgets to the compare tray.</p></div>
+      <div class="sec-head"><h2>Browse gadgets</h2><p>Search, filter and sort the catalog. Use the ⇄ button on a card to add it to the compare tray.</p></div>
       <div class="browse">
         <aside class="filters card" aria-label="Filters">
           <div class="f-group">
@@ -594,7 +597,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 <main id="view-compare" class="view hidden">
   <section class="pad-sec">
     <div class="wrap">
-      <div class="sec-head"><h2>Side-by-side comparison</h2><p>Differences are highlighted. The best value in each row is marked ★. Monthly cost = price ÷ realistic lifespan ÷ 12.</p></div>
+      <div class="sec-head"><h2>Side-by-side comparison</h2><p>Arrows show which way is better (↓ lower wins, ↑ higher wins). The best value in each row is highlighted — identical values are left plain, a tie is not a win. Monthly cost = price ÷ realistic lifespan ÷ 12.</p></div>
       <div id="cmpArea"></div>
       <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn btn-ghost btn-sm" onclick="cmpSeedSample()">Load example: two laptops</button>
@@ -870,7 +873,7 @@ function frontier(ids){ // ids: array of gadget ids -> Set of Pareto-optimal ids
   const gs = ids.map(byId).filter(Boolean).map(g=>({id:g.id,p:g.price,s:ownIndex(g)}));
   return new Set(gs.filter(a=>!gs.some(b=>b!==a && b.p<=a.p && b.s>=a.s && (b.p<a.p||b.s>a.s))).map(a=>a.id));
 }
-const WISH_IMGS = {"laptop1":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png","laptop2":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acer_Aspire_A515-51.jpg/960px-Acer_Aspire_A515-51.jpg","laptop3":"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg","tablet1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg","tablet2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg","phone1":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmi_Note_11_front.jpg/960px-Redmi_Note_11_front.jpg","phone2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Galaxy_S23.png/960px-Galaxy_S23.png","head1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg","power1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg","watch1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg"};
+const WISH_IMGS = {"laptop1":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png","laptop2":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acer_Aspire_A515-51.jpg/960px-Acer_Aspire_A515-51.jpg","laptop3":"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg","tablet1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg","tablet2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg","phone1":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmi_Note_11_front.jpg/960px-Redmi_Note_11_front.jpg","phone2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Back_of_the_Samsung_Galaxy_S23.jpg/960px-Back_of_the_Samsung_Galaxy_S23.jpg","head1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg","power1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg","watch1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg"};
 
 /* ═══════════ DATA (demo — real products, illustrative specs/prices) ═══════════ */
 const ICONS={
@@ -1073,7 +1076,7 @@ let toastTimer;
 function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2600); }
 
 /* ═══════════ CARDS ═══════════ */
-function stars(r){ const f=Math.round(r); return "★".repeat(f)+"☆".repeat(5-f); }
+function stars(r){ const f=Math.round(r); return "★".repeat(f)+"☆".repeat(5-f); } /* ponytail: glyph stars stay whole; the numeric rating beside them carries precision */
 function gadgetImage(g,size){
   const c=CATS[g.cat];
   const s=size||64;
@@ -1094,7 +1097,6 @@ function card(g){
       <div class="gcard-price">${peso(g.price)}<small>≈ ${peso(monthly(g))}/mo over ${g.lifespan} yrs</small></div>
       <ul class="spec-list">${g.specs.slice(0,3).map(s=>`<li>${s}</li>`).join("")}</ul>
       <div class="gcard-rate"><span class="stars">${stars(g.rating)}</span> ${g.rating} <span style="color:var(--ink-mute)">(${g.raters})</span><span style="margin-left:auto;font-size:var(--fs-xs);color:var(--ink-mute)" title="Ownership Index: durability 25%, repairability 20%, battery 20%, warranty 15%, student rating 20%">Index ${ownIndex(g)}</span></div>
-      <div style="font-size:var(--fs-xs);color:var(--ink-soft)"><span style="font-family:var(--mono);font-weight:700;color:var(--green-deep)">${peso(monthly(g))}/mo</span> estimated ownership</div>
       <div class="gcard-actions">
         <button class="btn btn-ghost btn-sm" style="flex:1" onclick="detail(${g.id})">Details</button>
         <button class="btn ${inTray?"btn-primary":"btn-ghost"} btn-sm" title="Add to compare" onclick="toggleTray(${g.id})">${inTray?"✓ In tray":"⇄ Compare"}</button>
@@ -1409,18 +1411,18 @@ function renderRec(){
       ${gadgetImage(top.g,72)}
       <div>
         <b style="font-size:var(--fs-lg)">${top.g.model}</b>
-        <div style="font-size:var(--fs-base);color:var(--ink-mute);margin-top:2px">${top.g.brand} · <b style="color:var(--ink);font-family:var(--mono)">${peso(top.g.price)}</b> · <b style="font-family:var(--mono);color:var(--green-deep)">${peso(monthly(top.g))}/month</b> est. ownership</div>
+        <div style="font-size:var(--fs-base);color:var(--ink-mute);margin-top:2px">${top.g.brand} · <b style="color:var(--ink);font-family:var(--mono)">${peso(top.g.price)}</b> · <b style="font-family:var(--mono);color:var(--green-deep)">${peso(monthly(top.g))}/month</b> monthly ownership</div>
         <div style="font-size:var(--fs-sm);color:var(--ink-mute);margin-top:2px">Score <b style="font-family:var(--mono);color:var(--ink)">${top.s} / 100</b> · ${Math.round(top.g.lifespan*12)}-month lifespan · warranty ${top.g.warranty} mo</div>
       </div>
     </div>
     <h4 style="margin:16px 0 6px">Score breakdown</h4>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:7px 16px;font-size:var(--fs-sm)">
-      ${top.parts.map(([l,v,w])=>`<div style="opacity:${w?1:.4}"><div style="display:flex;justify-content:space-between;gap:6px;white-space:nowrap;color:var(--ink-soft)"><span>${l}</span><span style="font-family:var(--mono)">${v}${w?` \u00d7${w}`:""}</span></div><div class="scorebar" style="height:5px;margin-top:2px"><i style="width:${v}%;background:${w?"var(--green)":"var(--line-strong)"}"></i></div></div>`).join("")}
+      ${top.parts.map(([l,v,w])=>`<div style="opacity:${w?1:.4}"><div style="display:flex;justify-content:space-between;gap:6px;white-space:nowrap;color:var(--ink-soft)"><span>${l}</span><span style="font-family:var(--mono)">${v}${w?` \u00d7${w}`:""}</span></div><div class="scorebar" style="height:5px;margin-top:2px"><i style="width:${v}%;background:${!w?"var(--line-strong)":v>=75?"var(--ok)":v>=50?"var(--green)":"var(--red)"}"></i></div></div>`).join("")}
     </div>
-    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:8px 0 0">\u00d7 numbers are the weights your answers gave each factor. The overall score is the weighted average, rescaled to 100. Only products that passed your must-haves are scored.</p>
+    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:8px 0 0">The \u00d7N shows how heavily each factor counted \u2014 \u00d73 counts triple. The overall score combines all ten factors. Only products that passed your must-haves are scored.</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px">
       <div><h4 style="margin:0 0 6px">Why it ranked first</h4><ul class="swlist">${whyFacts.slice(0,5).map(t=>`<li class="good">${t}</li>`).join("")}</ul></div>
-      <div><h4 style="margin:0 0 6px">Trade-off</h4><ul class="swlist">${tradeoff.map(t=>`<li class="bad">${t}</li>`).join("")}${weakest&&weakest[1]<55?`<li class="bad">Lowest-scoring factor: ${weakest[0].toLowerCase()} (${weakest[1]}/100)</li>`:""}</ul></div>
+      <div><h4 style="margin:0 0 6px">Trade-offs</h4><ul class="swlist">${tradeoff.map(t=>`<li class="bad">${t}</li>`).join("")}${weakest&&weakest[1]<55?`<li class="bad">Lowest-scoring factor: ${weakest[0].toLowerCase()} (${weakest[1]}/100)</li>`:""}</ul></div>
     </div>
     <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
       <button class="btn btn-primary btn-sm" onclick="detail(${top.g.id})">Full product details</button>
@@ -1459,7 +1461,7 @@ function renderRec(){
     <h3 style="font-size:var(--fs-md);margin-bottom:4px">Filtered out by your must-haves</h3>
     <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">These failed a hard requirement, so they were removed before scoring — scoring can\u2019t rescue them.</p>
     <div style="display:flex;flex-direction:column;gap:8px">
-      ${excluded.map(x=>`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:var(--fs-sm);padding:8px 0;border-bottom:1px solid var(--line)"><b>${x.g.model}</b><span style="color:var(--red);font-family:var(--mono);font-size:var(--fs-sm)">${x.why.join(" · ")}</span></div>`).join("")}
+      ${excluded.map(x=>`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:var(--fs-sm);padding:8px 0;border-bottom:1px solid var(--line)"><b>${x.g.model}</b><span style="color:var(--ink-soft);font-size:var(--fs-sm)">${x.why.join(" · ")}</span></div>`).join("")}
     </div>
   </div>`:""}
   <div class="card pad">
@@ -1509,8 +1511,10 @@ function runCompare(){
   S.compared.unshift([...S.tray]); S.compared=S.compared.slice(0,5);
   go("compare");
 }
-function bestRow(vals,dir){ // dir: "lo" = lower wins, "hi" = higher wins
+function bestRow(vals,dir){ // dir: "lo" = lower wins, "hi" = higher wins. Ties are not wins.
   const best=dir==="lo"?Math.min(...vals):Math.max(...vals);
+  if(vals.every(v=>v===best)) return vals.map(()=>false);
+  if(vals.length===2&&vals.filter(v=>v===best).length===2) return vals.map(()=>false);
   return vals.map(v=>v===best);
 }
 function renderComparePage(){
