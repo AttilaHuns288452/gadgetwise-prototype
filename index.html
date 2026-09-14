@@ -110,6 +110,13 @@
       </div>
     </section>
 
+    <!-- ============ Price vs Ownership Index scatter ============ -->
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div id="scatterArea"><!-- scatter injected by GWApp.renderScatter() --></div>
+      </div>
+    </section>
+
     <!-- ============ Featured ============ -->
     <section class="section" style="padding-top:0">
       <div class="container">
@@ -218,6 +225,8 @@
     const bestValue = [...GW.gadgets].sort((a, b) => GW.monthlyCost(a) - GW.monthlyCost(b)).slice(0, 3);
     document.getElementById("topRated").innerHTML = topRated.map(miniRow).join("");
     document.getElementById("bestValue").innerHTML = bestValue.map(miniRow).join("");
+
+    GWApp.renderScatter();
   </script>
 </body>
 </html>

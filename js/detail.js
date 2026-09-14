@@ -127,6 +127,31 @@ window.GWDetail = (function () {
             ${g.strengths.map(s => `<span class="tag tag-green">${icon("check", "icon-sm")}${esc(s)}</span>`).join("")}
             ${g.weaknesses.map(w => `<span class="tag tag-red">${esc(w)}</span>`).join("")}
           </div>
+
+          ${g.goodFor || g.notIdeal ? `
+          <div class="grid-2" style="margin-top:18px; gap:14px">
+            ${g.goodFor ? `<div class="panel" style="padding:14px 18px"><h4 style="margin:0 0 8px">Good for</h4><ul class="swlist">${g.goodFor.map(s => `<li class="good">${esc(s)}</li>`).join("")}</ul></div>` : ""}
+            ${g.notIdeal ? `<div class="panel" style="padding:14px 18px"><h4 style="margin:0 0 8px">Not ideal for</h4><ul class="swlist">${g.notIdeal.map(s => `<li class="bad">${esc(s)}</li>`).join("")}</ul></div>` : ""}
+          </div>` : ""}
+
+          ${g.specList ? `
+          <details class="tag-flip" style="margin-top:18px">
+            <summary>Specifications <span class="chev">${icon("chevDown")}</span></summary>
+            <div class="tf-body"><ul class="spec-list" style="margin:0">${g.specList.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
+          </details>` : ""}
+
+          ${g.durab != null ? `
+          <div class="panel" style="margin-top:18px; padding:14px 18px">
+            <h4 style="margin:0 0 10px">Ownership scores</h4>
+            <div class="grid-3" style="gap:12px">
+              ${[["Durability", g.durab], ["Repairability", g.repair], ["Battery", Math.min(g.battery / 12 * 5, 5)]].map(([l, v]) => `
+                <div><div class="row-between" style="font-size:.85rem; margin-bottom:4px"><span>${l}</span><b class="mono">${v.toFixed(1)}</b></div><span class="meter" style="display:block"><span class="track"><span class="fill" style="width:${v / 5 * 100}%"></span></span></span></div>`).join("")}
+              <div class="small muted" style="grid-column:1/-1">Warranty: ${g.value.warrantyYears} year${g.value.warrantyYears === 1 ? "" : "s"} · Scores are mock data on a 1–5 scale.</div>
+            </div>
+          </div>` : ""}
+
+          ${g.issue && g.issue !== "None reported yet" ? `
+          <div class="issue-callout" style="margin-top:18px; background:var(--gold-soft); border:1px solid var(--line-2); border-radius:var(--r-sm); padding:10px 14px; font-size:.9rem; color:var(--gold)"><b>Common issue:</b> ${esc(g.issue)}</div>` : ""}
         </div>
       </div>
 
@@ -297,6 +322,7 @@ window.GWDetail = (function () {
   }
 
   function openReviewModal(g) {
+    if (!GWApp.requireLogin("write a review")) return;
     const ov = GWApp.openModal(`
       <h3>Write a review</h3>
       <p class="modal-sub">Prototype form — submission is simulated and goes to the moderation queue.</p>

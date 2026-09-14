@@ -89,6 +89,19 @@ window.GWApp = (function () {
       .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
   function params() { return new URLSearchParams(location.search); }
+
+  /* ---------------- Ownership Index (formula ported from the fac3629 prototype, must match exactly) ----------------
+     durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20, out of 100. */
+  function ownIndex(g) {
+    const s = g.durab / 5 * 25 + g.repair / 5 * 20 + Math.min(g.battery / 12, 1) * 20
+            + Math.min(g.value.warrantyYears * 12 / 24, 1) * 15 + g.rating / 5 * 20;
+    return Math.round(s);
+  }
+  /* Pareto frontier: no other gadget is both cheaper AND higher-indexed */
+  function frontier(gadgets) {
+    const pts = gadgets.map(g => ({ id: g.id, p: g.price, s: ownIndex(g) }));
+    return new Set(pts.filter(a => !pts.some(b => b !== a && b.p <= a.p && b.s >= a.s && (b.p < a.p || b.s > a.s))).map(a => a.id));
+  }
   function gadgetUrl(id) { return "gadget-detail.html?id=" + encodeURIComponent(id); }
 
   /* ---------------- State ---------------- */
@@ -105,12 +118,46 @@ window.GWApp = (function () {
   const state = {
     wishlist: loadSet(LS.wl, 200),
     compare: loadSet(LS.cmp, 4),
-    get compareFull() { return this.compare.size >= 4; }
+    get compareFull() { return this.compare.size >= 4; },
+    // ponytail: mock auth — no backend; any credentials work, gates wishlist/review actions
+    loggedIn: false,
+    user: null
   };
+  function requireLogin(action) {
+    if (state.loggedIn) return true;
+    openLoginModal(action);
+    return false;
+  }
+  function openLoginModal(action) {
+    const ov = openModal(`
+      <h3>Log in to ${esc(action || "continue")}</h3>
+      <p class="modal-sub">Prototype auth — any credentials work; nothing is stored or sent.</p>
+      <div class="field"><label for="lmEmail">Email</label>
+        <input id="lmEmail" type="email" placeholder="you@student.edu.ph" autocomplete="email"></div>
+      <div class="field"><label for="lmPass">Password</label>
+        <input id="lmPass" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password"></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" data-close>Cancel</button>
+        <button class="btn" data-login>Log in</button>
+      </div>`);
+    ov.querySelector("[data-close]").addEventListener("click", closeModal);
+    const submit = () => {
+      const email = ov.querySelector("#lmEmail").value.trim();
+      if (!email) { toast("Enter any email to continue (demo)", "alert"); return; }
+      state.loggedIn = true;
+      state.user = { name: email.split("@")[0], email };
+      closeModal();
+      toast("Welcome back, " + state.user.name + "!", "checkCircle");
+      document.dispatchEvent(new CustomEvent("gw:login"));
+    };
+    ov.querySelector("[data-login]").addEventListener("click", submit);
+    ov.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); submit(); } });
+  }
   function inWishlist(id) { return state.wishlist.has(id); }
   function inCompare(id) { return state.compare.has(id); }
   function toggleWishlist(id) {
     const g = GW.getGadget(id); if (!g) return;
+    if (!requireLogin("save gadgets to your wishlist")) return;
     if (state.wishlist.has(id)) {
       state.wishlist.delete(id);
       toast("Removed from wishlist", "heart");
@@ -254,6 +301,9 @@ window.GWApp = (function () {
         <h3 class="g-title"><a href="${gadgetUrl(g.id)}">${esc(g.model)}</a></h3>
         ${ratingLine(g)}
         <p class="g-summary">${esc(g.summary)}</p>
+        ${g.goodFor ? `<p class="gcard-bestfor"><b>Best for:</b> ${esc(g.goodFor.slice(0, 2).join(" + "))}</p>`
+                   : `<p class="gcard-bestfor"><b>Best for:</b> ${esc(cat ? cat.name : "")} on a student budget</p>`}
+        ${g.strengths && g.strengths.length ? `<p class="gcard-why"><b>Why it stands out:</b> ${esc(g.strengths[0])}</p>` : ""}
         <ul class="g-specs">${cardSpecs(g)}</ul>
       </div>
       <div class="g-foot">
@@ -381,7 +431,6 @@ window.GWApp = (function () {
               <li><a href="review-history.html">Review History</a></li>
               <li><a href="login.html">Log in</a></li>
               <li><a href="register.html">Create account</a></li>
-              <li><a href="admin-login.html">Admin</a></li>
             </ul>
           </div>
         </div>
@@ -442,9 +491,54 @@ window.GWApp = (function () {
     return `<div class="value-row"><span class="v-name">${esc(name)}</span><span>${valueHTML}</span></div>`;
   }
 
+  /* ---------------- Price vs Ownership Index scatter (ported from fac3629) ---------------- */
+  function renderScatter() {
+    const area = document.getElementById("scatterArea");
+    if (!area) return;
+    const gadgets = GW.gadgets.filter(g => g.durab != null);
+    const W = 760, H = 380, P = { l: 56, r: 24, t: 26, b: 46 };
+    const px = p => P.l + (Math.min(p, 50000) / 50000) * (W - P.l - P.r);
+    const py = s => H - P.b - ((s - 50) / 45) * (H - P.t - P.b);
+    const f = frontier(gadgets);
+    const fr = gadgets.filter(g => f.has(g.id)).sort((a, b) => a.price - b.price);
+    let grid = "";
+    for (const t of [10000, 20000, 30000, 40000, 50000]) grid += `<line x1="${px(t)}" y1="${P.t}" x2="${px(t)}" y2="${H - P.b}" stroke="var(--line)" stroke-width="1"/><text x="${px(t)}" y="${H - P.b + 18}" text-anchor="middle" font-size="11" fill="var(--ink-3)" font-family="var(--font-mono)">₱${(t / 1000)}k</text>`;
+    for (const t of [50, 60, 70, 80, 90]) grid += `<line x1="${P.l}" y1="${py(t)}" x2="${W - P.r}" y2="${py(t)}" stroke="var(--line)" stroke-width="1"/><text x="${P.l - 10}" y="${py(t) + 4}" text-anchor="end" font-size="11" fill="var(--ink-3)" font-family="var(--font-mono)">${t}</text>`;
+    const dots = gadgets.map(g => {
+      const on = f.has(g.id), x = px(g.price).toFixed(1), y = py(ownIndex(g)).toFixed(1);
+      return `<circle cx="${x}" cy="${y}" r="${on ? 8 : 6.5}" fill="${on ? "var(--amber)" : "var(--accent)"}" fill-opacity=".9" stroke="#fff" stroke-width="1.5" style="cursor:pointer" data-dot="${g.id}" role="button" tabindex="0" aria-label="${esc(g.brand)} ${esc(g.model)}, ${money(g.price)}, Ownership Index ${ownIndex(g)}${on ? ", on best-value frontier" : ""}"><title>${esc(g.brand)} ${esc(g.model)} — ${money(g.price)} · Index ${ownIndex(g)}${on ? " · on best-value frontier" : ""}</title></circle>`;
+    }).join("");
+    const path = fr.map((g, i) => `${i ? "L" : "M"}${px(g.price).toFixed(1)},${py(ownIndex(g)).toFixed(1)}`).join(" ");
+    area.innerHTML = `
+      <div class="panel">
+        <h2 style="margin-top:0">Price vs Ownership Index</h2>
+        <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" role="img" aria-label="Scatter plot of gadget price versus Ownership Index">
+          ${grid}
+          <text x="${W - P.r}" y="${H - P.b + 34}" text-anchor="end" font-size="11" fill="var(--ink-2)">Price — lower is better ↓</text>
+          <text x="${P.l}" y="${P.t - 10}" font-size="11" fill="var(--ink-2)">Ownership Index — higher is better ↑</text>
+          <path d="${path}" fill="none" stroke="var(--amber)" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8"/>
+          ${dots}
+        </svg>
+        <div class="row" style="gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--ink-2);margin-top:8px">
+          <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);margin-right:5px"></span>Catalog gadget</span>
+          <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--amber);margin-right:5px"></span>Best-value frontier (Pareto)</span>
+        </div>
+        <p class="small muted" style="margin:8px 0 0">Ownership Index = durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20 (out of 100). Click a dot to open the gadget.</p>
+      </div>`;
+    area.addEventListener("click", e => {
+      const dot = e.target.closest("[data-dot]");
+      if (dot) location.href = gadgetUrl(dot.getAttribute("data-dot"));
+    });
+    area.addEventListener("keydown", e => {
+      const dot = e.target.closest("[data-dot]");
+      if (dot && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); location.href = gadgetUrl(dot.getAttribute("data-dot")); }
+    });
+  }
+
   return {
-    icon, iconRaw, money, esc, params, gadgetUrl,
+    icon, iconRaw, money, esc, params, gadgetUrl, ownIndex, frontier, renderScatter,
     state, inWishlist, inCompare, toggleWishlist, toggleCompare, clearCompare,
+    requireLogin, openLoginModal,
     toast, openModal, closeModal, stars, ratingLine, priceBlock, estimateLine,
     productCard, initShell, catLabel, emptyState, valueRow,
     LS_KEYS: LS

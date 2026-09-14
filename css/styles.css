@@ -297,6 +297,14 @@ select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmln
 .meter .val { font-family: var(--font-mono); font-size: .78rem; color: var(--ink-2); min-width: 34px; text-align: right; }
 .meter-label { display: flex; justify-content: space-between; font-size: .8rem; color: var(--ink-2); margin-bottom: 4px; }
 .meter-label b { color: var(--ink); font-weight: 600; }
+
+/* ---------- Ported from fac3629: card best-for/why lines, good/bad checklists ---------- */
+.gcard-bestfor, .gcard-why { margin: 0 0 4px; font-size: .84rem; line-height: 1.45; color: var(--ink-2); }
+.gcard-why b, .gcard-bestfor b { color: var(--ink); font-weight: 600; }
+.swlist { list-style: none; margin: 0; padding: 0; font-size: .9rem; display: flex; flex-direction: column; gap: 5px; }
+.swlist li { display: flex; gap: 8px; line-height: 1.45; }
+.swlist li.good::before { content: "✓"; color: var(--green); font-weight: 800; }
+.swlist li.bad::before { content: "—"; color: var(--red); font-weight: 800; }
 .score-chip {
   display: inline-flex; align-items: baseline; gap: 3px;
   font-family: var(--font-mono); font-weight: 600; font-size: .9rem;
