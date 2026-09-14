@@ -90,7 +90,7 @@ window.GWApp = (function () {
   }
   function params() { return new URLSearchParams(location.search); }
 
-  /* ---------------- Ownership Index (formula ported from the fac3629 prototype, must match exactly) ----------------
+  /* ---------------- Performance to Cost score (formula ported from the fac3629 prototype, must match exactly) ----------------
      durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20, out of 100. */
   function ownIndex(g) {
     const s = g.durab / 5 * 25 + g.repair / 5 * 20 + Math.min(g.battery / 12, 1) * 20
@@ -262,7 +262,7 @@ window.GWApp = (function () {
 
   /* ---------------- Value tag / price ---------------- */
   function estimateLine(g, cls) {
-    return `<span class="price-estimate ${cls || ""}"><span class="label">EST. OWNERSHIP</span><span>≈ ${money(GW.monthlyCost(g))}<em>/month</em></span></span>`;
+    return `<span class="price-estimate ${cls || ""}"><span class="label">PER MONTH</span><span>≈ ${money(GW.monthlyCost(g))}<em>/month</em></span></span>`;
   }
   function priceBlock(g, size) {
     const cls = size === "lg" ? "price-lg" : size === "compact" ? "price-compact" : "";
@@ -300,7 +300,7 @@ window.GWApp = (function () {
         <span class="g-brand">${esc(g.brand)}</span>
         <h3 class="g-title"><a href="${gadgetUrl(g.id)}">${esc(g.model)}</a></h3>
         ${ratingLine(g)}
-        ${idx != null ? `<span class="oidx" title="Ownership Index — durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20"><b>${idx}</b><span>OWNERSHIP INDEX</span></span>` : ""}
+        ${idx != null ? `<span class="oidx" title="Performance to Cost — durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20"><b>${idx}</b><span>PERFORMANCE TO COST</span></span>` : ""}
         <p class="g-summary">${esc(g.summary)}</p>
         ${g.goodFor ? `<p class="gcard-bestfor"><b>Best for:</b> ${esc(g.goodFor.slice(0, 2).join(" + "))}</p>`
                    : `<p class="gcard-bestfor"><b>Best for:</b> ${esc(cat ? cat.name : "")} on a student budget</p>`}
@@ -491,7 +491,7 @@ window.GWApp = (function () {
     return `<div class="value-row"><span class="v-name">${esc(name)}</span><span>${valueHTML}</span></div>`;
   }
 
-  /* ---------------- Price vs Ownership Index scatter (ported from fac3629) ---------------- */
+  /* ---------------- Price vs Performance to Cost scatter (ported from fac3629) ---------------- */
   let scatterCat = "";
   function setScatterCat(k) {
     scatterCat = k;
@@ -519,15 +519,15 @@ window.GWApp = (function () {
     for (const t of [20, 40, 60, 80, 100]) grid += `<line x1="${P.l}" y1="${py(t)}" x2="${W - P.r}" y2="${py(t)}" stroke="var(--line)" stroke-width="1"/><text x="${P.l - 10}" y="${py(t) + 4}" text-anchor="end" font-size="11" fill="var(--ink-3)" font-family="var(--font-mono)">${t}</text>`;
     const dots = items.map(g => {
       const on = f.has(g.id), x = px(g.price).toFixed(1), y = py(ownIndex(g)).toFixed(1);
-      return `<circle cx="${x}" cy="${y}" r="${on ? 8 : 6.5}" fill="${on ? "var(--amber)" : "var(--accent)"}" fill-opacity=".9" stroke="#fff" stroke-width="1.5" style="cursor:pointer" data-dot="${g.id}" role="button" tabindex="0" aria-label="${esc(g.brand)} ${esc(g.model)}, ${money(g.price)}, Ownership Index ${ownIndex(g)}${on ? ", on best-value frontier" : ""}"><title>${esc(g.brand)} ${esc(g.model)} — ${money(g.price)} · Index ${ownIndex(g)}${on ? " · on best-value frontier" : ""}</title></circle>`;
+      return `<circle cx="${x}" cy="${y}" r="${on ? 8 : 6.5}" fill="${on ? "var(--amber)" : "var(--accent)"}" fill-opacity=".9" stroke="#fff" stroke-width="1.5" style="cursor:pointer" data-dot="${g.id}" role="button" tabindex="0" aria-label="${esc(g.brand)} ${esc(g.model)}, ${money(g.price)}, Performance to Cost ${ownIndex(g)}${on ? ", on best-value frontier" : ""}"><title>${esc(g.brand)} ${esc(g.model)} — ${money(g.price)} · Index ${ownIndex(g)}${on ? " · on best-value frontier" : ""}</title></circle>`;
     }).join("");
     const path = fr.map((g, i) => `${i ? "L" : "M"}${px(g.price).toFixed(1)},${py(ownIndex(g)).toFixed(1)}`).join(" ");
     area.innerHTML = `
       <div class="panel">
-        <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" role="img" aria-label="Scatter plot of gadget price versus Ownership Index${scatterCat ? " for " + esc(GWApp.catLabel(scatterCat)) : ""}">
+        <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" role="img" aria-label="Scatter plot of gadget price versus Performance to Cost${scatterCat ? " for " + esc(GWApp.catLabel(scatterCat)) : ""}">
           ${grid}
           <text x="${W - P.r}" y="${H - P.b + 34}" text-anchor="end" font-size="11" fill="var(--ink-2)">Price — lower is better ↓</text>
-          <text x="${P.l}" y="${P.t - 10}" font-size="11" fill="var(--ink-2)">Ownership Index — higher is better ↑</text>
+          <text x="${P.l}" y="${P.t - 10}" font-size="11" fill="var(--ink-2)">Performance to Cost — higher is better ↑</text>
           <path d="${path}" fill="none" stroke="var(--amber)" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8"/>
           ${dots}
         </svg>

@@ -1,7 +1,7 @@
 
 /* ============================================================
    "Indigo Circuit" visual identity rules (v2)
-   Hero · nav · category tints · product cards · Ownership Index ·
+   Hero · nav · category tints · product cards · Performance to Cost ·
    compare tints · breakdown meters · section rhythm.
    ============================================================ */
 
@@ -89,7 +89,7 @@
 .g-card { border-top: 2px solid transparent; }
 .g-card.card-hover:hover { border-top-color: var(--g-tint, var(--line-strong)); }
 
-/* Ownership Index — the visual signature */
+/* Performance to Cost — the visual signature */
 .oidx {
   display: inline-flex; align-items: baseline; gap: 6px;
   background: var(--primary-soft); border-radius: var(--r-sm);

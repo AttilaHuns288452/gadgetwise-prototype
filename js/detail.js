@@ -101,7 +101,7 @@ window.GWDetail = (function () {
               <div class="vt-row"><span>Repairability</span><b>${esc(g.value.repairabilityLabel)}</b></div>
             </div>
             <div class="vt-total">
-              <span class="t-label">ESTIMATED MONTHLY OWNERSHIP</span>
+              <span class="t-label">PER MONTH</span>
               <span class="t-value">${money(monthly)}<span style="font-size:.85rem; color:var(--ink-3)"> /month</span></span>
             </div>
             <div class="vt-note">Estimate only. Price ÷ (lifespan × 12). Actual costs vary with care and usage.</div>
@@ -111,7 +111,7 @@ window.GWDetail = (function () {
             <summary>How this estimate is calculated <span class="chev">${icon("chevDown")}</span></summary>
             <div class="tf-body">
               <div class="formula-box">
-                <span class="f-line">Estimated Monthly Ownership Cost =</span>
+                <span class="f-line">Cost per month =</span>
                 <span class="f-line">Product Price ÷ (Estimated Lifespan × 12)</span>
                 <span class="f-line"><b>${money(g.price)}</b> ÷ (<b>${g.value.lifespanYears}</b> × 12) =</span>
                 <span class="f-result">≈ ${money(monthly)} per month</span>
@@ -204,7 +204,7 @@ window.GWDetail = (function () {
         <div class="tab-panel" data-panel="ownership" role="tabpanel" hidden>
           <div class="grid-2">
             <div class="panel">
-              <h3 style="margin-bottom:14px">Estimated ownership cost</h3>
+              <h3 style="margin-bottom:14px">Cost per month</h3>
               <div class="formula-box">
                 <span class="f-line"><b>Price</b> ÷ (Lifespan × 12)</span>
                 <span class="f-line">${money(g.price)} ÷ (${g.value.lifespanYears} × 12)</span>
@@ -316,7 +316,7 @@ window.GWDetail = (function () {
         <span class="val">${money(x.m)}</span>
       </div>`).join("");
     return `
-      <p class="small muted" style="margin-top:0">Estimated monthly ownership among ${GWApp.catLabel(g.category).toLowerCase()} in the prototype catalog:</p>
+      <p class="small muted" style="margin-top:0">Cost per month among ${GWApp.catLabel(g.category).toLowerCase()} in the prototype catalog:</p>
       ${rows}
       <p class="small muted" style="margin-bottom:0">Lower bar = cheaper to own per month.</p>`;
   }

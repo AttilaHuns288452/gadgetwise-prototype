@@ -21,7 +21,7 @@ window.GWCompare = (function () {
 
     row("Price", g => g.price, "low", v => peso + v.toLocaleString("en-PH"));
     row("Rating", g => g.rating, "high", v => v.toFixed(1) + " \u2605");
-    row("Est. monthly ownership", g => GW.monthlyCost(g), "low", v => "\u2248 " + money(v) + "/mo");
+    row("Cost per month", g => GW.monthlyCost(g), "low", v => "\u2248 " + money(v) + "/mo");
     row("Warranty", g => g.value.warrantyYears, "high", v => v + (v === 1 ? " yr" : " yrs"));
     row("Est. lifespan", g => g.value.lifespanYears, "high", v => v + " yrs");
     row("Repairability", g => g.scored.repairability, "high", v => v.toFixed(1) + "/10");
@@ -71,7 +71,7 @@ window.GWCompare = (function () {
     switch (row.label) {
       case "Price": return "Lower price";
       case "Rating": return "Higher rating";
-      case "Est. monthly ownership": return "Cheaper to own";
+      case "Cost per month": return "Cheaper per month";
       case "Warranty": return "Longer warranty";
       case "Est. lifespan": return "Longer lifespan";
       case "Repairability": return "Easier to repair";
@@ -179,7 +179,7 @@ window.GWCompare = (function () {
   /* ---------- plain-language verdict ---------- */
   function verdictHTML(gadgets, rows) {
     const find = label => rows.find(r => r.label === label);
-    const price = find("Price"), monthly = find("Est. monthly ownership"),
+    const price = find("Price"), monthly = find("Cost per month"),
           life = find("Est. lifespan"), rating = find("Rating");
     const picks = [];
     if (price) {
@@ -199,14 +199,14 @@ window.GWCompare = (function () {
       picks.push(`Highest rated: <b>${esc(g.brand)} ${esc(g.model)}</b> at ${max.toFixed(1)}★`);
     }
 
-    // Spread-aware verdict (ported from fac3629): near-ties on the Ownership Index read differently
+    // Spread-aware verdict (ported from fac3629): near-ties on the Performance to Cost score read differently
     const ranked = [...gadgets].sort((a, b) => GWApp.ownIndex(b) - GWApp.ownIndex(a));
     const cheap = [...gadgets].sort((a, b) => GW.monthlyCost(a) - GW.monthlyCost(b))[0];
     const rated = ranked[0];
     const spread = GWApp.ownIndex(ranked[0]) - GWApp.ownIndex(ranked[ranked.length - 1]);
     let line;
     if (spread <= 4) {
-      line = `These are very close (Ownership Index ${GWApp.ownIndex(ranked[0])} vs ${GWApp.ownIndex(ranked[ranked.length - 1])}). ` +
+      line = `These are very close (Performance to Cost ${GWApp.ownIndex(ranked[0])} vs ${GWApp.ownIndex(ranked[ranked.length - 1])}). ` +
         `<b>${esc(cheap.brand)} ${esc(cheap.model)}</b> still costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo), ` +
         `so the trade-offs above should decide it, not the totals.`;
     } else {

@@ -1802,7 +1802,7 @@ GW.priorityFactors = [
   { id: "display",       label: "Display",        base: 0,  hint: "Panel quality, brightness, size" },
   { id: "camera",        label: "Camera",         base: 0,  hint: "Photo and video capture" },
   { id: "storage",       label: "Storage",        base: 0,  hint: "Space for files, apps, projects" },
-  { id: "value",         label: "Long-term Value",base: 10, hint: "Ownership cost vs. lifespan" },
+  { id: "value",         label: "Long-term Value",base: 10, hint: "Lower monthly cost for the same lifespan" },
   { id: "repairability", label: "Repairability",  base: 5,  hint: "Fixable instead of replaceable" },
   { id: "budget",        label: "Budget discipline", base: 0, hint: "How strictly to stay under your ceiling" }
 ];
@@ -1839,7 +1839,7 @@ GW.getCategory = function (id) { return GW.categories.find(c => c.id === id) || 
 GW.gadgetsInCategory = function (catId) { return GW.gadgets.filter(g => g.category === catId); };
 GW.gadgetsByIds = function (ids) { return ids.map(GW.getGadget).filter(Boolean); };
 
-/* Estimated monthly ownership cost — the ONE formula:
+/* Cost per month — the ONE formula:
    price / (lifespan years × 12). Displayed everywhere as an estimate. */
 GW.monthlyCost = function (g) {
   const months = (g.value.lifespanYears || 1) * 12;

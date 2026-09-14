@@ -94,7 +94,7 @@ window.GWRec = (function () {
     performance:   { label: "Performance",    raw: 15, pts: 15 },
     battery:       { label: "Battery life",   raw: 10, pts: 10 },
     durability:    { label: "Durability",     raw: 10, pts: 10 },
-    value:         { label: "Ownership value",raw: 10, pts: 10 },
+    value:         { label: "Cost per month", raw: 10, pts: 10 },
     repairability: { label: "Repairability",  raw: 5,  pts: 5 },
     portability:   { label: "Portability",    raw: 0,  pts: 0 },
     display:       { label: "Display",        raw: 0,  pts: 0 },
@@ -202,7 +202,7 @@ window.GWRec = (function () {
     if (f.budget.earned >= f.budget.max * 0.85) out.push(`Fits your ${opts.budget.label} budget at ${money(gadget.price)}`);
     else if (f.budget.earned >= f.budget.max * 0.6) out.push(`Close to your budget at ${money(gadget.price)}`);
     if (f.academic && f.academic.earned >= f.academic.max * 0.7) out.push(`Strong fit for ${opts.useCase.label.toLowerCase()}`);
-    if (f.value && f.value.max >= 6 && f.value.earned >= f.value.max * 0.7) out.push(`Low estimated ownership cost (${money(GW.monthlyCost(gadget))}/month over ${gadget.value.lifespanYears} yrs)`);
+    if (f.value && f.value.max >= 6 && f.value.earned >= f.value.max * 0.7) out.push(`Low cost per month (${money(GW.monthlyCost(gadget))}/month over ${gadget.value.lifespanYears} yrs)`);
     if (f.performance && f.performance.earned >= f.performance.max * 0.75) out.push("Strong sustained performance for schoolwork");
     if (f.battery && f.battery.earned >= f.battery.max * 0.75) out.push("Battery comfortably lasts a full class day");
     if (f.durability && f.durability.max >= 8 && f.durability.earned >= f.durability.max * 0.7) out.push("Built to take daily commute wear");
