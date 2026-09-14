@@ -392,7 +392,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
       </div>
       <div class="hero-panel">
         <div class="hero-panel-head">
-          <h3>Highest-rated right now</h3>
+          <h3>Student favorite</h3>
         </div>
         <div style="display:flex;gap:14px;align-items:center">
           <div style="width:74px;height:74px;border-radius:var(--radius-sm);overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff"><img referrerpolicy="no-referrer" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg" alt="Anker PowerCore 20100" style="max-width:100%;max-height:100%;object-fit:contain"></div>
@@ -402,7 +402,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           </div>
         </div>
         <p class="hero-quote">"Brownout insurance. Kept my router, phone and laptop alive through a 6-hour outage." — Fons, 3rd yr EE</p>
-        <div class="scorebar" title="Ownership Intelligence Index"><i style="width:82%;background:var(--green)"></i></div>
+        <div class="scorebar" title="Ownership Index"><i style="width:82%;background:var(--green)"></i></div>
         <div style="display:flex;justify-content:space-between;font-size:var(--fs-xs);color:var(--ink-mute);margin-top:6px">
           <span>Ownership Index · higher is better ↑</span><span style="font-family:var(--mono)"><b>82</b>/100</span>
         </div>
@@ -493,12 +493,12 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
               <input type="text" id="searchBox" placeholder="Search name, brand…" oninput="renderBrowse()" style="width:220px" aria-label="Search gadgets">
               <select class="inline" id="sortBy" onchange="renderBrowse()" aria-label="Sort by">
                 <option value="pop">Most popular</option>
-                <option value="value">Best long-term value</option>
+                <option value="value">Highest Ownership Index</option>
                 <option value="battery">Best battery</option>
                 <option value="rating">Highest rated</option>
                 <option value="price-asc">Lowest price</option>
                 <option value="price-desc">Highest price</option>
-                <option value="monthly">Lowest monthly ownership</option>
+                <option value="monthly">Est. monthly cost</option>
               </select>
             </div>
           </div>
@@ -558,7 +558,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
           </div>
 
           <div id="rstep4" class="hidden">
-            <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 14px">Set how much each factor matters. The ranking follows these settings exactly.</p>
+            <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 14px">Set how much each factor matters. Factors you deprioritize still count a little; price and purpose always count.</p>
             <div id="prioGrid"></div>
           </div>
 
@@ -572,7 +572,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
             <div id="reqReview" style="font-size:var(--fs-sm)"></div>
             <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
               <h4 style="margin:0 0 6px">How GadgetWise chooses</h4>
-              <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0;line-height:1.55">Your answers are compared against the specifications and ownership data in the GadgetWise catalog. Products that fail your must-haves are filtered out first. The rest are scored on budget fit, academic suitability, performance, battery, portability, durability, repairability, warranty, student rating and long-term value — weighted by what you told us. No AI is used to choose the product.</p>
+              <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0;line-height:1.55">We check your answers against each product’s specs and ownership cost. Products that miss your must-haves are filtered out first. The rest are scored on budget fit, academic suitability, performance, battery, portability, durability, repairability, warranty, student rating and long-term value — weighted by what you told us. No AI is used to choose the product.</p>
             </div>
           </div>
 
@@ -597,7 +597,7 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 <main id="view-compare" class="view hidden">
   <section class="pad-sec">
     <div class="wrap">
-      <div class="sec-head"><h2>Side-by-side comparison</h2><p>Arrows show which way is better (↓ lower wins, ↑ higher wins). The best value in each row is highlighted — identical values are left plain, a tie is not a win. Monthly cost = price ÷ realistic lifespan ÷ 12.</p></div>
+      <div class="sec-head"><h2>Side-by-side comparison</h2><p>Arrows show which way is better (↓ lower wins, ↑ higher wins). The better gadget for each row is marked ★ — identical values are left plain, a tie is not a win. Monthly cost = price ÷ realistic lifespan ÷ 12.</p></div>
       <div id="cmpArea"></div>
       <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn btn-ghost btn-sm" onclick="cmpSeedSample()">Load example: two laptops</button>
@@ -1140,7 +1140,7 @@ function renderBrowse(){
 let recStep=1, recFinished=false;
 const RSTEPS=["What are you looking for?","What\u2019s your maximum budget?","What will you mainly use it for?","What matters most to you?","Anything you absolutely need?","Review your requirements"];
 /* AA-style labeled priority scale: internal weight 0/1/2/3/4 */
-const PLABELS=["Skip it","Nice to have","Important","Very important","Top priority"];
+const PLABELS=["Not important","Nice to have","Important","Very important","Top priority"];
 /* Category-specific academic purposes (proposal: intended academic purpose) */
 const USES={
  laptops:[["programming","Programming / development","IDEs, compilers, thesis builds"],["documents","Office work / documents","Papers, slides, spreadsheets"],["research","Research / browsing","Papers, PDFs, long sessions"],["creative","Creative work","Figma, photo, layout work"],["engineering","Engineering / technical software","CAD, MATLAB, simulations"],["gaming","Gaming + school","After-hours relief"]],
@@ -1163,12 +1163,12 @@ const FEATURES={
 };
 /* Must-haves — hard constraints, filtered before scoring */
 const MUSTHAVES={
- laptops:[["dbBudget","Must stay below my budget"],["dbRam","Must have at least 8 GB RAM"],["dbRam16","Must have at least 16 GB RAM"],["dbWeight","Must be reasonably lightweight"],["dbRepair","Must be reasonably repairable"]],
- smartphones:[["dbBudget","Must stay below my budget"],["dbRam","Must have at least 6 GB RAM"],["dbPerf","Must have a strong processor"],["dbCharge","Must charge at 30W or faster"]],
- tablets:[["dbBudget","Must stay below my budget"],["dbStylus","Must support a stylus"],["dbStorage","Must have enough storage"]],
- headphones:[["dbBudget","Must stay below my budget"],["dbBattery","Must last at least 12 hr"]],
- powerbanks:[["dbBudget","Must stay below my budget"],["dbLaptop","Must charge a laptop"],["dbWeight","Must be under 400 g"]],
- smartwatches:[["dbBudget","Must stay below my budget"],["dbBattery","Must last a week or more"]]
+ laptops:[["dbRam","Must have at least 8 GB RAM"],["dbRam16","Must have at least 16 GB RAM"],["dbWeight","Must be reasonably lightweight"],["dbRepair","Must be reasonably repairable"]],
+ smartphones:[["dbRam","Must have at least 6 GB RAM"],["dbPerf","Must have a strong processor"],["dbCharge","Must charge at 30W or faster"]],
+ tablets:[["dbStylus","Must support a stylus"],["dbStorage","Must have enough storage"]],
+ headphones:[["dbBattery","Must last at least 12 hr"]],
+ powerbanks:[["dbLaptop","Must charge a laptop"],["dbWeight","Must be under 400 g"]],
+ smartwatches:[["dbBattery","Must last a week or more"]]
 };
 function buildStep3to6(){
   const cat=document.querySelector('input[name="qcCat"]:checked').value;
@@ -1180,7 +1180,7 @@ function buildStep3to6(){
     <div class="prow">
       <div class="prow-top"><span>${l}</span><output id="po_${v}">Important</output></div>
       <input type="range" min="0" max="4" step="1" value="2" id="w_${v}" data-k="${v}" style="--fill:50%" oninput="recPrioInput('${v}')" aria-label="${l} priority">
-      <div class="prow-scale"><span>Skip it</span><span>Nice to have</span><span>Important</span><span>Very important</span><span>Top priority</span></div>
+      <div class="prow-scale"><span>Not important</span><span>Nice to have</span><span>Important</span><span>Very important</span><span>Top priority</span></div>
     </div>`).join("");
   document.getElementById("dbGrid").innerHTML = MUSTHAVES[cat].map(([v,l])=>
     `<label class="fchip"><input type="checkbox" name="qDb" value="${v}">${l}</label>`).join("");
@@ -1209,8 +1209,8 @@ function renderIdleSummary(){
   const answered = recStep>1;
   el.innerHTML=`<h3 style="font-size:var(--fs-md);margin:0 0 6px">${answered?"Your requirements so far":"Your requirements will collect here"}</h3>
     <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0">${answered
-      ? `${{laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[a.cat]} \u00b7 budget ${bTxt} \u00b7 main use: ${u}. Keep going: priorities, routine and must-haves refine the score.`
-      : "Answer each step on the left. Everything you pick is summarized here, then every eligible product is scored against it."}</p>`;
+      ? `${{laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[a.cat]} \u00b7 budget ${bTxt} \u00b7 main use: ${u}. Keep going: priorities, priorities and must-haves refine the score.`
+      : "Answer each step above. Everything you pick is summarized here, then every eligible product is scored against it."}</p>`;
 }
 function renderReqReview(){
   const a=recAnswers();
@@ -1378,17 +1378,17 @@ function renderRec(){
       <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0 0 10px">Your budget: <b>${peso(ans.budget)}</b> · Category: <b>${{laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[ans.cat]}</b>${ans.dbs.length?` · Must-haves: <b>${ans.dbs.length}</b>`:""}</p>
       <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0 0 12px">${excluded.length?`All ${excluded.length} products in the catalog were filtered out: `+excluded.map(x=>`${x.g.model} (${x.why[0]})`).join(" · ")+".":"This category is empty."}</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn btn-primary btn-sm" onclick="goRecStep(6)">Relax a must-have</button>
+        <button class="btn btn-primary btn-sm" onclick="goRecStep(5)">Relax a must-have</button>
         ${wasCustom?`<button class="btn btn-ghost btn-sm" onclick="goRecStep(2)">Raise the budget</button>`:`<button class="btn btn-ghost btn-sm" onclick="recBudgetPlus()">Try +\u20b15,000 budget</button>`}
         <button class="btn btn-ghost btn-sm" onclick="resetRec()">Start over</button>
       </div>
-      <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:12px 0 0">Closest alternatives that only broke the budget limit: ${excluded.filter(x=>x.why.some(w=>w.includes("budget"))).sort((a,b)=>a.g.price-b.g.price).slice(0,2).map(x=>`${x.g.model} (${peso(x.g.price)})`).join(", ")||"none"}. You can view them from Browse.</p>
+      <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:12px 0 0">Closest alternatives — these went over budget (some also missed a must-have): ${excluded.filter(x=>x.why.some(w=>w.includes("budget"))).sort((a,b)=>a.g.price-b.g.price).slice(0,2).map(x=>`${x.g.model} (${peso(x.g.price)})`).join(", ")||"none"}. You can view them from Browse.</p>
     </div>`;
     out.innerHTML=html; return;
   }
   const top=scored[0], alt=scored[1]||null;
   const bestIn=k=>[...scored].sort((a,b)=>b.comp[k]-a.comp[k])[0];
-  const others=[["Best budget option",bestIn("budget")],["Best performance option",bestIn("perf")],["Best battery option",bestIn("battery")],["Best long-term value",bestIn("value")]]
+  const others=[["Best budget option",bestIn("budget")],["Best performance option",bestIn("perf")],["Best battery option",bestIn("battery")],["Highest Ownership Index",bestIn("value")]]
     .filter(([l,sc],i,arr)=>sc&&sc.g.id!==top.g.id&&sc.g.id!==(alt&&alt.g.id)&&arr.findIndex(([l2,sc2])=>sc2.g.id===sc.g.id)===i);
   addWhy(top.comp.budget>=85, `Fits your ${peso(ans.budget)} budget with room to spare`);
   addWhy(top.comp.budget>=60&&top.comp.budget<85, `Fits your ${peso(ans.budget)} budget`);
@@ -1541,7 +1541,7 @@ function renderComparePage(){
   }
   const cheap=[...gs].sort((a,b)=>monthly(a)-monthly(b))[0], rated=[...gs].sort((a,b)=>b.rating-a.rating)[0];
   const bestBattery=[...gs].sort((a,b)=>b.battery-a.battery)[0], bestRepair=[...gs].sort((a,b)=>b.repair-a.repair)[0];
-  const ctx=[[cheap.model,"Lowest monthly cost"],[bestBattery.model,"Best battery"],[bestRepair.model,"Most repairable"]].filter(([m],i,arr)=>arr.findIndex(([m2])=>m2===m)===i);
+  const ctx=[[cheap.model,"Lowest est. monthly cost"],[bestBattery.model,"Best battery"],[bestRepair.model,"Most repairable"]].filter(([m],i,arr)=>arr.findIndex(([m2])=>m2===m)===i);
   area.innerHTML=`
   <div class="card" style="overflow:hidden">
     <div class="cmp-grid ${gs.length===3?"c3":""}">
@@ -1551,7 +1551,7 @@ function renderComparePage(){
       ${rows}
       ${specComp}
       <div class="cmp-cell cmp-lab">Common issue</div>${gs.map(g=>`<div class="cmp-cell" style="${g.issue&&g.issue!=="None reported yet"?"color:var(--orange);font-weight:600":""}">${g.issue||"—"}</div>`).join("")}
-      <div class="cmp-cell cmp-lab">Verdict</div>${gs.map(g=>`<div class="cmp-cell"><div><b>${peso(monthly(g))}/mo</b><div style="font-size:var(--fs-sm);color:var(--ink-soft)">${g.rating}★ from ${g.raters} students</div></div></div>`).join("")}
+      <div class="cmp-cell cmp-lab">At a glance</div>${gs.map(g=>`<div class="cmp-cell"><div><b>${peso(monthly(g))}/mo</b><div style="font-size:var(--fs-sm);color:var(--ink-soft)">${g.rating}★ from ${g.raters} students</div></div></div>`).join("")}
     </div>
   </div>
   <div class="card pad" style="margin-top:16px">
@@ -1583,7 +1583,7 @@ function renderScatter(){
   const path=fr.map((g,i)=>`${i?"L":"M"}${px(g.price).toFixed(1)},${py(ownIndex(g)).toFixed(1)}`).join(" ");
   area.innerHTML=`
   <div class="card pad">
-    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" role="img" aria-label="Scatter plot of gadget price versus Ownership Intelligence Index">
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" role="img" aria-label="Scatter plot of gadget price versus Ownership Index">
       ${grid}
       <text x="${W-P.r}" y="${H-P.b+34}" text-anchor="end" font-size="11" fill="var(--ink-soft)">Price — lower is better ↓</text>
       <text x="${P.l}" y="${P.t-10}" font-size="11" fill="var(--ink-soft)">Ownership Index — higher is better ↑</text>
@@ -1593,7 +1593,7 @@ function renderScatter(){
     <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:var(--fs-sm);color:var(--ink-soft);margin-top:8px">
       <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);margin-right:5px"></span>Catalog gadget</span>
       <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--orange);margin-right:5px"></span>Best-value frontier (Pareto)</span>
-      <span style="margin-left:auto">Index = durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20, rescaled to 100.</span>
+      <span style="margin-left:auto">Ownership Index = durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20 (out of 100).</span>
     </div>
   </div>`;
 }
@@ -1708,7 +1708,7 @@ function renderAccount(){
     const cheap=[...gs].sort((a,b)=>monthly(a)-monthly(b))[0];
     return `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap">
       <div style="font-size:var(--fs-sm)"><b>${gs.map(g=>g.model).join(" vs ")}</b>
-      <div style="font-size:var(--fs-sm);color:var(--ink-mute)">Cheapest monthly: ${cheap.model} at ${peso(monthly(cheap))}/mo</div></div>
+      <div style="font-size:var(--fs-sm);color:var(--ink-mute)">Est. monthly cost: ${cheap.model} at ${peso(monthly(cheap))}/mo</div></div>
       <div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" onclick="S.tray=[${ids}];renderTray();renderComparePage();go('compare')">Re-open</button></div>
     </div>`;}).join("")
     : "";
@@ -1801,7 +1801,7 @@ function apiFetch(){
   const q=document.getElementById("apiQuery").value.trim();
   const st=document.getElementById("apiStatus");
   if(!q){ st.textContent="Enter a product name first."; return; }
-  st.innerHTML="→ POST /api/admin/product-lookup (simulated server-side fetch)…";
+  st.textContent="Looking it up… (demo API — simulated server-side fetch)";
   setTimeout(()=>{
     const key=Object.keys(MOCK_PRODUCT_DB).find(k=>q.toLowerCase().includes(k)||k.includes(q.toLowerCase()));
     const resp = key ? {status:"found",data:MOCK_PRODUCT_DB[key]} : {status:"not_found",data:null};
@@ -1822,7 +1822,7 @@ function saveGadget(){
   if(!b||!m||!c||!p){ toast("Brand, model, category and price are required"); return; }
   ADMIN.gadgets.unshift({name:m,cat:c,price:p,src:document.getElementById("apiStatus").textContent.includes("✓")?"API":"Manual",status:"Draft"});
   ADMIN.gadgets[0].name = m; // keep name/model consistent
-  renderAdmin(); closeModal("modal-add"); admTab("adm-gadgets"); toast("Gadget saved as Draft — add specs, then publish");
+  renderAdmin(); closeModal("modal-add"); admTab("adm-gadgets"); toast("Gadget added to the demo catalog");
 }
 
 /* ═══════════ INIT ═══════════ */
