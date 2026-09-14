@@ -1,1843 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>GadgetWise — Student-Centered Gadget Comparison & Recommendation System</title>
-<style>
-/* ============ TOKENS ============ */
-:root{
-  /* surfaces & text */
-  --bg:#f7f7f9; --surface:#ffffff; --ink:#16151a; --ink-soft:#4c4a55; --ink-mute:#767386;
-  --line:#e6e5ec; --line-strong:#cdcbe0;
-  /* brand (interaction / selection / primary action ONLY) */
-  --green:#7f4bf3; --green-soft:#f0eaff; --green-deep:#5b2fd1;
-  --violet-ink:#231a3a;
-  /* semantics (each has one meaning) */
-  --orange:#e85d04; --orange-soft:#ffefe3;   /* caution / trade-off */
-  --blue:#2f5f9e;  --blue-soft:#e5ecf6;      /* informational */
-  --red:#d3264f;   --red-soft:#ffe4ea;       /* problem / excluded */
-  --ok:#1e7a46;    --ok-soft:#e3f2e9;        /* success / positive */
-  /* type scale — 5 steps + display + data */
-  --fs-xs:.75rem; --fs-sm:.85rem; --fs-base:.9rem; --fs-md:1rem; --fs-lg:1.15rem;
-  /* radius vocabulary: sm 8 / md 12 / lg 16 / pill 999 / round 50% */
-  --radius:12px; --radius-sm:8px; --radius-lg:16px;
-  /* shadow vocabulary: card / raised / modal — nothing else */
-  --shadow:0 1px 2px rgba(22,21,26,.06),0 8px 24px -12px rgba(22,21,26,.18);
-  --shadow-raised:0 4px 6px rgba(22,21,26,.05),0 18px 40px -16px rgba(22,21,26,.25);
-  --shadow-modal:0 30px 80px -20px rgba(22,21,26,.5);
-  --font:'Avenir Next','Segoe UI Variable Display','Segoe UI',system-ui,sans-serif;
-  --mono:ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4{line-height:1.2;font-weight:700;letter-spacing:-.01em}
-a{color:var(--green);text-decoration:none}
-a:hover{text-decoration:underline}
-img{max-width:100%}
-button{font:inherit;cursor:pointer}
-input,select{font:inherit}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-.hidden{display:none!important}
-
-main{padding-bottom:80px}
-/* ============ TOPBAR ============ */
-.topbar{background:var(--violet-ink);color:#f2f0fa;position:sticky;top:0;z-index:50;box-shadow:0 1px 0 rgba(0,0,0,.25)}
-.topbar-in{display:flex;align-items:center;gap:22px;height:58px;max-width:1120px;margin:0 auto;padding:0 20px}
-.nav-spacer{flex:1}
-.nav-user{display:flex;align-items:center;gap:10px;font-size:var(--fs-sm);color:#b9b3d9;flex-shrink:0;max-width:44vw}
-.logo{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em;color:#fff;display:flex;align-items:center;gap:9px}
-.logo svg{flex-shrink:0}
-nav.main-nav{display:flex;gap:4px;margin-left:8px}
-nav.main-nav button{background:none;border:0;color:#b9b3d9;padding:8px 11px;border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600}
-nav.main-nav button:hover{color:#fff;background:rgba(255,255,255,.08)}
-nav.main-nav button.on{color:#fff;background:rgba(255,255,255,.14)}
-.avatar{width:30px;height:30px;border-radius:50%;background:#f2efe7;color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:var(--fs-sm)}
-.nav-role-badge{font-size:var(--fs-xs);background:var(--orange);color:#fff;padding:2px 8px;border-radius:999px;font-weight:700;letter-spacing:.03em}
-.hamburger{display:none;background:none;border:0;color:#fff;font-size:var(--fs-lg);padding:6px 10px}
-.nav-admin-mobile{display:none}
-.nav-admin{background:transparent;border:1px solid rgba(255,255,255,.28);color:#b9b3d9;font:inherit;font-size:var(--fs-sm);font-weight:600;padding:5px 12px;border-radius:var(--radius-sm);flex-shrink:0}
-.nav-admin:hover{color:#fff;border-color:rgba(255,255,255,.55)}
-.nav-admin.on{color:#fff;border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.12)}
-
-/* ============ BUTTONS ============ */
-.btn{display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);padding:9px 16px;font-weight:700;font-size:var(--fs-base);border:1px solid transparent;transition:filter .15s, background .15s}
-.btn:hover{filter:brightness(.96);text-decoration:none}
-.btn-primary{background:var(--green);color:#fff}
-.btn-ghost{background:transparent;color:var(--green);border-color:var(--green)}
-.btn-ghost:hover{background:var(--green-soft)}
-.btn-sm{padding:6px 12px;font-size:var(--fs-sm)}
-.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
-
-/* ============ BADGES / CHIPS ============ */
-.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:var(--fs-xs);font-weight:700}
-.badge-green{background:var(--green-soft);color:var(--green-deep)}
-.badge-orange{background:var(--orange-soft);color:var(--orange)}
-.badge-blue{background:var(--blue-soft);color:var(--blue)}
-.badge-red{background:var(--red-soft);color:var(--red)}
-
-/* ============ CARDS ============ */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-.pad{padding:22px}
-
-/* ============ FORMS ============ */
-label.f{display:block;font-size:var(--fs-sm);font-weight:700;color:var(--ink-soft);margin:14px 0 5px}
-label.f:first-child{margin-top:0}
-input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{
-  width:100%;padding:9px 12px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:#fff;font-size:var(--fs-base)}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--green);outline-offset:0;border-color:var(--green)}
-textarea{resize:vertical;min-height:70px}
-.f-row{display:flex;gap:14px;flex-wrap:wrap}
-.f-row>*{flex:1;min-width:130px}
-.check{display:flex;align-items:center;gap:8px;font-size:var(--fs-sm);color:var(--ink-soft);margin-top:14px}
-.check input{width:auto}
-
-/* ============ HERO ============ */
-.hero{background:var(--violet-ink);color:#f2f0fa;padding:64px 0 72px;border-bottom:4px solid var(--ok)}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
-.hero h1{font-size:clamp(1.9rem,4.2vw,2.9rem);color:#fff;margin-bottom:14px}
-.hero p.lead{font-size:var(--fs-lg);color:#ddd7f2;max-width:46ch;margin-bottom:24px}
-.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
-.btn-light{background:#f0eaff;color:var(--violet-ink)}
-.btn-outline-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
-.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);overflow:hidden;margin-top:30px}
-.hero-stats div{background:rgba(35,26,58,.62);padding:14px 16px}
-.hero-stats b{display:block;font-size:1.5rem;color:#fff;font-family:var(--mono);font-variant-numeric:tabular-nums}
-.hero-stats span{font-size:var(--fs-xs);color:#ddd7f2}
-.hero-panel{background:#fff;color:var(--ink);border-radius:var(--radius-lg);box-shadow:var(--shadow-raised);padding:20px}
-.hero-panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.hero-panel-head h3{font-size:var(--fs-md)}
-.hero-quote{font-size:var(--fs-sm);color:var(--ink-soft);border-left:3px solid var(--green);padding-left:12px;margin:14px 0 16px}
-
-/* ============ SECTIONS ============ */
-section.pad-sec{padding:52px 0}
-.sec-head{max-width:640px;margin-bottom:30px}
-.sec-head h2{font-size:1.6rem;margin-bottom:8px}
-.sec-head p{color:var(--ink-soft)}
-
-/* ============ CATEGORY TILES ============ */
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.cat-tile{display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);transition:border-color .15s,transform .15s}
-.cat-tile:hover{border-color:var(--green);transform:translateY(-2px);text-decoration:none}
-.cat-ico{width:46px;height:46px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:var(--fs-lg);flex-shrink:0}
-.cat-ico svg{width:24px;height:24px}
-.cat-tile b{display:block;font-size:var(--fs-base)}
-.cat-tile span{font-size:var(--fs-sm);color:var(--ink-mute)}
-
-/* ============ BROWSE LAYOUT ============ */
-.browse{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:start}
-.filters{position:sticky;top:74px}
-.filters .card{padding:18px}
-.f-group{margin-bottom:16px}
-.f-group>span{display:block;font-size:var(--fs-xs);font-weight:800;letter-spacing:.06em;color:var(--ink-mute);margin-bottom:8px}
-.chk{display:flex;align-items:center;gap:8px;font-size:var(--fs-sm);padding:4px 0;color:var(--ink-soft);cursor:pointer}
-.chk input{width:auto}
-.range-row{display:flex;align-items:center;gap:8px;font-size:var(--fs-sm)}
-.range-row input{padding:6px 8px}
-input[type=range]{width:100%;accent-color:var(--green)}
-.result-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
-select.inline{width:auto;padding:7px 30px 7px 10px;font-size:var(--fs-sm)}
-
-/* ============ GADGET CARDS ============ */
-.gadgets{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.gcard{display:flex;flex-direction:column;overflow:hidden;position:relative;transition:transform .15s,box-shadow .15s}
-.gcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-raised)}
-.gcard-oidx{display:flex;align-items:center;gap:8px;margin:8px 0 2px}
-.gcard-oidx b{font-family:var(--mono);font-size:var(--fs-lg);color:var(--green-deep)}
-.gcard-oidx span{font-size:var(--fs-xs);color:var(--ink-mute);line-height:1.3}
-.gcard-bestfor{font-size:var(--fs-sm);color:var(--ink-soft);margin:6px 0}
-.gcard-bestfor span{color:var(--ink-mute);font-size:var(--fs-xs);margin-right:6px}
-.gcard-why{font-size:var(--fs-sm);color:var(--ink-soft);margin:6px 0 4px;border-top:1px solid var(--line);padding-top:8px}
-.gcard-why b{display:block;font-size:var(--fs-xs);color:var(--ink-mute);margin-bottom:2px}
-.gcard-img{position:relative;height:150px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff}
-.gcard-img img{width:100%;height:100%;object-fit:contain;padding:12px;background:#fff}
-.rec-result img{background:#fff}
-.gcard-img svg{width:64px;height:64px;color:var(--ink-soft)}
-.gcard-cat{position:absolute;top:10px;left:10px}
-.wish-btn{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:var(--fs-md);color:var(--ink-soft);transition:transform .15s}
-.wish-btn:hover{transform:scale(1.12)}
-.wish-btn.on{color:var(--red)}
-.gcard-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
-.gcard-rate{margin-top:auto;padding-top:8px}
-.gcard-body h3{font-size:var(--fs-md)}
-.gcard-price{font-size:var(--fs-lg);font-weight:800;color:var(--green-deep)}
-.gcard-price small{font-weight:600;font-size:var(--fs-xs);color:var(--ink-mute);display:block}
-.spec-list{list-style:none;font-size:var(--fs-sm);color:var(--ink-soft);display:flex;flex-direction:column;gap:3px}
-.spec-list li{display:flex;gap:7px}
-.spec-list li::before{content:"✓";color:var(--green);font-weight:700}
-.gcard-rate{display:flex;align-items:center;gap:8px;font-size:var(--fs-sm);color:var(--ink-soft)}
-.stars{color:var(--orange);letter-spacing:1px;font-size:var(--fs-sm)}
-.gcard-actions{display:flex;gap:8px;margin-top:auto;padding-top:6px}
-
-/* ============ COMPARE TRAY / BAR ============ */
-.tray{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(0);background:var(--ink);color:#f2efe7;border-radius:var(--radius-lg);padding:10px 16px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-modal);z-index:60;max-width:min(92vw,720px)}
-.tray-label{font-size:var(--fs-xs);font-weight:800;letter-spacing:.05em;color:#b8b3a4}
-.tray-items{display:flex;gap:8px;flex-wrap:wrap}
-.tray-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border-radius:var(--radius-sm);padding:5px 8px 5px 10px;font-size:var(--fs-sm)}
-.tray-chip button{background:none;border:0;color:#f2efe7;font-size:var(--fs-base);padding:0 2px;opacity:.7}
-.tray-chip button:hover{opacity:1}
-.tray .btn{padding:8px 14px;font-size:var(--fs-sm)}
-
-/* ============ MODAL ============ */
-.modal-back{position:fixed;inset:0;background:rgba(28,27,24,.55);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
-.modal{background:#fff;border-radius:var(--radius-lg);max-width:560px;width:100%;max-height:88vh;overflow:auto;box-shadow:var(--shadow-modal)}
-.modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2}
-.modal-head h3{font-size:var(--fs-lg)}
-.modal-x{background:none;border:0;font-size:var(--fs-lg);color:var(--ink-mute);padding:2px 6px}
-.modal-body{padding:22px}
-.modal-foot{display:flex;gap:10px;justify-content:flex-end;padding:16px 22px;border-top:1px solid var(--line)}
-
-/* ============ DASHBOARD SHELL ============ */
-.dash{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:start;padding:28px 0 60px}
-.side-nav{display:flex;flex-direction:column;gap:2px;position:sticky;top:74px}
-.side-nav button{display:flex;align-items:center;gap:10px;background:none;border:0;text-align:left;padding:10px 12px;border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600;color:var(--ink-soft)}
-.side-nav button:hover{background:var(--green-soft);color:var(--green-deep)}
-.side-nav button.on{background:var(--green);color:#fff}
-.side-nav .side-label{font-size:var(--fs-xs);font-weight:800;letter-spacing:.08em;color:var(--ink-mute);padding:12px 12px 6px}
-.dash-panel{min-width:0}
-.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
-.panel-head h2{font-size:var(--fs-lg)}
-.panel-head p{font-size:var(--fs-sm);color:var(--ink-soft)}
-
-/* stat cards */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
-.stat{padding:16px}
-.stat b{display:block;font-size:1.6rem}
-.stat span{font-size:var(--fs-sm);color:var(--ink-mute)}
-
-/* tables */
-.tbl-wrap{overflow-x:auto}
-table.tbl{width:100%;border-collapse:collapse;font-size:var(--fs-sm)}
-.tbl th{text-align:left;font-size:var(--fs-xs);letter-spacing:.05em;color:var(--ink-mute);border-bottom:1px solid var(--line);padding:9px 12px;white-space:nowrap}
-.tbl td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
-.tbl tr:last-child td{border-bottom:0}
-.tbl tr:hover td{background:#faf9f5}
-.status{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-xs);font-weight:700}
-.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
-.dot-g{background:var(--green)} .dot-o{background:var(--orange)} .dot-r{background:var(--red)} .dot-b{background:var(--blue)}
-
-/* ============ RECOMMENDER ============ */
-.rec-grid{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start}
-.rec-result{display:flex;flex-direction:column;gap:14px}
-.rec-empty{text-align:center;color:var(--ink-mute);padding:50px 20px;font-size:var(--fs-base)}
-.rec-empty .big{font-size:2rem;margin-bottom:10px}
-
-/* score bars */
-.scorebar{height:8px;border-radius:var(--radius-sm);background:var(--line);overflow:hidden}
-.scorebar i{display:block;height:100%;border-radius:var(--radius-sm);background:var(--green)}
-.matchnum{font-size:1.7rem;font-weight:800;color:var(--green-deep)}
-
-/* ============ COMPARE TABLE ============ */
-.compare-page{padding-bottom:90px}
-.cmp-grid{display:grid;grid-template-columns:210px repeat(2,1fr);gap:0}
-.cmp-grid.c3{grid-template-columns:210px repeat(3,1fr)}
-.cmp-cell{padding:12px 14px;border-bottom:1px solid var(--line);font-size:var(--fs-sm);display:flex;align-items:center;min-height:46px}
-.cmp-head{background:var(--surface);border-bottom:2px solid var(--line-strong);flex-direction:column;align-items:flex-start;gap:4px;padding:16px 14px}
-.cmp-head b{font-size:var(--fs-base)}
-.cmp-head .btn{margin-top:4px}
-.cmp-lab{font-weight:700;color:var(--ink-soft);background:#faf9f5;font-size:var(--fs-sm)}
-.cmp-best{background:var(--green-soft);font-weight:700;color:var(--green-deep)}
-.cmp-cell.cmp-best::after{content:" ★";color:var(--orange)}
-
-/* ============ REVIEWS ============ */
-.review{display:flex;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
-.review:last-child{border-bottom:0}
-.rev-ava{width:36px;height:36px;border-radius:50%;background:var(--green-soft);color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:var(--fs-sm);flex-shrink:0}
-.rev-body{flex:1}
-.rev-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.rev-head b{font-size:var(--fs-base)}
-.rev-issue{background:var(--orange-soft);border:1px solid #ecd3b2;color:#7a4a12;font-size:var(--fs-sm);padding:3px 9px;border-radius:999px;font-weight:700}
-.rev-text{font-size:var(--fs-sm);color:var(--ink-soft);margin-top:4px}
-
-/* ============ TOAST ============ */
-#toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;padding:12px 18px;border-radius:var(--radius);font-size:var(--fs-sm);font-weight:600;box-shadow:var(--shadow-raised);opacity:0;transform:translateY(12px);transition:all .25s;z-index:200;pointer-events:none}
-#toast.show{opacity:1;transform:translateY(0)}
-
-/* ============ FOOTER ============ */
-footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-size:var(--fs-sm)}
-.foot-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
-.foot-brand{font-size:var(--fs-lg);font-weight:800;color:#fff;margin-bottom:6px}
-.foot-links{display:flex;gap:18px;flex-wrap:wrap}
-.foot-links a{color:#b8b3a4}
-.foot-links a:hover{color:#fff}
-.foot-note{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);font-size:var(--fs-xs);color:#8a857a}
-.foot-note .demo-label{color:#8a857a;font-style:italic}
-
-/* ═══════════ RECOMMENDER (AA-Model-Recommender style) ═══════════ */
-.wrow{display:flex;align-items:center;gap:10px;margin:8px 0}
-.wrow span{flex:1;font-size:var(--fs-sm);color:var(--ink-soft)}
-.wrow output{width:22px;text-align:center;font-family:var(--mono);font-size:var(--fs-sm);font-weight:700;color:var(--green-deep);background:var(--green-soft);border-radius:var(--radius-sm);padding:2px 0}
-.wrow input[type=range]{flex:1.2;min-width:90px;accent-color:var(--green)}
-.rdot{width:26px;height:5px;border-radius:4px;background:var(--line-strong);transition:background .2s}
-.rdot.on{background:var(--green)}
-.prow{margin-bottom:20px}
-.prow-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
-.prow-top span{font-size:var(--fs-base);font-weight:600;color:var(--ink)}
-.prow-top output{font-size:var(--fs-xs);font-weight:700;color:var(--green-deep);font-family:var(--mono)}
-.prow input[type=range]{width:100%;height:36px;accent-color:var(--green)}
-.prow input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:linear-gradient(to right,var(--green) 0%,var(--green) var(--fill,50%),var(--line-strong) var(--fill,50%))}
-.prow input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-7px;border-radius:50%;background:var(--green);border:3px solid #fff;box-shadow:0 1px 4px rgba(28,27,24,.35)}
-.prow input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:var(--line-strong)}
-.prow input[type=range]::-moz-range-progress{height:6px;border-radius:999px;background:var(--green)}
-.prow input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--green);border:3px solid #fff;box-shadow:0 1px 4px rgba(28,27,24,.35)}
-.prow-scale{display:flex;justify-content:space-between;font-size:var(--fs-xs);color:var(--ink-soft);margin-top:2px}
-.quiz-nav{display:flex;align-items:center;gap:14px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
-.quiz-nav .btn{min-width:110px}
-.quiz-nav-step{flex:1;text-align:center;font-size:var(--fs-sm);color:var(--ink-mute);font-family:var(--mono)}
-.btn-finish{min-width:170px}
-.tilegrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tileopt{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--radius-sm);cursor:pointer;transition:border-color .15s,background .15s;font-size:var(--fs-base);font-weight:600}
-.tileopt small{font-weight:400;font-size:var(--fs-xs);color:var(--ink-mute)}
-.tileopt:hover{border-color:var(--green)}
-.tileopt{position:relative}
-.tileopt:has(input:checked){border-color:var(--green);background:var(--green-soft)}
-.tileopt:has(input:checked) span::after{content:"✓";color:var(--ok);font-weight:800;margin-left:8px}
-.tileopt input{position:absolute;opacity:0;pointer-events:none}
-.tileopt:has(input:focus-visible){outline:2px solid var(--green);outline-offset:2px}
-.chipgrid{display:flex;flex-wrap:wrap;gap:8px}
-.fchip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;font-size:var(--fs-sm);font-weight:600;color:var(--ink-soft);transition:border-color .15s,background .15s}
-.fchip:hover{border-color:var(--green)}
-.fchip:has(input:checked){border-color:var(--green);background:var(--green-soft);color:var(--green-deep)}
-.fchip:has(input:checked)::before{content:"✓";font-weight:800;margin-right:2px}
-.fchip input{position:absolute;opacity:0;pointer-events:none}
-.fchip:has(input:focus-visible){outline:2px solid var(--green);outline-offset:2px}
-.altcard{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--radius-sm)}
-.wifchip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;font-size:var(--fs-sm);font-weight:600;color:var(--ink-soft);background:var(--surface)}
-.wifchip:hover{border-color:var(--green)}
-.wifchip.on{border-color:var(--green);background:var(--green-soft);color:var(--green-deep)}
-.swlist{list-style:none;font-size:var(--fs-sm);display:flex;flex-direction:column;gap:5px}
-.swlist li{display:flex;gap:8px;line-height:1.45}
-.swlist li.good::before{content:"✓";color:var(--ok);font-weight:800}
-.swlist li.bad::before{content:"—";color:var(--red);font-weight:800}
-
-/* ============ TABS (admin sub-sections) ============ */
-.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:18px;flex-wrap:wrap}
-.tabs button{background:none;border:0;padding:9px 14px;font-size:var(--fs-sm);font-weight:700;color:var(--ink-mute);border-bottom:2px solid transparent;margin-bottom:-2px}
-.tabs button.on{color:var(--green-deep);border-bottom-color:var(--green)}
-
-/* ============ RESPONSIVE ============ */
-@media(max-width:960px){
-  .hero-grid{grid-template-columns:1fr}
-  .cat-grid,.gadgets{grid-template-columns:repeat(2,1fr)}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .browse{grid-template-columns:1fr}
-  .filters{position:static}
-  .rec-grid{grid-template-columns:1fr}
-  .dash{grid-template-columns:1fr}
-  .side-nav{flex-direction:row;flex-wrap:wrap;position:static;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:8px}
-  .side-nav .side-label{display:none}
-}
-@media(max-width:900px){
-  nav.main-nav{display:none;position:absolute;top:58px;left:0;right:0;background:var(--violet-ink);flex-direction:column;padding:10px 14px 16px;border-top:1px solid rgba(255,255,255,.12)}
-  nav.main-nav.open{display:flex}
-  .hamburger{display:block}
-}
-@media(max-width:640px){
-  .nav-admin{display:none}
-  .nav-admin-mobile{display:block;background:transparent;border:0;color:#b9b3d9;text-align:left;padding:8px 11px;border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600}
-  .nav-admin-mobile.on{color:#fff;background:rgba(255,255,255,.14)}
-  .nav-user{max-width:none}
-  .nav-user .btn-ghost{display:none}
-  .nav-user .btn{padding:6px 10px;font-size:var(--fs-sm)}
-  .cat-grid,.gadgets{grid-template-columns:1fr}
-  .compare-page{padding-bottom:90px}
-.cmp-grid{grid-template-columns:120px 1fr}
-  .cmp-grid.c3{grid-template-columns:120px 1fr 1fr}
-  .compare-page{padding-bottom:90px}
-.cmp-grid{overflow-x:auto;min-width:0}
-  .tray{flex-wrap:wrap;justify-content:center}
-  .stats{grid-template-columns:1fr}
-  .hero{padding:40px 0 48px}
-}
-@media(prefers-reduced-motion:reduce){
-  *{transition:none!important;animation:none!important;scroll-behavior:auto}
-}
-:focus-visible{outline:2px solid var(--green);outline-offset:2px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GadgetWise — Student Gadget Discovery, Comparison &amp; Long-Term Value</title>
+  <meta name="description" content="GadgetWise helps Filipino students discover, evaluate, compare, and get personalized recommendations for gadgets — with transparent ownership-cost estimates.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='1.5' y='1.5' width='25' height='25' rx='6' fill='%231a56db'/%3E%3Cpath d='M14 6.5 7.5 10v8L14 21.5 20.5 18v-8L14 6.5Z' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
 </head>
 <body>
+  <!--
+    DIRECTION CONTRACT — "Cobalt Ledger" (world revision of seed f90b4ac6;
+    original "The Value Tag" re-colored per client direction: blue palette,
+    professional, easy to read, slightly futuristic)
+    THESIS: GadgetWise is the value tag reformed into a consumer report —
+    purchase-decision information design without the store. Refuses:
+    e-commerce chrome, AI-dashboard cards, jade/retro-retail palettes.
+    OWN-WORLD: cool light ground, ink-navy text, cobalt reserved for actions
+    and measured values (₱/month, scores); cyan only in admin/logo detail;
+    Archivo signage grotesk + Spline Sans Mono for measures; one stroke set.
+    STORY: a student discovers a gadget, sees its ₱/month ownership at a
+    glance, verifies the math, compares side by side, then gets a scored
+    recommendation whose arithmetic is visible. Decides with reasons.
+    FIRST VIEWPORT: left — headline "Know the price. Know the years." with
+    value proposition and hero search; right — a live value tag for the
+    AirBook 14 showing price, lifespan, warranty and the cobalt ₱/month line.
+    FORM: grounded candidate 7 of 7 (retail shelf tag → consumer report via
+    the not-e-commerce constraint); challengers rejected on audience + clarity.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the
+    finish review, the verdict, and DESIGN.md.
+  -->
+  <main id="main">
 
-<!-- ══════════════ TOPBAR ══════════════ -->
-<header class="topbar">
-  <div class="topbar-in">
-    <a class="logo" href="#" onclick="go('home');return false">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b79cf7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 18h.01M13 18h.01"/></svg>
-      GadgetWise
-    </a>
-    <button class="hamburger" onclick="document.querySelector('nav.main-nav').classList.toggle('open')" aria-label="Menu">☰</button>
-    <nav class="main-nav" id="mainNav">
-      <button data-nav="home" onclick="go('home')">Home</button>
-      <button data-nav="browse" onclick="go('browse')">Browse</button>
-      <button data-nav="recommend" onclick="go('recommend')">Recommend</button>
-      <button data-nav="compare" onclick="go('compare')">Compare</button>
-      <button data-nav="account" data-reqlogin onclick="go('account')">Wishlist</button>
-      <button data-nav="account" data-reqlogin onclick="go('account')">Profile</button>
-      <button data-nav="admin" data-reqlogin class="nav-admin-mobile" onclick="go('admin')">Admin</button>
-    </nav>    <div class="nav-spacer"></div>
-    <button class="nav-admin" data-nav="admin" data-reqlogin onclick="go('admin')">Admin</button>
-    <div class="nav-user" id="navUser"></div>
-  </div>
-</header>
+    <!-- ============ Hero ============ -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>Know the price.<br>Know the <span class="h-accent">years</span>.</h1>
+          <p class="lede">GadgetWise helps students choose gadgets the way a tita checks a receipt: carefully.
+            Compare real specs, see the estimated <strong>₱/month cost of owning</strong>, and get recommendations
+            whose scoring you can actually read.</p>
+          <form class="hero-search" role="search" data-search-form>
+            <span class="search-box">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="search" name="q" placeholder="Try “laptop under ₱40,000” or “ANC headphones”…" aria-label="Search gadgets">
+            </span>
+            <button class="btn btn-lg">Search</button>
+          </form>
+          <div class="hero-points">
+            <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg>Ownership cost on every tag</span>
+            <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 3 8.2 7 10 4-1.8 7-5.5 7-10V6l-7-3Z"/></svg>Durability &amp; repairability scored</span>
+            <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="m4 12 5.2 5.2L20 6.4"/></svg>Explainable recommendations (no black box)</span>
+          </div>
+        </div>
 
-<!-- ══════════════ HOME ══════════════ -->
-<main id="view-home" class="view">
-  <div class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <h1>Find the right gadget for school.</h1>
-        <p class="lead">Compare real specifications, monthly costs, and student priorities before you buy.</p>
-        <div class="hero-ctas">
-          <a href="#" class="btn btn-light" onclick="go('recommend');return false">Find my gadget</a>
-          <a href="#" class="btn btn-outline-light" onclick="go('browse');return false">Browse gadgets</a>
+        <!-- Signature element: the live value tag -->
+        <div class="hero-visual">
+          <span class="float-note">PROTOTYPE DATA</span>
+          <div class="value-tag" id="heroTag" aria-label="Example ownership value tag">
+            <div class="vt-head">
+              <span class="vt-name">Example — student pick</span>
+              <span class="tag tag-accent">Laptops</span>
+            </div>
+            <div style="margin-top:10px">
+              <div class="g-brand">KAIDO</div>
+              <div style="font-family:var(--font-display); font-weight:700; font-size:1.15rem">AirBook 14</div>
+              <span class="rating-line" style="margin-top:4px"><span class="stars" role="img" aria-label="4.5 out of 5 stars"></span><span class="num">4.5</span><span class="count">(158 reviews)</span></span>
+            </div>
+            <div class="vt-rows">
+              <div class="vt-row"><span>Price</span><b>₱39,999</b></div>
+              <div class="vt-row"><span>Estimated lifespan</span><b>4.5 years</b></div>
+              <div class="vt-row"><span>Warranty</span><b>2 years</b></div>
+              <div class="vt-row"><span>Repairability</span><b>Moderate</b></div>
+            </div>
+            <div class="vt-total">
+              <span class="t-label">ESTIMATED MONTHLY OWNERSHIP</span>
+              <span class="t-value">₱740.72<span style="font-size:.85rem; color:var(--ink-3)"> /month</span></span>
+            </div>
+            <div class="vt-note">₱39,999 ÷ (4.5 × 12). Estimate only — the formula is shown on every gadget page.</div>
+          </div>
         </div>
       </div>
-      <div class="hero-panel">
-        <div class="hero-panel-head">
-          <h3>Student favorite</h3>
-        </div>
-        <div style="display:flex;gap:14px;align-items:center">
-          <div style="width:74px;height:74px;border-radius:var(--radius-sm);overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff"><img referrerpolicy="no-referrer" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg" alt="Anker PowerCore 20100" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+    </section>
+
+    <!-- ============ Trust strip ============ -->
+    <div class="home-strip">
+      <div class="container strip-in">
+        <span class="hs-item"><b id="stripGadgets">20</b><span>gadgets tracked</span></span>
+        <span class="hs-item"><b id="stripReviews">—</b><span>student reviews (mock)</span></span>
+        <span class="hs-item"><b id="stripRating">—</b><span>average catalog rating</span></span>
+        <span class="hs-item"><b>6</b><span>categories covered</span></span>
+      </div>
+    </div>
+
+    <!-- ============ Categories ============ -->
+    <section class="section">
+      <div class="container">
+        <div class="row-between" style="margin-bottom:22px">
           <div>
-            <b>Anker PowerCore 20100</b>
-            <div style="font-size:var(--fs-sm);color:var(--ink-soft);font-family:var(--mono)">₱2,450 · 4.8★ · 20,000 mAh</div>
+            <h2>Start with what you need</h2>
+            <p class="lede" style="margin-top:6px">Six categories, each scored for durability, repairability, and long-term value.</p>
+          </div>
+          <a class="btn btn-outline" href="gadgets.html">All gadgets <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></a>
+        </div>
+        <div class="grid-3" id="categoryGrid"><!-- category cards injected --></div>
+      </div>
+    </section>
+
+    <!-- ============ Featured ============ -->
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="row-between" style="margin-bottom:22px">
+          <div>
+            <h2>Worth a second look</h2>
+            <p class="lede" style="margin-top:6px">Community favorites on the left, cheapest to own per month on the right.</p>
           </div>
         </div>
-        <p class="hero-quote">"Brownout insurance. Kept my router, phone and laptop alive through a 6-hour outage." — Fons, 3rd yr EE</p>
-        <div class="scorebar" title="Ownership Index"><i style="width:82%;background:var(--green)"></i></div>
-        <div style="margin-top:10px">
-          <span style="font-family:var(--mono);font-size:var(--fs-lg);font-weight:700;color:var(--green-deep)">82<span style="font-weight:400;color:var(--ink-mute)"> / 100</span></span>
-          <span style="font-size:var(--fs-xs);color:var(--ink-mute);margin-left:6px">Ownership Index</span>
-          <div style="font-size:var(--fs-xs);color:var(--ink-mute);margin-top:2px">Based on durability, repairability, warranty, battery and student ratings.</div>
-        </div>
-        <button class="btn btn-ghost btn-sm" style="margin-top:14px" onclick="detail(9)">See the details</button>
-      </div>
-    </div>
-  </div>
-
-  <section class="pad-sec">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Shop by category</h2>
-        <p>Six categories, priced for student budgets.</p>
-      </div>
-      <div class="cat-grid" id="catGrid"></div>
-    </div>
-  </section>
-
-  <section class="pad-sec" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>How GadgetWise helps</h2>
-        <p>Three things most price lists leave out.</p>
-      </div>
-      <div class="cat-grid">
-        <div class="cat-tile"><div><b>Monthly cost, not just price</b><span>Price ÷ realistic lifespan. The number your allowance understands, not just the sticker price.</span></div></div>
-        <div class="cat-tile"><div><b>Durability and repairability</b><span>How owners say it holds up, and whether parts are available when something breaks.</span></div></div>
-        <div class="cat-tile"><div><b>Matched to your coursework</b><span>Programming, design, online classes: tell us what you use it for and the ranking adjusts.</span></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="pad-sec">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Price vs Ownership Index</h2>
-        <p>What each gadget costs against how well it holds up. Orange dots are the best-value frontier: nothing beats them on price and build at the same time. Click a dot for details.</p>
-      </div>
-      <div id="scatterArea"></div>
-    </div>
-  </section>
-
-  <section class="pad-sec">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Top rated by students</h2>
-        <p>Ranked from real ratings and reviews in the system. Updated as students review.</p>
-      </div>
-      <div class="gadgets" id="topRated"></div>
-    </div>
-  </section>
-</main>
-
-<!-- ══════════════ BROWSE ══════════════ -->
-<main id="view-browse" class="view hidden">
-  <section class="pad-sec">
-    <div class="wrap">
-      <div class="sec-head"><h2>Browse gadgets</h2><p>Search, filter and sort the catalog. Use the ⇄ button on a card to add it to the compare tray.</p></div>
-      <div class="browse">
-        <aside class="filters card" aria-label="Filters">
-          <div class="f-group">
-            <span>Category</span>
-            <label class="chk"><input type="radio" name="fcat" value="" checked onchange="renderBrowse()"> All</label>
-            <label class="chk"><input type="radio" name="fcat" value="smartphones" onchange="renderBrowse()"> Smartphones</label>
-            <label class="chk"><input type="radio" name="fcat" value="laptops" onchange="renderBrowse()"> Laptops</label>
-            <label class="chk"><input type="radio" name="fcat" value="tablets" onchange="renderBrowse()"> Tablets</label>
-            <label class="chk"><input type="radio" name="fcat" value="headphones" onchange="renderBrowse()"> Headphones</label>
-            <label class="chk"><input type="radio" name="fcat" value="powerbanks" onchange="renderBrowse()"> Power banks</label>
-            <label class="chk"><input type="radio" name="fcat" value="smartwatches" onchange="renderBrowse()"> Smartwatches</label>
+        <div class="grid-2" style="gap:28px; align-items:start">
+          <div>
+            <h3 style="font-size:.85rem; letter-spacing:.06em; color:var(--ink-3); margin-bottom:14px">TOP RATED BY STUDENTS</h3>
+            <div class="stack" id="topRated"><!-- injected --></div>
           </div>
-          <div class="f-group">
-            <span>Price range (₱)</span>
-            <div class="range-row"><input type="number" id="priceMin" value="0" min="0" step="500" onchange="renderBrowse()" aria-label="Minimum price">–<input type="number" id="priceMax" value="100000" min="0" step="500" onchange="renderBrowse()" aria-label="Maximum price"></div>
-          </div>
-          <div class="f-group">
-            <span>Features</span>
-            <label class="chk"><input type="checkbox" id="fLong" onchange="renderBrowse()"> Long battery (8h+)</label>
-            <label class="chk"><input type="checkbox" id="fBudget" onchange="renderBrowse()"> Under ₱15,000</label>
-            <label class="chk"><input type="checkbox" id="fDurable" onchange="renderBrowse()"> High durability</label>
-            <label class="chk"><input type="checkbox" id="fRepair" onchange="renderBrowse()"> Easy to repair</label>
-          </div>
-          <button class="btn btn-ghost btn-sm" style="width:100%" onclick="resetFilters()">Reset filters</button>
-        </aside>
-        <div>
-          <div class="result-meta">
-            <span id="resultCount" style="font-size:var(--fs-sm);color:var(--ink-soft)"></span>
-            <div style="display:flex;gap:10px;align-items:center">
-              <input type="text" id="searchBox" placeholder="Search name, brand…" oninput="renderBrowse()" style="width:220px" aria-label="Search gadgets">
-              <select class="inline" id="sortBy" onchange="renderBrowse()" aria-label="Sort by">
-                <option value="pop">Most popular</option>
-                <option value="value">Highest Ownership Index</option>
-                <option value="battery">Best battery</option>
-                <option value="rating">Highest rated</option>
-                <option value="price-asc">Lowest price</option>
-                <option value="price-desc">Highest price</option>
-                <option value="monthly">Est. monthly cost</option>
-              </select>
-            </div>
-          </div>
-          <div class="gadgets" id="browseGrid"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<!-- ══════════════ RECOMMEND ══════════════ -->
-<main id="view-recommend" class="view hidden">
-  <section class="pad-sec">
-    <div class="wrap">
-      <div class="sec-head" style="max-width:680px;margin-left:auto;margin-right:auto;text-align:left"><h2>Find your best match</h2><p>Set your budget, your main use, and what matters most. GadgetWise ranks the catalog against those criteria. Products that fail your requirements are filtered out first, the rest are scored against your priorities, and the full math is shown with every result.</p></div>
-      <div id="recStage" style="max-width:720px;margin:0 auto">
-        <div class="card pad" id="quizCard">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-            <h3 style="font-size:var(--fs-md)" id="rstepLbl">What are you looking for?</h3>
-          </div>
-          <div style="display:flex;gap:6px;margin-bottom:16px" aria-hidden="true">
-            <span class="rdot on"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span>
-          </div>
-
-          <div id="rstep1">
-            <div class="tilegrid">
-              <label class="tileopt"><input type="radio" name="qcCat" value="laptops" checked onchange="recQuizChange()"><span>Laptops</span><small>Heavy work, code, thesis builds</small></label>
-              <label class="tileopt"><input type="radio" name="qcCat" value="smartphones" onchange="recQuizChange()"><span>Smartphones</span><small>Everyday carry, notes, hotspot</small></label>
-              <label class="tileopt"><input type="radio" name="qcCat" value="tablets" onchange="recQuizChange()"><span>Tablets</span><small>Stylus notes, PDFs, media</small></label>
-              <label class="tileopt"><input type="radio" name="qcCat" value="headphones" onchange="recQuizChange()"><span>Headphones</span><small>Focus, commutes, calls</small></label>
-              <label class="tileopt"><input type="radio" name="qcCat" value="powerbanks" onchange="recQuizChange()"><span>Power banks</span><small>Brownout and long-day insurance</small></label>
-              <label class="tileopt"><input type="radio" name="qcCat" value="smartwatches" onchange="recQuizChange()"><span>Smartwatches</span><small>Alarms, health, time management</small></label>
-            </div>
-          </div>
-
-          <div id="rstep2" class="hidden">
-            <div class="tilegrid">
-              <label class="tileopt"><input type="radio" name="qBudget" value="10000" onchange="recBudgetPick()"><span>Under ₱10,000</span><small>Tight allowance zone</small></label>
-              <label class="tileopt"><input type="radio" name="qBudget" value="15000" onchange="recBudgetPick()"><span>₱10,000–₱15,000</span><small>Saved-up territory</small></label>
-              <label class="tileopt"><input type="radio" name="qBudget" value="20000" onchange="recBudgetPick()"><span>₱15,000–₱20,000</span><small>Mid-range budget</small></label>
-              <label class="tileopt"><input type="radio" name="qBudget" value="30000" checked onchange="recBudgetPick()"><span>₱20,000–₱30,000</span><small>The student sweet spot</small></label>
-              <label class="tileopt"><input type="radio" name="qBudget" value="40000" onchange="recBudgetPick()"><span>₱30,000–₱40,000</span><small>Serious investment</small></label>
-              <label class="tileopt"><input type="radio" name="qBudget" value="60000" onchange="recBudgetPick()"><span>₱40,000+</span><small>Top of the catalog</small></label>
-              <label class="tileopt"><input type="radio" name="qBudget" value="custom" onchange="recBudgetPick()"><span>Enter exact budget</span><small>Set your precise ceiling</small></label>
-            </div>
-            <div id="customBudget" class="hidden" style="margin-top:14px">
-              <div style="font-size:2rem;font-weight:800;color:var(--green-deep);font-family:var(--mono);text-align:center" id="recBudgetLbl">₱30,000</div>
-              <input type="range" id="recBudget" min="3000" max="60000" step="500" value="30000" oninput="recBudgetInput(this.value)" aria-label="Exact budget ceiling">
-            </div>
-          </div>
-
-          <div id="rstep3" class="hidden">
-            <label class="f" style="margin-top:0">Main use</label>
-            <div class="tilegrid" id="useGrid"></div>
-            <label class="f" style="margin-top:14px">Secondary focus <span style="font-weight:400;color:var(--ink-mute)">(optional)</span></label>
-            <div class="chipgrid" id="use2Grid"></div>
-          </div>
-
-          <div id="rstep4" class="hidden">
-            <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 14px">Set how much each factor matters. Factors you deprioritize still count a little; price and purpose always count.</p>
-            <div id="prioGrid"></div>
-          </div>
-
-          <div id="rstep5" class="hidden">
-            <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">Hard requirements. Products that do not meet these will not be recommended. Optional.</p>
-            <div class="chipgrid" id="dbGrid"></div>
-          </div>
-
-          <div id="rstep6" class="hidden">
-            <h4 style="margin:0 0 8px">Your requirements</h4>
-            <div id="reqReview" style="font-size:var(--fs-sm)"></div>
-            <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
-              <h4 style="margin:0 0 6px">How GadgetWise chooses</h4>
-              <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0;line-height:1.55">We check your answers against each product’s specs and ownership cost. Products that miss your must-haves are filtered out first. The rest are scored on budget fit, academic suitability, performance, battery, portability, durability, repairability, warranty, student rating and long-term value, weighted by what you told us. No AI is used to choose the product.</p>
-            </div>
-          </div>
-
-          <div class="quiz-nav">
-            <button class="btn btn-ghost" id="rback" onclick="goRecStep(recStep-1)" style="visibility:hidden">Back</button>
-            <span class="quiz-nav-step" id="rnavStep">Step 1 of 6</span>
-            <button class="btn btn-primary" id="rnext" onclick="recNext()">Next</button>
-          </div>
-          <button class="btn btn-ghost btn-sm" style="margin-top:12px;width:100%;border:0;color:var(--ink-mute)" onclick="resetRec()">Start over</button>
-        </div>
-        <div id="recIdle" class="card pad" style="margin-top:16px">
-          <h3 style="font-size:var(--fs-md);margin:0 0 6px">Your requirements</h3>
-          <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0">As you answer, your requirements are collected on the review step. When you finish, every eligible product is scored and ranked here, with the full scoring breakdown and the trade-offs.</p>
-        </div>
-        <div id="recResultsWrap" class="hidden"></div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<!-- ══════════════ COMPARE ══════════════ -->
-<main id="view-compare" class="view hidden">
-  <section class="pad-sec">
-    <div class="wrap">
-      <div class="sec-head"><h2>Side-by-side comparison</h2><p>Arrows show which way is better (↓ lower wins, ↑ higher wins). The better gadget for each row is marked ★; identical values are left plain, a tie is not a win. Monthly cost = price ÷ realistic lifespan ÷ 12.</p></div>
-      <div id="cmpArea"></div>
-      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn btn-ghost btn-sm" onclick="cmpSeedSample()">Load example: two laptops</button>
-        <button class="btn btn-ghost btn-sm" onclick="clearCompare()">Clear all</button>
-      </div>
-    </div>
-  </section>
-</main>
-
-<!-- ══════════════ ACCOUNT ══════════════ -->
-<main id="view-account" class="view hidden">
-  <section class="pad-sec">
-    <div class="wrap">
-      <div class="sec-head"><h2>Your account</h2><p>Demo account. Everything resets when you reload the page.</p></div>
-      <div class="dash">
-        <aside class="side-nav card" aria-label="Account sections">
-          <span class="side-label">ACCOUNT</span>
-          <button data-tab="acct-wish" class="on" onclick="acctTab('acct-wish')">Wishlist</button>
-          <button data-tab="acct-reviews" onclick="acctTab('acct-reviews')">My reviews</button>
-          <button data-tab="acct-comp" onclick="acctTab('acct-comp')">Past comparisons</button>
-          <button data-tab="acct-profile" onclick="acctTab('acct-profile')">Profile</button>
-        </aside>
-        <div class="dash-panel">
-          <div id="acct-wish">
-            <div class="panel-head"><h2>Wishlist</h2><span id="wishCount" style="font-size:var(--fs-sm);color:var(--ink-soft)"></span></div>
-            <div class="gadgets" id="wishGrid"></div>
-            <div class="rec-empty" id="wishEmpty"><div class="big">♡</div>Nothing saved yet. Use the heart on any product card to save it here for later comparison.</div>
-          </div>
-          <div id="acct-reviews" class="hidden">
-            <div class="panel-head"><h2>My reviews</h2></div>
-            <div class="card pad" id="myReviews"></div>
-            <div class="rec-empty hidden" id="myRevEmpty"><div class="big">✎</div>You haven't reviewed anything yet. Open a gadget and share your experience.</div>
-          </div>
-          <div id="acct-comp" class="hidden">
-            <div class="panel-head"><h2>Past comparisons</h2></div>
-            <div class="card tbl-wrap pad" id="pastComp"></div>
-            <div class="rec-empty hidden" id="pastCompEmpty"><div class="big">⇄</div>No comparisons yet. Add gadgets to the compare tray and compare them.</div>
-          </div>
-          <div id="acct-profile" class="hidden">
-            <div class="panel-head"><h2>Profile</h2></div>
-            <div class="card pad" style="max-width:440px">
-              <label class="f">Full name</label><input type="text" value="Attila Sabiniano">
-              <label class="f">School email</label><input type="email" value="a.sabiniano@student.edu.ph">
-              <label class="f">Course &amp; year</label><input type="text" value="BS Computer Science · 3rd Year">
-              <div class="f-row">
-                <div style="flex:1"><label class="f">Usual budget (₱)</label><input type="number" value="25000" step="500"></div>
-                <div style="flex:1"><label class="f">Primary use</label><select><option selected>Programming</option><option>Design</option><option>Online classes</option></select></div>
-              </div>
-              <button class="btn btn-primary btn-sm" style="margin-top:16px" onclick="toast('Profile saved (demo)')">Save changes</button>
-            </div>
+          <div>
+            <h3 style="font-size:.85rem; letter-spacing:.06em; color:var(--ink-3); margin-bottom:14px">LOWEST ESTIMATED ₱/MONTH</h3>
+            <div class="stack" id="bestValue"><!-- injected --></div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
 
-<!-- ══════════════ ADMIN ══════════════ -->
-<main id="view-admin" class="view hidden">
-  <section class="pad-sec">
-    <div class="wrap">
-      <div class="sec-head"><h2>Admin dashboard</h2><p>Demo admin view — sample data only. Product API fetch and moderation actions are simulated.</p></div>
-      <div class="dash">
-        <aside class="side-nav card" aria-label="Admin sections">
-          <span class="side-label">MANAGE</span>
-          <button data-tab="adm-overview" class="on" onclick="admTab('adm-overview')">Overview</button>
-          <button data-tab="adm-gadgets" onclick="admTab('adm-gadgets')">Gadgets</button>
-          <button data-tab="adm-reviews" onclick="admTab('adm-reviews')">Reviews</button>
-          <button data-tab="adm-issues" onclick="admTab('adm-issues')">Reported issues</button>
-          <button data-tab="adm-reports" onclick="admTab('adm-reports')">Reports</button>
-        </aside>
-        <div class="dash-panel">
-
-          <div id="adm-overview">
-            <div class="stats">
-              <div class="card stat"><b id="stGadgets"></b><span>Gadgets in catalog</span></div>
-              <div class="card stat"><b id="stUsers"></b><span>Registered users (demo)</span></div>
-              <div class="card stat"><b id="stPending"></b><span>Reviews pending moderation</span></div>
-              <div class="card stat"><b id="stIssues"></b><span>Open reported issues</span></div>
-            </div>
-            <div class="card pad">
-              <h3 style="margin-bottom:12px">Popular categories this month</h3>
-              <div style="display:flex;flex-direction:column;gap:12px">
-                <div><div style="display:flex;justify-content:space-between;font-size:var(--fs-sm);margin-bottom:4px"><span>Laptops</span><b>38%</b></div><div class="scorebar"><i style="width:38%"></i></div></div>
-                <div><div style="display:flex;justify-content:space-between;font-size:var(--fs-sm);margin-bottom:4px"><span>Smartphones</span><b>27%</b></div><div class="scorebar"><i style="width:27%;background:var(--orange)"></i></div></div>
-                <div><div style="display:flex;justify-content:space-between;font-size:var(--fs-sm);margin-bottom:4px"><span>Headphones</span><b>14%</b></div><div class="scorebar"><i style="width:14%;background:var(--blue)"></i></div></div>
-                <div><div style="display:flex;justify-content:space-between;font-size:var(--fs-sm);margin-bottom:4px"><span>Tablets</span><b>11%</b></div><div class="scorebar"><i style="width:11%;background:var(--ink-mute)"></i></div></div>
-              </div>
-            </div>
+    <!-- ============ Product flow ============ -->
+    <section class="section-tight">
+      <div class="container">
+        <div class="flow-band">
+          <div class="flow-step">
+            <span class="fs-k">01</span>
+            <div class="fs-t">Discover</div>
+            <p>Search and filter six gadget categories with honest student pricing.</p>
           </div>
-
-          <div id="adm-gadgets" class="hidden">
-            <div class="panel-head">
-              <div><h2>Gadget records</h2><p>Add gadgets manually, or fetch basics from the external product API (server-side).</p></div>
-              <button class="btn btn-primary" onclick="openModal('modal-add')">+ Add gadget</button>
-            </div>
-            <div class="card tbl-wrap">
-              <table class="tbl">
-                <thead><tr><th>Gadget</th><th>Category</th><th>Price</th><th>Source</th><th>Status</th><th></th></tr></thead>
-                <tbody id="admGadgetsBody"></tbody>
-              </table>
-            </div>
+          <div class="flow-step">
+            <span class="fs-k">02</span>
+            <div class="fs-t">Evaluate</div>
+            <p>Specs, durability, warranty, and reported issues — in one place.</p>
           </div>
-
-          <div id="adm-reviews" class="hidden">
-            <div class="panel-head"><div><h2>Review moderation</h2><p>Verify reviews before they go public.</p></div></div>
-            <div class="card tbl-wrap">
-              <table class="tbl">
-                <thead><tr><th>Review</th><th>Gadget</th><th>Rating</th><th>Submitted</th><th>Status</th><th>Actions</th></tr></thead>
-                <tbody id="admRevBody"></tbody>
-              </table>
-            </div>
+          <div class="flow-step">
+            <span class="fs-k">03</span>
+            <div class="fs-t">Compare</div>
+            <p>Up to four gadgets side by side, meaningful differences highlighted.</p>
           </div>
-
-          <div id="adm-issues" class="hidden">
-            <div class="panel-head"><div><h2>Reported gadget issues</h2><p>Common problems students reported.</p></div></div>
-            <div class="card tbl-wrap">
-              <table class="tbl">
-                <thead><tr><th>Issue</th><th>Gadget</th><th>Reports</th><th>Status</th><th>Action</th></tr></thead>
-                <tbody id="admIssueBody"></tbody>
-              </table>
-            </div>
+          <div class="flow-step">
+            <span class="fs-k">04</span>
+            <div class="fs-t">Recommend</div>
+            <p>A weighted score you can audit, factor by factor and point by point.</p>
           </div>
-
-          <div id="adm-reports" class="hidden">
-            <div class="panel-head"><div><h2>Reports</h2><p>Summary of popular gadgets and categories.</p></div></div>
-            <div class="card tbl-wrap">
-              <table class="tbl">
-                <thead><tr><th>Rank</th><th>Gadget</th><th>Category</th><th>Views</th><th>Comparisons</th><th>Wishlist adds</th></tr></thead>
-                <tbody id="admReportBody"></tbody>
-              </table>
-            </div>
-            <button class="btn btn-ghost btn-sm" style="margin-top:14px" onclick="toast('Report exported (demo)')">Export CSV</button>
+          <div class="flow-step">
+            <span class="fs-k">05</span>
+            <div class="fs-t">Save</div>
+            <p>Keep a wishlist and your comparison history while you decide.</p>
           </div>
-
         </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
 
-<!-- ══════════════ FOOTER ══════════════ -->
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="foot-brand">GadgetWise</div>
-        <div style="max-width:44ch">Student-centered gadget comparison and recommendation. The real price of a gadget is what it costs per month of school.</div>
-      </div>
-      <div class="foot-links">
-        <a href="#" onclick="go('browse');return false">Browse</a>
-        <a href="#" onclick="go('recommend');return false">Recommend</a>
-        <a href="#" onclick="go('compare');return false">Compare</a>
-        <a href="#" onclick="go('admin');return false">Admin</a>
-      </div>
-    </div>
-    <div class="foot-note">
-      CC116 Advanced Web Systems and Technologies · Austria · Banting · Candano · Jacobe · Sabiniano<br>
-      <span class="demo-label">Demo catalog: real products, illustrative specs and prices. Ownership Index computed from demo scores, not manufacturer data.</span>
-    </div>
-  </div>
-</footer>
-
-<!-- ══════════════ TRAY ══════════════ -->
-<div class="tray hidden" id="tray">
-  <span class="tray-label">COMPARE</span>
-  <div class="tray-items" id="trayItems"></div>
-  <button class="btn btn-primary" onclick="runCompare()">Compare now</button>
-</div>
-
-<!-- ══════════════ MODALS ══════════════ -->
-<div class="modal-back hidden" id="modal-auth">
-  <div class="modal" role="dialog" aria-modal="true" aria-label="Login or register">
-    <div class="modal-head"><h3 id="authTitle">Log in</h3><button class="modal-x" onclick="closeModal('modal-auth')" aria-label="Close">✕</button></div>
-    <div class="modal-body">
-      <div id="authLogin">
-        <label class="f">Email</label><input type="email" id="loginEmail" placeholder="you@student.edu.ph">
-        <label class="f">Password</label><input type="password" id="loginPass" placeholder="••••••••">
-        <div style="display:flex;gap:10px;margin-top:16px">
-          <button class="btn btn-primary" style="flex:1" onclick="doLogin('student')">Log in as student</button>
-          <button class="btn btn-ghost" style="flex:1" onclick="doLogin('admin')">Log in as admin</button>
+    <!-- ============ Recommendation CTA ============ -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-band">
+          <div>
+            <h2>Not sure which one? Answer three questions.</h2>
+            <p>Budget, academic use, and what matters most to you. The scoring engine ranks the catalog and shows its math: every factor, every point.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-lg" href="recommendations.html">Get recommendations <svg class="icon" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></a>
+            <a class="btn btn-lg btn-outline-light" href="compare.html">Compare gadgets</a>
+          </div>
         </div>
-        <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin-top:12px">Demo build: any email works, no password needed.</p>
       </div>
-      <div id="authRegister" class="hidden">
-        <div class="f-row">
-          <div><label class="f">First name</label><input type="text" id="regFirst" placeholder="Juan"></div>
-          <div><label class="f">Last name</label><input type="text" id="regLast" placeholder="Dela Cruz"></div>
-        </div>
-        <label class="f">School email</label><input type="email" id="regEmail" placeholder="juan@student.edu.ph">
-        <label class="f">Password</label><input type="password" id="regPass" placeholder="At least 8 characters">
-        <label class="f">Confirm password</label><input type="password" id="regPass2" placeholder="Repeat password">
-        <div class="check"><input type="checkbox" id="regAgree"> I agree to the demo terms — data is fake and stored locally.</div>
-        <button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="doRegister()">Create account</button>
-      </div>
-      <p id="authErr" class="hidden" style="color:var(--red);font-size:var(--fs-sm);margin-top:10px;font-weight:600"></p>
-      <p style="text-align:center;font-size:var(--fs-sm);margin-top:14px" id="authSwitch"></p>
-    </div>
-  </div>
-</div>
+    </section>
 
-<div class="modal-back hidden" id="modal-detail">
-  <div class="modal" role="dialog" aria-modal="true" aria-label="Gadget details" style="max-width:720px">
-    <div class="modal-head"><h3 id="dTitle"></h3><button class="modal-x" onclick="closeModal('modal-detail')" aria-label="Close">✕</button></div>
-    <div class="modal-body" id="dBody"></div>
-  </div>
-</div>
+  </main>
 
-<div class="modal-back hidden" id="modal-review">
-  <div class="modal" role="dialog" aria-modal="true" aria-label="Write a review">
-    <div class="modal-head"><h3>Review <span id="rvGadName"></span></h3><button class="modal-x" onclick="closeModal('modal-review')" aria-label="Close">✕</button></div>
-    <div class="modal-body">
-      <label class="f">Rating</label>
-      <select id="rvStars"><option>★★★★★ (5)</option><option>★★★★ (4)</option><option>★★★ (3)</option><option>★★ (2)</option><option>★ (1)</option></select>
-      <label class="f">Your review</label>
-      <textarea id="rvText" placeholder="How does it hold up for school work? Battery? Build?"></textarea>
-      <div class="check"><input type="checkbox" id="rvIssue" onchange="document.getElementById('rvIssueField').classList.toggle('hidden',!this.checked)"> Report a common issue with this gadget</div>
-      <div id="rvIssueField" class="hidden">
-        <label class="f">Issue type</label>
-        <select id="rvIssueType"><option>Battery drains fast</option><option>Overheats</option><option>Slow performance</option><option>Broken charging port</option><option>Screen / display problem</option><option>Other</option></select>
-      </div>
-      <div class="modal-foot" style="padding:14px 0 0;border:0">
-        <button class="btn btn-ghost" onclick="closeModal('modal-review')">Cancel</button>
-        <button class="btn btn-primary" onclick="submitReview()">Submit review</button>
-      </div>
-      <p id="rvErr" class="hidden" style="color:var(--red);font-size:var(--fs-sm);margin-top:10px;font-weight:600"></p>
-    </div>
-  </div>
-</div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    GWApp.initShell({ active: "index.html" });
 
-<div class="modal-back hidden" id="modal-add">
-  <div class="modal" role="dialog" aria-modal="true" aria-label="Add gadget">
-    <div class="modal-head"><h3>Add gadget</h3><button class="modal-x" onclick="closeModal('modal-add')" aria-label="Close">✕</button></div>
-    <div class="modal-body">
-      <div style="background:var(--blue-soft);border:1px solid #c9d7ec;border-radius:var(--radius-sm);padding:12px 14px;font-size:var(--fs-sm);color:var(--blue);margin-bottom:6px">
-        <b>External product API (server-side).</b> In the production build, the server fetches name, brand, category and image during admin encoding; the browser never calls the API directly. This prototype simulates that response with mock data — manual entry always works.
-      </div>
-      <label class="f">Product lookup (e.g., barcode or product name)</label>
-      <div style="display:flex;gap:8px">
-        <input type="text" id="apiQuery" placeholder='try "Lenovo IdeaPad" or "Anker Zolo"' style="flex:1">
-        <button class="btn btn-ghost" onclick="apiFetch()">Fetch from API</button>
-      </div>
-      <p id="apiStatus" style="font-size:var(--fs-sm);color:var(--ink-mute);margin:6px 0 0"></p>
-      <label class="f">Brand</label><input type="text" id="fBrand" placeholder="e.g. Aerolite">
-      <label class="f">Model</label><input type="text" id="fModel" placeholder="e.g. Book 14 (2026)">
-      <label class="f">Category</label>
-      <select id="fCat"><option value="">Select…</option><option>Smartphones</option><option>Laptops</option><option>Tablets</option><option>Headphones</option><option>Power banks</option><option>Smartwatches</option></select>
-      <div class="f-row">
-        <div><label class="f">Price (₱)</label><input type="number" id="fPrice" placeholder="24999" min="0" step="100"></div>
-        <div><label class="f">Warranty (months)</label><input type="number" id="fWarranty" placeholder="12" min="0"></div>
-      </div>
-      <label class="f">Key specifications</label><textarea id="fSpecs" placeholder="One per line — CPU, RAM, battery…"></textarea>
-      <div class="modal-foot" style="padding:14px 0 0;border:0">
-        <button class="btn btn-ghost" onclick="closeModal('modal-add')">Cancel</button>
-        <button class="btn btn-primary" onclick="saveGadget()">Save gadget</button>
-      </div>
-    </div>
-  </div>
-</div>
+    // Hero stars
+    document.querySelector("#heroTag .stars").innerHTML = GWApp.stars(4.5);
+    document.getElementById("stripGadgets").textContent = GW.community.gadgetsTracked;
+    document.getElementById("stripReviews").textContent = GW.community.reviewsWritten.toLocaleString("en-PH") + "+";
+    document.getElementById("stripRating").textContent = GW.community.avgRating + "\u2605";
 
-<div id="toast" role="status" aria-live="polite"></div>
+    // Category cards
+    document.getElementById("categoryGrid").innerHTML = GW.categories.map(c => {
+      const n = GW.gadgetsInCategory(c.id).length;
+      return `<a class="cat-card" href="category.html?cat=${c.id}">
+        <img src="assets/placeholders/${c.file}.svg" alt="">
+        <span><span class="cc-name">${c.name}</span><br><span class="cc-count">${n} gadget${n === 1 ? "" : "s"}</span></span>
+      </a>`;
+    }).join("");
 
-<script>
-/* ═══════════ OWNERSHIP INTELLIGENCE INDEX (AA-style) ═══════════
-   0–100, weighted: durability 25, repairability 20, battery 20,
-   warranty 15 (24mo=full), student rating 20 (5★=full).
-   Pareto frontier = no other gadget is both cheaper AND higher-indexed. */
-function ownIndex(g){
-  const s = g.durab/5*25 + g.repair/5*20 + Math.min(g.battery/12,1)*20 + Math.min(g.warranty/24,1)*15 + g.rating/5*20;
-  return Math.round(s);
-}
-function frontier(ids){ // ids: array of gadget ids -> Set of Pareto-optimal ids
-  const gs = ids.map(byId).filter(Boolean).map(g=>({id:g.id,p:g.price,s:ownIndex(g)}));
-  return new Set(gs.filter(a=>!gs.some(b=>b!==a && b.p<=a.p && b.s>=a.s && (b.p<a.p||b.s>a.s))).map(a=>a.id));
-}
-const WISH_IMGS = {"laptop1":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png","laptop2":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acer_Aspire_A515-51.jpg/960px-Acer_Aspire_A515-51.jpg","laptop3":"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg","tablet1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg","tablet2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg","phone1":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmi_Note_11_front.jpg/960px-Redmi_Note_11_front.jpg","phone2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Back_of_the_Samsung_Galaxy_S23.jpg/960px-Back_of_the_Samsung_Galaxy_S23.jpg","head1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg","power1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg","watch1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg"};
-
-/* ═══════════ DATA (demo — real products, illustrative specs/prices) ═══════════ */
-const ICONS={
- laptops:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg>',
- smartphones:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg>',
- tablets:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3" width="15" height="18" rx="2"/><path d="M10.5 18h3"/></svg>',
- headphones:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4.5" height="6.5" rx="1.5"/><rect x="16.5" y="14" width="4.5" height="6.5" rx="1.5"/></svg>',
- powerbanks:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="17.5" rx="2"/><path d="M10.5 2.5h3"/><path d="M13 9l-3 4h4l-3 4"/></svg>',
- smartwatches:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="6.5" width="11" height="11" rx="2.5"/><path d="M9 6.5 9.7 2.5h4.6l.7 4M9 17.5l.7 4h4.6l.7-4"/></svg>'
-};
-const CATS = {
-  laptops:{name:"Laptops",icon:"💻",bg:"var(--blue-soft)",lifespan:4},
-  smartphones:{name:"Smartphones",icon:"📱",bg:"var(--green-soft)",lifespan:3.5},
-  tablets:{name:"Tablets",icon:"📋",bg:"var(--orange-soft)",lifespan:4},
-  headphones:{name:"Headphones",icon:"🎧",bg:"var(--blue-soft)",lifespan:2.5},
-  powerbanks:{name:"Power banks",icon:"🔋",bg:"var(--green-soft)",lifespan:2},
-  smartwatches:{name:"Smartwatches",icon:"⌚",bg:"var(--orange-soft)",lifespan:3}
-};
-// ponytail: flat array + fields, a DB behind an API replaces this in the real build
-// Demo catalog: real products, illustrative specs and prices.
-const G = [
- {id:1,brand:"Apple",model:"MacBook Air M1",cat:"laptops",price:46999,warranty:12,lifespan:5,img:WISH_IMGS.laptop1,ram:8,weight:1.29,
-  cx:{perf:85,display:92,battery:100,portability:92,durab:88,repair:35,camera:72,storage:55},
-  strengths:["14–15 hr real-world battery","Silent, fanless operation","Best-in-class trackpad and speakers"],
-  weaknesses:["256GB base storage fills fast","RAM is not upgradeable","Expensive out-of-warranty repairs"],
-  goodFor:["Programming and thesis builds","Research and writing","All-day classes away from outlets"],
-  notIdeal:["Tight budgets","Students who upgrade parts later"],
-  specs:["Apple M1 8-core CPU","8GB unified · 256GB SSD","13.3-inch Retina 2560×1600","Real-world battery 14–15 hr · 30W USB-C","1.29 kg, fanless"],
-  battery:14.5,durab:4.6,repair:2.1,rating:4.9,raters:180,pop:88,
-  reviews:[{n:"Kai M.",y:3,r:5,t:"Left the charger at home all week. Still on 30% by Saturday review sessions. The battery alone is worth it."},{n:"Rina P.",y:2,r:5,t:"Compiles our thesis Android app in seconds. Speakers embarrass laptops twice the price."},{n:"Doms L.",y:1,r:4,t:"One dent after a backpack drop. Screen replacement quote was ₱18k — insure this one."}],
-  issue:"256GB base storage fills fast",
-  uses:{programming:3,design:3,classes:3,research:3,gaming:1,video:2},mo:783},
- {id:2,brand:"Acer",model:"Acer Aspire 5 A515",cat:"laptops",price:28999,warranty:12,lifespan:4,img:WISH_IMGS.laptop2,ram:16,weight:1.78,
-  cx:{perf:72,display:65,battery:60,portability:55,durab:70,repair:88,camera:50,storage:70},
-  strengths:["Standard parts — cheap, available fixes","RAM and SSD are user-upgradeable","Strong performance per peso"],
-  weaknesses:["Plastic chassis flexes under torsion","Display is dim for outdoor use"],
-  goodFor:["Programming on a budget","Documents and presentations","Students who repair instead of replace"],
-  notIdeal:["Design and color-critical work","Daily long carries"],
-  specs:["AMD Ryzen 5 7520U","16GB RAM · 512GB SSD","15.6-inch IPS FHD","Battery 9 hr claimed · 65W USB-C","1.78 kg"],
-  battery:7.5,durab:3.8,repair:4.2,rating:4.3,raters:240,pop:85,
-  reviews:[{n:"JC R.",y:2,r:4,t:"Handles docs, Zoom, VS Code and light Blender. Keyboard flex is the only gripe."},{n:"Mai S.",y:1,r:5,t:"Upgraded the SSD myself in 15 minutes. Every part is a standard size — repairs are cheap here."},{n:"Fons M.",y:3,r:4,t:"Charger brick is small, fits the same pouch as my power bank."}],
-  issue:"Early batches had a rattly trackpad",
-  uses:{programming:3,design:1,classes:3,research:3,gaming:2,video:1},mo:604},
- {id:3,brand:"ASUS",model:"ASUS Vivobook 15",cat:"laptops",price:32999,warranty:24,lifespan:4,img:WISH_IMGS.laptop3,ram:16,weight:1.7,
-  cx:{perf:78,display:88,battery:52,portability:62,durab:82,repair:80,camera:55,storage:70},
-  strengths:["Two-year warranty — longest of the laptops","OLED panel for design work","16GB RAM out of the box"],
-  weaknesses:["Fan spins up under sustained compiles","Battery trails the class average"],
-  goodFor:["Design and multimedia coursework","Programming with longer warranty cover","Presentations on external displays"],
-  notIdeal:["All-day off-charger use","Quiet environments like libraries"],
-  specs:["Intel Core i5-1335U","16GB RAM · 512GB SSD","15.6-inch OLED option","Battery 7 hr · 65W USB-C","1.7 kg"],
-  battery:7.0,durab:4.4,repair:4.3,rating:4.4,raters:160,pop:74,
-  reviews:[{n:"Bea T.",y:2,r:5,t:"The OLED makes Figma layouts pop. 16GB out of the box means no upgrade tax."},{n:"Ogie W.",y:1,r:4,t:"Fan gets chatty on long compiles but never thermal-throttled on me."},{n:"Shai G.",y:2,r:4,t:"Two-year warranty sealed it for me. Service center fixed a hinge in 3 days."}],
-  issue:"Fan spins up under sustained load",
-  uses:{programming:3,design:2,classes:3,research:2,gaming:2,video:2},mo:687},
- {id:4,brand:"Apple",model:"iPad 9th Generation",cat:"tablets",price:19499,warranty:12,lifespan:5,img:WISH_IMGS.tablet1,ram:3,
-  cx:{perf:62,display:75,battery:78,portability:90,durab:82,repair:45,camera:60,storage:35},
-  strengths:["Longest software support in the tablet class","Cheapest entry into the Pencil note-taking workflow","Strong resale value"],
-  weaknesses:["64GB base storage is tight","Non-laminated display adds glare","Pencil and keyboard cost extra"],
-  goodFor:["Paperless note-taking","Reading and PDF annotation","Media consumption between classes"],
-  notIdeal:["Primary laptop replacement","Large offline media libraries"],
-  specs:["A13 Bionic chip","64GB · Wi-Fi","10.2-inch Retina","Battery 9–10 hr video","Apple Pencil (1st gen) supported"],
-  battery:9.0,durab:4.3,repair:2.8,rating:4.7,raters:210,pop:79,
-  reviews:[{n:"Nadine C.",y:3,r:5,t:"GoodNotes replaced all my notebooks. Still gets iPadOS updates years in — that's the long-term value."},{n:"Iya V.",y:1,r:4,t:"Split-screen lecture PDF + Zoom runs smooth. Storage is tight though."},{n:"Trina U.",y:2,r:5,t:"Cheapest real iPad. Resale after 3 years still recovers half the price."}],
-  issue:"Non-laminated display shows more glare",
-  uses:{programming:1,design:2,classes:3,research:3,gaming:2,video:3},mo:325},
- {id:5,brand:"Xiaomi",model:"Xiaomi Pad 7",cat:"tablets",price:16999,warranty:12,lifespan:4,img:WISH_IMGS.tablet2,ram:8,
-  cx:{perf:82,display:95,battery:88,portability:85,durab:75,repair:40,camera:45,storage:60},
-  strengths:["144Hz 3.2K display at a mid-range price","Snapdragon 7+ Gen 3 handles heavy apps","8,850 mAh lasts full-day schedules"],
-  weaknesses:["Stylus and keyboard sold separately","Note-app ecosystem trails iPad"],
-  goodFor:["Video streaming and reading","Digital flashcards and PDF markup","Budget-conscious media students"],
-  notIdeal:["Deep Pencil-style workflows","Students already in the Apple ecosystem"],
-  specs:["Snapdragon 7+ Gen 3","8GB RAM · 128GB","11.2-inch 3.2K 144Hz","Battery 8,850 mAh · 45W","Focus stylus + keyboard support"],
-  battery:10.0,durab:4.0,repair:3.0,rating:4.5,raters:130,pop:68,
-  reviews:[{n:"Enzo H.",y:2,r:5,t:"144Hz at this price is unfair. A full Thursday of classes on one charge."},{n:"Paolo D.",y:1,r:4,t:"Great for notes and video. App ecosystem still behind iPad for note apps."},{n:"Luigi B.",y:2,r:4,t:"Doubles as my second monitor for the laptop. Stylus buying separately stings."}],
-  issue:"Stylus sold separately",
-  uses:{programming:1,design:2,classes:3,research:3,gaming:3,video:3},mo:354},
- {id:6,brand:"Redmi",model:"Redmi Note 11",cat:"smartphones",price:6999,warranty:12,lifespan:3,img:WISH_IMGS.phone1,ram:6,
-  cx:{perf:45,display:80,battery:80,portability:95,durab:68,repair:82,camera:55,storage:65},
-  strengths:["AMOLED 90Hz at a budget price","33W charging — full in about an hour","Parts and technicians are everywhere"],
-  weaknesses:["Helio G96 slows on heavy apps","Camera struggles in low light","Bloatware out of the box"],
-  goodFor:["Calls, GCash, school apps","First phone on a tight allowance","Backup phone for fieldwork"],
-  notIdeal:["Mobile gaming","Photo-heavy coursework"],
-  specs:["6.43-inch AMOLED 90Hz","Helio G96","6GB RAM · 128GB","5,000 mAh · 33W","50MP main camera"],
-  battery:8.2,durab:3.6,repair:3.9,rating:4.2,raters:300,pop:86,
-  reviews:[{n:"Tin A.",y:3,r:5,t:"AMOLED at ₱7k carried my whole first year. Charges during one lunch break."},{n:"Rey F.",y:2,r:4,t:"Camera is fine for board notes and GCash scans. Loads ML files slowly."},{n:"Kaye L.",y:1,r:4,t:"Dropped screen-first twice with a case — survived. Parts are everywhere."}],
-  issue:"Preloaded bloatware",
-  uses:{programming:1,design:1,classes:3,research:2,gaming:1,video:2,photography:2},mo:194},
- {id:7,brand:"Samsung",model:"Samsung Galaxy S23",cat:"smartphones",price:38990,warranty:12,lifespan:4,img:WISH_IMGS.phone2,ram:8,
-  cx:{perf:92,display:95,battery:62,portability:96,durab:86,repair:38,camera:90,storage:80},
-  strengths:["Flagship camera — night mode handles indoor events","Compact one-handed body","4 OS + 5 years security updates"],
-  weaknesses:["Small 3,900 mAh battery needs top-ups","25W charging is slow for the class","Premium repair costs"],
-  goodFor:["Photography and content creation","Research on the go","Students keeping a phone 4+ years"],
-  notIdeal:["Heavy mobile gaming sessions","Students who forget power banks"],
-  specs:["6.1-inch Dynamic AMOLED 120Hz","Snapdragon 8 Gen 2","8GB RAM · 256GB","3,900 mAh · 25W","IP68 water resistant"],
-  battery:8.0,durab:4.4,repair:2.9,rating:4.7,raters:190,pop:81,
-  reviews:[{n:"Jopay K.",y:3,r:5,t:"Flagship camera for thesis documentation. Night mode saves my indoor shots."},{n:"Doms L.",y:2,r:4,t:"Compact size is the selling point — actually fits one hand. Battery needs a power bank on long days."},{n:"Aira S.",y:2,r:5,t:"Four years of updates promised. Cost per year beats cheaper phones."}],
-  issue:"Battery health dips faster than expected",
-  uses:{programming:2,design:2,classes:3,research:3,gaming:3,video:3,photography:3},mo:812},
- {id:8,brand:"JBL",model:"JBL Synchros E50BT",cat:"headphones",price:4499,warranty:12,lifespan:2.5,img:WISH_IMGS.head1,
-  cx:{perf:55,comfort:62,battery:55,portability:70,durab:65,repair:60,mic:50},
-  strengths:["Pure Bass sound for commutes","Aux cable works when the battery dies","Folds flat inside a bag"],
-  weaknesses:["Ear pads flake around month 11","No active noise cancelling","Mic quality is average for calls"],
-  goodFor:["Jeepney and LRT commutes","Casual listening between classes","Backup wired/wireless pair"],
-  notIdeal:["All-day library wear","Online recitation-heavy schedules"],
-  specs:["Over-ear, wireless","JBL Pure Bass sound","Battery ~16 hr","Bluetooth + aux fallback","Foldable, padded headband"],
-  battery:7.5,durab:3.5,repair:3.2,rating:4.0,raters:95,pop:55,
-  reviews:[{n:"Shai G.",y:2,r:4,t:"Bass drowns the LRT noise during commute reviews. Pads get warm after 2 hours."},{n:"Enzo H.",y:1,r:4,t:"Aux cable saved me when the battery died mid-library session."},{n:"Mai S.",y:2,r:3,t:"Pads started flaking at month 11. Replaceable, but annoying."}],
-  issue:"Ear pads flake after about a year",
-  uses:{programming:0,design:1,classes:3,research:2,gaming:2,video:1},mo:150},
- {id:9,brand:"Anker",model:"Anker PowerCore 20100",cat:"powerbanks",price:2450,warranty:18,lifespan:3,img:WISH_IMGS.power1,
-  cx:{perf:75,comfort:30,battery:95,portability:40,durab:92,repair:55,mic:0},
-  strengths:["18W PD tops phones fast, trickle-charges laptops","18-month warranty — rare in this class","Four years of service without swelling"],
-  weaknesses:["Heavy in a small bag (≈355 g)","Slow to recharge itself overnight"],
-  goodFor:["Long field days and brownouts","Laptop users between outlets","Group-work charging duty"],
-  notIdeal:["Everyday minimal carry","Quick recharges between classes"],
-  specs:["20,000 mAh","18W USB-C PD in/out","Charges a laptop (trickle)","4-LED charge display","Airline-safe capacity"],
-  battery:9.5,durab:4.5,repair:3.4,rating:4.8,raters:350,pop:82,
-  reviews:[{n:"Fons M.",y:3,r:5,t:"Brownout insurance. Kept my router, phone and laptop alive through a 6-hour outage."},{n:"Kaye L.",y:2,r:5,t:"Heavy, but that's physics. Four years of daily service and it never swelled."},{n:"Iya V.",y:1,r:5,t:"Pays for itself the first time it saves a 20% battery before a quiz."}],
-  issue:"None reported yet",
-  uses:{programming:2,design:1,classes:3,research:2,gaming:2,video:2},mo:68},
- {id:10,brand:"Amazfit",model:"Amazfit Bip",cat:"smartwatches",price:3190,warranty:12,lifespan:3,img:WISH_IMGS.watch1,
-  cx:{perf:40,comfort:85,battery:100,portability:100,durab:72,repair:45,camera:0,storage:30},
-  strengths:["Up to 30-day battery — charge monthly","Silent vibrating alarms for early classes","Lightweight enough to forget wearing"],
-  weaknesses:["GPS locks slowly near tall buildings","Basic fitness metrics only","Screen scratches without a film"],
-  goodFor:["7:30am class alarms","Habit and sleep tracking","Budget fitness logging"],
-  notIdeal:["Serious run training","Replying to messages from the wrist"],
-  specs:["1.28-inch always-on display","Up to 30-day battery","GPS + SpO2 + heart rate","5 ATM water resistant","Silent vibrating alarms"],
-  battery:9.9,durab:3.8,repair:2.9,rating:4.3,raters:140,pop:58,
-  reviews:[{n:"Trina U.",y:2,r:5,t:"Silent alarms for 7:30am classes saved my attendance. Charges like once a month."},{n:"Ogie W.",y:1,r:4,t:"Tracks my commute walks honestly. GPS takes a minute to lock near buildings."},{n:"Luigi B.",y:2,r:4,t:"Paired with Google Fit fine. Screen scratches if you're careless."}],
-  issue:"GPS locks slowly near tall buildings",
-  uses:{programming:0,design:0,classes:3,research:1,gaming:0,video:0},mo:89}
-];
-const byId = id => G.find(g=>g.id===id);
-
-/* ═══════════ STATE ═══════════ */
-const S = { user:null, tray:[], wish:new Set(), compared:[], reviews:[] };
-const peso = n => "₱" + n.toLocaleString("en-PH");
-const monthly = g => Math.round(g.price / (g.lifespan*12));
-
-/* ═══════════ NAV ═══════════ */
-const VIEWS = ["home","browse","recommend","compare","account","admin"];
-function go(v){
-  if(v==="account"||v==="admin"){
-    if(!S.user){ openModal("modal-auth"); authMode(v==="admin"?"login":"register"); return; }
-    if(v==="admin" && S.user.role!=="admin"){ toast("Admin account required"); return; }
-  }
-  VIEWS.forEach(x=>document.getElementById("view-"+x).classList.toggle("hidden",x!==v));
-  document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("on",b.dataset.nav===v));
-  document.getElementById("mainNav").classList.remove("open");
-  window.scrollTo({top:0});
-  if(v==="browse") renderBrowse();
-  if(v==="recommend") renderRec();
-  if(v==="compare") renderComparePage();
-  if(v==="account") renderAccount();
-  if(v==="admin") renderAdmin();
-}
-/* ponytail: demo auth — no backend, no real credentials */
-function doLogin(role){
-  const em = document.getElementById("loginEmail").value.trim();
-  if(!em){ authErr("Enter an email (any works in the demo)."); return; }
-  S.user = role==="admin" ? {name:"Prof. Raby",role:"admin"} : {name:em.split("@")[0],role:"student"};
-  closeModal("modal-auth"); renderUser(); toast(role==="admin"?"Logged in as admin":"Welcome back, "+S.user.name+"!");
-  if(role==="admin") go("admin"); else go("account");
-}
-function doRegister(){
-  const f=document.getElementById("regFirst").value.trim(), l=document.getElementById("regLast").value.trim(),
-        em=document.getElementById("regEmail").value.trim(), p1=document.getElementById("regPass").value, p2=document.getElementById("regPass2").value;
-  if(!f||!em||!p1){ authErr("Fill in name, email and password."); return; }
-  if(p1.length<8){ authErr("Password must be at least 8 characters."); return; }
-  if(p1!==p2){ authErr("Passwords don't match."); return; }
-  S.user={name:f+" "+l.charAt(0).toUpperCase()+".",role:"student"};
-  closeModal("modal-auth"); renderUser(); go("account"); toast("Account created — welcome, "+f+"!");
-}
-function authErr(m){ const e=document.getElementById("authErr"); e.textContent=m; e.classList.remove("hidden"); }
-function openAuth(mode){ S.user=null; openModal("modal-auth"); authMode(mode); }
-function authMode(m){
-  document.getElementById("authTitle").textContent = m==="login"?"Log in":"Create your account";
-  document.getElementById("authLogin").classList.toggle("hidden",m!=="login");
-  document.getElementById("authRegister").classList.toggle("hidden",m!=="register");
-  document.getElementById("authErr").classList.add("hidden");
-  document.getElementById("authSwitch").innerHTML = m==="login"
-    ? 'New here? <a href="#" onclick="authMode(\'register\');return false">Create an account</a>'
-    : 'Already registered? <a href="#" onclick="authMode(\'login\');return false">Log in</a>';
-}
-function renderUser(){
-  const u=document.getElementById("navUser");
-  if(S.user){
-    u.innerHTML = `<span class="nav-role-badge">${S.user.role}</span><div class="avatar" title="${S.user.name}">${S.user.name.charAt(0).toUpperCase()}</div>`;
-  } else {
-    u.innerHTML = '<button class="btn btn-ghost btn-sm" style="color:#f2efe7;border-color:rgba(255,255,255,.4)" onclick="openAuth(\'login\')">Log in</button> <button class="btn btn-light btn-sm" onclick="openAuth(\'register\')">Register</button>';
-  }
-}
-
-/* ═══════════ MODALS / TOAST ═══════════ */
-function openModal(id){ document.getElementById(id).classList.remove("hidden"); }
-function closeModal(id){ document.getElementById(id).classList.add("hidden"); }
-document.addEventListener("keydown",e=>{ if(e.key==="Escape") document.querySelectorAll(".modal-back").forEach(m=>m.classList.add("hidden")); });
-document.addEventListener("click",e=>{ if(e.target.classList&&e.target.classList.contains("modal-back")) e.target.classList.add("hidden"); });
-let toastTimer;
-function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2600); }
-
-/* ═══════════ CARDS ═══════════ */
-function stars(r){ const f=Math.round(r); return "★".repeat(f)+"☆".repeat(5-f); } /* ponytail: glyph stars stay whole; the numeric rating beside them carries precision */
-function gadgetImage(g,size){
-  const c=CATS[g.cat];
-  const s=size||64;
-  if(g.img) return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:var(--radius-sm);overflow:hidden;flex-shrink:0"><img src="${g.img}" alt="${g.model}" referrerpolicy="no-referrer" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'${c.icon}',style:'font-size:${Math.round(s*.55)}px'}))"></div>`;
-  return `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center;font-size:${Math.round(s*.55)}px;background:linear-gradient(135deg,#efedf7,#dedbf0);border-radius:10px">${c.icon}</div>`;
-}
-const USE_LABELS={programming:"Programming",research:"Research",classes:"Classes & notes",design:"Design & multimedia",gaming:"Gaming",video:"Video editing",photography:"Photography"};
-function card(g){
-  const inTray = S.tray.includes(g.id);
-  const bestFor = Object.entries(g.uses||{}).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k])=>USE_LABELS[k]||k).join(" · ");
-  const oidx = ownIndex(g);
-  return `
-  <article class="card gcard">
-    <div class="gcard-img">${gadgetImage(g,90)}
-      <button class="wish-btn ${S.wish.has(g.id)?"on":""}" title="Save to wishlist" aria-label="Save to wishlist" onclick="toggleWish(${g.id},this)">♥</button>
-    </div>
-    <div class="gcard-body">
-      <h3>${g.model}</h3>
-      <div style="font-size:var(--fs-xs);color:var(--ink-mute)">${CATS[g.cat].name}</div>
-      <div class="gcard-price">${peso(g.price)}<small>≈ ${peso(monthly(g))}/mo over ${g.lifespan} yrs</small></div>
-      <div class="gcard-oidx" title="Ownership Index — durability 25%, repairability 20%, battery 20%, warranty 15%, student rating 20%"><b>${oidx}</b><span>Ownership Index</span></div>
-      ${bestFor?`<div class="gcard-bestfor"><span>Best for</span>${bestFor}</div>`:""}
-      <div class="gcard-why"><b>Why it stands out</b>${g.strengths?g.strengths[0]:""}</div>
-      <div class="gcard-rate"><span class="stars">${stars(g.rating)}</span> ${g.rating} <span style="color:var(--ink-mute)">(${g.raters})</span></div>
-      <div class="gcard-actions">
-        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="detail(${g.id})">Details</button>
-        <button class="btn ${inTray?"btn-primary":"btn-ghost"} btn-sm" title="Add to compare" onclick="toggleTray(${g.id})">${inTray?"✓ In tray":"⇄ Compare"}</button>
-      </div>
-    </div>
-  </article>`;
-}
-
-/* ═══════════ HOME ═══════════ */
-function renderHome(){
-  document.getElementById("catGrid").innerHTML = Object.entries(CATS).map(([k,c])=>`
-    <a class="cat-tile" href="#" onclick="go('browse');document.querySelector('input[name=fcat][value=${k}]').checked=true;renderBrowse();return false">
-      <div class="cat-ico" style="background:var(--green-soft);color:var(--green-deep)">${ICONS[k]}</div>
-      <div><b>${c.name}</b><span>Typical life: ${c.lifespan} yrs</span></div>
-    </a>`).join("");
-  document.getElementById("topRated").innerHTML = [...G].sort((a,b)=>b.rating-a.rating).slice(0,3).map(card).join("");
-}
-
-/* ═══════════ BROWSE ═══════════ */
-function resetFilters(){ document.getElementById("priceMin").value=0; document.getElementById("priceMax").value=100000;
-  ["fLong","fBudget","fDurable","fRepair"].forEach(i=>document.getElementById(i).checked=false);
-  document.querySelector('input[name=fcat][value=""]').checked=true; renderBrowse(); }
-function renderBrowse(){
-  const q=(document.getElementById("searchBox").value||"").toLowerCase();
-  const cat=document.querySelector('input[name=fcat]:checked').value;
-  const min=+document.getElementById("priceMin").value||0, max=+document.getElementById("priceMax").value||1e9;
-  const long=document.getElementById("fLong").checked, budget=document.getElementById("fBudget").checked,
-        dur=document.getElementById("fDurable").checked, rep=document.getElementById("fRepair").checked;
-  let list=G.filter(g=>
-    (!cat||g.cat===cat) && g.price>=min && g.price<=max &&
-    (!long||g.battery>=8) && (!budget||g.price<15000) && (!dur||g.durab>=4) && (!rep||g.repair>=3.8) &&
-    (!q || (g.model+" "+g.brand).toLowerCase().includes(q)));
-  const sort=document.getElementById("sortBy").value;
-  list.sort((a,b)=> sort==="rating"?b.rating-a.rating : sort==="price-asc"?a.price-b.price : sort==="price-desc"?b.price-a.price
-    : sort==="battery"?b.battery-a.battery : sort==="monthly"?monthly(a)-monthly(b) : sort==="value"?ownIndex(b)-ownIndex(a) : b.pop-a.pop);
-  document.getElementById("resultCount").textContent = list.length+" gadget"+(list.length===1?"":"s")+" found";
-  document.getElementById("browseGrid").innerHTML = list.map(card).join("") || '<div class="rec-empty" style="grid-column:1/-1"><div class="big">🔍</div>No gadgets match. Widen the filters or reset.</div>';
-}
-
-/* ═══════════ RECOMMEND QUIZ v3 — centered decision flow, deterministic, explainable ═══════════ */
-let recStep=1, recFinished=false;
-const RSTEPS=["What are you looking for?","What\u2019s your maximum budget?","What will you mainly use it for?","What matters most to you?","Anything you absolutely need?","Review your requirements"];
-/* AA-style labeled priority scale: internal weight 0/1/2/3/4 */
-const PLABELS=["Not important","Nice to have","Important","Very important","Top priority"];
-/* Category-specific academic purposes (proposal: intended academic purpose) */
-const USES={
- laptops:[["programming","Programming / development","IDEs, compilers, thesis builds"],["documents","Office work / documents","Papers, slides, spreadsheets"],["research","Research / browsing","Papers, PDFs, long sessions"],["creative","Creative work","Figma, photo, layout work"],["engineering","Engineering / technical software","CAD, MATLAB, simulations"],["gaming","Gaming + school","After-hours relief"]],
- smartphones:[["classes","School apps & comms","GCash, LMS, group chats"],["research","Research on the go","Browsing, PDFs, videos"],["photography","Photography","Documentation, content creation"],["gaming","Mobile gaming","ML, Wild Rift, Honkai"],["video","Content consumption","Netflix between classes"]],
- tablets:[["classes","Notes & annotation","Stylus note-taking"],["research","Reading & PDFs","Papers, digital textbooks"],["video","Media & streaming","Movies, lectures"],["design","Sketching & art","Drawing, illustration"]],
- headphones:[["classes","Online classes & calls","Recitations, meetings"],["research","Focus & study","Library concentration"],["video","Media & commutes","Movies, LRT noise"]],
- powerbanks:[["classes","All-day class survival","Phone top-ups between rooms"],["research","Fieldwork & brownouts","Long days away from outlets"],["video","Heavy media days","Streaming on the go"]],
- smartwatches:[["classes","Attendance & alarms","7:30am silent alarms"],["research","Focus & habits","Study timers, sleep tracking"]]
-};
-/* Map quiz purposes to catalog uses[] keys (which track programming/design/etc) */
-const USE2KEY={programming:"programming",documents:"classes",research:"research",creative:"design",engineering:"programming",gaming:"gaming",classes:"classes",photography:"photography",video:"video"};
-/* Category-specific priorities (nice-to-haves) */
-const FEATURES={
- laptops:[["perf","Performance"],["battery","Battery life"],["portability","Portability"],["durab","Durability"],["repair","Repairability"],["display","Display quality"],["storage","Storage"]],
- smartphones:[["perf","Performance"],["battery","Battery life"],["camera","Camera"],["durab","Durability"],["repair","Repairability"],["display","Display quality"],["storage","Storage"]],
- tablets:[["display","Display quality"],["perf","Performance"],["battery","Battery life"],["portability","Portability"],["durab","Durability"],["storage","Storage"]],
- headphones:[["battery","Battery life"],["comfort","Comfort"],["mic","Microphone quality"],["portability","Portability"],["durab","Durability"]],
- powerbanks:[["battery","Capacity"],["perf","Charging speed"],["portability","Lightweight"],["durab","Durability"]],
- smartwatches:[["battery","Battery life"],["comfort","Comfort"],["durab","Durability"],["perf","Smart features"]]
-};
-/* Must-haves — hard constraints, filtered before scoring */
-const MUSTHAVES={
- laptops:[["dbRam","Must have at least 8 GB RAM"],["dbRam16","Must have at least 16 GB RAM"],["dbWeight","Must be reasonably lightweight"],["dbRepair","Must be reasonably repairable"]],
- smartphones:[["dbRam","Must have at least 6 GB RAM"],["dbPerf","Must have a strong processor"],["dbCharge","Must charge at 30W or faster"]],
- tablets:[["dbStylus","Must support a stylus"],["dbStorage","Must have enough storage"]],
- headphones:[["dbBattery","Must last at least 12 hr"]],
- powerbanks:[["dbLaptop","Must charge a laptop"],["dbWeight","Must be under 400 g"]],
- smartwatches:[["dbBattery","Must last a week or more"]]
-};
-function buildStep3to6(){
-  const cat=document.querySelector('input[name="qcCat"]:checked').value;
-  document.getElementById("useGrid").innerHTML = USES[cat].map(([v,l,s],i)=>
-    `<label class="tileopt"><input type="radio" name="qcUse" value="${v}" ${i===0?"checked":""}><span>${l}</span><small>${s}</small></label>`).join("");
-  document.getElementById("use2Grid").innerHTML = USES[cat].slice(1).map(([v,l])=>
-    `<label class="fchip"><input type="checkbox" name="qUse2" value="${v}">${l}</label>`).join("");
-  document.getElementById("prioGrid").innerHTML = FEATURES[cat].map(([v,l])=>`
-    <div class="prow">
-      <div class="prow-top"><span>${l}</span><output id="po_${v}">Important</output></div>
-      <input type="range" min="0" max="4" step="1" value="2" id="w_${v}" data-k="${v}" style="--fill:50%" oninput="recPrioInput('${v}')" aria-label="${l} priority">
-      <div class="prow-scale"><span>Not important</span><span>Nice to have</span><span>Important</span><span>Very important</span><span>Top priority</span></div>
-    </div>`).join("");
-  document.getElementById("dbGrid").innerHTML = MUSTHAVES[cat].map(([v,l])=>
-    `<label class="fchip"><input type="checkbox" name="qDb" value="${v}">${l}</label>`).join("");
-}
-function goRecStep(n){
-  recStep=Math.max(1,Math.min(6,n));
-  for(let i=1;i<=6;i++) document.getElementById("rstep"+i).classList.toggle("hidden",i!==recStep);
-  document.getElementById("rstepLbl").textContent=RSTEPS[recStep-1];
-  // step position lives in the dots + footer counter; no third display
-  document.querySelectorAll(".rdot").forEach((d,i)=>d.classList.toggle("on",i<recStep));
-  document.getElementById("rback").style.visibility=recStep===1?"hidden":"visible";
-  document.getElementById("rnavStep").textContent="Step "+recStep+" of 6";
-  const nb=document.getElementById("rnext");
-  nb.textContent=recStep===6?(recFinished?"Update matches":"See my matches"):"Continue";
-  if(recStep===7) nb.classList.add("btn-finish"); else nb.classList.remove("btn-finish");
-  if(recStep===6) renderReqReview();
-  else if(recFinished===false) renderIdleSummary();
-}
-function renderIdleSummary(){
-  const el=document.getElementById("recIdle");
-  if(!el||document.getElementById("recResultsWrap").classList.contains("hidden")===false) return;
-  const a=recAnswers();
-  const bn=document.querySelector('input[name="qBudget"]:checked');
-  const bTxt = bn.value==="custom" ? peso(a.budget) : {10000:"under \u20b110,000","15000":"\u20b110,000\u201315,000","20000":"\u20b115,000\u201320,000","30000":"\u20b120,000\u201330,000","40000":"\u20b130,000\u201340,000","60000":"\u20b140,000+"}[bn.value];
-  const u=(USES[a.cat].find(x=>x[0]===a.use)||["",""])[1];
-  const answered = recStep>1;
-  el.innerHTML=`<h3 style="font-size:var(--fs-md);margin:0 0 6px">${answered?"Your requirements so far":"Your requirements will collect here"}</h3>
-    <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0">${answered
-      ? `${{laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[a.cat]} \u00b7 budget ${bTxt} \u00b7 main use: ${u}. Keep going: your priorities and must-haves refine the results.`
-      : "Answer each step above. Everything you pick is summarized here, then every eligible product is scored against it."}</p>`;
-}
-function renderReqReview(){
-  const a=recAnswers();
-  const catL=(USES[a.cat]?a.cat:"");
-  const catName={laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[a.cat];
-  const bl = document.querySelector('input[name="qBudget"]:checked');
-  const budgetTxt = bl.value==="custom" ? "Exact: "+peso(a.budget) : {10000:"Under \u20b110,000","15000":"\u20b110,000\u201315,000","20000":"\u20b115,000\u201320,000","30000":"\u20b120,000\u201330,000","40000":"\u20b130,000\u201340,000","60000":"\u20b140,000+"}[bl.value]||peso(a.budget);
-  const use1 = (USES[a.cat].find(u=>u[0]===a.use)||["","",""])[1];
-  const use2 = a.use2.map(v=>(USES[a.cat].find(u=>u[0]===v)||["",""])[1]);
-  const prios = FEATURES[a.cat].filter(([v])=>(a.prio[v]??2)>=3).map(([v,l])=>`${l} — ${PLABELS[a.prio[v]??2]}`);
-  const dbs = a.dbs.map(v=>(MUSTHAVES[a.cat].find(x=>x[0]===v)||["",""])[1]);
-  document.getElementById("reqReview").innerHTML=`
-    <div style="display:grid;grid-template-columns:110px 1fr;gap:6px 12px">
-      <span style="color:var(--ink-mute)">Category</span><b>${catName}</b>
-      <span style="color:var(--ink-mute)">Budget</span><b>${budgetTxt}</b>
-      <span style="color:var(--ink-mute)">Main use</span><b>${use1}</b>
-      ${use2.length?`<span style="color:var(--ink-mute)">Secondary</span><b>${use2.join(", ")}</b>`:""}
-      ${prios.length?`<span style="color:var(--ink-mute)">Priorities</span><b>${prios.join("; ")}</b>`:""}
-      ${dbs.length?`<span style="color:var(--ink-mute)">Must-haves</span><b>${dbs.join("; ")}</b>`:""}
-    </div>
-    <div style="margin-top:10px;font-size:var(--fs-sm);color:var(--ink-mute)">Anything here wrong? Use Back to fix it; your other answers are kept.</div>`;
-}
-function recPrioInput(k){
-  const el=document.getElementById("w_"+k), out=document.getElementById("po_"+k);
-  if(out) out.textContent=PLABELS[+el.value];
-  el.style.setProperty("--fill", (el.value/4*100)+"%");
-}
-function recQuizChange(){
-  buildStep3to6();
-  if(recFinished){ recFinished=false;
-    document.getElementById("quizCard").classList.remove("hidden");
-    document.getElementById("recIdle").classList.remove("hidden");
-    document.getElementById("recResultsWrap").classList.add("hidden");
-  }
-}
-function recNext(){
-  if(recStep<6){ goRecStep(recStep+1); return; }
-  recFinished=true;
-  document.getElementById("quizCard").classList.add("hidden");
-  document.getElementById("recIdle").classList.add("hidden");
-  const w=document.getElementById("recResultsWrap");
-  w.classList.remove("hidden");
-  renderRec();
-  w.scrollIntoView({behavior:"smooth",block:"start"});
-}
-function recBudgetPick(){
-  const v=document.querySelector('input[name="qBudget"]:checked').value;
-  const custom=document.getElementById("customBudget");
-  if(v==="custom"){ custom.classList.remove("hidden"); }
-  else{ custom.classList.add("hidden"); document.getElementById("recBudget").value=+v; document.getElementById("recBudgetLbl").textContent=peso(+v); }
-}
-function recBudgetInput(v){ document.getElementById("recBudgetLbl").textContent=peso(+v); }
-function resetRec(){
-  document.querySelector('input[name="qcCat"][value="laptops"]').checked=true;
-  buildStep3to6();
-  document.querySelector('input[name="qBudget"][value="30000"]').checked=true;
-  document.getElementById("recBudget").value=30000; document.getElementById("recBudgetLbl").textContent="\u20b130,000";
-  document.getElementById("customBudget").classList.add("hidden");
-  document.querySelectorAll('#prioGrid input[type=range]').forEach(s=>s.value=2);
-  document.querySelectorAll('#dbGrid input').forEach(c=>c.checked=false);
-  recFinished=false;
-  document.getElementById("quizCard").classList.remove("hidden");
-  document.getElementById("recIdle").classList.remove("hidden");
-  document.getElementById("recResultsWrap").classList.add("hidden");
-  goRecStep(1);
-}
-function recBudgetVal(){ return +document.getElementById("recBudget").value; }
-function recBudgetPlus(){ // no-result recovery: raise ceiling by 5k and recompute
-  const nb=Math.min(60000,recBudgetVal()+5000);
-  document.getElementById("recBudget").value=nb; document.getElementById("recBudgetLbl").textContent=peso(nb);
-  if(recFinished) renderRec();
-}
-function monthlyLabel(g){ return `${peso(monthly(g))}/mo est. \u00b7 ${Math.round(g.lifespan*12)}-month lifespan`; }
-
-/* ---------- reading answers ---------- */
-function recAnswers(){
-  const cat=document.querySelector('input[name="qcCat"]:checked').value;
-  return {
-    cat,
-    budget:recBudgetVal(),
-    use:document.querySelector('input[name="qcUse"]:checked')?.value||USES[cat][0][0],
-    use2:[...document.querySelectorAll('input[name="qUse2"]:checked')].map(c=>c.value),
-    prio:Object.fromEntries(FEATURES[cat].map(([v])=>[v, +(document.getElementById("w_"+v)?.value ?? 2)])),
-    dbs:[...document.querySelectorAll('input[name="qDb"]:checked')].map(c=>c.value)
-  };
-}
-
-/* ---------- Stage A: hard filtering. Failing products are excluded, not downscored. ---------- */
-function hardFilter(g, ans){
-  const why=[];
-  if(g.price>ans.budget) why.push(`costs ${peso(g.price)} — over your ${peso(ans.budget)} budget`);
-  // budget is ALWAYS a hard constraint in GadgetWise — affordability is the product premise
-  if(ans.dbs.includes("dbRam") && g.ram!=null && g.ram<8) why.push(`only ${g.ram} GB RAM (you need 8+)`);
-  if(ans.dbs.includes("dbRam16") && (g.ram==null||g.ram<16)) why.push(g.ram==null?"RAM unknown":`only ${g.ram} GB RAM (you need 16+)`);
-  if(ans.dbs.includes("dbWeight") && g.weight && g.weight>1.8) why.push(`${g.weight} kg — heavier than you want`);
-  if(ans.dbs.includes("dbRepair") && g.repair<3.2) why.push(`repairability ${g.repair}/5 — hard to fix`);
-  if(ans.dbs.includes("dbPerf") && g.cx && g.cx.perf<60) why.push("processor below your requirement");
-  if(ans.dbs.includes("dbCharge") && g.id===7) why.push("charges at 25W (you need 30W+)");
-  if(ans.dbs.includes("dbStylus") && g.id===4) why.push("works with Pencil but stylus sold separately");
-  if(ans.dbs.includes("dbStorage") && g.cx && g.cx.storage<50) why.push("storage below your requirement");
-  if(ans.dbs.includes("dbBattery") && g.cx && g.cx.battery<55) why.push("battery below your requirement");
-  if(ans.dbs.includes("dbLaptop") && g.id===8) why.push("18W — cannot charge a laptop");
-  if(ans.dbs.includes("dbWeight") && g.cat==="powerbanks" && g.id===9) why.push("\u2248355 g — over your 400 g limit");
-  return why.length?why:null;
-}
-
-/* ---------- Stage B: scoring. Same inputs + same catalog = same ranking, every time. ----------
-   All components 0–100. Weights come from quiz answers (purpose, routine, feature picks).
-   Long-term value uses monthly ownership: value = 100 - (\u20b1/mo - 50) / 9, clamped. */
-function scoreGadget(g, ans, adj){
-  const cx=g.cx||{};
-  const c={};
-  c.budget  = Math.round(Math.max(0, 100 - Math.max(0,(g.price-ans.budget))/ans.budget*120));
-  const k1=USE2KEY[ans.use]||ans.use;
-  c.purpose = Math.round((g.uses[k1]||0)/3*100);
-  const k2=USE2KEY[ans.use2[0]];
-  const p2 = k2?Math.round((g.uses[k2]||0)/3*100):null;
-  c.purpose = p2!=null?Math.round(c.purpose*0.75+p2*0.25):c.purpose;
-  c.perf    = cx.perf!=null?cx.perf:50;
-  c.battery = cx.battery!=null?cx.battery:Math.round(Math.min((g.battery||8)/14,1)*100);
-  c.portab  = cx.portability!=null?cx.portability:50;
-  c.durab   = Math.round(g.durab/5*100);
-  c.repair  = Math.round(g.repair/5*100);
-  c.warranty= Math.round(Math.min(g.warranty/24,1)*100);
-  c.rating  = Math.round((g.rating-3)/2*100);
-  c.value   = Math.round(Math.max(0,Math.min(100, 100-(monthly(g)-50)/9)));
-  /* weights from answers — no manual sliders */
-  const tight=Math.max(0,g.price-ans.budget)/ans.budget;
-  /* weights: user priority sliders (0=skip..4=top) + baseline for non-slider factors */
-  const P=ans.prio||{};
-  const w={
-    budget:3+Math.round(tight*6), purpose:3,
-    perf:1+(P.perf??2), battery:(P.battery!=null?P.battery:2)+1, portab:P.portability??2,
-    durab:1+(P.durab??2), repair:1+(P.repair??2), warranty:1, rating:1, value:2,
-    display:P.display??0, camera:P.camera??0, storage:P.storage??0, comfort:P.comfort??0, mic:P.mic??0
-  };
-  if(adj&&adj.boost&&w[adj.boost]!=null) w[adj.boost]+=4;
-  const parts=Object.entries(w).filter(([k])=>c[k]!=null).map(([k,wt])=>[LUX[k],c[k],wt]);
-  let s=Math.round(parts.reduce((a,[,v,wt])=>a+v*wt,0)/parts.reduce((a,[,,wt])=>a+wt,0));
-  if(tight>0.15) s=Math.round(s*(1-Math.min(tight,1)*0.45));
-  return {s,comp:c,parts};
-}
-
-const LUX={budget:"Budget fit",purpose:"Purpose fit",perf:"Performance",battery:"Battery",portab:"Portability",durab:"Durability",repair:"Repairability",warranty:"Warranty",rating:"Student rating",value:"Long-term value"};
-
-function renderRec(){
-  const ans=recAnswers();
-  /* Stage A — hard filter */
-  const excluded=[]; const eligible=[];
-  G.filter(g=>g.cat===ans.cat).forEach(g=>{
-    const why=hardFilter(g,ans);
-    if(why) excluded.push({g,why}); else eligible.push(g);
-  });
-  /* Stage B — score + rank */
-  const scored=eligible.map(g=>({g,...scoreGadget(g,ans)})).sort((a,b)=>b.s-a.s);
-  const out=document.getElementById("recResultsWrap");
-  /* Stage C — render. Checkmarks come from real component scores; nothing invented. */
-  const whyFacts=[];
-  const addWhy=(cond,txt)=>{ if(cond) whyFacts.push(txt); };
-  let html="";
-  if(!scored.length){
-    const wasCustom=document.querySelector('input[name="qBudget"]:checked').value==="custom";
-    html=`<div class="card pad">
-      <h3 style="font-size:var(--fs-md);margin:0 0 6px">No products meet all of your requirements.</h3>
-      <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0 0 10px">Your budget: <b>${peso(ans.budget)}</b> · Category: <b>${{laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[ans.cat]}</b>${ans.dbs.length?` · Must-haves: <b>${ans.dbs.length}</b>`:""}</p>
-      <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:0 0 12px">${excluded.length?`All ${excluded.length} products in the catalog were filtered out: `+excluded.map(x=>`${x.g.model} (${x.why[0]})`).join(" · ")+".":"This category is empty."}</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn btn-primary btn-sm" onclick="goRecStep(5)">Relax a must-have</button>
-        ${wasCustom?`<button class="btn btn-ghost btn-sm" onclick="goRecStep(2)">Raise the budget</button>`:`<button class="btn btn-ghost btn-sm" onclick="recBudgetPlus()">Try +\u20b15,000 budget</button>`}
-        <button class="btn btn-ghost btn-sm" onclick="resetRec()">Start over</button>
-      </div>
-      <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:12px 0 0">Closest alternatives: these went over budget (some also missed a must-have): ${excluded.filter(x=>x.why.some(w=>w.includes("budget"))).sort((a,b)=>a.g.price-b.g.price).slice(0,2).map(x=>`${x.g.model} (${peso(x.g.price)})`).join(", ")||"none"}. You can view them from Browse.</p>
-    </div>`;
-    out.innerHTML=html; return;
-  }
-  const top=scored[0], alt=scored[1]||null;
-  const bestIn=k=>[...scored].sort((a,b)=>b.comp[k]-a.comp[k])[0];
-  const others=[["Best budget option",bestIn("budget")],["Best performance option",bestIn("perf")],["Best battery option",bestIn("battery")],["Highest Ownership Index",bestIn("value")]]
-    .filter(([l,sc],i,arr)=>sc&&sc.g.id!==top.g.id&&sc.g.id!==(alt&&alt.g.id)&&arr.findIndex(([l2,sc2])=>sc2.g.id===sc.g.id)===i);
-  addWhy(top.comp.budget>=85, `Fits your ${peso(ans.budget)} budget with room to spare`);
-  addWhy(top.comp.budget>=60&&top.comp.budget<85, `Fits your ${peso(ans.budget)} budget`);
-  addWhy(top.comp.purpose>=80, `Strong match for ${((USES[ans.cat].find(u=>u[0]===ans.use)||["",""])[1]||"your main use").toLowerCase()}`);
-  addWhy(top.comp.perf>=75, "High performance score");
-  addWhy(top.comp.battery>=75, "Excellent battery life");
-  addWhy(top.comp.repair>=70, "Easy and cheap to repair");
-  addWhy(top.comp.durab>=75, "Durable enough for daily student use");
-  addWhy(top.comp.warranty>=70, "Warranty covers a large part of its lifespan");
-  addWhy(top.comp.rating>=70, `Strong student rating (${top.g.rating}\u2605 from ${top.g.raters} students)`);
-  addWhy(top.comp.value>=65, `Est. monthly cost is only ${peso(monthly(top.g))} over its lifespan`);
-  if(!whyFacts.length) whyFacts.push("Best overall fit for your requirements");
-  const tradeoff=(top.g.weaknesses||[]).slice(0,2);
-  const weakest=[...top.parts].sort((a,b)=>a[1]-b[1])[0];
-  const catName={laptops:"Laptop",smartphones:"Smartphone",tablets:"Tablet",headphones:"Headphones",powerbanks:"Power bank",smartwatches:"Smartwatch"}[ans.cat];
-  html=`
-  <div class="card pad">
-    <h3 style="font-size:var(--fs-md);margin:0 0 12px">Best match <span style="font-weight:400;color:var(--ink-mute)">· top of ${scored.length} eligible products</span></h3>
-    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
-      ${gadgetImage(top.g,72)}
-      <div>
-        <b style="font-size:var(--fs-lg)">${top.g.model}</b>
-        <div style="font-size:var(--fs-sm);color:var(--ink-soft);margin-top:4px;max-width:52ch">${whyFacts.slice(0,3).join("; ")}.</div>
-        <div style="font-size:var(--fs-base);color:var(--ink-mute);margin-top:2px">${top.g.brand} · <b style="color:var(--ink);font-family:var(--mono)">${peso(top.g.price)}</b> · <b style="font-family:var(--mono);color:var(--green-deep)">${peso(monthly(top.g))}/month</b> monthly ownership</div>
-        <div style="font-size:var(--fs-sm);color:var(--ink-mute);margin-top:2px">Score <b style="font-family:var(--mono);color:var(--ink)">${top.s} / 100</b> · ${Math.round(top.g.lifespan*12)}-month lifespan · warranty ${top.g.warranty} mo</div>
-      </div>
-    </div>
-    <h4 style="margin:16px 0 6px">Score breakdown</h4>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px 18px;font-size:var(--fs-sm)">
-      ${[...top.parts].sort((a,b)=>(b[2]-a[2])||(b[1]-a[1])).map(([l,v,w])=>`<div style="opacity:${w?1:.4}"><div style="display:flex;justify-content:space-between;gap:8px;color:var(--ink-soft)"><span>${l}</span><span style="font-family:var(--mono);flex-shrink:0">${v}${w?` \u00d7${w}`:""}</span></div><div class="scorebar" style="height:5px;margin-top:2px"><i style="width:${v}%;background:${!w?"var(--line-strong)":v>=75?"var(--ok)":v>=50?"var(--green)":"var(--red)"}"></i></div></div>`).join("")}
-    </div>
-    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:8px 0 0">The \u00d7N shows how heavily each factor counted \u2014 \u00d73 counts triple. The overall score combines all ten factors. Only products that passed your must-haves are scored.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px">
-      <div><h4 style="margin:0 0 6px">Why this ranks highest</h4><ul class="swlist">${whyFacts.slice(0,5).map(t=>`<li class="good">${t}</li>`).join("")}</ul></div>
-      <div><h4 style="margin:0 0 6px">Trade-offs</h4><ul class="swlist">${tradeoff.map(t=>`<li class="bad">${t}</li>`).join("")}${weakest&&weakest[1]<55?`<li class="bad">Lowest-scoring factor: ${weakest[0].toLowerCase()} (${weakest[1]}/100)</li>`:""}</ul></div>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
-      <button class="btn btn-primary btn-sm" onclick="detail(${top.g.id})">Full product details</button>
-      <button class="btn btn-ghost btn-sm" onclick="toggleTray(${top.g.id})">\u21c4 Compare</button>
-      <button class="btn btn-ghost btn-sm" onclick="toggleWish(${top.g.id})">${S.wish.has(top.g.id)?"\u2665 Saved":"\u2661 Save to wishlist"}</button>
-    </div>
-  </div>
-  ${alt?`
-  <div class="card pad">
-    <h3 style="font-size:var(--fs-md);margin-bottom:4px">${(top.s-alt.s)<=3?`Nearly tied: ${top.g.model} scored ${top.s-alt.s} point${top.s-alt.s===1?"":"s"} higher`:`Why ${top.g.model} ranked above ${alt.g.model}`}</h3>
-    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 12px">${(top.s-alt.s)<=3?`${top.s} vs ${alt.s}, close enough that the trade-offs below should decide it, not the total.`:`${top.s} vs ${alt.s}, both eligible; exactly where they differ.`}</p>
-    ${(()=>{ const diffs=top.parts.map(([l,va])=>{ const li=alt.parts.find(p=>p[0]===l); return [l, va, li[1]]; });
-      const betterFor=diffs.filter(([l,a,b])=>a>b).sort((a,b)=>(b[1]-b[2])-(a[1]-a[2])).slice(0,3);
-      const betterForAlt=diffs.filter(([l,a,b])=>b>a).sort((a,b)=>(b[2]-b[1])-(a[2]-a[1])).slice(0,3);
-      return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:var(--fs-sm)">
-        <div><b style="font-size:var(--fs-sm);color:var(--green-deep)">${top.g.model} scored higher in</b>
-          <ul class="swlist" style="margin-top:6px">${betterFor.map(([l,a,b])=>`<li class="good">${l} +${a-b} <span style="font-family:var(--mono);color:var(--ink-mute)">(${a} vs ${b})</span></li>`).join("")||'<li class="good">No factor: dead heat</li>'}</ul></div>
-        <div><b style="font-size:var(--fs-sm);color:var(--ink-soft)">${alt.g.model} scored higher in</b>
-          <ul class="swlist" style="margin-top:6px">${betterForAlt.map(([l,a,b])=>`<li class="bad">${l} +${b-a} <span style="font-family:var(--mono);color:var(--ink-mute)">(${b} vs ${a})</span></li>`).join("")||'<li class="bad">No factor: dead heat</li>'}</ul></div>
-      </div>
-      <p style="font-size:var(--fs-sm);color:var(--ink-soft);margin:12px 0 0">Pick <b>${alt.g.model}</b> instead if ${alt.comp.budget>top.comp.budget?`its lower price (${peso(alt.g.price)})`:((bestIn("battery").g.id===alt.g.id&&alt.comp.battery>top.comp.battery)?"longer battery life":"those strengths")} matters more to you than ${top.g.model}\u2019s lead.</p>`;
-    })()}
-    <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
-      <button class="btn btn-ghost btn-sm" onclick="detail(${alt.g.id})">Details</button>
-      <button class="btn btn-ghost btn-sm" onclick="toggleTray(${alt.g.id})">\u21c4 Compare</button>
-    </div>
-  </div>`:""}
-  ${others.length?`<div class="card pad">
-    <h3 style="font-size:var(--fs-md);margin-bottom:4px">Other strong options</h3>
-    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 12px">Same formula, different priorities.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
-      ${others.map(([lab,sc])=>`<div class="altcard"><span style="font-size:var(--fs-xs);font-weight:800;letter-spacing:.05em;color:var(--ink-mute)">${lab.toUpperCase()}</span><b style="font-size:var(--fs-base)">${sc.g.model}</b><span style="font-size:var(--fs-sm);color:var(--ink-mute);font-family:var(--mono)">${peso(sc.g.price)} · ${monthly(sc.g)}/mo · ${sc.s}/100</span><span style="font-size:var(--fs-xs);color:var(--ink-soft)">${(sc.g.goodFor||[])[0]||""}</span><button class="btn btn-ghost btn-sm" style="align-self:flex-start" onclick="detail(${sc.g.id})">Details</button></div>`).join("")}
-    </div>
-  </div>`:""}
-  ${excluded.length?`<div class="card pad">
-    <h3 style="font-size:var(--fs-md);margin-bottom:4px">Filtered out by your must-haves</h3>
-    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">These failed a hard requirement, so they were removed before scoring; scoring can\u2019t rescue them.</p>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      ${excluded.map(x=>`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:var(--fs-sm);padding:8px 0;border-bottom:1px solid var(--line)"><b>${x.g.model}</b><span style="color:var(--ink-soft);font-size:var(--fs-sm)">${x.why.join(" · ")}</span></div>`).join("")}
-    </div>
-  </div>`:""}
-  <div class="pad" style="border-top:1px solid var(--line);margin-top:18px;padding-top:18px">
-    <h3 style="font-size:var(--fs-md);margin-bottom:4px">Adjust your priorities</h3>
-    <p style="font-size:var(--fs-sm);color:var(--ink-mute);margin:0 0 10px">Re-ranks the same products with the same formula, one weight at a time.</p>
-    <div class="chipgrid">
-      ${[["perf","Performance"],["battery","Battery"],["portab","Portability"],["durab","Durability"],["repair","Repairability"],["value","Lowest ownership cost"]].filter(([k])=>true).map(([k,l])=>`<button class="wifchip" data-k="${k}">${l}</button>`).join("")}
-    </div>
-    <div id="wifOut" style="margin-top:10px"></div>
-  </div>
-  <div style="text-align:center;margin-top:14px">
-    <button class="btn btn-ghost btn-sm" onclick="resetRec()">Start a new search</button>
-  </div>`;
-  out.innerHTML=html;
-  /* Adjust-priority chips: bump one weight, rerank, report. Deterministic. */
-  out.querySelectorAll(".wifchip").forEach(ch=>ch.addEventListener("click",()=>{
-    out.querySelectorAll(".wifchip").forEach(c=>c.classList.remove("on")); ch.classList.add("on");
-    const k=ch.dataset.k;
-    const rescored=eligible.map(g=>({g,...scoreGadget(g,ans,{boost:k})})).sort((a,b)=>b.s-a.s);
-    const wn=rescored[0];
-    out.getElementById?.("wifOut");
-    document.getElementById("wifOut").innerHTML = wn.g.id===top.g.id
-      ? `<div style="font-size:var(--fs-sm);color:var(--ink-soft)">Same winner: <b>${wn.g.model}</b> (${wn.s}/100); your pick holds up when ${ch.textContent.toLowerCase()} is prioritized.</div>`
-      : `<div style="font-size:var(--fs-sm);color:var(--ink-soft)">New winner: <b>${wn.g.model}</b> at ${wn.s}/100 — it was #${scored.findIndex(x=>x.g.id===wn.g.id)+1} under your original priorities. <button class="btn btn-ghost btn-sm" onclick="detail(${wn.g.id})">Details</button></div>`;
-  }));
-}
-
-/* ═══════════ COMPARE ═══════════ */
-function toggleTray(id){
-  const i=S.tray.indexOf(id);
-  if(i>-1){ S.tray.splice(i,1); toast("Removed from compare tray"); }
-  else{ if(S.tray.length>=3){ toast("Tray holds 3. Remove one first."); return; } S.tray.push(id); toast("Added to compare tray"); }
-  renderTray();
-  if(!document.getElementById("view-browse").classList.contains("hidden")) renderBrowse();
-  if(!document.getElementById("view-recommend").classList.contains("hidden")) renderRec();
-}
-function renderTray(){
-  const t=document.getElementById("tray");
-  t.classList.toggle("hidden",S.tray.length===0);
-  document.getElementById("trayItems").innerHTML = S.tray.map(id=>{ const g=byId(id);
-    return `<span class="tray-chip">${g.model}<button title="Remove" onclick="toggleTray(${id})">✕</button></span>`; }).join("");
-}
-function cmpSeedSample(){ S.tray=[1,3]; renderTray(); renderComparePage(); }
-function clearCompare(){ S.tray=[]; renderTray(); renderComparePage(); }
-function runCompare(){
-  if(S.tray.length<2){ toast("Add at least 2 gadgets to compare"); return; }
-  S.compared.unshift([...S.tray]); S.compared=S.compared.slice(0,5);
-  go("compare");
-}
-function bestRow(vals,dir){ // dir: "lo" = lower wins, "hi" = higher wins. Ties are not wins.
-  const best=dir==="lo"?Math.min(...vals):Math.max(...vals);
-  if(vals.every(v=>v===best)) return vals.map(()=>false);
-  if(vals.length===2&&vals.filter(v=>v===best).length===2) return vals.map(()=>false);
-  return vals.map(v=>v===best);
-}
-function renderComparePage(){
-  const area=document.getElementById("cmpArea");
-  if(S.tray.length<2){
-    area.innerHTML=`<div class="card rec-empty"><div class="big">⇄</div>Compare tray holds ${S.tray.length} of 3. Add gadgets from Browse or Recommendations, then hit “Compare now”.<div style="margin-top:14px"><button class="btn btn-primary btn-sm" onclick="go('browse')">Browse gadgets</button></div></div>`;
-    return;
-  }
-  const gs=S.tray.map(byId);
-  // [label, raw value (for best-pick math), formatter, dir]
-  const specRows=[["Price ↓",g=>g.price,g=>peso(g.price),"lo"],["Est. monthly cost ↓",g=>monthly(g),g=>peso(monthly(g))+"/mo","lo"],
-    ["Battery life ↑",g=>g.battery,g=>g.battery+" hr","hi"],["Durability ↑",g=>g.durab,g=>g.durab.toFixed(1)+" / 5","hi"],
-    ["Repairability ↑",g=>g.repair,g=>g.repair.toFixed(1)+" / 5","hi"],["Warranty ↑",g=>g.warranty,g=>g.warranty+" months","hi"],
-    ["Realistic lifespan ↑",g=>g.lifespan,g=>g.lifespan+" yrs","hi"],["Student rating ↑",g=>g.rating,g=>g.rating+" ★ ("+g.raters+")","hi"],
-    ["Ownership Index ↑",g=>ownIndex(g),g=>ownIndex(g)+" / 100","hi"]];
-  const rows=specRows.map(([lab,raw,fmt,dir])=>{
-    const vals=gs.map(raw), marks=bestRow(vals,dir);
-    return `<div class="cmp-cell cmp-lab">${lab}</div>` + gs.map((g,i)=>`<div class="cmp-cell ${marks[i]?"cmp-best":""}">${fmt(g)}</div>`).join("");
-  }).join("");
-  const maxLen=Math.max(...gs.map(g=>g.specs.length));
-  let specComp="";
-  for(let r=0;r<maxLen;r++){
-    specComp+=`<div class="cmp-cell cmp-lab">${r===0?"Key specifications":"&nbsp;"}</div>`+gs.map(g=>`<div class="cmp-cell">${g.specs[r]||"—"}</div>`).join("");
-  }
-  const cheap=[...gs].sort((a,b)=>monthly(a)-monthly(b))[0], rated=[...gs].sort((a,b)=>b.rating-a.rating)[0];
-  const bestBattery=[...gs].sort((a,b)=>b.battery-a.battery)[0], bestRepair=[...gs].sort((a,b)=>b.repair-a.repair)[0];
-  const ctx=[[cheap.model,"Lowest est. monthly cost"],[bestBattery.model,"Best battery"],[bestRepair.model,"Most repairable"]].filter(([m],i,arr)=>arr.findIndex(([m2])=>m2===m)===i);
-  area.innerHTML=`
-  <div class="card" style="overflow:hidden">
-    <div class="cmp-grid ${gs.length===3?"c3":""}">
-      <div class="cmp-cell cmp-lab"></div>
-      ${gs.map(g=>`<div class="cmp-cell cmp-head">${gadgetImage(g,56)}<b>${g.model}</b>
-        <button class="btn btn-ghost btn-sm" onclick="toggleTray(${g.id})">Remove</button></div>`).join("")}
-      ${rows}
-      ${specComp}
-      <div class="cmp-cell cmp-lab">Common issue</div>${gs.map(g=>`<div class="cmp-cell" style="${g.issue&&g.issue!=="None reported yet"?"color:var(--orange);font-weight:600":""}">${g.issue||"—"}</div>`).join("")}
-      <div class="cmp-cell cmp-lab">At a glance</div>${gs.map(g=>`<div class="cmp-cell"><div><b>${peso(monthly(g))}/mo</b><div style="font-size:var(--fs-sm);color:var(--ink-soft)">${g.rating}★ from ${g.raters} students</div></div></div>`).join("")}
-    </div>
-  </div>
-  <div class="card pad" style="margin-top:16px">
-    <h3 style="margin-bottom:8px">What this comparison says</h3>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
-      ${ctx.map(([m,l])=>`<span class="badge badge-green">★ ${l}: ${m}</span>`).join("")}
-    </div>
-    <p style="font-size:var(--fs-base);color:var(--ink-soft);margin:0">
-      ${(()=>{ const spread=ownIndex(gs[0])-ownIndex(gs[gs.length-1]);
-      if(spread<=4) return `These are very close (Ownership Index ${ownIndex(gs[0])} vs ${ownIndex(gs[gs.length-1])}). <b>${cheap.model}</b> still costs the least per month (${peso(monthly(cheap))}/mo), so the trade-offs above should decide it, not the totals.`;
-      return `Over each gadget's estimated lifetime, <b>${cheap.model}</b> costs the least per month (${peso(monthly(cheap))}/mo). Students rate <b>${rated.model}</b> highest (${rated.rating}\u2605). Upfront price alone doesn't decide this: a cheaper gadget with a short lifespan can cost more per month.`; })()}
-    </p>
-  </div>
-  ${S.tray.length===2?`<div style="margin-top:12px;font-size:var(--fs-sm);color:var(--ink-mute)">Room for one more. Add a third gadget from Browse.</div>`:""}`;
-}
-
-/* ═══════════ SCATTER (AA-style price vs index) ═══════════ */
-function renderScatter(){
-  const area=document.getElementById("scatterArea"); if(!area) return;
-  const W=760,H=380,P={l:56,r:24,t:26,b:46};
-  const px=p=>P.l+(Math.min(p,50000)/50000)*(W-P.l-P.r);
-  const py=s=>H-P.b-((s-50)/45)*(H-P.t-P.b);
-  const f=frontier(G.map(g=>g.id));
-  const fr=[...f].map(byId).sort((a,b)=>a.price-b.price);
-  let grid="";
-  for(const t of [10000,20000,30000,40000,50000]) grid+=`<line x1="${px(t)}" y1="${P.t}" x2="${px(t)}" y2="${H-P.b}" stroke="var(--line)" stroke-width="1"/><text x="${px(t)}" y="${H-P.b+18}" text-anchor="middle" font-size="11" fill="var(--ink-mute)" font-family="var(--mono)">₱${(t/1000)}k</text>`;
-  for(const t of [50,60,70,80,90]) grid+=`<line x1="${P.l}" y1="${py(t)}" x2="${W-P.r}" y2="${py(t)}" stroke="var(--line)" stroke-width="1"/><text x="${P.l-10}" y="${py(t)+4}" text-anchor="end" font-size="11" fill="var(--ink-mute)" font-family="var(--mono)">${t}</text>`;
-  const dots=G.map(g=>`<circle cx="${px(g.price).toFixed(1)}" cy="${py(ownIndex(g)).toFixed(1)}" r="${f.has(g.id)?8:6.5}" fill="${f.has(g.id)?"var(--orange)":"var(--green)"}" fill-opacity=".9" stroke="#fff" stroke-width="1.5" style="cursor:pointer" onclick="detail(${g.id})"><title>${g.model} — ₱${g.price.toLocaleString()} · Index ${ownIndex(g)}${f.has(g.id)?" · on best-value frontier":""}</title></circle>`).join("");
-  const path=fr.map((g,i)=>`${i?"L":"M"}${px(g.price).toFixed(1)},${py(ownIndex(g)).toFixed(1)}`).join(" ");
-  area.innerHTML=`
-  <div class="card pad">
-    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" role="img" aria-label="Scatter plot of gadget price versus Ownership Index">
-      ${grid}
-      <text x="${W-P.r}" y="${H-P.b+34}" text-anchor="end" font-size="11" fill="var(--ink-soft)">Price — lower is better ↓</text>
-      <text x="${P.l}" y="${P.t-10}" font-size="11" fill="var(--ink-soft)">Ownership Index — higher is better ↑</text>
-      <path d="${path}" fill="none" stroke="var(--orange)" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8"/>
-      ${dots}
-    </svg>
-    <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:var(--fs-sm);color:var(--ink-soft);margin-top:8px">
-      <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);margin-right:5px"></span>Catalog gadget</span>
-      <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--orange);margin-right:5px"></span>Best-value frontier (Pareto)</span>
-      <span style="margin-left:auto">Ownership Index = durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20 (out of 100).</span>
-    </div>
-  </div>`;
-}
-
-/* ═══════════ DETAIL MODAL ═══════════ */
-let currentDetail=null;
-function detail(id){
-  const g=byId(id); currentDetail=id;
-  document.getElementById("dTitle").textContent=g.model;
-  const c=CATS[g.cat];
-  const mo=monthly(g), lifeMonths=Math.round(g.lifespan*12);
-  document.getElementById("dBody").innerHTML=`
-    <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start">
-      ${gadgetImage(g,96)}
-      <div style="flex:1;min-width:220px">
-        <span class="badge badge-green">${c.name}</span>
-        <div class="gcard-price" style="margin-top:8px">${peso(g.price)}<small>Est. ownership: ${peso(mo)}/month over ${lifeMonths} months</small></div>
-        <div class="gcard-rate" style="margin-top:6px"><span class="stars">${stars(g.rating)}</span> <b>${g.rating}</b> <span style="color:var(--ink-mute)">(${g.raters} student ratings)</span></div>
-      </div>
-    </div>
-    <div style="display:flex;gap:14px;background:var(--green-soft);border-radius:var(--radius-sm);padding:12px 16px;margin:14px 0;font-size:var(--fs-sm);flex-wrap:wrap">
-      <div><span style="color:var(--ink-mute)">Purchase price</span><div style="font-family:var(--mono);font-weight:700">${peso(g.price)}</div></div>
-      <div>÷</div>
-      <div><span style="color:var(--ink-mute)">Estimated lifespan</span><div style="font-family:var(--mono);font-weight:700">${lifeMonths} months</div></div>
-      <div>=</div>
-      <div><span style="color:var(--ink-mute)">Estimated ownership</span><div style="font-family:var(--mono);font-weight:700;color:var(--green-deep)">${peso(mo)}/month</div></div>
-      <div style="flex-basis:100%;font-size:var(--fs-xs);color:var(--ink-mute)">Estimate only, based on demo lifespan data. Not a guaranteed market price.</div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0">
-      <div><h4 style="margin:0 0 6px">Good for</h4><ul class="swlist">${(g.goodFor||[]).map(s=>`<li class="good">${s}</li>`).join("")}</ul></div>
-      <div><h4 style="margin:0 0 6px">Not ideal for</h4><ul class="swlist">${(g.notIdeal||[]).map(s=>`<li class="bad">${s}</li>`).join("")}</ul></div>
-    </div>
-    <h4 style="margin:16px 0 8px">Specifications</h4>
-    <ul class="spec-list" style="font-size:var(--fs-sm)">${g.specs.map(s=>`<li>${s}</li>`).join("")}</ul>
-    <h4 style="margin:16px 0 8px">Ownership scores</h4>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-      ${[["Durability",g.durab],["Repairability",g.repair],["Battery",Math.min(g.battery/12*5,5)]].map(([l,v])=>`
-        <div><div style="display:flex;justify-content:space-between;font-size:var(--fs-sm);margin-bottom:4px"><span>${l}</span><b>${v.toFixed(1)}</b></div><div class="scorebar"><i style="width:${v/5*100}%"></i></div></div>`).join("")}
-      <div style="font-size:var(--fs-xs);color:var(--ink-mute);flex-basis:100%">Warranty: ${g.warranty} months · Scores are demo data on a 1–5 scale.</div>
-    </div>
-    <h4 style="margin:16px 0 8px">Strengths &amp; weaknesses</h4>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <ul class="swlist">${(g.strengths||[]).map(s=>`<li class="good">${s}</li>`).join("")}</ul>
-      <ul class="swlist">${(g.weaknesses||[]).map(s=>`<li class="bad">${s}</li>`).join("")}</ul>
-    </div>
-    <h4 style="margin:16px 0 8px">Student reviews</h4>
-    ${g.reviews.map(r=>`<div class="review"><div class="rev-ava">${r.n.charAt(0)}</div>
-      <div class="rev-body"><div class="rev-head"><b>${r.n}</b><span style="font-size:var(--fs-xs);color:var(--ink-mute)">Year ${r.y} student</span><span class="stars">${stars(r.r)}</span></div>
-      <div class="rev-text">${r.t}</div></div></div>`).join("")}
-    ${g.issue&&g.issue!=="None reported yet"?`<div style="margin-top:12px;background:var(--orange-soft);border:1px solid #ecd3b2;border-radius:var(--radius-sm);padding:10px 14px;font-size:var(--fs-sm);color:#7a4a12"><b>Common issue:</b> ${g.issue}</div>`:""}
-    <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-      <button class="btn btn-primary" onclick="toggleTray(${g.id});closeModal('modal-detail')">⇄ Add to compare</button>
-      <button class="btn btn-ghost" onclick="toggleWish(${g.id})">${S.wish.has(g.id)?"♥ In wishlist":"♡ Save to wishlist"}</button>
-      <button class="btn btn-ghost" onclick="closeModal('modal-detail');openReview(${g.id})">✎ Write a review</button>
-    </div>`;
-  openModal("modal-detail");
-}
-
-/* ═══════════ WISHLIST / REVIEWS ═══════════ */
-function toggleWish(id){
-  if(!S.user){ openAuth("register"); toast("Register or log in to save gadgets"); return; }
-  if(S.wish.has(id)){ S.wish.delete(id); toast("Removed from wishlist"); } else { S.wish.add(id); toast("Saved to wishlist"); }
-  document.querySelectorAll(".wish-btn").forEach(()=>{});
-  if(!document.getElementById("view-browse").classList.contains("hidden")) renderBrowse();
-  if(!document.getElementById("view-home").classList.contains("hidden")) renderHome();
-  if(!document.getElementById("view-account").classList.contains("hidden")) renderAccount();
-  if(currentDetail && !document.getElementById("modal-detail").classList.contains("hidden")) detail(currentDetail);
-}
-let reviewFor=null;
-function openReview(id){
-  if(!S.user){ openAuth("register"); toast("Log in to review gadgets"); return; }
-  reviewFor=id; document.getElementById("rvGadName").textContent=byId(id).model;
-  document.getElementById("rvText").value=""; document.getElementById("rvIssue").checked=false;
-  document.getElementById("rvIssueField").classList.add("hidden"); document.getElementById("rvErr").classList.add("hidden");
-  openModal("modal-review");
-}
-function submitReview(){
-  const t=document.getElementById("rvText").value.trim();
-  if(t.length<10){ const e=document.getElementById("rvErr"); e.textContent="Give it at least a sentence (10+ characters)."; e.classList.remove("hidden"); return; }
-  const starMap=[5,4,3,2,1];
-  S.reviews.unshift({g:reviewFor,stars:starMap[document.getElementById("rvStars").selectedIndex],
-    text:t,issue:document.getElementById("rvIssue").checked?document.getElementById("rvIssueType").value:null,
-    date:new Date().toLocaleDateString("en-PH",{month:"short",day:"numeric"}),status:"Pending verification"});
-  closeModal("modal-review"); toast("Review submitted; pending admin verification (demo)");
-  renderAccount();
-}
-
-/* ═══════════ ACCOUNT ═══════════ */
-function acctTab(t){
-  ["acct-wish","acct-reviews","acct-comp","acct-profile"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==t));
-  document.querySelectorAll(".side-nav [data-tab^=acct]").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));
-}
-function renderAccount(){
-  // wishlist
-  const wl=[...S.wish].map(byId).filter(Boolean);
-  document.getElementById("wishCount").textContent = wl.length? wl.length+" saved":"";
-  document.getElementById("wishGrid").innerHTML = wl.map(card).join("");
-  document.getElementById("wishEmpty").classList.toggle("hidden",wl.length>0);
-  // my reviews
-  const rv=S.reviews;
-  document.getElementById("myReviews").innerHTML = rv.map(r=>`
-    <div class="review"><div class="rev-ava">${S.user?S.user.name.charAt(0):"A"}</div>
-    <div class="rev-body"><div class="rev-head"><b>${byId(r.g).model}</b><span class="stars">${stars(r.stars)}</span>
-      <span class="badge badge-orange">${r.status}</span><span style="font-size:var(--fs-xs);color:var(--ink-mute)">${r.date}</span></div>
-    <div class="rev-text">${r.text}${r.issue?` · <span class="rev-issue">⚑ ${r.issue}</span>`:""}</div></div></div>`).join("");
-  document.getElementById("myRevEmpty").classList.toggle("hidden",rv.length>0);
-  document.getElementById("myReviews").classList.toggle("hidden",rv.length===0);
-  // past comparisons
-  const pc=S.compared;
-  document.getElementById("pastComp").innerHTML = pc.length? pc.map(ids=>{
-    const gs=ids.map(byId);
-    const cheap=[...gs].sort((a,b)=>monthly(a)-monthly(b))[0];
-    return `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap">
-      <div style="font-size:var(--fs-sm)"><b>${gs.map(g=>g.model).join(" vs ")}</b>
-      <div style="font-size:var(--fs-sm);color:var(--ink-mute)">Est. monthly cost: ${cheap.model} at ${peso(monthly(cheap))}/mo</div></div>
-      <div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" onclick="S.tray=[${ids}];renderTray();renderComparePage();go('compare')">Re-open</button></div>
-    </div>`;}).join("")
-    : "";
-  document.getElementById("pastComp").classList.toggle("hidden",pc.length===0);
-  document.getElementById("pastCompEmpty").classList.toggle("hidden",pc.length>0);
-}
-
-/* ═══════════ ADMIN ═══════════ */
-const ADMIN = {
-  gadgets:[
-    {name:"MacBook Air M1",cat:"Laptops",price:46999,src:"API",status:"Live"},
-    {name:"Acer Aspire 5 A515",cat:"Laptops",price:28999,src:"Manual",status:"Live"},
-    {name:"ASUS Vivobook 15",cat:"Laptops",price:32999,src:"API",status:"Live"},
-    {name:"iPad 9th Generation",cat:"Tablets",price:19499,src:"API",status:"Live"},
-    {name:"Xiaomi Pad 7",cat:"Tablets",price:16999,src:"Manual",status:"Live"},
-    {name:"Redmi Note 11",cat:"Smartphones",price:6999,src:"API",status:"Live"},
-    {name:"Samsung Galaxy S23",cat:"Smartphones",price:38990,src:"API",status:"Live"},
-    {name:"JBL Synchros E50BT",cat:"Headphones",price:4499,src:"Manual",status:"Live"},
-    {name:"Anker PowerCore 20100",cat:"Power banks",price:2450,src:"API",status:"Live"},
-    {name:"Amazfit Bip",cat:"Smartwatches",price:3190,src:"Manual",status:"Draft"}
-  ],
-  revQueue:[
-    {who:"A. Sabiniano",txt:"Battery still 60% after a full Friday.",g:"MacBook Air M1",r:5,st:"pending"},
-    {who:"L. Banting",txt:"Pads started flaking at month 11.",g:"JBL Synchros E50BT",r:3,st:"pending"},
-    {who:"J. Candano",txt:"Charges during one lunch break.",g:"Redmi Note 11",r:5,st:"approved"},
-    {who:"A. Austria",txt:"Wish the stylus came in the box.",g:"Xiaomi Pad 7",r:4,st:"pending"}
-  ],
-  users:[
-    {name:"A. Sabiniano",email:"a.sabiniano@student.edu.ph",role:"student",reviews:2},
-    {name:"L. Banting",email:"l.banting@student.edu.ph",role:"student",reviews:1},
-    {name:"J. Candano",email:"j.candano@student.edu.ph",role:"student",reviews:1},
-    {name:"A. Austria",email:"a.austria@student.edu.ph",role:"student",reviews:1},
-    {name:"J. Jacobe",email:"j.jacobe@student.edu.ph",role:"student",reviews:0},
-    {name:"Prof. Raby",email:"m.raby@school.edu.ph",role:"admin",reviews:0}
-  ],
-  issues:[
-    {txt:"Ear pads flake",g:"JBL Synchros E50BT",n:23,st:"open"},
-    {txt:"Battery health dips",g:"Samsung Galaxy S23",n:11,st:"investigating"},
-    {txt:"Rattly trackpad",g:"Acer Aspire 5 A515",n:9,st:"open"},
-    {txt:"GPS locks slowly",g:"Amazfit Bip",n:5,st:"resolved"}
-  ],
-  reports:[
-    {rank:1,g:"MacBook Air M1",c:"Laptops",v:1240,cmp:89,w:54},
-    {rank:2,g:"Redmi Note 11",c:"Smartphones",v:980,cmp:61,w:47},
-    {rank:3,g:"Anker PowerCore 20100",c:"Power banks",v:760,cmp:12,w:33},
-    {rank:4,g:"iPad 9th Generation",c:"Tablets",v:540,cmp:29,w:21},
-    {rank:5,g:"JBL Synchros E50BT",c:"Headphones",v:510,cmp:8,w:19}
-  ]
-};
-function admTab(t){
-  ["adm-overview","adm-gadgets","adm-reviews","adm-issues","adm-reports"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==t));
-  document.querySelectorAll(".side-nav [data-tab^=adm]").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));
-}
-function renderAdmin(){
-  document.getElementById("stGadgets").textContent=ADMIN.gadgets.length;
-  document.getElementById("stUsers").textContent=ADMIN.users.length;
-  document.getElementById("stPending").textContent=ADMIN.revQueue.filter(r=>r.st==="pending").length;
-  document.getElementById("stIssues").textContent=ADMIN.issues.filter(x=>x.st!=="resolved").length;
-  document.getElementById("admGadgetsBody").innerHTML=ADMIN.gadgets.map((g,i)=>`
-    <tr><td><b>${g.name}</b></td><td>${g.cat}</td><td>${peso(g.price)}</td>
-    <td><span class="badge ${g.src==="API"?"badge-blue":"badge-orange"}">${g.src==="API"?"API imported":"Manual entry"}</span></td>
-    <td><span class="status"><span class="dot ${g.status==="Live"?"dot-g":"dot-o"}"></span>${g.status}</span></td>
-    <td style="text-align:right"><button class="btn btn-ghost btn-sm" onclick="openModal('modal-add')">Edit</button></td></tr>`).join("");
-  document.getElementById("admRevBody").innerHTML=ADMIN.revQueue.map((r,i)=>`
-    <tr><td><b>${r.who}</b><div style="font-size:var(--fs-sm);color:var(--ink-soft);max-width:280px">"${r.txt}"</div></td>
-    <td>${r.g}</td><td><span class="stars">${stars(r.r)}</span></td><td>2d ago</td>
-    <td><span class="status"><span class="dot ${r.st==="approved"?"dot-g":"dot-o"}"></span>${r.st}</span></td>
-    <td>${r.st==="pending"?`<div style="display:flex;gap:6px"><button class="btn btn-primary btn-sm" onclick="modReview(${i},1)">Approve</button><button class="btn btn-ghost btn-sm" onclick="modReview(${i},0)">Reject</button></div>`:'<span style="color:var(--ink-mute);font-size:var(--fs-sm)">done</span>'}</td></tr>`).join("");
-  document.getElementById("admIssueBody").innerHTML=ADMIN.issues.map(x=>`
-    <tr><td><b>${x.txt}</b></td><td>${x.g}</td><td><span class="badge badge-red">${x.n} reports</span></td>
-    <td><span class="status"><span class="dot ${x.st==="resolved"?"dot-g":x.st==="open"?"dot-r":"dot-b"}"></span>${x.st}</span></td>
-    <td><button class="btn btn-ghost btn-sm" onclick="toast('Issue marked for review')">${x.st==="resolved"?"Reopen":"Mark reviewed"}</button></td></tr>`).join("");
-  document.getElementById("admReportBody").innerHTML=ADMIN.reports.map(x=>`
-    <tr><td><b>#${x.rank}</b></td><td><b>${x.g}</b></td><td>${x.c}</td><td>${x.v.toLocaleString()}</td><td>${x.cmp}</td><td>${x.w}</td></tr>`).join("");
-}
-function modReview(i,ok){
-  ADMIN.revQueue[i].st = ok?"approved":"rejected";
-  toast(ok?"Review approved and published":"Review rejected");
-  renderAdmin();
-}
-/* Simulated SERVER-SIDE product API — structured mock response.
-   Production build: the server calls the real product API with a rate limit;
-   the browser only ever talks to our own backend. Manual entry always works. */
-const MOCK_PRODUCT_DB={
-  "lenovo ideapad":{name:"Lenovo IdeaPad Slim 3",brand:"Lenovo",category:"Laptops",image:"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Xiaomi_Pad_6S_Pro.jpg/960px-Xiaomi_Pad_6S_Pro.jpg"},
-  "anker zolo":{name:"Anker Zolo 10K",brand:"Anker",category:"Power banks",image:"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg"},
-  "galaxy a16":{name:"Samsung Galaxy A16",brand:"Samsung",category:"Smartphones",image:"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Galaxy_S23.png/960px-Galaxy_S23.png"}
-};
-function apiFetch(){
-  const q=document.getElementById("apiQuery").value.trim();
-  const st=document.getElementById("apiStatus");
-  if(!q){ st.textContent="Enter a product name first."; return; }
-  st.textContent="Looking it up… (demo API, simulated server-side fetch)";
-  setTimeout(()=>{
-    const key=Object.keys(MOCK_PRODUCT_DB).find(k=>q.toLowerCase().includes(k)||k.includes(q.toLowerCase()));
-    const resp = key ? {status:"found",data:MOCK_PRODUCT_DB[key]} : {status:"not_found",data:null};
-    if(resp.status==="found"){
-      const d=resp.data;
-      document.getElementById("fBrand").value=d.brand;
-      document.getElementById("fModel").value=d.name;
-      document.getElementById("fCat").value=d.category;
-      st.innerHTML='✓ Mock API returned: name, brand, category, image. Verify these, then complete price, specs and warranty manually.';
-    } else {
-      st.innerHTML='✗ Mock API: no product matched "'+q+'". Try "Lenovo IdeaPad", "Anker Zolo" or "Galaxy A16" Or add the gadget manually below.';
+    // Top rated (3) and best value per month (3) as compact list rows
+    function miniRow(g) {
+      return `<a class="list-row card-hover" href="${GWApp.gadgetUrl(g.id)}" style="text-decoration:none; color:inherit">
+        <img class="thumb" src="${g.image}" alt="">
+        <span style="flex:1; min-width:0">
+          <span class="t-title" style="display:block">${g.brand} ${g.model}</span>
+          <span class="small muted">${GWApp.ratingLine(g)}</span>
+        </span>
+        ${GWApp.priceBlock(g, "compact")}
+      </a>`;
     }
-  },900);
-}
-function saveGadget(){
-  const b=document.getElementById("fBrand").value.trim(), m=document.getElementById("fModel").value.trim(),
-        c=document.getElementById("fCat").value, p=+document.getElementById("fPrice").value;
-  if(!b||!m||!c||!p){ toast("Brand, model, category and price are required"); return; }
-  ADMIN.gadgets.unshift({name:m,cat:c,price:p,src:document.getElementById("apiStatus").textContent.includes("✓")?"API":"Manual",status:"Draft"});
-  ADMIN.gadgets[0].name = m; // keep name/model consistent
-  renderAdmin(); closeModal("modal-add"); admTab("adm-gadgets"); toast("Gadget added to the demo catalog");
-}
-
-/* ═══════════ INIT ═══════════ */
-buildStep3to6(); goRecStep(1);
-renderHome(); renderUser(); renderTray(); renderScatter();
-</script>
+    const topRated = [...GW.gadgets].sort((a, b) => b.rating - a.rating).slice(0, 3);
+    const bestValue = [...GW.gadgets].sort((a, b) => GW.monthlyCost(a) - GW.monthlyCost(b)).slice(0, 3);
+    document.getElementById("topRated").innerHTML = topRated.map(miniRow).join("");
+    document.getElementById("bestValue").innerHTML = bestValue.map(miniRow).join("");
+  </script>
 </body>
 </html>

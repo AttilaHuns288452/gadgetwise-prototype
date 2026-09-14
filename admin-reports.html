@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports — GadgetWise Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-admin-page="">
+  <div class="admin-shell">
+    <div class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1>Reports</h1>
+          <p class="small muted" style="margin:2px 0 0">Mock analytics for the trailing month. Every chart has a data-table view.</p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="align-items:stretch">
+        <div class="chart-block" id="chartViews">
+          <div class="row-between">
+            <div>
+              <div class="ch-title">Most viewed gadgets</div>
+              <div class="ch-sub">Detail-page views this month</div>
+            </div>
+            <button class="btn btn-outline btn-sm" data-toggle-table>View data table</button>
+          </div>
+          <div data-chart></div>
+        </div>
+        <div class="chart-block" id="chartComp">
+          <div class="row-between">
+            <div>
+              <div class="ch-title">Most compared gadgets</div>
+              <div class="ch-sub">Appearances in comparison sessions</div>
+            </div>
+            <button class="btn btn-outline btn-sm" data-toggle-table>View data table</button>
+          </div>
+          <div data-chart></div>
+        </div>
+        <div class="chart-block" id="chartRec">
+          <div class="row-between">
+            <div>
+              <div class="ch-title">Most recommended</div>
+              <div class="ch-sub">Top-3 appearances from the scoring engine</div>
+            </div>
+            <button class="btn btn-outline btn-sm" data-toggle-table>View data table</button>
+          </div>
+          <div data-chart></div>
+        </div>
+        <div class="chart-block" id="chartCat">
+          <div class="row-between">
+            <div>
+              <div class="ch-title">Views by category</div>
+              <div class="ch-sub">Share of total catalog views</div>
+            </div>
+            <button class="btn btn-outline btn-sm" data-toggle-table>View data table</button>
+          </div>
+          <div data-chart></div>
+        </div>
+      </div>
+
+      <div class="chart-block" id="chartTrend" style="margin-top:24px">
+        <div class="row-between">
+          <div>
+            <div class="ch-title">Weekly page views</div>
+            <div class="ch-sub">All pages, trailing 8 weeks</div>
+          </div>
+          <button class="btn btn-outline btn-sm" data-toggle-table>View data table</button>
+        </div>
+        <div data-chart></div>
+      </div>
+
+      <p class="small muted" style="margin-top:16px">Charts render from the same mock arrays as their tables — the table is the source of truth, the chart is the reading aid.</p>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    GWAdmin.init();
+    // charts.js renders into [data-chart] containers inside each chart-block
+    (function () {
+      const m = GW.adminMetrics;
+      const map = arr => arr.map(d => ({
+        label: (() => { const g = GW.getGadget(d.id); return g ? `${g.brand} ${g.model}` : d.id; })(),
+        value: d.views != null ? d.views : (d.count != null ? d.count : d.value)
+      }));
+      const viewsData = map(m.views), compData = map(m.comparisons), recData = map(m.recommended);
+      GWCharts.hbar(document.querySelector("#chartViews [data-chart]"), viewsData);
+      GWCharts.hbar(document.querySelector("#chartComp [data-chart]"), compData);
+      GWCharts.hbar(document.querySelector("#chartRec [data-chart]"), recData);
+      GWCharts.donut(document.querySelector("#chartCat [data-chart]"),
+        Object.entries(m.categoryShare).map(([id, v]) => ({ label: GWApp.catLabel(id), value: v })));
+      GWCharts.line(document.querySelector("#chartTrend [data-chart]"), m.viewsTrend);
+
+      const rows = a => a.map(d => [d.label, d.value.toLocaleString("en-PH")]);
+      GWCharts.attachTableToggle(document.getElementById("chartViews"), GWCharts.tableHTML(["Gadget", "Views"], rows(viewsData)));
+      GWCharts.attachTableToggle(document.getElementById("chartComp"), GWCharts.tableHTML(["Gadget", "Comparisons"], rows(compData)));
+      GWCharts.attachTableToggle(document.getElementById("chartRec"), GWCharts.tableHTML(["Gadget", "Times recommended"], rows(recData)));
+      GWCharts.attachTableToggle(document.getElementById("chartCat"), GWCharts.tableHTML(["Category", "Share of views"], Object.entries(m.categoryShare).map(([id, v]) => [GWApp.catLabel(id), v + "%"])));
+      GWCharts.attachTableToggle(document.getElementById("chartTrend"), GWCharts.tableHTML(["Week", "Page views"], m.viewsTrend.map(d => [d.week, d.value.toLocaleString("en-PH")])));
+    })();
+  </script>
+</body>
+</html>

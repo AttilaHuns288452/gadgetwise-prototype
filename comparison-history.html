@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparison History — GadgetWise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main id="main">
+    <div class="container page-head">
+      <h1>Comparison History</h1>
+      <p class="lede">Comparisons you've run, newest first. Reopen any of them — the exact selection is restored. Prototype data mixes a seeded history with your live session.</p>
+    </div>
+
+    <div class="container section-tight">
+      <div id="cmpHistory" class="stack" style="gap:12px"></div>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    GWApp.initShell({});
+
+    const esc = GWApp.esc;
+
+    let live = [];
+    try { live = JSON.parse(localStorage.getItem("gw_compare_history") || "[]"); } catch (e) { live = []; }
+    const history = live.length ? live : GW.seedCompareHistory;
+
+    const box = document.getElementById("cmpHistory");
+    if (!history.length) {
+      box.innerHTML = `<div class="panel empty-state">
+        ${GWApp.icon("scale")}
+        <div class="es-title">No comparisons yet</div>
+        <p class="small">Select 2–4 gadgets in the catalog and hit Compare.</p>
+        <a class="btn" href="gadgets.html">Browse gadgets</a>
+      </div>`;
+    } else {
+      box.innerHTML = history.map(h => {
+        const items = GW.gadgetsByIds(h.items);
+        const chips = items.map(g => `
+          <a class="tray-item" style="background:var(--surface-2); border-color:var(--line); color:var(--ink); font-size:.8rem"
+             href="${GWApp.gadgetUrl(g.id)}">${esc(g.brand)} ${esc(g.model)}</a>`).join("");
+        const cheapest = items.slice().sort((a, b) => GW.monthlyCost(a) - GW.monthlyCost(b))[0];
+        return `
+        <div class="panel" style="padding:18px 20px">
+          <div class="row-between" style="flex-wrap:wrap; gap:10px">
+            <div>
+              <b>${h.date}</b> <span class="small muted">· ${items.length} gadgets · cheapest to own: ${esc(cheapest.brand)} ${esc(cheapest.model)} (≈ ${GWApp.money(GW.monthlyCost(cheapest))}/mo)</span>
+            </div>
+            <a class="btn btn-outline btn-sm" href="compare.html?ids=${h.items.join(",")}">Reopen comparison</a>
+          </div>
+          <div class="row" style="gap:8px; margin-top:12px; flex-wrap:wrap">${chips}</div>
+        </div>`;
+      }).join("");
+    }
+  </script>
+</body>
+</html>
