@@ -131,6 +131,7 @@ select.inline{width:auto;padding:7px 30px 7px 10px;font-size:.85rem}
 .gcard:hover{transform:translateY(-3px);box-shadow:0 4px 6px rgba(28,27,24,.05),0 18px 40px -16px rgba(28,27,24,.25)}
 .gcard-img{position:relative;height:150px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#efedf7,#dedbf0)}
 .gcard-img img{width:100%;height:100%;object-fit:contain;padding:12px;background:#fff}
+.rec-result img{background:#fff}
 .gcard-img svg{width:64px;height:64px;color:var(--ink-soft)}
 .gcard-cat{position:absolute;top:10px;left:10px}
 .wish-btn{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--ink-soft);transition:transform .15s}
@@ -245,6 +246,15 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
 .wrow span{flex:1;font-size:.83rem;color:var(--ink-soft)}
 .wrow output{width:22px;text-align:center;font-family:var(--mono);font-size:.85rem;font-weight:700;color:var(--green-deep);background:var(--green-soft);border-radius:6px;padding:2px 0}
 .wrow input[type=range]{flex:1.2;min-width:90px;accent-color:var(--green)}
+.rdot{width:26px;height:5px;border-radius:4px;background:var(--line-strong);transition:background .2s}
+.rdot.on{background:var(--green)}
+.tilegrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tileopt{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--radius-sm);cursor:pointer;transition:border-color .15s,background .15s;font-size:.92rem;font-weight:600}
+.tileopt small{font-weight:400;font-size:.75rem;color:var(--ink-mute)}
+.tileopt:hover{border-color:var(--green)}
+.tileopt:has(input:checked){border-color:var(--green);background:var(--green-soft)}
+.tileopt input{position:absolute;opacity:0;pointer-events:none}
+.tileopt:has(input:focus-visible){outline:2px solid var(--green);outline-offset:2px}
 
 /* ============ TABS (admin sub-sections) ============ */
 .tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:18px;flex-wrap:wrap}
@@ -447,40 +457,60 @@ footer{background:var(--ink);color:#b8b3a4;padding:36px 0;margin-top:40px;font-s
       <div class="sec-head"><h2>Find your match</h2><p>Set a budget and purpose, then weight what matters to you. Every gadget is scored on six components — the math is fully visible, and results recompute as you slide.</p></div>
       <div class="rec-grid">
         <div class="card pad">
-          <h3 style="margin-bottom:4px">Your profile</h3>
-          <p style="font-size:.82rem;color:var(--ink-mute);margin-bottom:8px">Nothing here is stored — demo data only.</p>
-          <label class="f">Category</label>
-          <select id="recCat" onchange="renderRec()">
-            <option value="">Any category</option>
-            <option value="laptops" selected>Laptops</option>
-            <option value="smartphones">Smartphones</option>
-            <option value="tablets">Tablets</option>
-            <option value="headphones">Headphones</option>
-            <option value="powerbanks">Power banks</option>
-            <option value="smartwatches">Smartwatches</option>
-          </select>
-          <label class="f">Monthly budget (₱)</label>
-          <input type="range" id="recBudget" min="3000" max="60000" step="500" value="25000" oninput="renderRec()">
-          <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-top:4px"><span id="recBudgetLbl" style="font-weight:700">₱25,000</span><span style="color:var(--ink-mute)">to spend</span></div>
-          <label class="f">Main academic use</label>
-          <select id="recUse" onchange="renderRec()">
-            <option value="programming" selected>Programming &amp; coding</option>
-            <option value="design">Design &amp; multimedia</option>
-            <option value="classes">Online classes &amp; notes</option>
-            <option value="research">Research &amp; reading</option>
-          </select>
-          <h4 style="margin:18px 0 2px">Weight your priorities</h4>
-          <p style="font-size:.78rem;color:var(--ink-mute);margin-bottom:8px">Slide each factor from 0 (ignore) to 5 (decisive). Scores recompute live — nothing hidden.</p>
-          <div class="wrow"><span>Budget fit</span><input type="range" min="0" max="5" value="3" id="wPrice" oninput="renderRec()" aria-label="Budget fit weight"><output id="oprice">3</output></div>
-          <div class="wrow"><span>Purpose fit</span><input type="range" min="0" max="5" value="3" id="wUse" oninput="renderRec()" aria-label="Purpose fit weight"><output id="ouse">3</output></div>
-          <div class="wrow"><span>Battery life</span><input type="range" min="0" max="5" value="2" id="wBattery" oninput="renderRec()" aria-label="Battery weight"><output id="obattery">2</output></div>
-          <div class="wrow"><span>Durability</span><input type="range" min="0" max="5" value="2" id="wDurab" oninput="renderRec()" aria-label="Durability weight"><output id="odurab">2</output></div>
-          <div class="wrow"><span>Repairability</span><input type="range" min="0" max="5" value="2" id="wRepair" oninput="renderRec()" aria-label="Repairability weight"><output id="orepair">2</output></div>
-          <div class="wrow"><span>Student rating</span><input type="range" min="0" max="5" value="2" id="wRating" oninput="renderRec()" aria-label="Student rating weight"><output id="orating">2</output></div>
-          <button class="btn btn-ghost btn-sm" style="margin-top:14px" onclick="resetRec()">Reset</button>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <h3 style="font-size:1rem" id="rstepLbl">What are you shopping for?</h3>
+            <span style="font-size:.72rem;color:var(--ink-mute);font-family:var(--mono)" id="rstepNum">1 / 4</span>
+          </div>
+          <div style="display:flex;gap:6px;margin-bottom:16px" aria-hidden="true">
+            <span class="rdot on"></span><span class="rdot"></span><span class="rdot"></span><span class="rdot"></span>
+          </div>
+
+          <div id="rstep1">
+            <div class="tilegrid">
+              <label class="tileopt"><input type="radio" name="qcCat" value="laptops" checked onchange="recQuizChange()"><span>💻 Laptops</span><small>Heavy work, code, thesis builds</small></label>
+              <label class="tileopt"><input type="radio" name="qcCat" value="smartphones" onchange="recQuizChange()"><span>📱 Smartphones</span><small>Everyday carry, notes, hotspot</small></label>
+              <label class="tileopt"><input type="radio" name="qcCat" value="tablets" onchange="recQuizChange()"><span>📋 Tablets</span><small>Stylus notes, PDFs, media</small></label>
+              <label class="tileopt"><input type="radio" name="qcCat" value="headphones" onchange="recQuizChange()"><span>🎧 Headphones</span><small>Focus, commutes, calls</small></label>
+              <label class="tileopt"><input type="radio" name="qcCat" value="powerbanks" onchange="recQuizChange()"><span>🔋 Power banks</span><small>Brownout and long-day insurance</small></label>
+              <label class="tileopt"><input type="radio" name="qcCat" value="smartwatches" onchange="recQuizChange()"><span>⌚ Smartwatches</span><small>Alarms, health, time management</small></label>
+            </div>
+          </div>
+
+          <div id="rstep2" class="hidden">
+            <p style="font-size:.85rem;color:var(--ink-soft);margin-bottom:4px">Your total budget for this gadget:</p>
+            <div style="font-size:2rem;font-weight:800;color:var(--green-deep);font-family:var(--mono);text-align:center;margin:10px 0" id="recBudgetLbl">₱25,000</div>
+            <input type="range" id="recBudget" min="3000" max="60000" step="500" value="25000" oninput="recBudgetInput(this.value)" aria-label="Budget">
+            <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--ink-mute);margin-top:4px"><span>₱3,000</span><span>₱60,000</span></div>
+          </div>
+
+          <div id="rstep3" class="hidden">
+            <div class="tilegrid">
+              <label class="tileopt"><input type="radio" name="qcUse" value="programming" checked onchange="recQuizChange()"><span>⌨️ Programming</span><small>IDEs, compilers, builds</small></label>
+              <label class="tileopt"><input type="radio" name="qcUse" value="design" onchange="recQuizChange()"><span>🎨 Design &amp; multimedia</span><small>Figma, video, photo editing</small></label>
+              <label class="tileopt"><input type="radio" name="qcUse" value="classes" onchange="recQuizChange()"><span>🎥 Classes &amp; notes</span><small>Zoom, docs, presentations</small></label>
+              <label class="tileopt"><input type="radio" name="qcUse" value="research" onchange="recQuizChange()"><span>📚 Research &amp; reading</span><small>Papers, PDFs, long sessions</small></label>
+            </div>
+          </div>
+
+          <div id="rstep4" class="hidden">
+            <p style="font-size:.78rem;color:var(--ink-mute);margin-bottom:8px">Last one — slide each factor from 0 (ignore) to 5 (decisive). The math stays fully visible on every result.</p>
+            <div class="wrow"><span>Budget fit</span><input type="range" min="0" max="5" value="3" id="wPrice" oninput="renderRec()" aria-label="Budget fit weight"><output id="oprice">3</output></div>
+            <div class="wrow"><span>Purpose fit</span><input type="range" min="0" max="5" value="3" id="wUse" oninput="renderRec()" aria-label="Purpose fit weight"><output id="ouse">3</output></div>
+            <div class="wrow"><span>Battery life</span><input type="range" min="0" max="5" value="2" id="wBattery" oninput="renderRec()" aria-label="Battery weight"><output id="obattery">2</output></div>
+            <div class="wrow"><span>Durability</span><input type="range" min="0" max="5" value="2" id="wDurab" oninput="renderRec()" aria-label="Durability weight"><output id="odurab">2</output></div>
+            <div class="wrow"><span>Repairability</span><input type="range" min="0" max="5" value="2" id="wRepair" oninput="renderRec()" aria-label="Repairability weight"><output id="orepair">2</output></div>
+            <div class="wrow"><span>Student rating</span><input type="range" min="0" max="5" value="2" id="wRating" oninput="renderRec()" aria-label="Student rating weight"><output id="orating">2</output></div>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:18px">
+            <button class="btn btn-ghost btn-sm" id="rback" onclick="goRecStep(recStep-1)" style="visibility:hidden">Back</button>
+            <button class="btn btn-primary btn-sm" style="flex:1" id="rnext" onclick="recNext()">Next</button>
+          </div>
+          <button class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;border:0;color:var(--ink-mute)" onclick="resetRec()">Start over</button>
         </div>
         <div>
-          <div class="rec-result" id="recResults"></div>
+          <div class="card rec-empty" id="recQuizEmpty"><div class="big">🧭</div>Four quick questions — your top 3 matches appear here after, with the full scoring math on every card.</div>
+          <div class="rec-result hidden" id="recResultsWrap"><div id="recResults"></div></div>
         </div>
       </div>
     </div>
@@ -971,15 +1001,41 @@ function renderBrowse(){
   document.getElementById("browseGrid").innerHTML = list.map(card).join("") || '<div class="rec-empty" style="grid-column:1/-1"><div class="big">🔍</div>No gadgets match. Widen the filters or reset.</div>';
 }
 
-/* ═══════════ RECOMMEND ═══════════ */
-function resetRec(){ document.getElementById("recBudget").value=25000; document.getElementById("recUse").value="programming";
-  document.getElementById("recCat").value="laptops";
+/* ═══════════ RECOMMEND QUIZ ═══════════ */
+let recStep=1, recFinished=false;
+const RSTEPS=["What are you shopping for?","How much can you spend?","What will you use it for?","What matters most?"];
+function goRecStep(n){
+  recStep=Math.max(1,Math.min(4,n));
+  for(let i=1;i<=4;i++) document.getElementById("rstep"+i).classList.toggle("hidden",i!==recStep);
+  document.getElementById("rstepLbl").textContent=RSTEPS[recStep-1];
+  document.getElementById("rstepNum").textContent=recStep+" / 4";
+  document.querySelectorAll(".rdot").forEach((d,i)=>d.classList.toggle("on",i<recStep));
+  document.getElementById("rback").style.visibility=recStep===1?"hidden":"visible";
+  document.getElementById("rnext").textContent=recStep===4?(recFinished?"Update matches":"See my matches"):"Next";
+}
+function recNext(){
+  if(recStep<4){ goRecStep(recStep+1); return; }
+  recFinished=true; renderRec();
+  document.getElementById("recQuizEmpty").classList.add("hidden");
+  document.getElementById("recResultsWrap").classList.remove("hidden");
+  document.getElementById("recResultsWrap").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function recQuizChange(){ /* selection stored in radios; Next applies it */ }
+function recBudgetInput(v){ document.getElementById("recBudgetLbl").textContent=peso(+v); if(recFinished) renderRec(); }
+function resetRec(){
+  document.querySelector('input[name="qcCat"][value="laptops"]').checked=true;
+  document.querySelector('input[name="qcUse"][value="programming"]').checked=true;
+  document.getElementById("recBudget").value=25000;
   [["wPrice",3],["wUse",3],["wBattery",2],["wDurab",2],["wRepair",2],["wRating",2]].forEach(([id,v])=>document.getElementById(id).value=v);
-  renderRec(); }
+  recFinished=false;
+  document.getElementById("recQuizEmpty").classList.remove("hidden");
+  document.getElementById("recResultsWrap").classList.add("hidden");
+  goRecStep(1);
+}
 function renderRec(){
   const b=+document.getElementById("recBudget").value;
-  document.getElementById("recBudgetLbl").textContent=peso(b);
-  const cat=document.getElementById("recCat").value, use=document.getElementById("recUse").value;
+  const cat=document.querySelector('input[name="qcCat"]:checked').value,
+        use=document.querySelector('input[name="qcUse"]:checked').value;
   // slider weights: budget fit, purpose, battery, durability, repairability, rating — 0..5 each
   const W={price:+document.getElementById("wPrice").value, use:+document.getElementById("wUse").value,
            battery:+document.getElementById("wBattery").value, durab:+document.getElementById("wDurab").value,
@@ -1015,7 +1071,7 @@ function renderRec(){
           <div style="font-size:.78rem;margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px 14px">
             ${r.parts.map(([l,v,w])=>`
               <div style="opacity:${w?1:.4}">
-                <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--ink-soft)"><span>${l}${w?` ×${w}`:' <span aria-hidden="true">(off)</span>'}</span><span style="font-family:var(--mono)">${v}</span></div>
+                <div style="display:flex;justify-content:space-between;gap:6px;font-size:.72rem;color:var(--ink-soft);white-space:nowrap"><span>${l}</span><span style="font-family:var(--mono)">${v}${w?` <b style="color:var(--green-deep)">×${w}</b>`:''}</span></div>
                 <div class="scorebar" style="height:5px;margin-top:2px"><i style="width:${v}%;background:${w?"var(--green)":"var(--line-strong)"}"></i></div>
               </div>`).join("")}
           </div>
