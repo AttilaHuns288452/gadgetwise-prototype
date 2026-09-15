@@ -27,8 +27,9 @@
     glance, verifies the math, compares side by side, then gets a scored
     recommendation whose arithmetic is visible. Decides with reasons.
     FIRST VIEWPORT: left — headline "Know the price. Know the years." with
-    value proposition and hero search; right — a live value tag for the
-    AirBook 14 showing price, lifespan, warranty and the cobalt ₱/month line.
+    value proposition and hero search; right — a featured value tag for the
+    MacBook Air M1 (top-rated catalog pick) showing photo, Performance to
+    Cost score, price, lifespan, warranty and the ₱/month line.
     FORM: grounded candidate 7 of 7 (retail shelf tag → consumer report via
     the not-e-commerce constraint); challengers rejected on audience + clarity.
     FINISH: unreviewed and undocumented is unfinished; this build ends with the
@@ -58,30 +59,32 @@
           </div>
         </div>
 
-        <!-- Signature element: the live value tag -->
+        <!-- Signature element: the live value tag, featuring the catalog's top pick -->
         <div class="hero-visual">
-          <span class="float-note">PROTOTYPE DATA</span>
-          <div class="value-tag" id="heroTag" aria-label="Example ownership value tag">
+          <div class="value-tag value-tag-feature" id="heroTag" aria-label="Featured gadget value tag">
             <div class="vt-head">
-              <span class="vt-name">Example — student pick</span>
-              <span class="tag tag-accent">Laptops</span>
+              <span class="vt-name">Top pick — <span style="color:var(--primary-dark)">MacBook Air M1</span></span>
+              <span class="tag tag-warm">Student favorite</span>
             </div>
-            <div style="margin-top:10px">
-              <div class="g-brand">KAIDO</div>
-              <div style="font-family:var(--font-display); font-weight:700; font-size:1.15rem">AirBook 14</div>
-              <span class="rating-line" style="margin-top:4px"><span class="stars" role="img" aria-label="4.5 out of 5 stars"></span><span class="num">4.5</span><span class="count">(158 reviews)</span></span>
+            <div class="vt-product">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png" alt="Apple MacBook Air M1" referrerpolicy="no-referrer">
+              <div class="vt-score">
+                <b>79</b>
+                <span>PERFORMANCE<br>TO COST</span>
+              </div>
             </div>
             <div class="vt-rows">
-              <div class="vt-row"><span>Price</span><b>₱39,999</b></div>
-              <div class="vt-row"><span>Estimated lifespan</span><b>4.5 years</b></div>
-              <div class="vt-row"><span>Warranty</span><b>2 years</b></div>
-              <div class="vt-row"><span>Repairability</span><b>Moderate</b></div>
+              <div class="vt-row"><span>Price</span><b>₱46,999</b></div>
+              <div class="vt-row"><span>Estimated lifespan</span><b>5 years</b></div>
+              <div class="vt-row"><span>Warranty</span><b>1 year</b></div>
+              <div class="vt-row"><span>Repairability</span><b>Hard — authorized service</b></div>
             </div>
             <div class="vt-total">
               <span class="t-label">PER MONTH</span>
-              <span class="t-value">₱740.72<span style="font-size:.85rem; color:var(--ink-3)"> /month</span></span>
+              <span class="t-value">₱783<span style="font-size:.85rem; color:var(--ink-3)"> /month</span></span>
             </div>
-            <div class="vt-note">₱39,999 ÷ (4.5 × 12). Estimate only — the formula is shown on every gadget page.</div>
+            <div class="vt-quote">"Left the charger at home all week. Still on 30% by Saturday review sessions." — Kai M., 3rd yr</div>
+            <div class="vt-note">₱46,999 ÷ (5 × 12). Formula shown on every gadget page. <a href="gadget-detail.html?id=apple-macbook-air-m1">See the full breakdown →</a></div>
           </div>
         </div>
       </div>
@@ -244,8 +247,6 @@
   <script>
     GWApp.initShell({ active: "index.html" });
 
-    // Hero stars
-    document.querySelector("#heroTag .stars").innerHTML = GWApp.stars(4.5);
     document.getElementById("stripGadgets").textContent = GW.community.gadgetsTracked;
     document.getElementById("stripReviews").textContent = GW.community.reviewsWritten.toLocaleString("en-PH") + "+";
     document.getElementById("stripRating").textContent = GW.community.avgRating + "\u2605";
