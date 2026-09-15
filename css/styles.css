@@ -1,8 +1,8 @@
 /* ============================================================
    GadgetWise — css/styles.css
-   Design system: "Indigo Circuit" (v2 visual identity)
-   Warm off-white ground · deep indigo brand · amber highlight ·
-   teal for positive/technical · semantic colors kept separate.
+   Design system: "Warm Indigo + Coral + Cream" (v3 visual identity)
+   Warm cream ground · deep indigo brand · small coral accents ·
+   semantic colors kept separate.
    Prototype for CC 116 — not production code.
    ============================================================ */
 
@@ -10,40 +10,41 @@
    Palette relationships:
    - ~75% neutral surfaces (warm paper, white cards)
    - ~12% primary indigo (buttons, links, scores, active states)
-   - ~8% amber (ratings, featured, highlights) + teal (positive/technical)
+   - ~5% coral (student-favorite, featured accents) only
    - Hero + CTA are the two dark indigo surfaces — the site's anchors. */
 :root {
   /* new-identity tokens */
-  --bg: #f7f5f2;
+  --bg: #F8F7F4;
   --surface: #ffffff;
-  --surface-2: #f1eee8;
-  --ink: #171522;
-  --ink-2: #45415a;
-  --ink-3: #686574;
-  --primary: #5b45e6;
-  --primary-dark: #4732c2;
-  --primary-soft: #eeeafe;
-  --primary-wash: #f5f2fe;
-  --accent-warm: #f4a340;
-  --accent-warm-deep: #8f5500;
-  --accent-warm-soft: #fff2d8;
-  --accent-teal: #0c6b66;
-  --accent-teal-bright: #18a7a0;
-  --accent-teal-soft: #e3f6f4;
-  --success: #218a52;
-  --success-soft: #e3f2e9;
-  --warning: #8f5d0e;
-  --warning-soft: #fdf3dd;
-  --danger: #c63d4f;
-  --danger-soft: #fcebed;
-  --info: #2f5f9e;
-  --info-soft: #e5ecf6;
-  --line: #e7e3dc;
-  --line-strong: #d5d0c6;
-  --hero-1: #231c45;
-  --hero-2: #2e2358;
-  --on-hero: #f5f2ff;
-  --on-hero-2: #b9b0e3;
+  --surface-2: #F3F1EE;
+  --ink: #181621;
+  --ink-2: #5F5B68;
+  --ink-3: #85808D;
+  --primary: #5B4BDB;
+  --primary-dark: #4638B8;
+  --primary-soft: #EEEBFF;
+  --primary-wash: #F5F2FF;
+  --accent-warm: #F28C6B;
+  --warm-dark: #D96F50;
+  --accent-warm-deep: #A8431F;
+  --accent-warm-soft: #FFF0EA;
+  --info: #2F5F9E;
+  --accent-teal-bright: #3E6BC7;
+  --accent-teal-soft: #E5ECF6;
+  --success: #2E8B68;
+  --success-soft: #E7F5EF;
+  --warning: #8A5D1D;
+  --warning-soft: #FAF1DD;
+  --danger: #C95757;
+  --danger-soft: #FBEAEA;
+  --info: #3E6BC7;
+  --info-soft: #E5ECF6;
+  --line: #E7E3DE;
+  --line-strong: #D7D1CA;
+  --hero-1: #312A67;
+  --hero-2: #272254;
+  --on-hero: #F3F1FE;
+  --on-hero-2: #BBB4DE;
 
   /* legacy aliases (kept so all existing var() references resolve) */
   --paper: var(--bg);
@@ -59,11 +60,11 @@
   --red: var(--danger);
   --red-soft: var(--danger-soft);
   --cyan: var(--accent-teal-bright);
-  --ink-2: #45415a;
+  --ink-2: #5F5B68;
   --line-2: var(--line-strong);
 
-  --shadow-1: 0 1px 2px rgba(23, 21, 34, .05), 0 1px 3px rgba(23, 21, 34, .06);
-  --shadow-2: 0 2px 4px rgba(23, 21, 34, .06), 0 10px 24px rgba(23, 21, 34, .09);
+  --shadow-1: 0 1px 2px rgba(24,21,33,.04), 0 8px 24px rgba(24,21,33,.07);
+  --shadow-2: 0 1px 2px rgba(24,21,33,.04), 0 8px 24px rgba(24,21,33,.07), 0 16px 40px rgba(24,21,33,.06);
   --r-sm: 6px; --r-md: 10px; --r-lg: 14px;
   --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;

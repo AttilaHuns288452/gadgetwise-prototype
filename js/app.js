@@ -368,9 +368,9 @@ window.GWApp = (function () {
         <button class="icon-btn mobile-nav-btn" id="mobileNavBtn" aria-label="Open menu" aria-expanded="false">${icon("menu")}</button>
         <a class="logo" href="index.html" aria-label="GadgetWise home">
           <svg class="logo-mark" viewBox="0 0 28 28" aria-hidden="true">
-            <rect x="1.5" y="1.5" width="25" height="25" rx="6" fill="#5b45e6"/>
+            <rect x="1.5" y="1.5" width="25" height="25" rx="6" fill="#5B4BDB"/>
             <path d="M14 6.5 7.5 10v8L14 21.5 20.5 18v-8L14 6.5Z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
-            <path d="M14 10v8M10.7 8.9v10.2M17.3 8.9v10.2" stroke="#f4a340" stroke-width="1.4"/>
+            <path d="M14 10v8M10.7 8.9v10.2M17.3 8.9v10.2" stroke="#F28C6B" stroke-width="1.4"/>
           </svg>
           Gadget<span class="logo-wise">Wise</span>
         </a>
