@@ -46,9 +46,7 @@ assert.ok(battery8.length > 0, "long-battery filter matches something");
 const budget = GW.gadgets.filter(g => g.price < 15000);
 assert.ok(budget.length > 0, "under-15k matches something");
 const durable = GW.gadgets.filter(g => g.scored.durability >= 7);
-assert.ok(durable.length > 0, "high-durability matches something");
-const repair = GW.gadgets.filter(g => g.scored.repairability >= 7);
-assert.ok(repair.length > 0, "easy-repair matches something");
+assert.ok(durable.length > 0, "build & protection filter matches something");
 // category radio values all resolve
 for (const c of GW.categories) assert.ok(GW.gadgetsInCategory(c.id).length > 0, `category ${c.id} non-empty`);
 // price bounds default 0–100000 shows everything
@@ -56,5 +54,4 @@ const all = GW.gadgets.filter(g => g.price >= 0 && g.price <= 100000);
 assert.strictEqual(all.length, GW.gadgets.length, "default price bounds keep whole catalog");
 
 console.log("CATALOG FILTER CHECKS PASS");
-console.log("  long-battery:", battery8.length, "| under-15k:", budget.length, "| durable:", durable.length, "| repair:", repair.length);
 console.log("  category counts:", GW.categories.map(c => `${c.id}=${GW.gadgetsInCategory(c.id).length}`).join(" "));

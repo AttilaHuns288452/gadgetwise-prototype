@@ -11,8 +11,8 @@
 
    Adjustable factor raw weights (sum to 1 before priority
    redistribution):
-     performance 15, battery 10, durability 10,
-     ownership value 10, repairability 5, portability 0,
+     performance 20, battery 10, build & protection 10,
+     ownership value 10, portability 0,
      display 0, camera 0, storage 0
 
    The user's priority selections (none / low / medium / high)
@@ -79,7 +79,7 @@ window.GWRec = (function () {
 
   function buildPools() {
     const pools = {};
-    const factors = ["performance", "battery", "durability", "portability", "display", "camera", "storage", "repairability"];
+    const factors = ["performance", "battery", "durability", "portability", "display", "camera", "storage"];
     GW.categories.forEach(c => {
       const list = GW.gadgetsInCategory(c.id);
       factors.forEach(f => { (pools[f] = pools[f] || []).push(...list.map(g => g.scored[f])); });
@@ -91,11 +91,10 @@ window.GWRec = (function () {
 
   /* ---------------- priorities ---------------- */
   const FACTOR_META = {
-    performance:   { label: "Performance",    raw: 15, pts: 15 },
+    performance:   { label: "Performance",    raw: 20, pts: 20 },
     battery:       { label: "Battery life",   raw: 10, pts: 10 },
-    durability:    { label: "Durability",     raw: 10, pts: 10 },
+    durability:    { label: "Build & Protection", raw: 10, pts: 10 },
     value:         { label: "Cost per month", raw: 10, pts: 10 },
-    repairability: { label: "Repairability",  raw: 5,  pts: 5 },
     portability:   { label: "Portability",    raw: 0,  pts: 0 },
     display:       { label: "Display",        raw: 0,  pts: 0 },
     camera:        { label: "Camera",         raw: 0,  pts: 0 },
@@ -166,7 +165,6 @@ window.GWRec = (function () {
       ["battery", g => g.scored.battery],
       ["durability", g => g.scored.durability],
       ["value", g => ownershipValue(g, catPools), "vs. category monthly cost"],
-      ["repairability", g => g.scored.repairability],
       ["portability", g => g.scored.portability],
       ["display", g => g.scored.display],
       ["camera", g => g.scored.camera],
@@ -208,8 +206,7 @@ window.GWRec = (function () {
     if (f.value && f.value.max >= 6 && f.value.earned >= f.value.max * 0.7) out.push(`Low cost per month (${money(GW.monthlyCost(gadget))}/month over ${gadget.value.lifespanYears} yrs)`);
     if (f.performance && f.performance.earned >= f.performance.max * 0.75) out.push("Strong sustained performance for schoolwork");
     if (f.battery && f.battery.earned >= f.battery.max * 0.75) out.push("Battery comfortably lasts a full class day");
-    if (f.durability && f.durability.max >= 8 && f.durability.earned >= f.durability.max * 0.7) out.push("Built to take daily commute wear");
-    if (f.repairability && f.repairability.max >= 4 && f.repairability.earned >= f.repairability.max * 0.7) out.push("Repairable — cheap to keep alive long-term");
+    if (f.durability && f.durability.max >= 8 && f.durability.earned >= f.durability.max * 0.7) out.push("Strong build & protection record");
     if (f.display && f.display.earned >= f.display.max * 0.75) out.push("Display is easy on the eyes for long reading");
     if (f.portability && f.portability.max >= 6 && f.portability.earned >= f.portability.max * 0.75) out.push("Light enough for the daily commute");
     if (f.community.earned >= f.community.max * 0.8) out.push(`Highly rated by students (${gadget.rating.toFixed(1)}★)`);
@@ -224,7 +221,7 @@ window.GWRec = (function () {
       // surface a priority-relevant weakness first if it exists
       const highP = Object.entries(opts.priorities).filter(([, v]) => v === "high").map(([k]) => k);
       for (const p of highP) {
-        const map = { performance: "Performance", battery: "Battery", durability: "Durability", display: "Display", camera: "Camera", storage: "Storage", portability: "Portability", repairability: "Repairability", value: "Value" };
+        const map = { performance: "Performance", battery: "Battery", durability: "Build & Protection", display: "Display", camera: "Camera", storage: "Storage", portability: "Portability", value: "Value" };
         const hit = gadget.weaknesses.find(x => x.toLowerCase().includes((map[p] || "").toLowerCase()));
         if (hit) { w.unshift(hit); break; }
       }

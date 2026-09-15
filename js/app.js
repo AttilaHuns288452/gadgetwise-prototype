@@ -90,11 +90,19 @@ window.GWApp = (function () {
   }
   function params() { return new URLSearchParams(location.search); }
 
-  /* ---------------- Performance to Cost score (formula ported from the fac3629 prototype, must match exactly) ----------------
-     durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20, out of 100. */
+  /* ---------------- Performance to Cost score (deterministic; every input defensible) ----------------
+     battery 25 (catalog battery spec) + warranty 20 (catalog warranty field)
+     + student rating 25 (GW user reviews) + value 30 (price vs category
+     median monthly cost). No repairability term: marketplace specs cannot
+     support one. ponytail: formula v2 — audit trail in README. */
   function ownIndex(g) {
-    const s = g.durab / 5 * 25 + g.repair / 5 * 20 + Math.min(g.battery / 12, 1) * 20
-            + Math.min(g.value.warrantyYears * 12 / 24, 1) * 15 + g.rating / 5 * 20;
+    const months = (g.value.lifespanYears || 1) * 12;
+    const med = GW.categoryMedianMonthly(g.category) || GW.monthlyCost(g);
+    const value = Math.max(0, Math.min(1, 1 - (GW.monthlyCost(g) / med - 0.6) / 0.8));
+    const s = Math.min(g.battery / 12, 1) * 25
+            + Math.min(g.value.warrantyYears * 12 / 24, 1) * 20
+            + (g.rating / 5) * 25
+            + value * 30;
     return Math.round(s);
   }
   /* Pareto frontier: no other gadget is both cheaper AND higher-indexed */
@@ -300,7 +308,7 @@ window.GWApp = (function () {
         <span class="g-brand">${esc(g.brand)}</span>
         <h3 class="g-title"><a href="${gadgetUrl(g.id)}">${esc(g.model)}</a></h3>
         ${ratingLine(g)}
-        ${idx != null ? `<span class="oidx" title="Performance to Cost — durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20"><b>${idx}</b><span>PERFORMANCE TO COST</span></span>` : ""}
+        ${idx != null ? `<span class="oidx" title="Performance to Cost — battery 25 + warranty 20 + student rating 25 + value 30 (price vs category median)"><b>${idx}</b><span>PERFORMANCE TO COST</span></span>` : ""}
         ${g.goodFor ? `<p class="gcard-bestfor"><b>Best for:</b> ${esc(g.goodFor.slice(0, 2).join(" + "))}</p>`
                    : `<p class="gcard-bestfor"><b>Best for:</b> ${esc(cat ? cat.name : "")} on a student budget</p>`}
         <ul class="g-specs">${cardSpecs(g)}</ul>
@@ -532,7 +540,7 @@ window.GWApp = (function () {
         <div class="row" style="gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--ink-2);margin-top:8px">
           <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);margin-right:5px"></span>Catalog gadget</span>
           <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--amber);margin-right:5px"></span>Best-value frontier (Pareto)</span>
-          <span style="margin-left:auto">${items.length} shown · Index = durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20.</span>
+          <span style="margin-left:auto">${items.length} shown · Index = battery 25 + warranty 20 + student rating 25 + value 30 (price vs category median monthly cost).</span>
         </div>
       </div>`;
     area.addEventListener("click", e => {

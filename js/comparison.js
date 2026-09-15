@@ -23,9 +23,8 @@ window.GWCompare = (function () {
     row("Rating", g => g.rating, "high", v => v.toFixed(1) + " \u2605");
     row("Cost per month", g => GW.monthlyCost(g), "low", v => "\u2248 " + money(v) + "/mo");
     row("Warranty", g => g.value.warrantyYears, "high", v => v + (v === 1 ? " yr" : " yrs"));
-    row("Est. lifespan", g => g.value.lifespanYears, "high", v => v + " yrs");
-    row("Repairability", g => g.scored.repairability, "high", v => v.toFixed(1) + "/10");
-    row("Durability", g => g.scored.durability, "high", v => v.toFixed(1) + "/10");
+    row("Lifespan (catalog)", g => g.value.lifespanYears, "high", v => v + " yrs");
+    row("Build & Protection", g => g.scored.durability, "high", v => v.toFixed(1) + "/10");
     row("Performance", g => g.scored.performance, "high", v => v.toFixed(1) + "/10");
     row("Battery", g => g.scored.battery, "high", v => v.toFixed(1) + "/10");
     if (multiCategory) {
@@ -74,7 +73,6 @@ window.GWCompare = (function () {
       case "Cost per month": return "Cheaper per month";
       case "Warranty": return "Longer warranty";
       case "Est. lifespan": return "Longer lifespan";
-      case "Repairability": return "Easier to repair";
       case "Durability": return "Tougher build";
       case "Performance": return "Faster";
       case "Battery": return "Better battery";
@@ -192,7 +190,7 @@ window.GWCompare = (function () {
     }
     if (life) {
       const max = Math.max(...life.values), g = gadgets[life.values.indexOf(max)];
-      picks.push(`Longest estimated lifespan: <b>${esc(g.brand)} ${esc(g.model)}</b> at ${max} years`);
+      picks.push(`Longest catalog lifespan: <b>${esc(g.brand)} ${esc(g.model)}</b> at ${max} years`);
     }
     if (rating) {
       const max = Math.max(...rating.values), g = gadgets[rating.values.indexOf(max)];
@@ -210,7 +208,7 @@ window.GWCompare = (function () {
         `<b>${esc(cheap.brand)} ${esc(cheap.model)}</b> still costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo), ` +
         `so the trade-offs above should decide it, not the totals.`;
     } else {
-      line = `Over each gadget's estimated lifetime, <b>${esc(cheap.brand)} ${esc(cheap.model)}</b> costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo). ` +
+      line = `Over each gadget's catalog lifespan, <b>${esc(cheap.brand)} ${esc(cheap.model)}</b> costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo). ` +
         `Students rate <b>${esc(rated.brand)} ${esc(rated.model)}</b> highest (${rated.rating.toFixed(1)}\u2605). ` +
         `Upfront price alone doesn't decide this: a cheaper gadget with a short lifespan can cost more per month.`;
     }

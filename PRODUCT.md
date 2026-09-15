@@ -25,7 +25,7 @@ seeded mock data in `js/data.js`.
 GadgetWise is a purchase-decision aid, not a store. It refuses e-commerce
 chrome (no cart, no checkout, no affiliate links). Its job: a student discovers
 a gadget, sees its ₱/month ownership cost at a glance, verifies the math
-(price ÷ lifespan, formula shown), compares up to four side-by-side with
+(price ÷ catalog lifespan, formula shown), compares up to four side-by-side with
 meaningful differences highlighted, then gets a ranked recommendation whose
 scoring is fully auditable — factor by factor, point by point.
 

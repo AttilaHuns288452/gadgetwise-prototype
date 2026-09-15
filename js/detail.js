@@ -96,7 +96,7 @@ window.GWDetail = (function () {
             </div>
             <div class="vt-rows">
               <div class="vt-row"><span>Price</span><b>${money(g.price)}</b></div>
-              <div class="vt-row"><span>Estimated lifespan</span><b>${g.value.lifespanYears} years</b></div>
+              <div class="vt-row"><span>Lifespan (catalog value)</span><b>${g.value.lifespanYears} years</b></div>
               <div class="vt-row"><span>Warranty</span><b>${g.value.warrantyYears} ${g.value.warrantyYears === 1 ? "year" : "years"}</b></div>
               <div class="vt-row"><span>Repairability</span><b>${esc(g.value.repairabilityLabel)}</b></div>
             </div>
@@ -112,7 +112,7 @@ window.GWDetail = (function () {
             <div class="tf-body">
               <div class="formula-box">
                 <span class="f-line">Cost per month =</span>
-                <span class="f-line">Product Price ÷ (Estimated Lifespan × 12)</span>
+                <span class="f-line">Product Price ÷ (Catalog Lifespan × 12)</span>
                 <span class="f-line"><b>${money(g.price)}</b> ÷ (<b>${g.value.lifespanYears}</b> × 12) =</span>
                 <span class="f-result">≈ ${money(monthly)} per month</span>
               </div>
@@ -144,9 +144,9 @@ window.GWDetail = (function () {
           <div class="panel" style="margin-top:18px; padding:14px 18px">
             <h4 style="margin:0 0 10px">Ownership scores</h4>
             <div class="grid-3" style="gap:12px">
-              ${[["Durability", g.durab], ["Repairability", g.repair], ["Battery", Math.min(g.battery / 12 * 5, 5)]].map(([l, v]) => `
+              ${[["Battery (spec)", Math.min(g.battery / 12 * 5, 5)], ["Warranty (catalog)", Math.min(g.value.warrantyYears * 12 / 24 * 5, 5)]].map(([l, v]) => `
                 <div><div class="row-between" style="font-size:.85rem; margin-bottom:4px"><span>${l}</span><b class="mono">${v.toFixed(1)}</b></div><span class="meter" style="display:block"><span class="track"><span class="fill" style="width:${v / 5 * 100}%"></span></span></span></div>`).join("")}
-              <div class="small muted" style="grid-column:1/-1">Warranty: ${g.value.warrantyYears} year${g.value.warrantyYears === 1 ? "" : "s"} · Scores are mock data on a 1–5 scale.</div>
+              <div class="small muted" style="grid-column:1/-1">Derived from catalog specs — the full formula is in the README.</div>
             </div>
           </div>` : ""}
 
@@ -178,7 +178,7 @@ window.GWDetail = (function () {
             <div class="panel">
               <h3 style="margin-bottom:16px">Value analysis</h3>
               <div class="value-list">
-                ${GWApp.valueRow("Durability", meterHTML(g.scored.durability))}
+                ${GWApp.valueRow("Build & Protection", meterHTML(g.scored.durability))}
                 ${GWApp.valueRow("Warranty", `<b class="mono">${g.value.warrantyYears} yr${g.value.warrantyYears === 1 ? "" : "s"}</b>`)}
                 ${GWApp.valueRow("Est. lifespan", `<b class="mono">${g.value.lifespanYears} yrs</b>`)}
                 ${GWApp.valueRow("Repairability", meterHTML(g.scored.repairability))}
@@ -193,9 +193,10 @@ window.GWDetail = (function () {
   <div class="panel" style="margin-top:24px">
               <h4 style="margin-bottom:8px">Why these numbers?</h4>
               <p class="small muted" style="margin:0">
-                Durability, repairability, and lifespan estimates combine published specs with community feedback in the
-                production design. In this prototype they are mock values — clearly labeled, consistently applied, and
-                comparable across every gadget.
+                Build & Protection and lifespan are GadgetWise-maintained catalog values (manually set per gadget,
+                not calculated from marketplace specs). Battery, warranty, price, and student ratings come from
+                catalog data; monthly cost and the Performance to Cost index are deterministic formulas over
+                those values. Nothing here is inferred by an algorithm beyond the published formulas.
               </p>
             </div>
           </div>

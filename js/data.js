@@ -17,6 +17,20 @@ GW.categories = [
   { id: "smartwatches",name: "Smartwatches",  blurb: "Trackers and watchfaces that survive a student schedule.",  file: "ph-watch" }
 ];
 
+/* ============================================================
+   Data provenance (every field classifies as one of):
+   RAW (marketplace/product source): name, brand, category, price,
+     image, specs, specList, releaseYear
+   GW-EDITORIAL (manually maintained catalog values - NOT from any API):
+     scored{performance,display,camera,storage}, value{warrantyYears,
+     lifespanYears, repairabilityLabel}, durab/repair (1-5 editorial),
+     strengths/weaknesses/goodFor/notIdeal, issue, uses
+   GW-CALCULATED (deterministic formulas at runtime): Performance to
+     Cost index, monthly cost, recommendation factor scores
+   USER-GENERATED: rating, reviewCount, reviews[]
+   Missing-data policy: a missing spec renders as "Not specified" -
+   never inferred, never imputed.
+   ============================================================ */
 /* ---------- Scored factors (0–10 each; used by the recommendation engine) ----------
    performance, battery, durability, portability, display, camera, storage,
    repairability  — normalized so every factor can be combined fairly.      */
@@ -1797,13 +1811,12 @@ GW.useCases = [
 GW.priorityFactors = [
   { id: "performance",   label: "Performance",    base: 15, hint: "Processor, RAM, sustained speed" },
   { id: "battery",       label: "Battery Life",   base: 10, hint: "Hours per charge or unplugged" },
-  { id: "durability",    label: "Durability",     base: 10, hint: "Build, water/drop resistance" },
+  { id: "durability",    label: "Build & Protection", base: 10, hint: "Protection rating and warranty where specified" },
   { id: "portability",   label: "Portability",    base: 0,  hint: "Weight and size for commuting" },
   { id: "display",       label: "Display",        base: 0,  hint: "Panel quality, brightness, size" },
   { id: "camera",        label: "Camera",         base: 0,  hint: "Photo and video capture" },
   { id: "storage",       label: "Storage",        base: 0,  hint: "Space for files, apps, projects" },
   { id: "value",         label: "Long-term Value",base: 10, hint: "Lower monthly cost for the same lifespan" },
-  { id: "repairability", label: "Repairability",  base: 5,  hint: "Fixable instead of replaceable" },
   { id: "budget",        label: "Budget discipline", base: 0, hint: "How strictly to stay under your ceiling" }
 ];
 

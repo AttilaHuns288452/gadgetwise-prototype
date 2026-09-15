@@ -8,9 +8,35 @@ Live: https://attilahuns288452.github.io/gadgetwise-prototype/
 ## What it does
 
 GadgetWise helps Filipino students decide on gadgets before they buy: see real
-specs, estimate the **₱/month cost of owning** (price ÷ realistic lifespan),
+specs, estimate the **₱/month cost of owning** (price ÷ catalog lifespan),
 compare up to four side-by-side with differences highlighted, and get ranked
-recommendations whose scoring you can audit factor by factor — no black box.
+recommendations whose scoring you can audit factor by factor — no black box,
+no AI in the loop.
+
+## Data provenance
+
+Every value classifies as exactly one of:
+
+| Class | Fields | Source |
+|---|---|---|
+| RAW (marketplace) | name, brand, category, price, image, specs, specList, releaseYear | Product/marketplace source (prototype: hand-entered from retail listings) |
+| GW-EDITORIAL | `scored` display/camera/storage, `value{}` (warranty, lifespan, repair path), `durab`, `strengths/weaknesses/goodFor/notIdeal`, `issue` | Manually maintained GadgetWise catalog values |
+| GW-CALCULATED | monthly cost, Performance to Cost index, all recommendation factor scores | Deterministic formulas, documented below |
+| USER-GENERATED | rating, reviewCount, reviews | GadgetWise website users |
+
+Marketplace sources (Shopee/Lazada in the production design) provide only product
+identity, price, imagery, and basic specs. Durability, repairability, lifespan, and
+student ratings are **never** claimed from an API.
+
+**Performance to Cost index** = battery 25 + warranty 20 + student rating 25 +
+value 30, where value = price vs. category median monthly cost. The
+repairability term was removed: marketplace specs cannot support it.
+
+**Recommendation score (100 pts)** = Budget Fit 20 (fixed) + Academic
+Suitability 25 (fixed, criteria-weighted per use case) + Community Rating 5
+(fixed) + 50 adjustable points redistributed by user priorities (performance
+20 raw, battery 10, build & protection 10, value 10; priorities push raw
+weights up/down, then normalize to 50). Same inputs → same ranking, always.
 
 The whole thing runs on vanilla HTML/CSS/JS with one shared stylesheet, four
 Google Fonts (Archivo / Hanken Grotesk / Spline Sans Mono), and locally-served
