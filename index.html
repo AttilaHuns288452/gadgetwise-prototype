@@ -153,8 +153,8 @@
       <div class="container">
         <div class="row-between" style="margin-bottom:22px">
           <div>
-            <h2>Worth a second look</h2>
-            <p class="lede" style="margin-top:6px">Community favorites on the left, cheapest to own per month on the right.</p>
+            <h2>Cheapest to own</h2>
+            <p class="lede" style="margin-top:6px">The three cheapest gadgets to own per month.</p>
           </div>
         </div>
         <div class="stack" style="gap:24px; max-width:640px">
@@ -238,13 +238,13 @@
 
     // Top rated (3) and best value per month (3) as compact list rows
     function miniRow(g) {
-      return `<a class="list-row card-hover" href="${GWApp.gadgetUrl(g.id)}" style="text-decoration:none; color:inherit">
-        <img class="thumb" src="${g.image}" alt="">
-        <span style="flex:1; min-width:0">
-          <span class="t-title" style="display:block">${g.brand} ${g.model}</span>
+      return `<a class="list-row" href="${GWApp.gadgetUrl(g.id)}">
+        <img class="thumb" src="${g.image}" alt="${g.brand} ${g.model}">
+        <span class="lr-main">
+          <span class="t-title">${g.brand} ${g.model}</span>
           <span class="small muted">${GWApp.ratingLine(g)}</span>
+          <span class="lr-price">${GWApp.money(GW.monthlyCost(g))}<em>/month</em></span>
         </span>
-        ${GWApp.priceBlock(g, "compact")}
       </a>`;
     }
     const bestValue = [...GW.gadgets].sort((a, b) => GW.monthlyCost(a) - GW.monthlyCost(b)).slice(0, 3);

@@ -199,7 +199,10 @@ window.GWRec = (function () {
   function reasons(gadget, breakdown, opts) {
     const out = [];
     const f = Object.fromEntries(breakdown.factors.map(x => [x.key, x]));
-    if (f.budget.earned >= f.budget.max * 0.85) out.push(`Fits your ${opts.budget.label} budget at ${money(gadget.price)}`);
+    if (f.budget.earned >= f.budget.max * 0.85) {
+      if (gadget.price < opts.budget.min) out.push(`Under your ${opts.budget.label} budget at ${money(gadget.price)}`);
+      else out.push(`Fits your ${opts.budget.label} budget at ${money(gadget.price)}`);
+    }
     else if (f.budget.earned >= f.budget.max * 0.6) out.push(`Close to your budget at ${money(gadget.price)}`);
     if (f.academic && f.academic.earned >= f.academic.max * 0.7) out.push(`Strong fit for ${opts.useCase.label.toLowerCase()}`);
     if (f.value && f.value.max >= 6 && f.value.earned >= f.value.max * 0.7) out.push(`Low cost per month (${money(GW.monthlyCost(gadget))}/month over ${gadget.value.lifespanYears} yrs)`);

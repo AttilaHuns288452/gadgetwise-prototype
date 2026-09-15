@@ -29,7 +29,7 @@ GW.categories = [
    Real brands and Wikimedia Commons photos; specs, prices and
    scores remain illustrative demo data.
    ============================================================ */
-const WISH_IMGS = {"laptop1":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png","laptop2":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acer_Aspire_A515-51.jpg/960px-Acer_Aspire_A515-51.jpg","laptop3":"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg","tablet1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg","tablet2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg","phone1":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmi_Note_11_front.jpg/960px-Redmi_Note_11_front.jpg","phone2":"https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Back_of_the_Samsung_Galaxy_S23.jpg/960px-Back_of_the_Samsung_Galaxy_S23.jpg","head1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg","power1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg","watch1":"https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg"};
+const WISH_IMGS = {"laptop1":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png","laptop2":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acer_Aspire_A515-51.jpg/960px-Acer_Aspire_A515-51.jpg","laptop3":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg","tablet1":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg","tablet2":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg","phone1":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmi_Note_11_front.jpg/960px-Redmi_Note_11_front.jpg","phone2":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Back_of_the_Samsung_Galaxy_S23.jpg/960px-Back_of_the_Samsung_Galaxy_S23.jpg","head1":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg","power1":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg","watch1":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg"};
 
 GW.realGadgetEntries = [
  {
@@ -289,7 +289,7 @@ GW.realGadgetEntries = [
   status:  "published",
   tagline:  "Two-year warranty, OLED, no upgrade tax",
   summary:  "The longest laptop warranty here plus an OLED panel for design work. Fan noise and battery life are the trade.",
-  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg",
+  image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Asus_Vivobook_15.jpg/960px-Asus_Vivobook_15.jpg",
   specs:  {
    Chipset:  "Intel Core i5-1335U",
    Memory:  "16GB RAM · 512GB SSD",
@@ -411,7 +411,7 @@ GW.realGadgetEntries = [
   status:  "published",
   tagline:  "Cheapest real entry into the Pencil workflow",
   summary:  "Long software support, strong resale, paperless note-taking on a budget. Base storage is tight and extras cost more.",
-  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg",
+  image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/IPad_9th_Generation_2024.jpg/960px-IPad_9th_Generation_2024.jpg",
   specs:  {
    Chipset:  "A13 Bionic chip",
    Storage:  "64GB · Wi-Fi",
@@ -534,7 +534,7 @@ GW.realGadgetEntries = [
   status:  "published",
   tagline:  "144Hz 3.2K display at a mid-range price",
   summary:  "A full day of classes on one charge and a display that embarrasses pricier tablets. Stylus and keyboard sold separately.",
-  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg",
+  image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg",
   specs:  {
    Chipset:  "Snapdragon 7+ Gen 3",
    Memory:  "8GB RAM · 128GB",
@@ -780,7 +780,7 @@ GW.realGadgetEntries = [
   status:  "published",
   tagline:  "Flagship camera in a one-hand body",
   summary:  "Night-mode camera for thesis documentation, compact build, 4 OS updates promised. Battery needs top-ups.",
-  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Back_of_the_Samsung_Galaxy_S23.jpg/960px-Back_of_the_Samsung_Galaxy_S23.jpg",
+  image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Back_of_the_Samsung_Galaxy_S23.jpg/960px-Back_of_the_Samsung_Galaxy_S23.jpg",
   specs:  {
    Display:  "6.1-inch Dynamic AMOLED 120Hz",
    Chipset:  "Snapdragon 8 Gen 2",
@@ -904,7 +904,7 @@ GW.realGadgetEntries = [
   status:  "published",
   tagline:  "Bass for the commute, aux for the dead battery",
   summary:  "Pure Bass sound that drowns the LRT, aux fallback, folds flat. Ear pads flake around month 11 and there is no ANC.",
-  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg",
+  image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/JBL_Synchros_E50BT.jpg/960px-JBL_Synchros_E50BT.jpg",
   specs:  {
    Type:  "Over-ear, wireless",
    Sound:  "JBL Pure Bass sound",
@@ -1017,7 +1017,7 @@ GW.realGadgetEntries = [
  {
   id:  "anker-powercore-20100",
   brand:  "Anker",
-  model:  "Anker PowerCore 20100",
+  model:  "PowerCore 20100",
   category:  "powerbanks",
   price:  2450,
   rating:  4.8,
@@ -1026,7 +1026,7 @@ GW.realGadgetEntries = [
   status:  "published",
   tagline:  "Brownout insurance with an 18-month warranty",
   summary:  "20,000 mAh that trickle-charges laptops and outlasts outages. Heavy in a small bag, slow to recharge itself.",
-  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg",
+  image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg",
   specs:  {
    Capacity:  "20,000 mAh",
    Output:  "18W USB-C PD in/out",
@@ -1138,7 +1138,7 @@ GW.realGadgetEntries = [
   status:  "published",
   tagline:  "Charge it monthly, forget it daily",
   summary:  "Up to 30 days per charge, silent alarms for early classes, light enough to forget. Basic metrics, scratchy screen.",
-  image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg",
+  image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Amazfit_Bip_Inside.jpg/960px-Amazfit_Bip_Inside.jpg",
   specs:  {
    Display:  "1.28-inch always-on display",
    Battery:  "Up to 30-day battery",
@@ -1266,7 +1266,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "The dependable budget all-rounder",
  summary:  "A straightforward 15.6-inch daily driver for documents, browsers, and online classes. Neither fast nor fancy — just steady.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Lenovo_Ideapad_100-15IBY_-_cristaux_liquides_%285_dioptries%29.jpg/960px-Lenovo_Ideapad_100-15IBY_-_cristaux_liquides_%285_dioptries%29.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Lenovo_Ideapad_100-15IBY_-_cristaux_liquides_%285_dioptries%29.jpg/960px-Lenovo_Ideapad_100-15IBY_-_cristaux_liquides_%285_dioptries%29.jpg",
  specs:  {
   Processor:  "Intel Core i3-N305 (8-core)",
   Memory:  "8GB DDR4 · 512GB SSD",
@@ -1308,7 +1308,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "The safe campus choice",
  summary:  "Solid build, serviceable parts, and a bright enough screen for lecture halls. Battery life is where it saves money.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/15.6%22_%D0%9D%D0%BE%D1%83%D1%82%D0%B1%D1%83%D0%BA_HP_Laptop_15s-eq1319ur_%D1%87%D1%91%D1%80%D0%BD%D1%8B%D0%B9.jpg/960px-15.6%22_%D0%9D%D0%BE%D1%83%D1%82%D0%B1%D1%83%D0%BA_HP_Laptop_15s-eq1319ur_%D1%87%D1%91%D1%80%D0%BD%D1%8B%D0%B9.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/15.6%22_%D0%9D%D0%BE%D1%83%D1%82%D0%B1%D1%83%D0%BA_HP_Laptop_15s-eq1319ur_%D1%87%D1%91%D1%80%D0%BD%D1%8B%D0%B9.jpg/960px-15.6%22_%D0%9D%D0%BE%D1%83%D1%82%D0%B1%D1%83%D0%BA_HP_Laptop_15s-eq1319ur_%D1%87%D1%91%D1%80%D0%BD%D1%8B%D0%B9.jpg",
  specs:  {
   Processor:  "AMD Ryzen 5 5500U",
   Memory:  "8GB DDR4 · 512GB SSD",
@@ -1348,7 +1348,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "For IT students who game too",
  summary:  "MIL-STD-810H durability testing and a real gaming GPU in a laptop that survives a backpack. Heavy and thirsty.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/ASUS_TUF_Gaming_5_Pro_Laptop.jpg/960px-ASUS_TUF_Gaming_5_Pro_Laptop.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/ASUS_TUF_Gaming_5_Pro_Laptop.jpg/960px-ASUS_TUF_Gaming_5_Pro_Laptop.jpg",
  specs:  {
   Processor:  "Intel Core i5-12500H",
   Graphics:  "RTX 3050 4GB",
@@ -1389,7 +1389,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "The safe budget Samsung",
  summary:  "A Super AMOLED screen and 4 years of updates at a price allowances can reach. Charging is slow and gaming is basic.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/IPhone_%2854239311561%29.jpg/960px-IPhone_%2854239311561%29.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Samsung_Galaxy_A54_5G_in_Chongqing_20240220-124540.jpg/960px-Samsung_Galaxy_A54_5G_in_Chongqing_20240220-124540.jpg",
  specs:  {
   Display:  "6.5\" Super AMOLED, 90Hz",
   Processor:  "Helio G99",
@@ -1429,7 +1429,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "Mid-range performance per peso",
  summary:  "A Dimensity 8300-Ultra that games properly, with 67W charging that tops up between classes. Software has ads.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/IPhone_%2854239311561%29.jpg/960px-IPhone_%2854239311561%29.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Poco_X3_Pro.jpg/960px-Poco_X3_Pro.jpg",
  specs:  {
   Display:  "6.67\" AMOLED, 120Hz",
   Processor:  "Dimensity 8300-Ultra",
@@ -1469,7 +1469,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "Allowance-friendly with fast charging",
  summary:  "A large 90Hz screen, 33W charging, and a clean design at the lowest price here. Performance is entry-level.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Realme_Q2_Pro_Color_Back.jpg/960px-Realme_Q2_Pro_Color_Back.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Realme_Q2_Pro_Color_Back.jpg/960px-Realme_Q2_Pro_Color_Back.jpg",
  specs:  {
   Display:  "6.72\" IPS LCD, 90Hz",
   Processor:  "Snapdragon 685",
@@ -1509,7 +1509,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "The family-tablet workhorse",
  summary:  "An 11-inch 90Hz screen and quad speakers for lectures and streaming. Stylus support is absent at this price.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/%EC%82%BC%EC%84%B1_%EA%B0%A4%EB%9F%AD%EC%8B%9C_%ED%83%AD_A9_%ED%94%8C%EB%9F%AC%EC%8A%A4.jpg/960px-%EC%82%BC%EC%84%B1_%EA%B0%A4%EB%9F%AD%EC%8B%9C_%ED%83%AD_A9_%ED%94%8C%EB%9F%AC%EC%8A%A4.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/%EC%82%BC%EC%84%B1_%EA%B0%A4%EB%9F%AD%EC%8B%9C_%ED%83%AD_A9_%ED%94%8C%EB%9F%AC%EC%8A%A4.jpg/960px-%EC%82%BC%EC%84%B1_%EA%B0%A4%EB%9F%AD%EC%8B%9C_%ED%83%AD_A9_%ED%94%8C%EB%9F%AC%EC%8A%A4.jpg",
  specs:  {
   Display:  "11\" 90Hz LCD",
   Processor:  "Snapdragon 695",
@@ -1549,7 +1549,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "Extra-bass neckband for commutes",
  summary:  "A wireless neckband with punchy bass, magnetic buds, and 15-hour battery. No ANC; mic is average.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/2023_S%C5%82uchawki_Sony_WI-XB400_%281%29.jpg/960px-2023_S%C5%82uchawki_Sony_WI-XB400_%281%29.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/2023_S%C5%82uchawki_Sony_WI-XB400_%281%29.jpg/960px-2023_S%C5%82uchawki_Sony_WI-XB400_%281%29.jpg",
  specs:  {
   Type:  "Neckband, wireless",
   Sound:  "Extra Bass tuning",
@@ -1589,7 +1589,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "Two weeks of battery, one week of forgetting it",
  summary:  "A slim tracker with a bright AMOLED, sleep tracking, and two-week battery. Notifications only — no replies.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Huawei_Smartwatch_%28Band_4%29.jpg/960px-Huawei_Smartwatch_%28Band_4%29.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Huawei_Smartwatch_%28Band_4%29.jpg/960px-Huawei_Smartwatch_%28Band_4%29.jpg",
  specs:  {
   Display:  "1.47\" AMOLED",
   Battery:  "Up to 14 days",
@@ -1629,7 +1629,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "The big-screen budget smartwatch",
  summary:  "A 1.97\" AMOLED square face with Bluetooth calling and 20-day battery. GPS locks to your phone, not itself.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Redmi_K60_and_Redmi_Watch_3.jpg/960px-Redmi_K60_and_Redmi_Watch_3.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Redmi_K60_and_Redmi_Watch_3.jpg/960px-Redmi_K60_and_Redmi_Watch_3.jpg",
  specs:  {
   Display:  "1.97\" AMOLED",
   Battery:  "Up to 20 days",
@@ -1669,7 +1669,7 @@ GW.realGadgetEntries.push(
  status:  "published",
  tagline:  "The pocketable daily charger",
  summary:  "Slim 10,000 mAh with 22.5W output and two ports. Charges a phone twice; too small for laptop top-ups.",
- image:  "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/MiPowerBankPro10000mAhQC30Xiaomi20240820001.jpg/960px-MiPowerBankPro10000mAhQC30Xiaomi20240820001.jpg",
+ image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/MiPowerBankPro10000mAhQC30Xiaomi20240820001.jpg/960px-MiPowerBankPro10000mAhQC30Xiaomi20240820001.jpg",
  specs:  {
   Capacity:  "10,000 mAh",
   Output:  "22.5W max",

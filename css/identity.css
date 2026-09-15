@@ -167,7 +167,7 @@
 .cta-band {
   background:
     radial-gradient(700px 300px at 85% 120%, rgba(91, 75, 219, .35), transparent 60%),
-    linear-gradient(150deg, var(--hero-1), var(--hero-2));
+    linear-gradient(150deg, var(--hero-2), var(--hero-1));
   color: var(--on-hero);
   border-left: 4px solid var(--accent-warm);
 }
@@ -199,3 +199,21 @@
 
 /* "How GadgetWise helps": open columns, not three boxes */
 .grid-3 .panel { border: 0; box-shadow: none; background: transparent; padding: 0; border-top: 2px solid var(--primary-soft); border-radius: 0; padding-top: 14px; }
+
+/* ---------- Visual-audit fixes (v3.2) ---------- */
+/* search icon/placeholder collision: input needs left padding for the 38px icon gutter */
+.site-header .search-box input,
+.hero-search .search-box input { padding-left: 38px; }
+
+/* cheapest-to-own rows: name / rating / price each on its own line, all screens */
+.list-row .lr-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.list-row .t-title { display: block; }
+.list-row .lr-price { font-family: var(--font-mono); font-weight: 600; color: var(--primary-dark); }
+.list-row .lr-price em { font-style: normal; font-weight: 400; color: var(--ink-3); font-size: .8em; }
+.list-row img { border-radius: var(--r-sm); }
+
+/* cheapest-to-own: rows span the container so the section doesn't read half-empty */
+#worthSection .stack { max-width: none; }
+.list-row { display: flex; align-items: center; gap: 16px; padding: 12px 4px; }
+.list-row .thumb { width: 76px; height: 56px; object-fit: contain; background: var(--surface); border: 1px solid var(--line); }
+.list-row .t-title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
