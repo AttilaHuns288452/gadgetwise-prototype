@@ -1,6 +1,6 @@
 
 /* ============================================================
-   "Warm Indigo + Coral + Cream" visual identity rules (v3)
+   "Electric Blue + Dusty Gray" visual identity rules (v4)
    Hero · nav · category tints · product cards · Performance to Cost ·
    compare tints · breakdown meters · section rhythm.
    ============================================================ */
@@ -8,8 +8,8 @@
 /* ---------- Hero: deep indigo/plum, one soft tonal glow (no blobs) ---------- */
 .hero {
   background:
-    radial-gradient(1100px 420px at 12% -10%, rgba(91, 75, 219, .38), transparent 60%),
-    linear-gradient(160deg, #362E6E 0%, var(--hero-1) 52%, var(--hero-2) 100%);
+    radial-gradient(1100px 420px at 12% -10%, rgba(37, 99, 235, .30), transparent 60%),
+    linear-gradient(160deg, #1E2A44 0%, var(--hero-1) 52%, var(--hero-2) 100%);
   color: var(--on-hero);
   border-bottom: 3px solid var(--accent-warm);
 }
@@ -28,7 +28,7 @@
 .hero-search .search-box .icon { color: var(--on-hero-2); }
 
 /* ---------- Hero product panel: warm accent edge + cool tinted head ---------- */
-.hero-visual .float-note { background: var(--accent-warm); color: #312A67; }
+.hero-visual .float-note { background: var(--accent-warm); color: #172033; }
 .value-tag { border-top: 4px solid var(--primary); }
 .value-tag::before { border-color: var(--primary-soft); background: var(--bg); }
 .value-tag .vt-total .t-value { color: var(--primary-dark); }
@@ -94,20 +94,20 @@
 }
 .cat-card .cat-ico svg { width: 26px; height: 26px; }
 /* one family: lavender ↔ coral-cream ramp, per spec 10 */
-.cat-card[data-cat="laptops"]      { --cat-tint: #5B4BDB; --cat-tint-soft: #EEEBFF; --cat-tint-line: #DCD5F7; --cat-tint-ink: #4638B8; }
-.cat-card[data-cat="smartphones"]  { --cat-tint: #6E5FD6; --cat-tint-soft: #F0EDFF; --cat-tint-line: #DED9F6; --cat-tint-ink: #4E41B5; }
-.cat-card[data-cat="tablets"]      { --cat-tint: #D97B6C; --cat-tint-soft: #FFF0EA; --cat-tint-line: #F6D9CF; --cat-tint-ink: #A8431F; }
-.cat-card[data-cat="headphones"]   { --cat-tint: #C58A32; --cat-tint-soft: #FAF1E6; --cat-tint-line: #EDDFC6; --cat-tint-ink: #8A5D1D; }
-.cat-card[data-cat="powerbanks"]   { --cat-tint: #D97B6C; --cat-tint-soft: #FFF0EA; --cat-tint-line: #F6D9CF; --cat-tint-ink: #A8431F; }
-.cat-card[data-cat="smartwatches"] { --cat-tint: #7A63DE; --cat-tint-soft: #F3EEFF; --cat-tint-line: #E0D9F3; --cat-tint-ink: #4E41B5; }
+.cat-card[data-cat="laptops"]      { --cat-tint: #2563EB; --cat-tint-soft: #E8F0FF; --cat-tint-line: #D3E2FB; --cat-tint-ink: #1D4ED8; }
+.cat-card[data-cat="smartphones"]  { --cat-tint: #3B76F0; --cat-tint-soft: #EEF3FF; --cat-tint-line: #D6E2F9; --cat-tint-ink: #2B5CC9; }
+.cat-card[data-cat="tablets"]      { --cat-tint: #E89552; --cat-tint-soft: #FFF1E3; --cat-tint-line: #F7DFC8; --cat-tint-ink: #A05A1C; }
+.cat-card[data-cat="headphones"]   { --cat-tint: #C58A32; --cat-tint-soft: #FFF1E3; --cat-tint-line: #F2E2CC; --cat-tint-ink: #96631F; }
+.cat-card[data-cat="powerbanks"]   { --cat-tint: #D9822F; --cat-tint-soft: #F3F1EE; --cat-tint-line: #E3DFD8; --cat-tint-ink: #A05A1C; }
+.cat-card[data-cat="smartwatches"] { --cat-tint: #3B76F0; --cat-tint-soft: #EDF2EE; --cat-tint-line: #D8DEE6; --cat-tint-ink: #2B5CC9; }
 
 /* ---------- Product cards: category eyebrow + ownership emphasis ---------- */
-.g-card[data-gadget-cat="laptops"]      { --g-tint: #5B4BDB; --g-tint-soft: #EEEBFF; --g-tint-ink: #4638B8; }
-.g-card[data-gadget-cat="smartphones"]  { --g-tint: #6E5FD6; --g-tint-soft: #F0EDFF; --g-tint-ink: #4E41B5; }
-.g-card[data-gadget-cat="tablets"]      { --g-tint: #D97B6C; --g-tint-soft: #FFF0EA; --g-tint-ink: #A8431F; }
-.g-card[data-gadget-cat="headphones"]   { --g-tint: #C58A32; --g-tint-soft: #FAF1E6; --g-tint-ink: #8A5D1D; }
-.g-card[data-gadget-cat="powerbanks"]   { --g-tint: #D97B6C; --g-tint-soft: #FFF0EA; --g-tint-ink: #A8431F; }
-.g-card[data-gadget-cat="smartwatches"] { --g-tint: #7A63DE; --g-tint-soft: #F3EEFF; --g-tint-ink: #4E41B5; }
+.g-card[data-gadget-cat="laptops"]      { --g-tint: #2563EB; --g-tint-soft: #E8F0FF; --g-tint-ink: #1D4ED8; }
+.g-card[data-gadget-cat="smartphones"]  { --g-tint: #3B76F0; --g-tint-soft: #EEF3FF; --g-tint-ink: #2B5CC9; }
+.g-card[data-gadget-cat="tablets"]      { --g-tint: #E89552; --g-tint-soft: #FFF1E3; --g-tint-ink: #A05A1C; }
+.g-card[data-gadget-cat="headphones"]   { --g-tint: #C58A32; --g-tint-soft: #FFF1E3; --g-tint-ink: #96631F; }
+.g-card[data-gadget-cat="powerbanks"]   { --g-tint: #D9822F; --g-tint-soft: #F3F1EE; --g-tint-ink: #A05A1C; }
+.g-card[data-gadget-cat="smartwatches"] { --g-tint: #3B76F0; --g-tint-soft: #EDF2EE; --g-tint-ink: #2B5CC9; }
 .g-card .g-cat {
   background: var(--g-tint-soft, var(--surface-2));
   color: var(--g-tint-ink, var(--ink-2));
@@ -154,7 +154,7 @@
 .rec-result.rr-top .score-ring .ring-label b { color: var(--primary-dark); }
 
 /* ---------- Buttons: coral only for the featured action ---------- */
-.btn-warm { background: var(--accent-warm); color: #312A67; }
+.btn-warm { background: var(--accent-warm); color: #172033; }
 .btn-warm:hover { background: var(--warm-dark); color: #fff; }
 
 /* ---------- Badges stay meaningful ---------- */
@@ -166,7 +166,7 @@
 .flow-step .fs-k { color: var(--primary); }
 .cta-band {
   background:
-    radial-gradient(700px 300px at 85% 120%, rgba(91, 75, 219, .35), transparent 60%),
+    radial-gradient(700px 300px at 85% 120%, rgba(37, 99, 235, .30), transparent 60%),
     linear-gradient(150deg, var(--hero-2), var(--hero-1));
   color: var(--on-hero);
   border-left: 4px solid var(--accent-warm);
@@ -182,7 +182,7 @@
 /* ---------- Admin: same family, darker indigo sidebar ---------- */
 .admin-sidebar { background: var(--hero-2); }
 .admin-brand .logo .logo-wise { color: var(--accent-warm); }
-.admin-nav a.active { background: rgba(91, 75, 219, .45); color: #cdc4ff; }
+.admin-nav a.active { background: rgba(37, 99, 235, .40); color: #cdc4ff; }
 .admin-nav a:hover { background: rgba(255,255,255,.08); }
 
 /* ---------- Footer ---------- */

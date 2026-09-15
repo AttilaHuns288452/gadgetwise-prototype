@@ -1,8 +1,8 @@
 /* ============================================================
    GadgetWise — css/styles.css
-   Design system: "Warm Indigo + Coral + Cream" (v3 visual identity)
-   Warm cream ground · deep indigo brand · small coral accents ·
-   semantic colors kept separate.
+   Design system: "Electric Blue + Dusty Gray" (v4 visual identity)
+   Dusty gray ground · electric blue brand · deep blue-charcoal surfaces ·
+   small warm-orange accents · semantic colors kept separate.
    Prototype for CC 116 — not production code.
    ============================================================ */
 
@@ -10,41 +10,41 @@
    Palette relationships:
    - ~75% neutral surfaces (warm paper, white cards)
    - ~12% primary indigo (buttons, links, scores, active states)
-   - ~5% coral (student-favorite, featured accents) only
+   - ~5% warm orange (student-favorite, featured accents) only
    - Hero + CTA are the two dark indigo surfaces — the site's anchors. */
 :root {
   /* new-identity tokens */
-  --bg: #F8F7F4;
+  --bg: #F3F1EE;
   --surface: #ffffff;
-  --surface-2: #F3F1EE;
-  --ink: #181621;
-  --ink-2: #5F5B68;
-  --ink-3: #85808D;
-  --primary: #5B4BDB;
-  --primary-dark: #4638B8;
-  --primary-soft: #EEEBFF;
-  --primary-wash: #F5F2FF;
-  --accent-warm: #F28C6B;
-  --warm-dark: #D96F50;
-  --accent-warm-deep: #A8431F;
-  --accent-warm-soft: #FFF0EA;
+  --surface-2: #ECEBE8;
+  --ink: #171A21;
+  --ink-2: #596170;
+  --ink-3: #7A8391;
+  --primary: #2563EB;
+  --primary-dark: #1D4ED8;
+  --primary-soft: #E8F0FF;
+  --primary-wash: #F3F7FF;
+  --accent-warm: #F0A35B;
+  --warm-dark: #D9822F;
+  --accent-warm-deep: #A05A1C;
+  --accent-warm-soft: #FFF1E3;
   --info: #2F5F9E;
   --accent-teal-bright: #3E6BC7;
   --accent-teal-soft: #E5ECF6;
-  --success: #2E8B68;
-  --success-soft: #E7F5EF;
-  --warning: #8A5D1D;
-  --warning-soft: #FAF1DD;
-  --danger: #C95757;
-  --danger-soft: #FBEAEA;
-  --info: #3E6BC7;
+  --success: #3B8665;
+  --success-soft: #E6F3EC;
+  --warning: #96631F;
+  --warning-soft: #FAF0DC;
+  --danger: #C6535B;
+  --danger-soft: #F9E9EB;
+  --info: #2563EB;
   --info-soft: #E5ECF6;
-  --line: #E7E3DE;
-  --line-strong: #D7D1CA;
-  --hero-1: #312A67;
-  --hero-2: #272254;
-  --on-hero: #F3F1FE;
-  --on-hero-2: #BBB4DE;
+  --line: #D9DCE2;
+  --line-strong: #C8CDD6;
+  --hero-1: #172033;
+  --hero-2: #202B42;
+  --on-hero: #F4F6FA;
+  --on-hero-2: #A9B4C9;
 
   /* legacy aliases (kept so all existing var() references resolve) */
   --paper: var(--bg);
@@ -60,11 +60,11 @@
   --red: var(--danger);
   --red-soft: var(--danger-soft);
   --cyan: var(--accent-teal-bright);
-  --ink-2: #5F5B68;
+  --ink-2: #596170;
   --line-2: var(--line-strong);
 
-  --shadow-1: 0 1px 2px rgba(24,21,33,.04), 0 8px 24px rgba(24,21,33,.07);
-  --shadow-2: 0 1px 2px rgba(24,21,33,.04), 0 8px 24px rgba(24,21,33,.07), 0 16px 40px rgba(24,21,33,.06);
+  --shadow-1: 0 1px 2px rgba(23,32,51,.04), 0 8px 24px rgba(23,32,51,.07);
+  --shadow-2: 0 1px 2px rgba(23,32,51,.05), 0 10px 28px rgba(23,32,51,.08), 0 18px 44px rgba(23,32,51,.06);
   --r-sm: 6px; --r-md: 10px; --r-lg: 14px;
   --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
@@ -699,9 +699,9 @@ select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmln
 /* ---------- Home ---------- */
 .hero { padding: 72px 0 60px; }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 56px; align-items: center; }
-.hero h1 { margin-bottom: 18px; }
+.hero h1 { margin-bottom: 18px; color: #fff; }
 .hero h1 .h-accent { color: var(--accent-strong); }
-.hero .lede { font-size: 1.08rem; color: var(--ink-2); max-width: 54ch; margin-bottom: 28px; }
+.hero .lede { font-size: 1.08rem; color: var(--on-hero-2); max-width: 54ch; margin-bottom: 28px; }
 .hero-search { display: flex; gap: 10px; max-width: 520px; }
 .hero-search .search-box { flex: 1; }
 .hero-search .search-box input { padding: 13px 14px 13px 40px; font-size: .96rem; }
@@ -797,6 +797,6 @@ select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmln
   .g-foot .price-block { display: flex; justify-content: space-between; align-items: baseline; }
 }
 
-/* hero CTA: primary button pops white-on-hero (indigo fill reads disabled on indigo) */
-.hero .btn { background: #fff; color: var(--primary-dark); }
-.hero .btn:hover { background: var(--primary-soft); }
+/* hero CTA: electric blue primary + white-outline secondary per spec 8 */
+.hero .btn { background: var(--primary); color: #fff; }
+.hero .btn:hover { background: var(--primary-dark); }
