@@ -278,7 +278,7 @@
           <article class="rec-result ${isTop ? "rr-top" : ""}">
             <div class="rr-head">
               <span class="rank">#${i + 1}</span>
-              <a class="rr-media" href="${GWApp.gadgetUrl(g.id)}"><img src="${g.image}" alt="Placeholder artwork for ${esc(g.brand)} ${esc(g.model)}"></a>
+              <a class="rr-media" href="${GWApp.gadgetUrl(g.id)}"><img src="${g.image}" alt="${esc(g.brand)} ${esc(g.model)}"></a>
               <div style="flex:1; min-width:0">
                 <div class="g-brand">${esc(g.brand)} · ${esc(GWApp.catLabel(g.category))}</div>
                 <h3 style="margin:2px 0 4px"><a href="${GWApp.gadgetUrl(g.id)}" style="color:inherit">${esc(g.model)}</a></h3>

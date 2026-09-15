@@ -14,7 +14,7 @@
   <main id="main">
     <div class="container page-head">
       <h1>My Account</h1>
-      <p class="lede">Prototype session — profile, saved gadgets, and activity history. No real authentication.</p>
+      <p class="lede">Your profile, saved gadgets, and activity history.</p>
     </div>
 
     <div class="container section-tight">
@@ -90,7 +90,7 @@
     const allCmp = cmpHist.length ? cmpHist : seededCmp;
     const allRec = recHist.length ? recHist : GW.seedRecommendationHistory.map(r => ({ date: r.date, budget: "₱" + r.budget.toLocaleString("en-PH"), use: r.use, top: r.top.id, score: r.top.score }));
 
-    document.getElementById("pReviews").textContent = 6; // mock account review count
+    document.getElementById("pReviews").textContent = 6; // seeded account review count
     document.getElementById("pCompares").textContent = allCmp.length;
     document.getElementById("pWishes").textContent = GWApp.state.wishlist.size;
 

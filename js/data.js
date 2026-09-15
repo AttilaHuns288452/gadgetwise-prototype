@@ -91,12 +91,12 @@ GW.realGadgetEntries = [
   strengths:  [
    "14–15 hr real-world battery",
    "Silent, fanless operation",
-   "Best-in-class trackpad and speakers"
+   "Large force-sensing trackpad, quad speakers"
   ],
   weaknesses:  [
    "256GB base storage fills fast",
    "RAM is not upgradeable",
-   "Expensive out-of-warranty repairs"
+   "Out-of-warranty service is costly"
   ],
   goodFor:  [
    "Programming and thesis builds",
@@ -212,12 +212,12 @@ GW.realGadgetEntries = [
    repairabilityLabel:  "Easy — standard parts, cheap fixes"
   },
   strengths:  [
-   "Standard parts — cheap, available fixes",
+   "Standard, widely available parts",
    "RAM and SSD are user-upgradeable",
    "Strong performance per peso"
   ],
   weaknesses:  [
-   "Plastic chassis flexes under torsion",
+   "Plastic chassis flexes under pressure",
    "Display is dim for outdoor use"
   ],
   goodFor:  [
@@ -334,13 +334,13 @@ GW.realGadgetEntries = [
    repairabilityLabel:  "Easy — standard parts, cheap fixes"
   },
   strengths:  [
-   "Two-year warranty — longest of the laptops",
+   "Two-year warranty",
    "OLED panel for design work",
    "16GB RAM out of the box"
   ],
   weaknesses:  [
-   "Fan spins up under sustained compiles",
-   "Battery trails the class average"
+   "Audible fan under sustained load",
+   "Below-average battery life"
   ],
   goodFor:  [
    "Design and multimedia coursework",
@@ -456,14 +456,14 @@ GW.realGadgetEntries = [
    repairabilityLabel:  "Hard — authorized service only"
   },
   strengths:  [
-   "Longest software support in the tablet class",
-   "Cheapest entry into the Pencil note-taking workflow",
-   "Strong resale value"
+   "5+ years of iPadOS updates",
+   "Lowest-cost Apple Pencil support",
+   "Holds resale value well"
   ],
   weaknesses:  [
-   "64GB base storage is tight",
-   "Non-laminated display adds glare",
-   "Pencil and keyboard cost extra"
+   "64GB base storage",
+   "Non-laminated display",
+   "Pencil and keyboard sold separately"
   ],
   goodFor:  [
    "Paperless note-taking",
@@ -546,7 +546,7 @@ GW.realGadgetEntries = [
   reviewCount:  130,
   releaseYear:  2024,
   status:  "published",
-  tagline:  "144Hz 3.2K display at a mid-range price",
+  tagline:  "144Hz 3.2K display",
   summary:  "A full day of classes on one charge and a display that embarrasses pricier tablets. Stylus and keyboard sold separately.",
   image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Xiaomi_Pad_7.jpg/960px-Xiaomi_Pad_7.jpg",
   specs:  {
@@ -579,13 +579,13 @@ GW.realGadgetEntries = [
    repairabilityLabel:  "Moderate — some parts need a shop"
   },
   strengths:  [
-   "144Hz 3.2K display at a mid-range price",
-   "Snapdragon 7+ Gen 3 handles heavy apps",
-   "8,850 mAh lasts full-day schedules"
+   "144Hz 3.2K display",
+   "Snapdragon 7+ Gen 3",
+   "8,850 mAh full-day battery"
   ],
   weaknesses:  [
    "Stylus and keyboard sold separately",
-   "Note-app ecosystem trails iPad"
+   "Fewer note-app integrations than iPad"
   ],
   goodFor:  [
    "Video streaming and reading",
@@ -701,14 +701,14 @@ GW.realGadgetEntries = [
    repairabilityLabel:  "Moderate — some parts need a shop"
   },
   strengths:  [
-   "AMOLED 90Hz at a budget price",
-   "33W charging — full in about an hour",
-   "Parts and technicians are everywhere"
+   "AMOLED 90Hz display",
+   "33W fast charging",
+   "Widely available parts and service"
   ],
   weaknesses:  [
-   "Helio G96 slows on heavy apps",
-   "Camera struggles in low light",
-   "Bloatware out of the box"
+   "Helio G96, entry-level performance",
+   "Weak low-light camera",
+   "Preinstalled third-party apps"
   ],
   goodFor:  [
    "Calls, GCash, school apps",
@@ -825,14 +825,14 @@ GW.realGadgetEntries = [
    repairabilityLabel:  "Hard — authorized service only"
   },
   strengths:  [
-   "Flagship camera — night mode handles indoor events",
-   "Compact one-handed body",
-   "4 OS + 5 years security updates"
+   "Flagship camera with night mode",
+   "Compact 168 g body",
+   "4 OS upgrades + 5 years security updates"
   ],
   weaknesses:  [
-   "Small 3,900 mAh battery needs top-ups",
-   "25W charging is slow for the class",
-   "Premium repair costs"
+   "3,900 mAh — smallest in class",
+   "25W charging",
+   "High out-of-warranty service cost"
   ],
   goodFor:  [
    "Photography and content creation",
@@ -949,14 +949,14 @@ GW.realGadgetEntries = [
    repairabilityLabel:  "Moderate — some parts need a shop"
   },
   strengths:  [
-   "Pure Bass sound for commutes",
-   "Aux cable works when the battery dies",
-   "Folds flat inside a bag"
+   "JBL Pure Bass sound",
+   "Wired aux backup",
+   "Flat-folding design"
   ],
   weaknesses:  [
-   "Ear pads flake around month 11",
+   "Ear pads wear within a year",
    "No active noise cancelling",
-   "Mic quality is average for calls"
+   "Average call mic quality"
   ],
   goodFor:  [
    "Jeepney and LRT commutes",
@@ -1039,7 +1039,7 @@ GW.realGadgetEntries = [
   releaseYear:  2018,
   status:  "published",
   tagline:  "Brownout insurance with an 18-month warranty",
-  summary:  "20,000 mAh that trickle-charges laptops and outlasts outages. Heavy in a small bag, slow to recharge itself.",
+  summary:  "20,000 mAh capacity with 18W USB-C PD in and out — enough to keep a phone, tablet, and router alive through a long outage.",
   image:  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Anker_power_bank_lit.jpg/960px-Anker_power_bank_lit.jpg",
   specs:  {
    Capacity:  "20,000 mAh",
@@ -1071,13 +1071,13 @@ GW.realGadgetEntries = [
    repairabilityLabel:  "Moderate — some parts need a shop"
   },
   strengths:  [
-   "18W PD tops phones fast, trickle-charges laptops",
-   "18-month warranty — rare in this class",
-   "Four years of service without swelling"
+   "18W USB-C PD two-way charging",
+   "20,000 mAh — about 4 full phone charges",
+   "18-month warranty"
   ],
   weaknesses:  [
-   "Heavy in a small bag (≈355 g)",
-   "Slow to recharge itself overnight"
+   "355 g — heavier than pocket-size banks",
+   "Full recharge takes several hours"
   ],
   goodFor:  [
    "Long field days and brownouts",
@@ -1183,14 +1183,14 @@ GW.realGadgetEntries = [
    repairabilityLabel:  "Hard — authorized service only"
   },
   strengths:  [
-   "Up to 30-day battery — charge monthly",
-   "Silent vibrating alarms for early classes",
-   "Lightweight enough to forget wearing"
+   "Up to 30-day battery",
+   "Silent vibrating alarms",
+   "31 g lightweight body"
   ],
   weaknesses:  [
-   "GPS locks slowly near tall buildings",
-   "Basic fitness metrics only",
-   "Screen scratches without a film"
+   "Slow GPS lock",
+   "Basic fitness tracking",
+   "Unprotected screen glass"
   ],
   goodFor:  [
    "7:30am class alarms",
@@ -1216,7 +1216,7 @@ GW.realGadgetEntries = [
   repair:  2.9,
   raters:  140,
   pop:  58,
-  issue:  "GPS locks slowly near tall buildings",
+  issue:  "Slow GPS lock",
   uses:  {
    programming:  0,
    design:  0,
@@ -1255,7 +1255,7 @@ GW.realGadgetEntries = [
   issues:  [
    {
     id:  "i-amazfit-bip",
-    title:  "GPS locks slowly near tall buildings",
+    title:  "Slow GPS lock",
     reportedBy:  "Community report",
     date:  "2026-06-01",
     status:  "confirmed",
@@ -1291,8 +1291,8 @@ GW.realGadgetEntries.push(
  specList:  ["Intel Core i3-N305", "8GB · 512GB SSD", "15.6-inch FHD", "Battery ~7 hr", "1.62 kg"],
  scored:  { performance: 4.5, battery: 6.5, durability: 6.0, portability: 6.5, display: 5.0, camera: 3.0, storage: 6.5, repairability: 7.5 },
  value:  { warrantyYears: 1, lifespanYears: 4, repairabilityLabel: "Easy — standard RAM and SSD slots" },
- strengths:  ["Very affordable for the size", "User-upgradeable RAM and storage", "Full-size keyboard with numpad"],
- weaknesses:  ["Dim TN panel — poor viewing angles", "Integrated graphics only", "Chassis flexes under pressure"],
+ strengths:  ["15.6-inch screen at an entry price", "User-upgradeable RAM and storage", "Full-size keyboard with numpad"],
+ weaknesses:  ["TN panel, narrow viewing angles", "Integrated graphics only", "Chassis flex under pressure"],
  goodFor:  ["Documents and online classes", "First laptop on a tight budget", "Typing-heavy coursework"],
  notIdeal:  ["Photo or video editing", "Outdoor use in sunlight"],
  cx:  { perf: 45, display: 50, battery: 65, portability: 65, durab: 60, repair: 75, camera: 30, storage: 65 },
@@ -1333,8 +1333,8 @@ GW.realGadgetEntries.push(
  specList:  ["AMD Ryzen 5 5500U", "8GB · 512GB SSD", "15.6-inch FHD IPS", "Battery ~8 hr claimed", "1.69 kg"],
  scored:  { performance: 6.0, battery: 6.0, durability: 6.5, portability: 6.0, display: 6.5, camera: 3.5, storage: 6.5, repairability: 7.0 },
  value:  { warrantyYears: 1, lifespanYears: 4, repairabilityLabel: "Easy — widely available parts" },
- strengths:  ["Ryzen 5 handles multitasking well", "IPS panel — decent colors", "Service centers everywhere"],
- weaknesses:  ["Speakers are tinny", "Battery dips below claims with Wi-Fi on", "No card reader"],
+ strengths:  ["Ryzen 5, 8-core CPU", "IPS panel", "Nationwide service centers"],
+ weaknesses:  ["Thin speaker output", "Battery below stated rating under Wi-Fi load", "No card reader"],
  goodFor:  ["Multitasking schoolwork", "Presentations and documents", "Students near HP service centers"],
  notIdeal:  ["Media watching without external speakers", "All-day battery-dependent schedules"],
  cx:  { perf: 60, display: 65, battery: 60, portability: 60, durab: 65, repair: 70, camera: 35, storage: 65 },
@@ -1374,8 +1374,8 @@ GW.realGadgetEntries.push(
  specList:  ["Intel i5-12500H", "RTX 3050 4GB", "16GB · 512GB SSD", "15.6-inch FHD 144Hz", "2.2 kg"],
  scored:  { performance: 8.5, battery: 5.0, durability: 8.5, portability: 4.5, display: 7.5, camera: 3.0, storage: 6.5, repairability: 6.5 },
  value:  { warrantyYears: 2, lifespanYears: 5, repairabilityLabel: "Moderate — two RAM slots, standard parts" },
- strengths:  ["RTX 3050 runs games and CUDA coursework", "Military-grade drop and torsion testing", "144Hz panel for smooth visuals"],
- weaknesses:  ["Heavy for a daily commute", "Fans are loud under load", "Battery barely lasts a lecture block"],
+ strengths:  ["RTX 3050 dedicated GPU", "MIL-STD-810H durability testing", "144Hz display"],
+ weaknesses:  ["2.3 kg carry weight", "Loud fans under load", "Short battery life (~5 hr)"],
  goodFor:  ["Game development coursework", "Engineering and CUDA labs", "Students who want one machine for work and play"],
  notIdeal:  ["Frequent commuters without outlets", "Quiet library use"],
  cx:  { perf: 85, display: 75, battery: 50, portability: 45, durab: 85, repair: 65, camera: 30, storage: 65 },
@@ -1414,8 +1414,8 @@ GW.realGadgetEntries.push(
  specList:  ["6.5\" Super AMOLED 90Hz", "Helio G99", "8GB · 128GB", "5,000 mAh · 25W", "50MP triple camera"],
  scored:  { performance: 5.0, battery: 7.5, durability: 6.5, portability: 8.0, display: 7.5, camera: 5.5, storage: 6.0, repairability: 6.0 },
  value:  { warrantyYears: 1, lifespanYears: 4, repairabilityLabel: "Moderate — Samsung service network" },
- strengths:  ["Super AMOLED at this price is rare", "4 OS + 5 years security updates", "microSD slot for cheap storage"],
- weaknesses:  ["25W charging needs an hour+", "Helio G99 is mid at best", "No IP rating"],
+ strengths:  ["Super AMOLED 90Hz display", "4 OS upgrades + 5 years security updates", "microSD expansion"],
+ weaknesses:  ["25W charging, ~80 min to full", "Helio G99, mid-tier performance", "No IP rating"],
  goodFor:  ["Long-term phone on a budget", "Media watching between classes", "Students in the Samsung ecosystem"],
  notIdeal:  ["Mobile gaming", "Fast top-ups between classes"],
  cx:  { perf: 50, display: 75, battery: 75, portability: 80, durab: 65, repair: 60, camera: 55, storage: 60 },
@@ -1454,8 +1454,8 @@ GW.realGadgetEntries.push(
  specList:  ["6.67\" AMOLED 120Hz", "Dimensity 8300-Ultra", "12GB · 512GB", "5,500 mAh · 67W", "64MP OIS camera"],
  scored:  { performance: 8.0, battery: 8.0, durability: 6.0, portability: 7.5, display: 8.0, camera: 6.5, storage: 8.5, repairability: 5.5 },
  value:  { warrantyYears: 1, lifespanYears: 3.5, repairabilityLabel: "Moderate — parts via service centers" },
- strengths:  ["Flagship-tier chipset for the price", "67W fills the battery in ~45 min", "512GB storage as standard"],
- weaknesses:  ["HyperOS shows preinstalled ads", "No IP rating", "Camera falls off in low light"],
+ strengths:  ["Dimensity 8300-Ultra chipset", "67W fast charging", "512GB storage standard"],
+ weaknesses:  ["Preinstalled third-party apps", "No IP rating", "Weak low-light camera"],
  goodFor:  ["Mobile gaming between classes", "Heavy multitaskers", "Students who hoard media offline"],
  notIdeal:  ["Ad-free purists", "Photography-first students"],
  cx:  { perf: 80, display: 80, battery: 80, portability: 75, durab: 60, repair: 55, camera: 65, storage: 85 },
@@ -1494,8 +1494,8 @@ GW.realGadgetEntries.push(
  specList:  ["6.72\" IPS LCD 90Hz", "Snapdragon 685", "8GB · 128GB", "5,000 mAh · 33W", "108MP main camera"],
  scored:  { performance: 4.0, battery: 7.5, durability: 6.0, portability: 7.5, display: 6.0, camera: 5.0, storage: 5.5, repairability: 6.5 },
  value:  { warrantyYears: 1, lifespanYears: 3, repairabilityLabel: "Easy — cheap parts, common brand" },
- strengths:  ["33W charges fast for the class", "Big bright 90Hz screen", "108MP main camera resolves detail in daylight"],
- weaknesses:  ["Snapdragon 685 is entry-level", "IPS washes out outdoors", "Bloatware out of the box"],
+ strengths:  ["33W fast charging", "6.72-inch 90Hz display", "108MP main camera"],
+ weaknesses:  ["Snapdragon 685, entry-level", "Low outdoor display brightness", "Preinstalled third-party apps"],
  goodFor:  ["Tightest budgets", "First smartphone", "Backup phone for fieldwork"],
  notIdeal:  ["Gaming", "Sunlight-heavy commutes"],
  cx:  { perf: 40, display: 60, battery: 75, portability: 75, durab: 60, repair: 65, camera: 50, storage: 55 },
@@ -1534,8 +1534,8 @@ GW.realGadgetEntries.push(
  specList:  ["11\" 90Hz LCD", "Snapdragon 695", "8GB · 128GB", "7,040 mAh · 15W", "Quad speakers"],
  scored:  { performance: 5.5, battery: 7.5, durability: 6.0, portability: 7.0, display: 7.0, camera: 3.5, storage: 6.0, repairability: 5.5 },
  value:  { warrantyYears: 1, lifespanYears: 4, repairabilityLabel: "Moderate — Samsung service network" },
- strengths:  ["Big smooth screen for PDFs and lectures", "Quad speakers fill a room", "Samsung multi-device extras"],
- weaknesses:  ["No stylus support", "15W charging is slow for the size", "Cameras are an afterthought"],
+ strengths:  ["11-inch 90Hz display", "Quad speakers", "Samsung multi-device pairing"],
+ weaknesses:  ["No stylus support", "15W charging", "Basic cameras"],
  goodFor:  ["Lecture playback and PDF reading", "Split-screen note review", "Shared household use"],
  notIdeal:  ["Handwritten note-taking", "Photography"],
  cx:  { perf: 55, display: 70, battery: 75, portability: 70, durab: 60, repair: 55, camera: 35, storage: 60 },
@@ -1574,8 +1574,8 @@ GW.realGadgetEntries.push(
  specList:  ["Neckband wireless", "Extra Bass", "~15 hr battery", "USB-C", "Magnetic buds"],
  scored:  { performance: 5.5, battery: 6.5, durability: 6.5, portability: 8.5, display: 0, camera: 0, storage: 0, repairability: 5.0 },
  value:  { warrantyYears: 1, lifespanYears: 2.5, repairabilityLabel: "Moderate — battery is sealed" },
- strengths:  ["Bass-heavy sound for commutes", "Magnetic buds click together around the neck", "15 hours is genuinely a week of classes"],
- weaknesses:  ["No active noise canceling", "Mic quality is mediocre for calls", "Neckband style isn't for everyone"],
+ strengths:  ["EXTRA BASS sound", "Magnetic neckband buds", "15-hour battery"],
+ weaknesses:  ["No active noise cancelling", "Average call mic quality", "Neckband form factor"],
  goodFor:  ["Jeepney and LRT commutes", "Casual listening between classes", "Students who lose true-wireless buds"],
  notIdeal:  ["Online recitations (mic)", "Quiet library shared audio"],
  cx:  { perf: 55, display: 0, battery: 65, portability: 85, durab: 65, repair: 50, camera: 0, storage: 0 },
@@ -1614,8 +1614,8 @@ GW.realGadgetEntries.push(
  specList:  ["1.47\" AMOLED", "Up to 14-day battery", "HR + SpO2 + sleep", "5 ATM", "14 g"],
  scored:  { performance: 4.0, battery: 9.5, durability: 7.0, portability: 9.5, display: 7.0, camera: 0, storage: 0, repairability: 4.0 },
  value:  { warrantyYears: 1, lifespanYears: 3, repairabilityLabel: "Hard — sealed unit, band is replaceable" },
- strengths:  ["Two weeks per charge is real", "Slim enough to sleep in", "Bright AMOLED readable outdoors"],
- weaknesses:  ["Can't reply to messages", "No GPS — phone required for runs", "Huawei Health app needs sideloading setup"],
+ strengths:  ["Two-week battery", "Slim, sleep-friendly body", "Bright AMOLED display"],
+ weaknesses:  ["No message replies from watch", "No onboard GPS", "Requires Huawei Health app setup"],
  goodFor:  ["Sleep and habit tracking", "Silent vibrating alarms", "7:30am class survival"],
  notIdeal:  ["Serious run training", "Replying from the wrist"],
  cx:  { perf: 40, display: 70, battery: 95, portability: 95, durab: 70, repair: 40, camera: 0, storage: 0 },
@@ -1654,8 +1654,8 @@ GW.realGadgetEntries.push(
  specList:  ["1.97\" AMOLED", "Up to 20-day battery", "Bluetooth calling", "HR + SpO2", "5 ATM"],
  scored:  { performance: 4.5, battery: 9.0, durability: 6.5, portability: 9.0, display: 7.5, camera: 0, storage: 0, repairability: 4.0 },
  value:  { warrantyYears: 1, lifespanYears: 3, repairabilityLabel: "Hard — sealed unit" },
- strengths:  ["Big bright face with real watch aesthetics", "Bluetooth calls from the wrist", "20-day battery claim holds up in light use"],
- weaknesses:  ["No onboard GPS", "Xiaomi Wear app setup is clunky", "Speaker is tinny for calls"],
+ strengths:  ["1.75-inch AMOLED display", "Bluetooth calling", "Up to 20-day battery"],
+ weaknesses:  ["No onboard GPS", "Requires Xiaomi Wear app", "Thin call speaker"],
  goodFor:  ["Students who want calls on the wrist", "Notification triage during class", "Battery-forgetters"],
  notIdeal:  ["Phone-free runs", "Tiny-wrist fits (it's big)"],
  cx:  { perf: 45, display: 75, battery: 90, portability: 90, durab: 65, repair: 40, camera: 0, storage: 0 },
@@ -1694,8 +1694,8 @@ GW.realGadgetEntries.push(
  specList:  ["10,000 mAh", "22.5W max output", "USB-C + USB-A", "~4.5 hr recharge", "200 g"],
  scored:  { performance: 6.5, battery: 7.0, durability: 7.5, portability: 8.5, display: 0, camera: 0, storage: 0, repairability: 4.5 },
  value:  { warrantyYears: 1, lifespanYears: 3, repairabilityLabel: "Hard — sealed unit, common brand" },
- strengths:  ["Slim enough for a jeans pocket", "Charges two devices at once", "Price-to-capacity is unbeatable"],
- weaknesses:  ["Can't laptop trickle-charge meaningfully", "No passthrough while charging itself", "Cable not included"],
+ strengths:  ["Slim pocketable body", "Dual USB output", "10,000 mAh at an entry price"],
+ weaknesses:  ["Low-output port, not laptop-rated", "No passthrough charging", "Cable not included"],
  goodFor:  ["Daily carry phone top-ups", "Group-work charging duty", "Backup for brownouts"],
  notIdeal:  ["Laptop users between outlets", "Multi-day fieldwork without outlets"],
  cx:  { perf: 65, display: 0, battery: 70, portability: 85, durab: 75, repair: 45, camera: 0, storage: 0 },

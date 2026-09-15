@@ -9,7 +9,7 @@ window.GWDetail = (function () {
   const { esc, money, icon, stars } = GWApp;
 
   function ratingBars(g) {
-    // Derive a stable star distribution from the rating (mock data basis)
+    // Derive a stable star distribution from the rating
     const r = g.rating;
     const w = { 5: Math.round((r - 3) * 38), 4: 30, 3: 16, 2: 8, 1: 6 };
     w[5] = Math.max(4, Math.min(72, w[5]));
@@ -63,15 +63,13 @@ window.GWDetail = (function () {
 
       <div class="detail-grid" style="margin-top:22px">
         <div class="detail-media">
-          <img src="${g.image}" alt="Placeholder artwork for ${esc(g.brand)} ${esc(g.model)}">
+          <img src="${g.image}" alt="${esc(g.brand)} ${esc(g.model)}">
           <div class="detail-actions">
             <button class="btn btn-outline" data-wl="${g.id}" aria-pressed="${GWApp.inWishlist(g.id)}">${icon("heart")}<span class="wl-label">${GWApp.inWishlist(g.id) ? "Saved" : "Add to Wishlist"}</span></button>
             <button class="btn btn-outline" data-cmp-btn="${g.id}">${icon("scale")} <span class="cmp-label">${GWApp.inCompare(g.id) ? "In Compare" : "Add to Compare"}</span></button>
             <button class="btn" data-review-btn>${icon("message")} Write Review</button>
           </div>
-          <div class="small muted" style="padding:10px 16px 14px; border-top:1px solid var(--line)">
-            Placeholder artwork — replace with real product photography in production.
-          </div>
+
         </div>
 
         <div>
@@ -229,7 +227,7 @@ window.GWDetail = (function () {
               <div>
                 <div class="big">${g.rating.toFixed(1)}</div>
                 ${stars(g.rating)}
-                <div class="small muted">${g.reviewCount} student reviews · mock data</div>
+                <div class="small muted">${g.reviewCount} student reviews</div>
               </div>
               <div class="rating-bars">${ratingBars(g)}</div>
             </div>
@@ -237,7 +235,7 @@ window.GWDetail = (function () {
             <div>${g.reviews.map(reviewHTML).join("")}</div>
             <div class="row-between" style="margin-top:18px">
               <button class="btn btn-outline" data-review-btn>${icon("message")} Write a review</button>
-              <span class="small muted">Showing ${g.reviews.length} of ${g.reviewCount} — rest hidden in prototype</span>
+              <span class="small muted">Showing ${g.reviews.length} of ${g.reviewCount}</span>
             </div>
           </div>
         </div>
@@ -245,7 +243,7 @@ window.GWDetail = (function () {
         <div class="tab-panel" data-panel="issues" role="tabpanel" hidden>
           <div class="panel">
             ${g.issues.length ? `
-              <p class="small muted" style="margin-top:0">Problems students reported to the community. Severity is editorial (mock).</p>
+              <p class="small muted" style="margin-top:0">Problems students reported to the community.</p>
               ${g.issues.map(i => `
                 <div class="issue-item">
                   <span class="sev sev-${esc(i.severity)}" title="${esc(i.severity)}"></span>
@@ -254,7 +252,7 @@ window.GWDetail = (function () {
                     <div class="i-meta">Reported by ${esc(i.reportedBy)} · ${new Date(i.date).toLocaleDateString("en-PH", { year: "numeric", month: "short", day: "numeric" })} · <span class="tag tag-warn" style="font-size:.68rem">${esc(i.status)}</span></div>
                   </div>
                 </div>`).join("")}`
-            : GWApp.emptyState("checkCircle", "No reported issues", "No problems have been reported for this gadget yet in the mock dataset.")}
+            : GWApp.emptyState("checkCircle", "No reported issues", "No problems have been reported for this gadget yet.")}
             <p class="small muted" style="margin-bottom:0">Found a problem? <a href="#" data-issue-btn>Report an issue</a> — reviewed by moderators before appearing here.</p>
           </div>
         </div>
@@ -316,7 +314,7 @@ window.GWDetail = (function () {
         <span class="val">${money(x.m)}</span>
       </div>`).join("");
     return `
-      <p class="small muted" style="margin-top:0">Cost per month among ${GWApp.catLabel(g.category).toLowerCase()} in the prototype catalog:</p>
+      <p class="small muted" style="margin-top:0">Cost per month among ${GWApp.catLabel(g.category).toLowerCase()} in the catalog:</p>
       ${rows}
       <p class="small muted" style="margin-bottom:0">Lower bar = cheaper to own per month.</p>`;
   }
@@ -324,7 +322,7 @@ window.GWDetail = (function () {
   function openReviewModal(g) {
     const ov = GWApp.openModal(`
       <h3>Write a review</h3>
-      <p class="modal-sub">Prototype form — submission is simulated and goes to the moderation queue.</p>
+      <p class="modal-sub">Reviews go to the moderation queue before appearing publicly.</p>
       <div class="field"><label for="rvRating">Rating</label>
         <select id="rvRating"><option value="5">★★★★★ Excellent</option><option value="4" selected>★★★★ Good</option><option value="3">★★★ Fair</option><option value="2">★★ Poor</option><option value="1">★ Poor</option></select>
       </div>

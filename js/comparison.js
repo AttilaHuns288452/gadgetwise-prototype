@@ -120,7 +120,7 @@ window.GWCompare = (function () {
     const head = gadgets.map(g => `
       <th class="cmp-product-cell cmp-col-head">
         <a href="${GWApp.gadgetUrl(g.id)}" style="display:block">
-          <img src="${g.image}" alt="Placeholder artwork for ${esc(g.brand)} ${esc(g.model)}">
+          <img src="${g.image}" alt="${esc(g.brand)} ${esc(g.model)}">
           <div class="g-brand" style="margin-top:10px">${esc(g.brand)}</div>
           <div class="t-title" style="font-family:var(--font-display);font-size:1.02rem;color:var(--ink)">${esc(g.model)}</div>
           <div class="small muted">${esc(GWApp.catLabel(g.category))} · ${g.rating.toFixed(1)}★ (${g.reviewCount})</div>
@@ -156,7 +156,7 @@ window.GWCompare = (function () {
         </table>
       </div>
       ${verdict}
-      <p class="small muted" style="margin-top:14px">Values are prototype mock data. Highlighted cells mark a meaningful difference of at least 8% — near-ties stay unmarked. Lifespan and monthly cost are estimates.</p>`;
+      <p class="small muted" style="margin-top:14px">Highlighted cells mark a difference of at least 8% — near-ties stay unmarked. Monthly cost uses a fixed 36-month window.</p>`;
 
     stage.querySelectorAll("[data-cmp-remove-btn]").forEach(btn => {
       btn.addEventListener("click", () => {

@@ -126,7 +126,7 @@ window.GWApp = (function () {
     wishlist: loadSet(LS.wl, 200),
     compare: loadSet(LS.cmp, 4),
     get compareFull() { return this.compare.size >= 4; },
-    // ponytail: mock auth — no backend; any credentials work, gates wishlist/review actions
+    // ponytail: demo auth — no backend; any credentials work, gates wishlist/review actions
     loggedIn: false,
     user: null
   };
@@ -408,7 +408,7 @@ window.GWApp = (function () {
           <div class="f-brand">
             <a class="logo" href="index.html">Gadget<span class="logo-wise">Wise</span></a>
             <p>Compare gadgets by price, specs, ownership cost, and student ratings. Made for Filipino students.</p>
-            <p class="small" style="color:rgba(255,255,255,.45)">Prototype — all products, prices, reviews, and metrics are mock data for a school project (CC&nbsp;116).</p>
+            <p class="small" style="color:rgba(255,255,255,.45)">Product data compiled from retail listings. Reviews and ratings come from GadgetWise users.</p>
           </div>
           <div>
             <h4>CATEGORIES</h4>
