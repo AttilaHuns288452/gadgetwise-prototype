@@ -130,8 +130,8 @@ window.GWDetail = (function () {
 
           ${g.goodFor || g.notIdeal ? `
           <div class="grid-2" style="margin-top:18px; gap:14px">
-            ${g.goodFor ? `<div class="panel" style="padding:14px 18px"><h4 style="margin:0 0 8px">Good for</h4><ul class="swlist">${g.goodFor.map(s => `<li class="good">${esc(s)}</li>`).join("")}</ul></div>` : ""}
-            ${g.notIdeal ? `<div class="panel" style="padding:14px 18px"><h4 style="margin:0 0 8px">Not ideal for</h4><ul class="swlist">${g.notIdeal.map(s => `<li class="bad">${esc(s)}</li>`).join("")}</ul></div>` : ""}
+            ${g.goodFor ? `<div style="padding:4px 0"><h4 style="margin:0 0 8px">Good for</h4><ul class="swlist">${g.goodFor.map(s => `<li class="good">${esc(s)}</li>`).join("")}</ul></div>` : ""}
+            ${g.notIdeal ? `<div style="padding:4px 0"><h4 style="margin:0 0 8px">Not ideal for</h4><ul class="swlist">${g.notIdeal.map(s => `<li class="bad">${esc(s)}</li>`).join("")}</ul></div>` : ""}
           </div>` : ""}
 
           ${g.specList ? `

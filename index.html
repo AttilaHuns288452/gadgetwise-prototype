@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GadgetWise — Student Gadget Discovery, Comparison &amp; Long-Term Value</title>
-  <meta name="description" content="GadgetWise helps Filipino students discover, evaluate, compare, and get personalized recommendations for gadgets — with transparent ownership-cost estimates.">
+  <title>GadgetWise — Compare gadgets before you buy</title>
+  <meta name="description" content="GadgetWise helps Filipino students compare gadgets by price, specs, ownership cost, and student ratings — with a fully visible scoring method.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,26 +14,10 @@
 </head>
 <body>
   <!--
-    DIRECTION CONTRACT — "Cobalt Ledger" (world revision of seed f90b4ac6;
-    original "The Value Tag" re-colored per client direction: blue palette,
-    professional, easy to read, slightly futuristic)
-    THESIS: GadgetWise is the value tag reformed into a consumer report —
-    purchase-decision information design without the store. Refuses:
-    e-commerce chrome, AI-dashboard cards, jade/retro-retail palettes.
-    OWN-WORLD: cool light ground, ink-navy text, cobalt reserved for actions
-    and measured values (₱/month, scores); cyan only in admin/logo detail;
-    Archivo signage grotesk + Spline Sans Mono for measures; one stroke set.
-    STORY: a student discovers a gadget, sees its ₱/month ownership at a
-    glance, verifies the math, compares side by side, then gets a scored
-    recommendation whose arithmetic is visible. Decides with reasons.
-    FIRST VIEWPORT: left — headline "Know the price. Know the years." with
-    value proposition and hero search; right — a featured value tag for the
-    MacBook Air M1 (top-rated catalog pick) showing photo, Performance to
-    Cost score, price, lifespan, warranty and the ₱/month line.
-    FORM: grounded candidate 7 of 7 (retail shelf tag → consumer report via
-    the not-e-commerce constraint); challengers rejected on audience + clarity.
-    FINISH: unreviewed and undocumented is unfinished; this build ends with the
-    finish review, the verdict, and DESIGN.md.
+    GadgetWise prototype — CC 116. Multi-page static site, no build step.
+    Data and scoring live in js/data.js + js/recommendations.js; every page
+    shares the shell in js/app.js. Visual system: css/styles.css (tokens) +
+    css/identity.css (identity rules). Deterministic scoring only.
   -->
   <main id="main">
 
@@ -51,7 +35,7 @@
           <div class="hero-points">
             <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg>Ownership cost on every tag</span>
             <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 3 8.2 7 10 4-1.8 7-5.5 7-10V6l-7-3Z"/></svg>Durability &amp; repairability scored</span>
-            <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="m4 12 5.2 5.2L20 6.4"/></svg>Explainable recommendations (no black box)</span>
+            <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="m4 12 5.2 5.2L20 6.4"/></svg>Scores show their math</span>
           </div>
         </div>
 
@@ -59,7 +43,7 @@
         <div class="hero-visual">
           <div class="value-tag value-tag-feature" id="heroTag" aria-label="Featured gadget value tag">
             <div class="vt-head">
-              <span class="vt-name">Top pick — <span style="color:var(--primary-dark)">MacBook Air M1</span></span>
+              <span class="vt-name">Top pick — MacBook Air M1</span>
               <span class="tag tag-warm">Student favorite</span>
             </div>
             <div class="vt-product">
@@ -77,7 +61,7 @@
             </div>
             <div class="vt-total">
               <span class="t-label">PER MONTH</span>
-              <span class="t-value">₱783<span style="font-size:.85rem; color:var(--ink-3)"> /month</span></span>
+              <span class="t-value">₱783</span>
             </div>
             <div class="vt-quote">"Left the charger at home all week. Still on 30% by Saturday review sessions." — Kai M., 3rd yr</div>
             <div class="vt-note">₱46,999 ÷ (5 × 12). Formula shown on every gadget page. <a href="gadget-detail.html?id=apple-macbook-air-m1">See the full breakdown →</a></div>
@@ -90,7 +74,7 @@
     <div class="home-strip">
       <div class="container strip-in">
         <span class="hs-item"><b id="stripGadgets">20</b><span>gadgets tracked</span></span>
-        <span class="hs-item"><b id="stripReviews">—</b><span>student reviews (mock)</span></span>
+        <span class="hs-item"><b id="stripReviews">—</b><span>student reviews</span></span>
         <span class="hs-item"><b id="stripRating">—</b><span>average catalog rating</span></span>
         <span class="hs-item"><b>6</b><span>categories covered</span></span>
       </div>
@@ -142,7 +126,7 @@
         <div class="row-between" style="margin-bottom:8px">
           <div>
             <h2>Price vs Performance to Cost</h2>
-            <p class="lede" style="margin-top:6px; margin-bottom:0">What each gadget costs against how well it holds up. Amber dots are the best-value frontier: nothing beats them on price and build at the same time. Click a dot for details.</p>
+            <p class="lede" style="margin-top:6px; margin-bottom:0">What each gadget costs against how well it holds up. Coral dots sit on the best-value frontier — nothing beats them on price and build at once. Click a dot for details.</p>
           </div>
         </div>
         <div class="tabs" id="scatterCats" style="margin:14px 0 16px" role="group" aria-label="Filter scatter by category"></div>
@@ -173,13 +157,9 @@
             <p class="lede" style="margin-top:6px">Community favorites on the left, cheapest to own per month on the right.</p>
           </div>
         </div>
-        <div class="grid-2" style="gap:28px; align-items:start">
+        <div class="stack" style="gap:24px; max-width:640px">
           <div>
-            <h3 style="font-size:.85rem; letter-spacing:.06em; color:var(--ink-3); margin-bottom:14px">TOP RATED BY STUDENTS</h3>
-            <div class="stack" id="topRated"><!-- injected --></div>
-          </div>
-          <div>
-            <h3 style="font-size:.85rem; letter-spacing:.06em; color:var(--ink-3); margin-bottom:14px">LOWEST ESTIMATED ₱/MONTH</h3>
+            <h3 style="font-size:.85rem; letter-spacing:.06em; color:var(--ink-3); margin-bottom:14px">LOWEST ₱/MONTH</h3>
             <div class="stack" id="bestValue"><!-- injected --></div>
           </div>
         </div>
@@ -225,7 +205,7 @@
         <div class="cta-band">
           <div>
             <h2>Not sure which one? Answer three questions.</h2>
-            <p>Budget, academic use, and what matters most to you. The scoring engine ranks the catalog and shows its math: every factor, every point.</p>
+            <p>Budget, academic use, and what matters most to you. You see every factor and every point of the score.</p>
           </div>
           <div class="cta-actions">
             <a class="btn btn-lg btn-warm" href="recommendations.html">Get recommendations <svg class="icon" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></a>
@@ -267,9 +247,7 @@
         ${GWApp.priceBlock(g, "compact")}
       </a>`;
     }
-    const topRated = [...GW.gadgets].sort((a, b) => b.rating - a.rating).slice(0, 3);
     const bestValue = [...GW.gadgets].sort((a, b) => GW.monthlyCost(a) - GW.monthlyCost(b)).slice(0, 3);
-    document.getElementById("topRated").innerHTML = topRated.map(miniRow).join("");
     document.getElementById("bestValue").innerHTML = bestValue.map(miniRow).join("");
 
     // Top rated by students — full product cards, top 3

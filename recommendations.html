@@ -15,7 +15,7 @@
   <main id="main">
     <div class="container page-head">
       <h1>Get Recommendations</h1>
-      <p class="lede">Three questions, then a ranked shortlist. This is not a black box — every score shows its full breakdown, factor by factor, so you can disagree with it intelligently.</p>
+      <p class="lede">Three questions, then a ranked shortlist. Every score shows its full breakdown.</p>
     </div>
 
     <div class="container section-tight">
@@ -34,7 +34,7 @@
           <!-- STEP 1: what are you looking for (category) -->
           <section data-step="1">
             <h2 style="margin-bottom:6px">What are you looking for?</h2>
-            <p class="lede" style="margin-bottom:20px">Pick the gadget type first — the engine ranks only that category, so a laptop is never compared against a power bank.</p>
+            <p class="lede" style="margin-bottom:20px">Only that category gets ranked — a laptop is never compared against a power bank.</p>
             <div class="choice-grid" id="catChoices"></div>
             <div class="row" style="margin-top:22px">
               <button class="btn" data-next="2" id="next1">Continue <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></button>
@@ -44,7 +44,7 @@
           <!-- STEP 2: budget -->
           <section data-step="2" hidden>
             <h2 style="margin-bottom:6px">What's your budget?</h2>
-            <p class="lede" style="margin-bottom:20px">Realistic student brackets — or set a custom ceiling. Gadgets above your budget are scored lower, not hidden, so you can see what stretching buys you.</p>
+            <p class="lede" style="margin-bottom:20px">Realistic student brackets, or set a custom ceiling.</p>
             <div class="choice-grid" id="budgetChoices"></div>
             <div class="panel panel-tight" style="margin-top:16px">
               <label class="check" style="margin-bottom:10px">
@@ -65,7 +65,7 @@
           <!-- STEP 3: academic use -->
           <section data-step="3" hidden>
             <h2 style="margin-bottom:6px">What will you use it for?</h2>
-            <p class="lede" style="margin-bottom:20px">Pick one primary academic use. The engine checks each gadget against that workload's demands — an editing laptop is scored differently from a note-taking tablet.</p>
+            <p class="lede" style="margin-bottom:20px">Pick one primary use. Scoring changes with the workload.</p>
             <div class="choice-grid" id="useChoices"></div>
             <div class="row" style="margin-top:22px">
               <button class="btn btn-outline" data-next="2">Back</button>
@@ -76,7 +76,7 @@
           <!-- STEP 4: priorities -->
           <section data-step="4" hidden>
             <h2 style="margin-bottom:6px">What matters most to you?</h2>
-            <p class="lede" style="margin-bottom:8px">Your picks shift scoring weight. Leave everything on “—” for a balanced score, or push weight toward what you care about.</p>
+            <p class="lede" style="margin-bottom:8px">Your picks shift scoring weight. Leave everything on “—” for a balanced score.</p>
             <p class="small muted" style="margin-bottom:18px">50 of the 100 points are redistributed by these priorities. Budget fit (20), academic suitability (25), and community rating (5) stay fixed.</p>
             <div class="panel panel-tight" id="priorityList" style="padding:8px 20px"></div>
             <div class="row" style="margin-top:22px">
@@ -258,7 +258,7 @@
         document.getElementById("weightsPanel").innerHTML = `
           <div class="row-between" style="flex-wrap:wrap; gap:10px">
             <div>
-              <b class="small" style="letter-spacing:.05em">SCORING WEIGHTS APPLIED</b>
+              <b class="small" style="letter-spacing:.05em">SCORING WEIGHTS</b>
               <div class="small muted">Adjustable 50 pts after your priorities${notes.length ? " · " + esc(notes.join(" ")) : ""}</div>
             </div>
             <div class="chip-row">
@@ -283,29 +283,29 @@
                 <div class="g-brand">${esc(g.brand)} · ${esc(GWApp.catLabel(g.category))}</div>
                 <h3 style="margin:2px 0 4px"><a href="${GWApp.gadgetUrl(g.id)}" style="color:inherit">${esc(g.model)}</a></h3>
                 ${GWApp.ratingLine(g)}
-                ${isTop ? `<div style="margin-top:6px"><span class="rr-badge">★ BEST MATCH FOR YOU</span></div>` : ""}
+                ${isTop ? `<div style="margin-top:6px"><span class="rr-badge">BEST MATCH</span></div>` : ""}
                 <div class="row" style="gap:14px; margin-top:8px; flex-wrap:wrap">
                   <span class="price price-compact">${money(g.price)}</span>
                   <span class="price-estimate"><span class="label">PER MONTH</span><span>≈ ${money(GW.monthlyCost(g))}<em>/month</em></span></span>
                 </div>
               </div>
-              <div class="score-ring" title="Overall match score">
+              <div class="score-ring" title="Match score out of 100">
                 <svg viewBox="0 0 36 36">
                   <circle class="ring-bg" cx="18" cy="18" r="15.9" fill="none" stroke-width="3"/>
                   <circle class="ring-val" cx="18" cy="18" r="15.9" fill="none" stroke-width="3"
                     stroke-dasharray="100 100" stroke-dashoffset="${100 - r.score}" stroke-linecap="round"/>
                 </svg>
-                <span class="ring-label"><b>${r.score}</b><span>/ 100 MATCH</span></span>
+                <span class="ring-label"><b>${r.score}</b><span>/ 100</span></span>
               </div>
             </div>
 
             <div class="grid-2" style="gap:20px; align-items:start">
               <div>
-                <b class="small" style="letter-spacing:.05em">WHY WE RECOMMEND IT</b>
+                <b class="small" style="letter-spacing:.05em">WHY IT RANKS HERE</b>
                 <ul class="rr-why" style="margin-top:8px">${r.reasons.map(x => `<li>${icon("check")}${esc(x)}</li>`).join("")}</ul>
               </div>
               <div>
-                <b class="small" style="letter-spacing:.05em">STRENGTHS &amp; CONSIDERATIONS</b>
+                <b class="small" style="letter-spacing:.05em">STRENGTHS &amp; WEAKNESSES</b>
                 <div class="chip-row" style="margin-top:8px">
                   ${r.strengths.map(s => `<span class="tag tag-green">${esc(s)}</span>`).join("")}
                   ${r.weaknesses.map(w => `<span class="tag tag-red">${esc(w)}</span>`).join("")}
@@ -321,7 +321,6 @@
                       </tr>`).join("")}
                     <tr class="total"><th scope="row">Total match score</th><td></td><td class="b-frac">${r.score} / 100</td></tr>
                   </table>
-                  <p class="small muted" style="margin:8px 0 0">Every point is accounted for — this is the same arithmetic the production backend would run.</p>
                 </details>
               </div>
             </div>
@@ -330,7 +329,7 @@
               <span class="cmp-check"><input type="checkbox" data-cmp="${g.id}" ${GWApp.inCompare(g.id) ? "checked" : ""}> Compare this gadget</span>
               <div class="row" style="gap:8px">
                 <button class="btn btn-outline btn-sm" data-wl="${g.id}" aria-pressed="${wlOn}">${icon("heart")}<span class="wl-label">${wlOn ? "Saved" : "Save"}</span></button>
-                <a class="btn btn-sm" href="${GWApp.gadgetUrl(g.id)}">Inspect gadget ${icon("arrowRight", "icon-sm")}</a>
+                <a class="btn btn-sm" href="${GWApp.gadgetUrl(g.id)}">Details</a>
               </div>
             </div>
           </article>`;

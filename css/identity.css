@@ -67,8 +67,8 @@
 .vt-name { color: var(--ink); }
 
 /* ---------- Trust strip: quiet indigo wash ---------- */
-.home-strip { background: var(--primary-wash); border-block: 1px solid var(--primary-soft); }
-.home-strip .hs-item b { color: var(--primary-dark); }
+.home-strip { background: transparent; border-block: 1px solid var(--line); }
+.home-strip .hs-item b { color: var(--ink); }
 
 /* ---------- Navigation ---------- */
 .site-header {
@@ -187,3 +187,15 @@
 
 /* ---------- Footer ---------- */
 .site-footer { background: var(--hero-1); }
+
+/* ---------- De-slop refinements (v3.1) ---------- */
+/* product card: single footer row, no stacked footers */
+.g-foot-actions { border-top: 0; padding-top: 0; margin-top: -6px; }
+.g-foot-actions .btn { padding: 4px 10px; }
+
+/* mini list rows (best value): they sit on the page, not in cards */
+.list-row { border: 0; box-shadow: none; background: transparent; border-bottom: 1px solid var(--line); border-radius: 0; }
+.list-row:last-child { border-bottom: 0; }
+
+/* "How GadgetWise helps": open columns, not three boxes */
+.grid-3 .panel { border: 0; box-shadow: none; background: transparent; padding: 0; border-top: 2px solid var(--primary-soft); border-radius: 0; padding-top: 14px; }

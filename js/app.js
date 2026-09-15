@@ -293,7 +293,7 @@ window.GWApp = (function () {
     return `
     <article class="g-card card-hover" data-gadget="${g.id}" data-gadget-cat="${esc(g.category)}">
       <a class="g-media" href="${gadgetUrl(g.id)}" aria-label="${esc(g.brand + " " + g.model)}">
-        <img src="${g.image}" alt="Placeholder artwork for ${esc(g.brand)} ${esc(g.model)}" loading="lazy">
+        <img src="${g.image}" alt="${esc(g.brand)} ${esc(g.model)}" loading="lazy">
         <span class="g-cat">${esc(cat ? cat.name : "")}</span>
       </a>
       <div class="g-body">
@@ -301,10 +301,8 @@ window.GWApp = (function () {
         <h3 class="g-title"><a href="${gadgetUrl(g.id)}">${esc(g.model)}</a></h3>
         ${ratingLine(g)}
         ${idx != null ? `<span class="oidx" title="Performance to Cost — durability 25 + repairability 20 + battery 20 + warranty 15 + student rating 20"><b>${idx}</b><span>PERFORMANCE TO COST</span></span>` : ""}
-        <p class="g-summary">${esc(g.summary)}</p>
         ${g.goodFor ? `<p class="gcard-bestfor"><b>Best for:</b> ${esc(g.goodFor.slice(0, 2).join(" + "))}</p>`
                    : `<p class="gcard-bestfor"><b>Best for:</b> ${esc(cat ? cat.name : "")} on a student budget</p>`}
-        ${g.strengths && g.strengths.length ? `<p class="gcard-why"><b>Why it stands out:</b> ${esc(g.strengths[0])}</p>` : ""}
         <ul class="g-specs">${cardSpecs(g)}</ul>
       </div>
       <div class="g-foot">
@@ -316,9 +314,9 @@ window.GWApp = (function () {
           <button class="icon-btn ${saved ? "on" : ""}" data-wl="${g.id}" aria-pressed="${saved}" title="${saved ? "Remove from wishlist" : "Add to wishlist"}">${icon("heart")}</button>
         </div>
       </div>
-      <div class="g-foot" style="border-top:0; padding-top:0; margin-top:2px;">
+      <div class="g-foot g-foot-actions">
         <span class="cmp-check"><input type="checkbox" data-cmp="${g.id}" ${cmpChecked ? "checked" : ""} aria-label="Compare ${esc(g.brand)} ${esc(g.model)}"> Compare</span>
-        <a class="btn btn-ghost btn-sm" href="${gadgetUrl(g.id)}">Details ${icon("arrowRight")}</a>
+        <a class="btn btn-ghost btn-sm" href="${gadgetUrl(g.id)}">Details</a>
       </div>
     </article>`;
   }
@@ -402,11 +400,11 @@ window.GWApp = (function () {
         <div class="footer-grid">
           <div class="f-brand">
             <a class="logo" href="index.html">Gadget<span class="logo-wise">Wise</span></a>
-            <p>Student-centered gadget discovery, comparison, and long-term value analysis. Made for Filipino students.</p>
+            <p>Compare gadgets by price, specs, ownership cost, and student ratings. Made for Filipino students.</p>
             <p class="small" style="color:rgba(255,255,255,.45)">Prototype — all products, prices, reviews, and metrics are mock data for a school project (CC&nbsp;116).</p>
           </div>
           <div>
-            <h4>DISCOVER</h4>
+            <h4>CATEGORIES</h4>
             <ul>
               <li><a href="gadgets.html">All Gadgets</a></li>
               <li><a href="category.html?cat=smartphones">Smartphones</a></li>
