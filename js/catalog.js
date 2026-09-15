@@ -47,9 +47,9 @@ window.GWCatalog = (function () {
     const FEATURES = {
       fLong:    g => /([8-9]\d*|\d{2,})\s*(h|hr|hour)/i.test(g.specs.Battery || ""),
       fBudget:  g => g.price < 15000,
-      fDurable: g => (g.scored.durability || 0) >= 7
+      fDurable: null
     };
-    const featureChecks = ["fLong", "fBudget", "fDurable"]
+    const featureChecks = ["fLong", "fBudget"].filter(k => document.getElementById(k))
       .map(id => document.getElementById(id)).filter(Boolean);
     const catRadios = [...document.querySelectorAll("input[name=fcat]")];
 

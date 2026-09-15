@@ -91,18 +91,17 @@ window.GWApp = (function () {
   function params() { return new URLSearchParams(location.search); }
 
   /* ---------------- Performance to Cost score (deterministic; every input defensible) ----------------
-     battery 25 (catalog battery spec) + warranty 20 (catalog warranty field)
-     + student rating 25 (GW user reviews) + value 30 (price vs category
-     median monthly cost). No repairability term: marketplace specs cannot
-     support one. ponytail: formula v2 — audit trail in README. */
+     battery 25 (catalog battery spec) + student rating 25 (GW user
+     reviews) + value 30 (price vs category median monthly cost) +
+     warranty 20 (catalog warranty field). No repairability, no
+     durability, no lifespan term: marketplace specs cannot support them. */
   function ownIndex(g) {
-    const months = (g.value.lifespanYears || 1) * 12;
     const med = GW.categoryMedianMonthly(g.category) || GW.monthlyCost(g);
     const value = Math.max(0, Math.min(1, 1 - (GW.monthlyCost(g) / med - 0.6) / 0.8));
     const s = Math.min(g.battery / 12, 1) * 25
-            + Math.min(g.value.warrantyYears * 12 / 24, 1) * 20
             + (g.rating / 5) * 25
-            + value * 30;
+            + value * 30
+            + Math.min(g.value.warrantyYears * 12 / 24, 1) * 20;
     return Math.round(s);
   }
   /* Pareto frontier: no other gadget is both cheaper AND higher-indexed */
@@ -297,7 +296,7 @@ window.GWApp = (function () {
     const saved = inWishlist(g.id);
     const cmpChecked = inCompare(g.id);
     const score = opts.score;
-    const idx = g.durab != null ? ownIndex(g) : null;
+    const idx = ownIndex(g);
     return `
     <article class="g-card card-hover" data-gadget="${g.id}" data-gadget-cat="${esc(g.category)}">
       <a class="g-media" href="${gadgetUrl(g.id)}" aria-label="${esc(g.brand + " " + g.model)}">
@@ -308,7 +307,7 @@ window.GWApp = (function () {
         <span class="g-brand">${esc(g.brand)}</span>
         <h3 class="g-title"><a href="${gadgetUrl(g.id)}">${esc(g.model)}</a></h3>
         ${ratingLine(g)}
-        ${idx != null ? `<span class="oidx" title="Performance to Cost — battery 25 + warranty 20 + student rating 25 + value 30 (price vs category median)"><b>${idx}</b><span>PERFORMANCE TO COST</span></span>` : ""}
+        ${idx != null ? `<span class="oidx" title="Performance to Cost — battery 25 + student rating 25 + value 30 (price vs category median) + warranty 20"><b>${idx}</b><span>PERFORMANCE TO COST</span></span>` : ""}
         ${g.goodFor ? `<p class="gcard-bestfor"><b>Best for:</b> ${esc(g.goodFor.slice(0, 2).join(" + "))}</p>`
                    : `<p class="gcard-bestfor"><b>Best for:</b> ${esc(cat ? cat.name : "")} on a student budget</p>`}
         <ul class="g-specs">${cardSpecs(g)}</ul>
@@ -511,7 +510,7 @@ window.GWApp = (function () {
   function renderScatter() {
     const area = document.getElementById("scatterArea");
     if (!area) return;
-    const items = GW.gadgets.filter(g => g.durab != null && (!scatterCat || g.category === scatterCat));
+    const items = GW.gadgets.filter(g => !scatterCat || g.category === scatterCat);
     const W = 760, H = 380, P = { l: 56, r: 24, t: 26, b: 46 };
     // auto-rescale: price axis fits the current filter, index axis keeps 0–100 anchoring
     const pMax = Math.max(...items.map(g => g.price), 10000) * 1.06;
@@ -540,7 +539,7 @@ window.GWApp = (function () {
         <div class="row" style="gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--ink-2);margin-top:8px">
           <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);margin-right:5px"></span>Catalog gadget</span>
           <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--amber);margin-right:5px"></span>Best-value frontier (Pareto)</span>
-          <span style="margin-left:auto">${items.length} shown · Index = battery 25 + warranty 20 + student rating 25 + value 30 (price vs category median monthly cost).</span>
+          <span style="margin-left:auto">${items.length} shown · Index = battery 25 + student rating 25 + value 30 (price vs category median monthly cost) + warranty 20.</span>
         </div>
       </div>`;
     area.addEventListener("click", e => {
@@ -555,7 +554,7 @@ window.GWApp = (function () {
   function renderScatterCats() {
     const box = document.getElementById("scatterCats");
     if (!box) return;
-    const pool = GW.gadgets.filter(g => g.durab != null);
+    const pool = GW.gadgets;
     const count = k => k ? pool.filter(g => g.category === k).length : pool.length;
     const tabs = [["", "All categories"], ...GW.categories.map(c => [c.id, c.name])].filter(([k]) => !k || count(k) > 0);
     box.innerHTML = tabs.map(([k, label]) =>

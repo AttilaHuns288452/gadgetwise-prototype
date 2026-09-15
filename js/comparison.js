@@ -23,8 +23,6 @@ window.GWCompare = (function () {
     row("Rating", g => g.rating, "high", v => v.toFixed(1) + " \u2605");
     row("Cost per month", g => GW.monthlyCost(g), "low", v => "\u2248 " + money(v) + "/mo");
     row("Warranty", g => g.value.warrantyYears, "high", v => v + (v === 1 ? " yr" : " yrs"));
-    row("Lifespan (catalog)", g => g.value.lifespanYears, "high", v => v + " yrs");
-    row("Build & Protection", g => g.scored.durability, "high", v => v.toFixed(1) + "/10");
     row("Performance", g => g.scored.performance, "high", v => v.toFixed(1) + "/10");
     row("Battery", g => g.scored.battery, "high", v => v.toFixed(1) + "/10");
     if (multiCategory) {
@@ -72,8 +70,6 @@ window.GWCompare = (function () {
       case "Rating": return "Higher rating";
       case "Cost per month": return "Cheaper per month";
       case "Warranty": return "Longer warranty";
-      case "Est. lifespan": return "Longer lifespan";
-      case "Durability": return "Tougher build";
       case "Performance": return "Faster";
       case "Battery": return "Better battery";
       case "Portability": return "More portable";
@@ -178,7 +174,7 @@ window.GWCompare = (function () {
   function verdictHTML(gadgets, rows) {
     const find = label => rows.find(r => r.label === label);
     const price = find("Price"), monthly = find("Cost per month"),
-          life = find("Est. lifespan"), rating = find("Rating");
+          rating = find("Rating");
     const picks = [];
     if (price) {
       const min = Math.min(...price.values), g = gadgets[price.values.indexOf(min)];
@@ -187,10 +183,6 @@ window.GWCompare = (function () {
     if (monthly) {
       const min = Math.min(...monthly.values), g = gadgets[monthly.values.indexOf(min)];
       picks.push(`Cheapest long-term: <b>${esc(g.brand)} ${esc(g.model)}</b> at ≈ ${money(min)}/month`);
-    }
-    if (life) {
-      const max = Math.max(...life.values), g = gadgets[life.values.indexOf(max)];
-      picks.push(`Longest catalog lifespan: <b>${esc(g.brand)} ${esc(g.model)}</b> at ${max} years`);
     }
     if (rating) {
       const max = Math.max(...rating.values), g = gadgets[rating.values.indexOf(max)];
@@ -208,9 +200,9 @@ window.GWCompare = (function () {
         `<b>${esc(cheap.brand)} ${esc(cheap.model)}</b> still costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo), ` +
         `so the trade-offs above should decide it, not the totals.`;
     } else {
-      line = `Over each gadget's catalog lifespan, <b>${esc(cheap.brand)} ${esc(cheap.model)}</b> costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo). ` +
+      line = `With the same 36-month window applied to every gadget, <b>${esc(cheap.brand)} ${esc(cheap.model)}</b> costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo). ` +
         `Students rate <b>${esc(rated.brand)} ${esc(rated.model)}</b> highest (${rated.rating.toFixed(1)}\u2605). ` +
-        `Upfront price alone doesn't decide this: a cheaper gadget with a short lifespan can cost more per month.`;
+        `Monthly costs use a fixed 36-month window for every gadget, so the comparison stays apples-to-apples.`;
     }
 
     return `

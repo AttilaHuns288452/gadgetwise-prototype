@@ -1790,16 +1790,16 @@ GW.budgetBands = [
 GW.useCases = [
   { id: "general",       label: "General Student Use", categories: ["smartphones", "laptops", "tablets"],
     note: "Browsing, documents, video calls, and media.",
-    criteria: { performance: 3, battery: 3, portability: 2, display: 2, storage: 1, camera: 1, durability: 1 } },
+    criteria: { performance: 3, battery: 3, portability: 2, display: 2, storage: 1, camera: 1 } },
   { id: "programming",   label: "Programming", categories: ["laptops"],
     note: "IDEs, compilers, virtual machines, long compile cycles.",
-    criteria: { performance: 5, storage: 3, display: 3, battery: 2, durability: 2, portability: 2 } },
+    criteria: { performance: 5, storage: 3, display: 3, battery: 2, portability: 2 } },
   { id: "online-classes",label: "Online Classes", categories: ["smartphones", "tablets", "laptops"],
     note: "Video calls, lecture playback, note-taking from home.",
     criteria: { battery: 4, display: 3, performance: 2, camera: 2, storage: 2, portability: 1 } },
   { id: "office",        label: "Office / Productivity", categories: ["laptops", "tablets"],
     note: "Documents, spreadsheets, presentations, email.",
-    criteria: { performance: 3, battery: 4, portability: 3, display: 2, storage: 2, durability: 1 } },
+    criteria: { performance: 3, battery: 4, portability: 3, display: 2, storage: 2 } },
   { id: "graphic-design",label: "Graphic Design", categories: ["laptops", "tablets"],
     note: "Illustration, layout, color-accurate work, pen input.",
     criteria: { display: 5, performance: 4, storage: 3, portability: 2, battery: 1 } },
@@ -1811,7 +1811,6 @@ GW.useCases = [
 GW.priorityFactors = [
   { id: "performance",   label: "Performance",    base: 15, hint: "Processor, RAM, sustained speed" },
   { id: "battery",       label: "Battery Life",   base: 10, hint: "Hours per charge or unplugged" },
-  { id: "durability",    label: "Build & Protection", base: 10, hint: "Protection rating and warranty where specified" },
   { id: "portability",   label: "Portability",    base: 0,  hint: "Weight and size for commuting" },
   { id: "display",       label: "Display",        base: 0,  hint: "Panel quality, brightness, size" },
   { id: "camera",        label: "Camera",         base: 0,  hint: "Photo and video capture" },
@@ -1854,9 +1853,12 @@ GW.gadgetsByIds = function (ids) { return ids.map(GW.getGadget).filter(Boolean);
 
 /* Cost per month — the ONE formula:
    price / (lifespan years × 12). Displayed everywhere as an estimate. */
+/* Cost per month (spec 18): price spread over a 36-month usage window —
+   a fixed, documented assumption for ALL gadgets (comparable within
+   category), not a per-product lifespan invention. */
+GW.MONTHS_WINDOW = 36;
 GW.monthlyCost = function (g) {
-  const months = (g.value.lifespanYears || 1) * 12;
-  return g.price / months;
+  return g.price / GW.MONTHS_WINDOW;
 };
 GW.categoryMedianMonthly = function (catId) {
   const list = GW.gadgetsInCategory(catId).map(GW.monthlyCost).sort((a, b) => a - b);

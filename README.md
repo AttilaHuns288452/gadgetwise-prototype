@@ -28,15 +28,27 @@ Marketplace sources (Shopee/Lazada in the production design) provide only produc
 identity, price, imagery, and basic specs. Durability, repairability, lifespan, and
 student ratings are **never** claimed from an API.
 
-**Performance to Cost index** = battery 25 + warranty 20 + student rating 25 +
-value 30, where value = price vs. category median monthly cost. The
-repairability term was removed: marketplace specs cannot support it.
+**Core metrics (final set):** Budget Fit, Performance, Battery,
+Portability, Academic Suitability, Value (cost per month), Student Rating.
+Explicitly removed as unsupported: Repairability, Expected Lifespan,
+Durability — marketplace specs cannot defend them.
 
-**Recommendation score (100 pts)** = Budget Fit 20 (fixed) + Academic
-Suitability 25 (fixed, criteria-weighted per use case) + Community Rating 5
-(fixed) + 50 adjustable points redistributed by user priorities (performance
-20 raw, battery 10, build & protection 10, value 10; priorities push raw
-weights up/down, then normalize to 50). Same inputs → same ranking, always.
+**Performance to Cost index** = battery 25 (catalog battery spec) +
+student rating 25 (GW users) + value 30 (price vs category median monthly
+cost) + warranty 20 (catalog fact).
+
+**Cost per month** = price ÷ 36 (fixed 36-month usage window for every
+gadget — one documented assumption, applied identically, so numbers stay
+comparable; no per-product lifespan invention).
+
+**Recommendation score (100 pts)** = Budget Fit 20 (fixed, doubles as a
+hard filter above the stretch limit) + Academic Suitability 25 (fixed,
+criteria-weighted per use case) + Community Rating 5 (fixed) + 50
+adjustable points redistributed by user priorities (performance 20 raw,
+battery 15, cost per month 15, portability/display/camera/storage 0;
+priorities push raw weights, then normalize to 50). Missing specs are
+never invented: a missing spec shows as "Not specified" and contributes
+nothing to a score. Same inputs → same ranking, always.
 
 The whole thing runs on vanilla HTML/CSS/JS with one shared stylesheet, four
 Google Fonts (Archivo / Hanken Grotesk / Spline Sans Mono), and locally-served

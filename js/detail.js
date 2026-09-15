@@ -84,7 +84,7 @@ window.GWDetail = (function () {
             </div>
             <div class="detail-price-block">
               ${GWApp.priceBlock(g, "lg")}
-              <div class="small muted" style="margin-top:6px; max-width:24ch">Estimated from price ÷ lifespan. Not a selling price.</div>
+              <div class="small muted" style="margin-top:6px; max-width:24ch">Price spread over a 36-month window. Not a selling price.</div>
             </div>
           </div>
 
@@ -96,15 +96,14 @@ window.GWDetail = (function () {
             </div>
             <div class="vt-rows">
               <div class="vt-row"><span>Price</span><b>${money(g.price)}</b></div>
-              <div class="vt-row"><span>Lifespan (catalog value)</span><b>${g.value.lifespanYears} years</b></div>
               <div class="vt-row"><span>Warranty</span><b>${g.value.warrantyYears} ${g.value.warrantyYears === 1 ? "year" : "years"}</b></div>
-              <div class="vt-row"><span>Repairability</span><b>${esc(g.value.repairabilityLabel)}</b></div>
+              <div class="vt-row"><span>Repair path</span><b>${esc(g.value.repairabilityLabel)}</b></div>
             </div>
             <div class="vt-total">
               <span class="t-label">PER MONTH</span>
               <span class="t-value">${money(monthly)}<span style="font-size:.85rem; color:var(--ink-3)"> /month</span></span>
             </div>
-            <div class="vt-note">Estimate only. Price ÷ (lifespan × 12). Actual costs vary with care and usage.</div>
+            <div class="vt-note">Estimate only. Price spread over a fixed 36-month usage window — the same assumption for every gadget, so numbers stay comparable.</div>
           </div>
 
           <details class="tag-flip" open>
@@ -112,8 +111,8 @@ window.GWDetail = (function () {
             <div class="tf-body">
               <div class="formula-box">
                 <span class="f-line">Cost per month =</span>
-                <span class="f-line">Product Price ÷ (Catalog Lifespan × 12)</span>
-                <span class="f-line"><b>${money(g.price)}</b> ÷ (<b>${g.value.lifespanYears}</b> × 12) =</span>
+                <span class="f-line">Product Price ÷ 36-month usage window</span>
+                <span class="f-line"><b>${money(g.price)}</b> ÷ 36 =</span>
                 <span class="f-result">≈ ${money(monthly)} per month</span>
               </div>
               <p class="small muted" style="margin:12px 0 0">
@@ -178,13 +177,13 @@ window.GWDetail = (function () {
             <div class="panel">
               <h3 style="margin-bottom:16px">Value analysis</h3>
               <div class="value-list">
-                ${GWApp.valueRow("Build & Protection", meterHTML(g.scored.durability))}
+                ${GWApp.valueRow("Performance", meterHTML(g.scored.performance))}
+                ${GWApp.valueRow("Battery", meterHTML(g.scored.battery))}
+                ${GWApp.valueRow("Portability", meterHTML(g.scored.portability))}
                 ${GWApp.valueRow("Warranty", `<b class="mono">${g.value.warrantyYears} yr${g.value.warrantyYears === 1 ? "" : "s"}</b>`)}
-                ${GWApp.valueRow("Est. lifespan", `<b class="mono">${g.value.lifespanYears} yrs</b>`)}
-                ${GWApp.valueRow("Repairability", meterHTML(g.scored.repairability))}
-                ${GWApp.valueRow("Ownership value", meterHTML(ownershipScore(g)))}
+                ${GWApp.valueRow("Cost per month", meterHTML(ownershipScore(g)))}
               </div>
-              <p class="small muted" style="margin-top:14px">Scores are 0–10 ratings from mock expert assessment, normalized against ${cat.name.toLowerCase()} in this catalog.</p>
+              <p class="small muted" style="margin-top:14px">Scores are 0–10 catalog ratings, normalized against ${cat.name.toLowerCase()} in this catalog. Warranty is a catalog fact.</p>
             </div>
             <div class="panel">
               <h3 style="margin-bottom:16px">Category context</h3>
@@ -193,10 +192,10 @@ window.GWDetail = (function () {
   <div class="panel" style="margin-top:24px">
               <h4 style="margin-bottom:8px">Why these numbers?</h4>
               <p class="small muted" style="margin:0">
-                Build & Protection and lifespan are GadgetWise-maintained catalog values (manually set per gadget,
-                not calculated from marketplace specs). Battery, warranty, price, and student ratings come from
-                catalog data; monthly cost and the Performance to Cost index are deterministic formulas over
-                those values. Nothing here is inferred by an algorithm beyond the published formulas.
+                Performance, battery, and portability are GadgetWise catalog ratings normalized within the
+                category; warranty is a catalog fact; student rating comes from GadgetWise users. Cost per
+                month and the Performance to Cost index are deterministic formulas over these values —
+                no metric here is inferred beyond the published formulas.
               </p>
             </div>
           </div>
@@ -207,14 +206,14 @@ window.GWDetail = (function () {
             <div class="panel">
               <h3 style="margin-bottom:14px">Cost per month</h3>
               <div class="formula-box">
-                <span class="f-line"><b>Price</b> ÷ (Lifespan × 12)</span>
-                <span class="f-line">${money(g.price)} ÷ (${g.value.lifespanYears} × 12)</span>
+                <span class="f-line"><b>Price</b> ÷ 36-month window</span>
+                <span class="f-line">${money(g.price)} ÷ 36</span>
                 <span class="f-result">≈ ${money(monthly)} / month</span>
               </div>
               <table class="spec-table" style="margin-top:16px">
                 <tr><th>Over 1 year</th><td class="mono">${money(monthly * 12)}</td></tr>
-                <tr><th>Over full lifespan</th><td class="mono">${money(monthly * 12 * g.value.lifespanYears)}</td></tr>
-                <tr><th>Warranty coverage</th><td>${g.value.warrantyYears} yr${g.value.warrantyYears === 1 ? "" : "s"} — ${Math.round((g.value.warrantyYears / g.value.lifespanYears) * 100)}% of lifespan</td></tr>
+                <tr><th>Over 3 years (window)</th><td class="mono">${money(monthly * 36)}</td></tr>
+                <tr><th>Warranty coverage</th><td>${g.value.warrantyYears} yr${g.value.warrantyYears === 1 ? "" : "s"} — ${Math.round((g.value.warrantyYears / 3) * 100)}% of the window</td></tr>
               </table>
             </div>
             <div class="panel">
