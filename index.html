@@ -39,32 +39,17 @@
           </div>
         </div>
 
-        <!-- Signature element: the live value tag, featuring the catalog's top pick -->
-        <div class="hero-visual">
-          <div class="value-tag value-tag-feature" id="heroTag" aria-label="Featured gadget value tag">
-            <div class="vt-head">
-              <span class="vt-name">Top pick — MacBook Air M1</span>
-              <span class="tag tag-warm">Student favorite</span>
-            </div>
-            <div class="vt-product">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png" alt="Apple MacBook Air M1" referrerpolicy="no-referrer">
-              <div class="vt-score">
-                <b>79</b>
-                <span>PERFORMANCE<br>TO COST</span>
-              </div>
-            </div>
-            <div class="vt-rows">
-              <div class="vt-row"><span>Price</span><b>₱46,999</b></div>
-              <div class="vt-row"><span>Estimated lifespan</span><b>5 years</b></div>
-              <div class="vt-row"><span>Warranty</span><b>1 year</b></div>
-              <div class="vt-row"><span>Repairability</span><b>Hard — authorized service</b></div>
-            </div>
-            <div class="vt-total">
-              <span class="t-label">PER MONTH</span>
-              <span class="t-value">₱783</span>
-            </div>
-            <div class="vt-quote">"Left the charger at home all week. Still on 30% by Saturday review sessions." — Kai M., 3rd yr</div>
-            <div class="vt-note">₱46,999 ÷ (5 × 12). Formula shown on every gadget page. <a href="gadget-detail.html?id=apple-macbook-air-m1">See the full breakdown →</a></div>
+        <!-- Spec 3-6: product showcase — image, name, one metric, price. Depth lives on the detail page. -->
+        <div class="hero-showcase">
+          <span class="tag tag-warm hs-flag">Student favorite</span>
+          <img class="hs-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png" alt="Apple MacBook Air M1" referrerpolicy="no-referrer">
+          <div class="hs-meta">
+            <span class="hs-name">MacBook Air M1</span>
+            <span class="hs-price">₱46,999</span>
+          </div>
+          <div class="hs-metric">
+            <b>79</b>
+            <span>Performance to Cost</span>
           </div>
         </div>
       </div>
@@ -94,43 +79,32 @@
       </div>
     </section>
 
-    <!-- ============ How GadgetWise helps ============ -->
+    <!-- ============ What students usually miss (editorial, spec 13) ============ -->
     <section class="section" style="padding-top:0">
       <div class="container">
-        <div class="row-between" style="margin-bottom:22px">
+        <div class="row-between" style="margin-bottom:30px">
           <div>
-            <h2>How GadgetWise helps</h2>
+            <h2>What students usually miss</h2>
             <p class="lede" style="margin-top:6px">Three things most price lists leave out.</p>
           </div>
         </div>
-        <div class="grid-3">
-          <div class="panel">
-            <h3 style="margin-bottom:6px">Monthly cost, not just price</h3>
-            <p class="small muted" style="margin:0">Price ÷ realistic lifespan. The number your allowance understands, not just the sticker price.</p>
-          </div>
-          <div class="panel">
-            <h3 style="margin-bottom:6px">Durability and repairability</h3>
-            <p class="small muted" style="margin:0">How owners say it holds up, and whether parts are available when something breaks.</p>
-          </div>
-          <div class="panel">
-            <h3 style="margin-bottom:6px">Matched to your coursework</h3>
-            <p class="small muted" style="margin:0">Programming, design, online classes: tell us what you use it for and the ranking adjusts.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ Price vs Performance to Cost scatter ============ -->
-    <section class="section section-alt-tint" style="padding-top:36px; margin-top:24px">
-      <div class="container">
-        <div class="row-between" style="margin-bottom:8px">
+        <div class="editorial-3">
           <div>
-            <h2>Price vs Performance to Cost</h2>
-            <p class="lede" style="margin-top:6px; margin-bottom:0">What each gadget costs against how well it holds up. Orange dots sit on the best-value frontier — nothing beats them on price and build at once. Click a dot for details.</p>
+            <div class="ed-big">₱ / month</div>
+            <h3>Not just the sticker price</h3>
+            <p class="small muted">Price &divide; realistic lifespan. The number your allowance understands.</p>
+          </div>
+          <div>
+            <div class="ed-big">Repairability</div>
+            <h3>What happens after something breaks</h3>
+            <p class="small muted">How owners say it holds up, and whether parts are available.</p>
+          </div>
+          <div>
+            <div class="ed-big">Academic fit</div>
+            <h3>What actually works for your coursework</h3>
+            <p class="small muted">Programming, design, online classes: the ranking adjusts to your use.</p>
           </div>
         </div>
-        <div class="tabs" id="scatterCats" style="margin:14px 0 16px" role="group" aria-label="Filter scatter by category"></div>
-        <div id="scatterArea"><!-- scatter injected by GWApp.renderScatter() --></div>
       </div>
     </section>
 
@@ -148,21 +122,26 @@
       </div>
     </section>
 
-    <!-- ============ Featured ============ -->
-    <section class="section section-alt-warm" style="padding-top:36px; margin-top:24px">
-      <div class="container">
-        <div class="row-between" style="margin-bottom:22px">
+    <!-- ============ Price vs Performance to Cost scatter ============ -->
+    <section class="section" style="padding-top:0; border-top:1px solid var(--line)">
+      <div class="container" style="padding-top:40px">
+        <div class="row-between" style="margin-bottom:8px">
           <div>
-            <h2>Cheapest to own</h2>
-            <p class="lede" style="margin-top:6px">The three cheapest gadgets to own per month.</p>
+            <h2 style="font-size:1.35rem">Price vs Performance to Cost</h2>
+            <p class="small muted" style="margin-top:4px; margin-bottom:0">Orange dots sit on the best-value frontier — nothing beats them on price and build at once. Click a dot for details.</p>
           </div>
         </div>
-        <div class="stack" style="gap:24px; max-width:640px">
-          <div>
-            <h3 style="font-size:.85rem; letter-spacing:.06em; color:var(--ink-3); margin-bottom:14px">LOWEST ₱/MONTH</h3>
-            <div class="stack" id="bestValue"><!-- injected --></div>
-          </div>
-        </div>
+        <div class="tabs" id="scatterCats" style="margin:14px 0 16px" role="group" aria-label="Filter scatter by category"></div>
+        <div id="scatterArea"><!-- scatter injected by GWApp.renderScatter() --></div>
+      </div>
+    </section>
+
+    <!-- ============ Cheapest to own (compact editorial list, spec 16) ============ -->
+    <section class="section" style="padding-top:0; border-top:1px solid var(--line)">
+      <div class="container" style="padding-top:40px; max-width:880px">
+        <h2 style="font-size:1.35rem">Cheapest to own</h2>
+        <p class="small muted" style="margin:4px 0 18px">The three cheapest gadgets to own per month.</p>
+        <div class="stack" id="bestValue" style="gap:0"><!-- injected --></div>
       </div>
     </section>
 
@@ -173,43 +152,42 @@
           <div class="flow-step">
             <span class="fs-k">01</span>
             <div class="fs-t">Discover</div>
-            <p>Search and filter six gadget categories with honest student pricing.</p>
+            
           </div>
           <div class="flow-step">
             <span class="fs-k">02</span>
             <div class="fs-t">Evaluate</div>
-            <p>Specs, durability, warranty, and reported issues — in one place.</p>
+            
           </div>
           <div class="flow-step">
             <span class="fs-k">03</span>
             <div class="fs-t">Compare</div>
-            <p>Up to four gadgets side by side, meaningful differences highlighted.</p>
+            
           </div>
           <div class="flow-step">
             <span class="fs-k">04</span>
             <div class="fs-t">Recommend</div>
-            <p>A weighted score you can audit, factor by factor and point by point.</p>
+            
           </div>
           <div class="flow-step">
             <span class="fs-k">05</span>
             <div class="fs-t">Save</div>
-            <p>Keep a wishlist and your comparison history while you decide.</p>
+            
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ Recommendation CTA ============ -->
+    <!-- ============ CTA (spec 18: solid charcoal, no gradient) ============ -->
     <section class="section">
       <div class="container">
         <div class="cta-band">
           <div>
-            <h2>Not sure which one? Answer three questions.</h2>
-            <p>Budget, academic use, and what matters most to you. You see every factor and every point of the score.</p>
+            <h2>Not sure which one?</h2>
+            <p>Three questions. A ranked shortlist. Every score shows its math.</p>
           </div>
           <div class="cta-actions">
-            <a class="btn btn-lg btn-warm" href="recommendations.html">Get recommendations <svg class="icon" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></a>
-            <a class="btn btn-lg btn-outline-light" href="compare.html">Compare gadgets</a>
+            <a class="btn btn-lg btn-warm" href="recommendations.html">Find my gadget →</a>
           </div>
         </div>
       </div>
@@ -227,7 +205,7 @@
     document.getElementById("stripReviews").textContent = GW.community.reviewsWritten.toLocaleString("en-PH") + "+";
     document.getElementById("stripRating").textContent = GW.community.avgRating + "\u2605";
 
-    // Category cards — per-category tint + clean SVG icon (no emoji)
+    // Category cards — one indigo family (spec 10), count as quiet mono
     document.getElementById("categoryGrid").innerHTML = GW.categories.map(c => {
       const n = GW.gadgetsInCategory(c.id).length;
       return `<a class="cat-card" data-cat="${c.id}" href="category.html?cat=${c.id}">

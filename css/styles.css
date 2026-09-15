@@ -413,9 +413,10 @@ select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmln
 .compare-tray {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
   background: var(--hero-1); color: #fff;
-  transform: translateY(110%); transition: transform .25s ease;
+  display: none;
 }
-.compare-tray.show { transform: translateY(0); }
+.compare-tray.show { display: block; animation: tray-in .25s ease; }
+@keyframes tray-in { from { transform: translateY(100%); } to { transform: none; } }
 .tray-inner { display: flex; align-items: center; gap: 18px; padding: 14px 0; }
 .tray-label { font-family: var(--font-display); font-weight: 700; font-size: .88rem; letter-spacing: .04em; }
 .tray-items { display: flex; gap: 10px; flex: 1; flex-wrap: wrap; }
