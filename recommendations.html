@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recommendations — GadgetWise</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Recommendations — GadgetWise</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='1.5' y='1.5' width='25' height='25' rx='6' fill='%231D5BA4'/%3E%3Cpath d='M14 6.5 7.5 10v8L14 21.5 20.5 18v-8L14 6.5Z' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
   <meta name="description" content="Answer three questions — budget, academic use, priorities — and get ranked gadget recommendations with a fully visible scoring breakdown.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/identity.css">
 </head>
@@ -45,8 +45,7 @@
           <section data-step="2" hidden>
             <h2 style="margin-bottom:6px">What's your budget?</h2>
             <p class="lede" style="margin-bottom:20px">Realistic student brackets, or set a custom ceiling.</p>
-            <div class="choice-grid" id="budgetChoices"></div>
-            <div class="panel panel-tight" style="margin-top:16px">
+            <div class="choice-grid" id="budgetChoices"></div>              <div class="panel panel-tight" style="margin-top:16px">
               <label class="check" style="margin-bottom:10px">
                 <input type="checkbox" id="customBudgetToggle"> Set a custom budget instead
               </label>
@@ -55,6 +54,7 @@
                 <span>–</span>
                 <input type="number" id="customMax" placeholder="To ₱" min="0" aria-label="Budget maximum">
               </div>
+              <p class="small muted" id="customBudgetHint" style="margin:10px 0 0; visibility:hidden">Enter a maximum (and optional minimum), then Continue.</p>
             </div>
             <div class="row" style="margin-top:22px">
               <button class="btn btn-outline" data-next="1">Back</button>
@@ -122,6 +122,8 @@
           s.classList.toggle("done", i < n);
         });
         window.scrollTo({ top: 0, behavior: "smooth" });
+        const heading = document.querySelector(`[data-step="${n}"] h2`);
+        if (heading) { heading.setAttribute("tabindex", "-1"); heading.focus({ preventScroll: true }); }
       }
       document.querySelectorAll("[data-next]").forEach(b =>
         b.addEventListener("click", () => {
@@ -143,14 +145,15 @@
       };
       const catBox = document.getElementById("catChoices");
       catBox.innerHTML = GW.categories.map(c => `
-        <button type="button" class="choice-card" data-cat="${c.id}">
+        <button type="button" class="choice-card" data-cat="${c.id}" aria-pressed="false">
           <div class="c-title">${esc(c.name)}</div>
           <div class="c-sub">${esc(CAT_SUBS[c.id] || c.blurb)}</div>
         </button>`).join("");
       catBox.addEventListener("click", e => {
         const card = e.target.closest("[data-cat]"); if (!card) return;
-        catBox.querySelectorAll(".choice-card").forEach(c => c.classList.remove("selected"));
+        catBox.querySelectorAll(".choice-card").forEach(c => { c.classList.remove("selected"); c.setAttribute("aria-pressed", "false"); });
         card.classList.add("selected");
+        card.setAttribute("aria-pressed", "true");
         answers.category = card.getAttribute("data-cat");
         document.getElementById("indCat").textContent = GW.getCategory(answers.category).name;
       });
@@ -158,38 +161,60 @@
       /* ---------- step 2: budget ---------- */
       const budgetBox = document.getElementById("budgetChoices");
       budgetBox.innerHTML = GW.budgetBands.map(b => `
-        <button type="button" class="choice-card" data-budget="${b.id}">
+        <button type="button" class="choice-card" data-budget="${b.id}" aria-pressed="false">
           <div class="c-title">${esc(b.label)}</div>
           <div class="c-sub">${b.max === Infinity ? "Flagship territory" : "₱" + b.min.toLocaleString("en-PH") + " – ₱" + b.max.toLocaleString("en-PH")}</div>
         </button>`).join("");
       budgetBox.addEventListener("click", e => {
         const card = e.target.closest("[data-budget]"); if (!card) return;
-        budgetBox.querySelectorAll(".choice-card").forEach(c => c.classList.remove("selected"));
+        budgetBox.querySelectorAll(".choice-card").forEach(c => { c.classList.remove("selected"); c.setAttribute("aria-pressed", "false"); });
         card.classList.add("selected");
+        card.setAttribute("aria-pressed", "true");
         answers.budget = GW.budgetBands.find(b => b.id === card.getAttribute("data-budget"));
         document.getElementById("customBudgetToggle").checked = false;
         document.getElementById("customBudgetInputs").style.visibility = "hidden";
+        document.getElementById("customBudgetHint").style.visibility = "hidden";
         document.getElementById("indBudget").textContent = answers.budget.label;
       });
-      document.getElementById("customBudgetToggle").addEventListener("change", e => {
-        document.getElementById("customBudgetInputs").style.visibility = e.target.checked ? "visible" : "hidden";
-        if (e.target.checked) {
-          budgetBox.querySelectorAll(".choice-card").forEach(c => c.classList.remove("selected"));
+      const customToggle = document.getElementById("customBudgetToggle");
+      const customHint = document.getElementById("customBudgetHint");
+      function applyCustomBudget() {
+        const min = +document.getElementById("customMin").value || 0;
+        const max = +document.getElementById("customMax").value || 0;
+        if (max > 0) {
+          answers.budget = { id: "custom", label: `₱${min.toLocaleString("en-PH")} – ₱${max.toLocaleString("en-PH")}`, min, max };
+          document.getElementById("indBudget").textContent = answers.budget.label;
+        } else if (answers.budget && answers.budget.id === "custom") {
           answers.budget = null;
+          document.getElementById("indBudget").textContent = "What can you spend?";
+        }
+      }
+      customToggle.addEventListener("change", e => {
+        document.getElementById("customBudgetInputs").style.visibility = e.target.checked ? "visible" : "hidden";
+        customHint.style.visibility = e.target.checked ? "visible" : "hidden";
+        if (e.target.checked) {
+          budgetBox.querySelectorAll(".choice-card").forEach(c => { c.classList.remove("selected"); c.setAttribute("aria-pressed", "false"); });
+          answers.budget = null;
+          document.getElementById("customMin").focus();
+        } else {
+          applyCustomBudget();
         }
       });
+      ["customMin", "customMax"].forEach(id =>
+        document.getElementById(id).addEventListener("input", applyCustomBudget));
 
       /* ---------- step 2: academic use ---------- */
       const useBox = document.getElementById("useChoices");
       useBox.innerHTML = GW.useCases.map(u => `
-        <button type="button" class="choice-card" data-use="${u.id}">
+        <button type="button" class="choice-card" data-use="${u.id}" aria-pressed="false">
           <div class="c-title">${esc(u.label)}</div>
           <div class="c-sub">${esc(u.note)}</div>
         </button>`).join("");
       useBox.addEventListener("click", e => {
         const card = e.target.closest("[data-use]"); if (!card) return;
-        useBox.querySelectorAll(".choice-card").forEach(c => c.classList.remove("selected"));
+        useBox.querySelectorAll(".choice-card").forEach(c => { c.classList.remove("selected"); c.setAttribute("aria-pressed", "false"); });
         card.classList.add("selected");
+        card.setAttribute("aria-pressed", "true");
         answers.use = GW.useCases.find(u => u.id === card.getAttribute("data-use"));
         document.getElementById("indUse").textContent = answers.use.label;
       });
@@ -220,13 +245,7 @@
 
       /* ---------- step 5: calculate + render ---------- */
       document.getElementById("calcBtn").addEventListener("click", () => {
-        const customOn = document.getElementById("customBudgetToggle").checked;
-        if (customOn) {
-          const min = +document.getElementById("customMin").value || 0;
-          const max = +document.getElementById("customMax").value || 0;
-          if (!max) { GWApp.toast("Enter a budget ceiling", "alert"); return; }
-          answers.budget = { id: "custom", label: max ? "₱" + min.toLocaleString("en-PH") + " – ₱" + max.toLocaleString("en-PH") : "", min, max };
-        }
+        if (document.getElementById("customBudgetToggle").checked) applyCustomBudget();
         if (!answers.category) { GWApp.toast("Pick a gadget type first", "info"); show(1); return; }
         if (!answers.budget) { GWApp.toast("Pick a budget first", "info"); show(2); return; }
         if (!answers.use) { GWApp.toast("Pick your academic use first", "info"); show(3); return; }
@@ -334,7 +353,7 @@
             </div>
           </article>`;
         }).join("");
-        GWApp.toast(`Ranked ${results.length} gadgets — showing top ${top.length}`, "target");
+        GWApp.toast(`Shortlist ready — showing the top ${top.length} of ${results.length}`, "target");
       }
     })();
   </script>

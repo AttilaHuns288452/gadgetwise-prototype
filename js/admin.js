@@ -27,7 +27,7 @@ window.GWAdmin = (function () {
 
     const trends = document.getElementById("dashTrends");
     if (trends) {
-      const labels = Object.fromEntries(GW.gadgets.map(g => [g.id, `${g.brand} ${g.model}`]));
+      const labels = Object.fromEntries(GW.gadgets.map(g => [g.id, GWApp.fullName(g)]));
       trends.innerHTML = `
         <div class="panel">
           <div class="row-between" style="margin-bottom:14px">
@@ -67,12 +67,11 @@ window.GWAdmin = (function () {
       const cat = catSel.value, status = statusSel.value;
       const list = GW.gadgets.filter(g =>
         (!cat || g.category === cat) &&
-        (!status || g.status === status) &&
-        (!q || `${g.brand} ${g.model}`.toLowerCase().includes(q)));
+        (!status || g.status === status) &&          (!q || GWApp.fullName(g).toLowerCase().includes(q)));
       body.innerHTML = list.map(g => `
         <tr>
           <td><img class="t-media" src="${g.image}" alt=""></td>
-          <td><div class="t-title">${esc(g.brand)} ${esc(g.model)}</div><div class="t-sub">${g.id}</div></td>
+          <td><div class="t-title">${esc(GWApp.fullName(g))}</div><div class="t-sub">${g.id}</div></td>
           <td>${esc(GWApp.catLabel(g.category))}</td>
           <td class="mono">${money(g.price)}</td>
           <td class="mono">${g.rating.toFixed(1)}★</td>
@@ -89,7 +88,7 @@ window.GWAdmin = (function () {
         const ov = GWApp.openModal(`
           <h3>Delete gadget</h3>
           <p class="modal-sub">This simulates deletion in the prototype dataset.</p>
-          <p>Remove <b>${esc(g.brand)} ${esc(g.model)}</b> from the catalog?</p>
+          <p>Remove <b>${esc(GWApp.fullName(g))}</b> from the catalog?</p>
           <div class="modal-actions">
             <button class="btn btn-outline" data-close>Cancel</button>
             <button class="btn btn-danger" data-ok>Delete</button>
@@ -121,7 +120,7 @@ window.GWAdmin = (function () {
     const set = (name, v) => { const el = form.querySelector(`[name="${name}"]`); if (el && v !== undefined) el.value = v; };
 
     if (g) {
-      document.getElementById("formTitle").textContent = `Edit — ${g.brand} ${g.model}`;
+      document.getElementById("formTitle").textContent = `Edit — ${GWApp.fullName(g)}`;
       set("brand", g.brand); set("model", g.model); set("category", g.category);
       set("price", g.price); set("releaseYear", g.releaseYear); set("summary", g.summary);
       set("warranty", g.value.warrantyYears); set("lifespan", g.value.lifespanYears);
@@ -201,8 +200,9 @@ window.GWAdmin = (function () {
       const list = f === "all" ? store : store.filter(r => r.status === f);
       body.innerHTML = list.map(r => {
         const g = GW.getGadget(r.gadget) || { brand: "", model: r.gadget };
+        const name = GW.getGadget(r.gadget) ? GWApp.fullName(g) : r.gadget;
         return `<tr>
-          <td><div class="t-title">${esc(g.brand)} ${esc(g.model)}</div><div class="t-sub">${esc(r.user)} · ${esc(r.date)}</div></td>
+          <td><div class="t-title">${esc(name)}</div><div class="t-sub">${esc(r.user)} · ${esc(r.date)}</div></td>
           <td class="mono">${r.rating}★</td>
           <td style="max-width:420px"><span class="small" style="color:var(--ink-2)">“${esc(r.text.slice(0, 140))}${r.text.length > 140 ? "…" : ""}”</span></td>
           <td><span class="badge ${r.status === "approved" ? "badge-green" : r.status === "rejected" ? "badge-red" : "badge-gold"}">${esc(r.status)}</span></td>

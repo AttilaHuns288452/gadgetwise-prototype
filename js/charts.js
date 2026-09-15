@@ -28,7 +28,7 @@ window.GWCharts = (function () {
   }
 
   /* ---------- donut (composition; ≤6 slices, fixed hue order) ---------- */
-  const SLICES = ["#2563EB", "#4C82F2", "#8FB1F5", "#C7D8F9", "#F0A35B", "#172033"];
+  const SLICES = ["#1D5BA4", "#4C7EBF", "#7FA3D1", "#B3C8E4", "#D9A441", "#33415C"];
   function donut(el, data) {
     const total = data.reduce((n, d) => n + d.value, 0);
     let a0 = 0;

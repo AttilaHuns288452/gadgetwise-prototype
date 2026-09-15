@@ -1,37 +1,38 @@
 # GadgetWise — Student Gadget Discovery & Comparison
 
 **Prototype** for CC 116 (Web Systems & Technologies). Static, no build step, no
-backend — every product, price, review, user, and metric is mock data.
+backend — every product, price, review, user, and metric is demo data.
 
 Live: https://attilahuns288452.github.io/gadgetwise-prototype/
 
 ## What it does
 
 GadgetWise helps Filipino students decide on gadgets before they buy: see real
-specs, estimate the **₱/month cost of owning** (price ÷ catalog lifespan),
+specs, estimate the **₱/month cost of owning** (price ÷ fixed 36-month window),
 compare up to four side-by-side with differences highlighted, and get ranked
 recommendations whose scoring you can audit factor by factor — no black box,
 no AI in the loop.
 
 ## Data provenance
 
-Every value classifies as exactly one of:
+The catalog uses **real product names and Wikimedia Commons photos**; specs,
+prices, scores, reviews, and issues remain illustrative demo data. Every value
+classifies as exactly one of:
 
 | Class | Fields | Source |
 |---|---|---|
-| RAW (marketplace) | name, brand, category, price, image, specs, specList, releaseYear | Product/marketplace source (prototype: hand-entered from retail listings) |
-| GW-EDITORIAL | `scored` display/camera/storage, `value{}` (warranty, lifespan, repair path), `durab`, `strengths/weaknesses/goodFor/notIdeal`, `issue` | Manually maintained GadgetWise catalog values |
+| RAW (marketplace) | name, brand, category, price, image, specs, specList, releaseYear | Product/marketplace source (prototype: hand-entered from retail listings; images from Wikimedia Commons) |
+| GW-EDITORIAL | `scored` display/camera/storage, `value{}` (warranty, lifespan, repair path), `strengths/weaknesses/goodFor/notIdeal`, `issue` | Manually maintained GadgetWise catalog values |
 | GW-CALCULATED | monthly cost, Performance to Cost index, all recommendation factor scores | Deterministic formulas, documented below |
-| USER-GENERATED | rating, reviewCount, reviews | GadgetWise website users |
+| USER-GENERATED | rating, reviewCount, reviews | GadgetWise website users (seeded demo data) |
 
 Marketplace sources (Shopee/Lazada in the production design) provide only product
-identity, price, imagery, and basic specs. Durability, repairability, lifespan, and
-student ratings are **never** claimed from an API.
+identity, price, imagery, and basic specs. Durability beyond the editorial
+`scored.durability` catalog rating, expected lifespan, and student ratings are
+**never** claimed from an API.
 
 **Core metrics (final set):** Budget Fit, Performance, Battery,
 Portability, Academic Suitability, Value (cost per month), Student Rating.
-Explicitly removed as unsupported: Repairability, Expected Lifespan,
-Durability — marketplace specs cannot defend them.
 
 **Performance to Cost index** = battery 25 (catalog battery spec) +
 student rating 25 (GW users) + value 30 (price vs category median monthly
@@ -50,9 +51,10 @@ priorities push raw weights, then normalize to 50). Missing specs are
 never invented: a missing spec shows as "Not specified" and contributes
 nothing to a score. Same inputs → same ranking, always.
 
-The whole thing runs on vanilla HTML/CSS/JS with one shared stylesheet, four
-Google Fonts (Archivo / Hanken Grotesk / Spline Sans Mono), and locally-served
-SVG placeholders. No dependencies beyond that.
+The whole thing runs on vanilla HTML/CSS/JS with two stylesheets
+(`styles.css` tokens + `identity.css` Ledger Slate layer), two Google Fonts
+(Hanken Grotesk / Spline Sans Mono), and Wikimedia Commons product
+photos. No dependencies beyond that.
 
 ## Pages
 
@@ -60,12 +62,12 @@ SVG placeholders. No dependencies beyond that.
 
 | File | Route | Purpose |
 |---|---|---|
-| `index.html` | Home | hero with live value tag, trust strip, categories, featured, flow band, CTA |
+| `index.html` | Home | hero with clickable showcase, trust strip, categories, editorial, scatter, flow band, CTA |
 | `gadgets.html` | All Gadgets | filterable/sortable catalog with compare tray |
 | `category.html?cat=` | Category | single-category view, reuses catalog grid |
 | `gadget-detail.html?id=` | Gadget Detail | spec table, ownership formula, issues, reviews, similar |
-| `compare.html` | Compare | side-by-side table, best-cell highlights |
-| `recommendations.html` | Recommendations | 3-step wizard → ranked shortlist with score rings + breakdown |
+| `compare.html` | Compare | side-by-side table, best-cell highlights, sticky labels |
+| `recommendations.html` | Recommendations | 5-step wizard → ranked shortlist with score rings + breakdown |
 
 ### Account (mock auth)
 
@@ -95,51 +97,50 @@ SVG placeholders. No dependencies beyond that.
 ## Architecture
 
 ```
-index.html              # home (hero + trust strip + featured + flow + CTA)
+index.html              # home (hero + showcase + trust strip + editorial + scatter + flow + CTA)
 gadgets.html            # catalog (filter sidebar + grid)
 category.html           # single-category catalog
 gadget-detail.html      # spec table + ownership formula + reviews + issues
-compare.html            # 2–4 way comparison table
-recommendations.html    # 3-step wizard → scored results
+compare.html            # 2–4 way comparison table (sticky row labels)
+recommendations.html    # 5-step wizard → scored results
 
 admin-*.html            # 9 admin pages (dark sidebar shell, separate nav)
 
 login.html / register.html / profile.html / wishlist.html
 review-history.html / comparison-history.html
 
-css/styles.css          # 758 lines, single shared stylesheet
+css/styles.css          # tokens + components (Ledger Slate v7)
+css/identity.css        # identity layer (hero, tints, signatures)
 
-js/data.js              # mock dataset + lookups + cost helpers
-js/app.js               # shell (header/footer), icons, state, cards, tray, modals
+js/data.js              # demo catalog + lookups + cost helpers
+js/app.js               # shell (header/footer), icons, state, cards, tray, modals, scatter
 js/catalog.js           # filter/sort/search grid logic
 js/detail.js            # detail page (specs, ownership formula, reviews, issues)
 js/comparison.js        # compare table rendering + best-cell logic
 js/recommendations.js   # scoring engine (budget fit + academic fit + priority-weighted)
 js/charts.js            # admin charts (h-bar, donut, line)
-js/admin.js             # admin dashboard rendering
+js/admin.js             # admin dashboard + admin sidebar shell
+js/cat-icons.js         # category SVG icons
 
-assets/placeholders/    # 26 SVG placeholders (blue-tinted, per category)
+assets/placeholders/    # legacy blue-tinted SVG placeholders (superseded by Commons photos)
 ```
 
 ## Design system
 
-See `DESIGN.md` for the full contract. World: **Cobalt Ledger** — cool light
-ground, ink-navy text, cobalt `#1a56db` reserved for actions and measured
-values, cyan `#7cc9f5` only for admin/logo detail.
-
-- **Display:** Archivo 500–800 (headings, buttons, prices)
-- **Body:** Hanken Grotesk 400–700, 15.5px / 1.6
-- **Mono:** Spline Sans Mono (every measured value: ₱/month, score rings, breakdown)
-- **Signature:** the value tag (price rows → cobalt ₱/month total), score ring (SVG donut), compare best-cell (accent-wash + advantage chip)
+See `DESIGN.md` for the full contract. World: **Ledger Slate (v7, institutional)** — cool
+paper ground, ink text, electric blue `#2563EB` for actions and measured
+values, deep signal amber `#B45309` reserved for the best-value frontier and
+favorites. Archivo / Hanken Grotesk / Spline Sans Mono.
 
 All motion collapses under `prefers-reduced-motion`.
 
 ## Data status
 
-Everything in `js/data.js` is **mock / fabricated for the prototype**:
+Everything in `js/data.js` beyond product identity is **demo / fabricated for
+the prototype**:
 
-- 20 gadgets across 6 categories (names, specs, prices, ratings — all fictional)
-- Reviews, issues, user accounts, metrics — all seeded
+- Real product names/photos; specs, prices, ratings, reviews, issues, users,
+  metrics — all seeded demo values
 - Admin dashboard charts — all mock numbers
 - No real API calls, no live data
 
@@ -162,6 +163,10 @@ Or just open `index.html` in a browser (no build step needed).
 # All JS modules parse
 for f in js/*.js; do node -c "$f" || echo "FAIL: $f"; done
 
+# Smoke tests (catalog filters + recommendation engine)
+node test-catalog.js
+node test-rec.js
+
 # All pages + assets return 200
 for p in index.html gadgets.html recommendations.html compare.html; do
   curl -s -o /dev/null -w "%{http_code} $p\n" http://localhost:8765/$p
@@ -170,12 +175,18 @@ done
 
 ## Status
 
-Landing page restructured (multi-page architecture, proper design system, no
-demo-language leaks, no admin link in public nav, honest trust strip). All
-pages verified live. Ready for next round of polish.
+Ledger Slate v7 pass complete: institutional re-styling (cool neutrals, one
+deep blue, muted signal amber, hairline borders, no hover-lift), unified
+palette and tokens, accessibility pass
+(skip links, live-region toasts, modal focus trap, aria-pressed wizard cards,
+44px touch targets, sticky compare labels), broken flows fixed (custom-budget
+wizard dead-end, mobile search, clickable hero showcase, build-quality filter),
+honesty leaks closed (footer provenance, shaped rating disclosure, no
+price-chip exception). All pages carry the favicon. Ready for Figma import —
+see `DESIGN.md` for the token/section mapping.
 
 **Known gaps:**
-- Mobile nav menu JS not wired (hamburger button is markup-only)
 - Contact/demo account flows are mock gates (any credentials → redirect)
 - No real backend (by design — prototype scope)
-- Recommendation history relies on `localStorage` (resets on clear)
+- History and wishlist rely on `localStorage` (resets on clear)
+- Rating distributions are shaped from averages (disclosed on the detail page)

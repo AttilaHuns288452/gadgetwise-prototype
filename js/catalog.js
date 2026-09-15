@@ -14,8 +14,8 @@ window.GWCatalog = (function () {
     const state = {
       q: p.get("q") || "",
       brands: new Set(),
-      minPrice: p.get("min") ? +p.get("min") : null,
-      maxPrice: p.get("max") ? +p.get("max") : null,
+      minPrice: p.get("min") ? +p.get("min") : 0,
+      maxPrice: p.get("max") ? +p.get("max") : 100000,
       sort: p.get("sort") || "featured",
       category: catId || p.get("cat") || null
     };
@@ -47,7 +47,7 @@ window.GWCatalog = (function () {
     const FEATURES = {
       fLong:    g => /([8-9]\d*|\d{2,})\s*(h|hr|hour)/i.test(g.specs.Battery || ""),
       fBudget:  g => g.price < 15000,
-      fDurable: null
+      fDurable: g => (g.scored && typeof g.scored.durability === "number") ? g.scored.durability >= 7 : false
     };
     const featureChecks = ["fLong", "fBudget"].filter(k => document.getElementById(k))
       .map(id => document.getElementById(id)).filter(Boolean);
@@ -64,7 +64,7 @@ window.GWCatalog = (function () {
       }
       if (state.brands.size) list = list.filter(g => state.brands.has(g.brand));
       if (state.minPrice != null && state.minPrice > 0) list = list.filter(g => g.price >= state.minPrice);
-      if (state.maxPrice != null && state.maxPrice > 0) list = list.filter(g => g.price <= state.maxPrice);
+      if (state.maxPrice != null && state.maxPrice < 100000) list = list.filter(g => g.price <= state.maxPrice);
       for (const cb of featureChecks) {
         if (cb.checked) list = list.filter(FEATURES[cb.id]);
       }

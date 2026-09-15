@@ -58,9 +58,9 @@ window.GWCompare = (function () {
     const spread = Math.max(...row.values) - Math.min(...row.values);
     if (spread === 0) return [];
     const edge = row.better === "low" ? Math.min(...row.values) : Math.max(...row.values);
-    // highlight only a meaningful spread (>8% relative), so near-ties stay quiet
+    // highlight only a meaningful spread (>8% relative) — near-ties stay quiet, price included
     const rel = row.values[0] !== 0 ? Math.abs(spread / Math.max(...row.values.map(Math.abs))) : 1;
-    if (rel < 0.08 && row.label !== "Price") return [];
+    if (rel < 0.08) return [];
     return row.values.map((v, i) => (v === edge ? i : -1)).filter(i => i >= 0);
   }
 
@@ -189,7 +189,7 @@ window.GWCompare = (function () {
       picks.push(`Highest rated: <b>${esc(g.brand)} ${esc(g.model)}</b> at ${max.toFixed(1)}★`);
     }
 
-    // Spread-aware verdict (ported from fac3629): near-ties on the Performance to Cost score read differently
+    // Spread-aware verdict: near-ties on the Performance to Cost score read differently
     const ranked = [...gadgets].sort((a, b) => GWApp.ownIndex(b) - GWApp.ownIndex(a));
     const cheap = [...gadgets].sort((a, b) => GW.monthlyCost(a) - GW.monthlyCost(b))[0];
     const rated = ranked[0];
@@ -200,9 +200,8 @@ window.GWCompare = (function () {
         `<b>${esc(cheap.brand)} ${esc(cheap.model)}</b> still costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo), ` +
         `so the trade-offs above should decide it, not the totals.`;
     } else {
-      line = `With the same 36-month window applied to every gadget, <b>${esc(cheap.brand)} ${esc(cheap.model)}</b> costs the least per month (≈ ${money(GW.monthlyCost(cheap))}/mo). ` +
-        `Students rate <b>${esc(rated.brand)} ${esc(rated.model)}</b> highest (${rated.rating.toFixed(1)}\u2605). ` +
-        `Monthly costs use a fixed 36-month window for every gadget, so the comparison stays apples-to-apples.`;
+      line = `Students rate <b>${esc(rated.brand)} ${esc(rated.model)}</b> highest (${rated.rating.toFixed(1)}\u2605). ` +
+        `All monthly costs use the same fixed 36-month window, so the comparison stays apples-to-apples.`;
     }
 
     return `

@@ -83,6 +83,12 @@ window.GWApp = (function () {
       maximumFractionDigits: hasCents ? 2 : 0
     });
   }
+  /* "Samsung" + "Samsung Galaxy S23" → "Samsung Galaxy S23".
+     Some catalog models already start with the brand name. */
+  function fullName(g) {
+    const m = String(g.model || "");
+    return m.toLowerCase().startsWith(String(g.brand || "").toLowerCase()) ? m : `${g.brand} ${m}`;
+  }
   function esc(s) {
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -218,16 +224,20 @@ window.GWApp = (function () {
     document.dispatchEvent(new CustomEvent("gw:compare-change"));
   }
 
-  /* ---------------- Toast ---------------- */
+  /* ---------------- Toast ----------------
+     Announced to assistive tech via a polite live region. */
   function toast(msg, ic) {
     let wrap = document.querySelector(".toast-wrap");
     if (!wrap) {
       wrap = document.createElement("div");
       wrap.className = "toast-wrap";
+      wrap.setAttribute("aria-live", "polite");
+      wrap.setAttribute("aria-atomic", "false");
       document.body.appendChild(wrap);
     }
     const t = document.createElement("div");
     t.className = "toast";
+    t.setAttribute("role", "status");
     t.innerHTML = icon(ic || "checkCircle") + `<span>${esc(msg)}</span>`;
     wrap.appendChild(t);
     setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity .3s"; }, 2400);
@@ -235,14 +245,25 @@ window.GWApp = (function () {
   }
 
   /* ---------------- Modal ---------------- */
+  let lastFocused = null;
   function openModal(html) {
     closeModal();
+    lastFocused = document.activeElement;
     const ov = document.createElement("div");
     ov.className = "modal-overlay";
     ov.innerHTML = `<div class="modal" role="dialog" aria-modal="true">${html}</div>`;
     document.body.appendChild(ov);
     ov.addEventListener("click", e => { if (e.target === ov) closeModal(); });
     document.addEventListener("keydown", escClose);
+    // simple focus trap: keep Tab inside the dialog while open
+    ov.addEventListener("keydown", e => {
+      if (e.key !== "Tab") return;
+      const focusables = ov.querySelectorAll("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
+      if (!focusables.length) return;
+      const first = focusables[0], last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
     const f = ov.querySelector("input, select, textarea, button.btn");
     if (f) setTimeout(() => f.focus(), 30);
     return ov;
@@ -252,6 +273,8 @@ window.GWApp = (function () {
     const ov = document.querySelector(".modal-overlay");
     if (ov) ov.remove();
     document.removeEventListener("keydown", escClose);
+    if (lastFocused && document.contains(lastFocused)) { lastFocused.focus(); }
+    lastFocused = null;
   }
 
   /* ---------------- Stars ---------------- */
@@ -273,7 +296,7 @@ window.GWApp = (function () {
   }
   function priceBlock(g, size) {
     const cls = size === "lg" ? "price-lg" : size === "compact" ? "price-compact" : "";
-    return `<span class="price ${cls}"><span class="price-amount"><span class="peso">${peso}</span>${g.price.toLocaleString("en-PH")}</span>${estimateLine(g)}</span>`;
+    return `<span class="price ${cls}"><span class="price-amount"><span class="peso">${peso}</span>${g.price.toLocaleString("en-PH")}</span>${estimateLine(g, "")}</span>`;
   }
 
   /* ---------------- Product card ---------------- */
@@ -336,13 +359,13 @@ window.GWApp = (function () {
       return `<span class="tray-item">${esc(g.brand)} ${esc(g.model)}
         <button type="button" data-cmp-remove="${g.id}" aria-label="Remove ${esc(g.model)} from compare">${icon("x", "icon-sm")}</button></span>`;
     }).join("");
-    const disabled = state.compare.size < 2 ? "disabled" : "";
+    const disabled = state.compare.size < 2;
     const hint = state.compare.size < 2 ? `<span class="tray-hint">Add at least 2 gadgets to compare</span>` : "";
     return `
       <span class="tray-label">COMPARE (${state.compare.size}/4)</span>
       <span class="tray-items">${items}</span>
       ${hint}
-      <a class="btn btn-light btn-sm" href="compare.html" ${disabled ? `aria-disabled="true" onclick="return false"` : ""}>Compare now ${icon("arrowRight")}</a>`;
+      <a class="btn btn-light btn-sm" href="compare.html" ${disabled ? `aria-disabled="true"` : ""} ${disabled ? `tabindex="-1"` : ""}>Compare now ${icon("arrowRight")}</a>`;
   }
   function renderTray() {
     const tray = document.getElementById("compareTray");
@@ -367,18 +390,21 @@ window.GWApp = (function () {
       ["compare.html", "Compare"],
       ["recommendations.html", "Recommendations"]
     ];
+    const initial = (state.user && state.user.name ? state.user.name : "Andrea V.")
+      .split(" ").map(s => s[0]).join("").slice(0, 2).toUpperCase();
     return `
+    <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="container header-inner">
-        <button class="icon-btn mobile-nav-btn" id="mobileNavBtn" aria-label="Open menu" aria-expanded="false">${icon("menu")}</button>
         <a class="logo" href="index.html" aria-label="GadgetWise home">
-          <svg class="logo-mark" viewBox="0 0 28 28" aria-hidden="true">
-            <rect x="1.5" y="1.5" width="25" height="25" rx="6" fill="#2563EB"/>
+          <svg class="gw-logo-mark" viewBox="0 0 28 28" aria-hidden="true">
+            <rect x="1.5" y="1.5" width="25" height="25" rx="6" fill="#1D5BA4"/>
             <path d="M14 6.5 7.5 10v8L14 21.5 20.5 18v-8L14 6.5Z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
-            <path d="M14 10v8M10.7 8.9v10.2M17.3 8.9v10.2" stroke="#F0A35B" stroke-width="1.4"/>
+            <path d="M14 10v8M10.7 8.9v10.2M17.3 8.9v10.2" stroke="#D9A441" stroke-width="1.4"/>
           </svg>
           Gadget<span class="logo-wise">Wise</span>
         </a>
+        <button class="icon-btn icon-only mobile-nav-btn" id="mobileNavBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">${icon("menu")}</button>
         <nav class="main-nav" aria-label="Primary">
           ${nav.map(([href, label]) => `<a href="${href}" data-nav="${href}">${label}</a>`).join("")}
         </nav>
@@ -387,12 +413,16 @@ window.GWApp = (function () {
           <input type="search" name="q" placeholder="Search gadgets, brands, categories…" aria-label="Search gadgets">
         </form>
         <div class="header-actions">
-          <a class="icon-btn" href="wishlist.html" title="Wishlist" aria-label="Wishlist">${icon("heart")}<span class="count" id="wlCount" hidden>0</span></a>
-          <a class="icon-btn" href="compare.html" title="Compare" aria-label="Comparison">${icon("scale")}<span class="count" id="cmpCount" hidden>0</span></a>
+          <a class="icon-btn icon-only" href="wishlist.html" title="Wishlist" aria-label="Wishlist">${icon("heart")}<span class="count" id="wlCount" hidden>0</span></a>
+          <a class="icon-btn icon-only" href="compare.html" title="Compare" aria-label="Comparison">${icon("scale")}<span class="count" id="cmpCount" hidden>0</span></a>
           <span class="header-divider"></span>
-          <a class="avatar" href="profile.html" title="Profile — Andrea V.">AV</a>
+          <a class="avatar" href="profile.html" title="Profile">${initial}</a>
         </div>
       </div>
+      <form class="mobile-search search-box" role="search" data-search-form>
+        ${icon("search")}
+        <input type="search" name="q" placeholder="Search gadgets…" aria-label="Search gadgets">
+      </form>
       <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
         ${nav.map(([href, label]) => `<a href="${href}" data-nav="${href}">${label}</a>`).join("")}
         <a href="wishlist.html">Wishlist</a>
@@ -408,7 +438,7 @@ window.GWApp = (function () {
           <div class="f-brand">
             <a class="logo" href="index.html">Gadget<span class="logo-wise">Wise</span></a>
             <p>Compare gadgets by price, specs, ownership cost, and student ratings. Made for Filipino students.</p>
-            <p class="small" style="color:rgba(255,255,255,.45)">Product data compiled from retail listings. Reviews and ratings come from GadgetWise users.</p>
+            <p class="small" style="color:rgba(255,255,255,.55)">All product data in this prototype is fictional, written for demonstration. Ratings and reviews come from seeded demo users.</p>
           </div>
           <div>
             <h4>CATEGORIES</h4>
@@ -418,6 +448,8 @@ window.GWApp = (function () {
               <li><a href="category.html?cat=laptops">Laptops</a></li>
               <li><a href="category.html?cat=tablets">Tablets</a></li>
               <li><a href="category.html?cat=headphones">Headphones</a></li>
+              <li><a href="category.html?cat=powerbanks">Power Banks</a></li>
+              <li><a href="category.html?cat=smartwatches">Smartwatches</a></li>
             </ul>
           </div>
           <div>
@@ -438,6 +470,14 @@ window.GWApp = (function () {
               <li><a href="register.html">Create account</a></li>
             </ul>
           </div>
+          <div>
+            <h4>THIS PROJECT</h4>
+            <ul>
+              <li>CC 116 frontend prototype</li>
+              <li>Scoring formulas in the README</li>
+              <li>Not a store — nothing is sold here</li>
+            </ul>
+          </div>
         </div>
         <div class="footer-base">
           <span>GadgetWise — a CC 116 frontend prototype. Not a store; no products are sold here.</span>
@@ -452,6 +492,7 @@ window.GWApp = (function () {
     opts = opts || {};
     document.body.insertAdjacentHTML("afterbegin", headerHTML());
     document.body.insertAdjacentHTML("beforeend", footerHTML());
+    ensureFavicon();
 
     // active nav
     const active = opts.active;
@@ -488,6 +529,14 @@ window.GWApp = (function () {
   }
 
   /* ---------------- Misc ---------------- */
+  const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='1.5' y='1.5' width='25' height='25' rx='6' fill='%231D5BA4'/%3E%3Cpath d='M14 6.5 7.5 10v8L14 21.5 20.5 18v-8L14 6.5Z' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E";
+  function ensureFavicon() {
+    if (document.querySelector("link[rel='icon']")) return;
+    const link = document.createElement("link");
+    link.rel = "icon";
+    link.href = FAVICON;
+    document.head.appendChild(link);
+  }
   function catLabel(id) { const c = GW.getCategory(id); return c ? c.name : id; }
   function emptyState(ic, title, text, actionHTML) {
     return `<div class="empty-state">${icon(ic)}<div class="es-title">${esc(title)}</div><p class="small">${text}</p>${actionHTML || ""}</div>`;
@@ -524,7 +573,7 @@ window.GWApp = (function () {
     for (const t of [20, 40, 60, 80, 100]) grid += `<line x1="${P.l}" y1="${py(t)}" x2="${W - P.r}" y2="${py(t)}" stroke="var(--line)" stroke-width="1"/><text x="${P.l - 10}" y="${py(t) + 4}" text-anchor="end" font-size="11" fill="var(--ink-3)" font-family="var(--font-mono)">${t}</text>`;
     const dots = items.map(g => {
       const on = f.has(g.id), x = px(g.price).toFixed(1), y = py(ownIndex(g)).toFixed(1);
-      return `<circle cx="${x}" cy="${y}" r="${on ? 8 : 6.5}" fill="${on ? "var(--amber)" : "var(--accent)"}" fill-opacity=".9" stroke="#fff" stroke-width="1.5" style="cursor:pointer" data-dot="${g.id}" role="button" tabindex="0" aria-label="${esc(g.brand)} ${esc(g.model)}, ${money(g.price)}, Performance to Cost ${ownIndex(g)}${on ? ", on best-value frontier" : ""}"><title>${esc(g.brand)} ${esc(g.model)} — ${money(g.price)} · Index ${ownIndex(g)}${on ? " · on best-value frontier" : ""}</title></circle>`;
+      return `<circle cx="${x}" cy="${y}" r="${on ? 8 : 6.5}" fill="${on ? "var(--signal)" : "var(--accent)"}" fill-opacity=".9" stroke="#fff" stroke-width="1.5" style="cursor:pointer" data-dot="${g.id}" role="button" tabindex="0" aria-label="${esc(g.brand)} ${esc(g.model)}, ${money(g.price)}, Performance to Cost ${ownIndex(g)}${on ? ", on best-value frontier" : ""}"><title>${esc(g.brand)} ${esc(g.model)} — ${money(g.price)} · Index ${ownIndex(g)}${on ? " · on best-value frontier" : ""}</title></circle>`;
     }).join("");
     const path = fr.map((g, i) => `${i ? "L" : "M"}${px(g.price).toFixed(1)},${py(ownIndex(g)).toFixed(1)}`).join(" ");
     area.innerHTML = `
@@ -533,12 +582,12 @@ window.GWApp = (function () {
           ${grid}
           <text x="${W - P.r}" y="${H - P.b + 34}" text-anchor="end" font-size="11" fill="var(--ink-2)">Price — lower is better ↓</text>
           <text x="${P.l}" y="${P.t - 10}" font-size="11" fill="var(--ink-2)">Performance to Cost — higher is better ↑</text>
-          <path d="${path}" fill="none" stroke="var(--amber)" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8"/>
+          <path d="${path}" fill="none" stroke="var(--signal)" stroke-width="1.6" stroke-dasharray="5 4" opacity=".85"/>
           ${dots}
         </svg>
         <div class="row" style="gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--ink-2);margin-top:8px">
           <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);margin-right:5px"></span>Catalog gadget</span>
-          <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--amber);margin-right:5px"></span>Best-value frontier (Pareto)</span>
+          <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--signal);margin-right:5px"></span>Best-value frontier (Pareto)</span>
           <span style="margin-left:auto">${items.length} shown · Index = battery 25 + student rating 25 + value 30 (price vs category median monthly cost) + warranty 20.</span>
         </div>
       </div>`;
@@ -567,7 +616,7 @@ window.GWApp = (function () {
     state, inWishlist, inCompare, toggleWishlist, toggleCompare, clearCompare,
     requireLogin, openLoginModal,
     toast, openModal, closeModal, stars, ratingLine, priceBlock, estimateLine,
-    productCard, initShell, catLabel, emptyState, valueRow,
+    productCard, initShell, catLabel, emptyState, valueRow, ensureFavicon, fullName,
     LS_KEYS: LS
   };
 })();

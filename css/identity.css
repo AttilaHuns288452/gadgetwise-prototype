@@ -1,244 +1,219 @@
-
 /* ============================================================
-   "Electric Blue + Dusty Gray" visual identity rules (v4)
-   Hero · nav · category tints · product cards · Performance to Cost ·
-   compare tints · breakdown meters · section rhythm.
+   GadgetWise — css/identity.css
+   "Ledger Slate" identity rules (v7, institutional)
+   Layer over styles.css tokens. Design intent: reads like a
+   consumer-report / university tool — cool neutrals, one deep
+   blue, hairline rules, no decorative color, no hover-lift.
    ============================================================ */
 
-/* ---------- Hero: solid deep blue-charcoal (spec 1: no gradients) ---------- */
+/* ---------- Hero: deep navy band, amber hairline only ----------
+   On the dark band, amber appears only in its light gold form
+   (#D9A441) — the deep #9A5B10 signal stays on light surfaces. */
 .hero {
   background: var(--hero-1);
   color: var(--on-hero);
-  border-bottom: 3px solid var(--accent-warm);
+  border-bottom: 2px solid #D9A441;
 }
 .hero .lede { color: var(--on-hero-2); }
 .hero .lede strong { color: #fff; }
-.hero h1 .h-accent { color: var(--accent-warm); }
+.hero h1 .h-accent { color: #D9A441; }
 .hero-points .hp { color: var(--on-hero-2); }
-.hero-points .hp svg { color: var(--accent-warm); }
-.hero-search .search-box input {
-  background: rgba(255,255,255,.08);
-  border-color: rgba(255,255,255,.22);
-  color: #fff;
-}
-.hero-search .search-box input::placeholder { color: var(--on-hero-2); }
-.hero-search .search-box input:focus { border-color: var(--accent-warm); box-shadow: 0 0 0 3px rgba(242,140,107,.25); }
-.hero-search .search-box .icon { color: var(--on-hero-2); }
+.hero-points .hp svg { color: #D9A441; }
 
-/* ---------- Hero product panel: warm accent edge + cool tinted head ---------- */
-.hero-visual .float-note { background: var(--accent-warm); color: #172033; }
-.value-tag { border-top: 4px solid var(--primary); }
-.value-tag::before { border-color: var(--primary-soft); background: var(--bg); }
+/* ---------- Hero product panel ---------- */
+.hero-showcase { transition: box-shadow .15s ease, border-color .15s ease; }
+a.hero-showcase { text-decoration: none; display: block; color: inherit; }
+a.hero-showcase:hover { box-shadow: var(--shadow-2); text-decoration: none; }
+.hero-showcase .hs-img { background: #fff; padding: 8px; }
+.hero-visual .float-note { background: var(--accent-warm-soft); color: var(--accent-warm-deep); border: 1px solid var(--accent-warm-deep); }
+.hs-metric { background: var(--primary-soft); }
+.hs-metric b { color: var(--primary-dark); }
+.hs-metric span { color: var(--primary-dark); }
+.hs-flag { background: var(--signal-soft); color: var(--accent-warm-deep); border: 1px solid var(--accent-warm); }
+
+/* ---------- Value tag ---------- */
+.value-tag { border-top: 3px solid var(--primary); }
+.value-tag::before { border-color: var(--line-strong); background: var(--bg); }
 .value-tag .vt-total .t-value { color: var(--primary-dark); }
 .value-tag .vt-total {
   background: var(--primary-wash);
   margin: 12px -28px 0; padding: 12px 28px;
   border-top: 1px solid var(--primary-soft);
 }
-
-
 .vt-name { color: var(--ink); }
 
-/* ---------- Trust strip: quiet indigo wash ---------- */
+/* ---------- Trust strip ---------- */
 .home-strip { background: transparent; border-block: 1px solid var(--line); }
 .home-strip .hs-item b { color: var(--ink); }
 
-/* ---------- Navigation ---------- */
+/* ---------- Navigation: white, institutional ---------- */
 .site-header {
-  background: rgba(248, 247, 244, .94);
+  background: rgba(255, 255, 255, .97);
   border-bottom: 1px solid var(--line-strong);
 }
 .logo .logo-wise { color: var(--primary); }
 .main-nav a.active { color: var(--primary-dark); background: var(--primary-soft); }
 .icon-btn .count { background: var(--primary); }
+.search-box .icon { color: var(--ink-2); }
 
-/* ---------- Section rhythm: alternate warm ground / white / tinted ---------- */
+/* ---------- Section rhythm ---------- */
 .section-alt-warm { background: var(--surface-2); }
 .section-alt-tint { background: var(--primary-wash); }
 
-/* ---------- Category cards: one lavender-coral family, subtle tints ---------- */
-.cat-card { border-left: 3px solid var(--cat-tint, var(--line-strong)); }
-.cat-card:hover { border-color: var(--cat-tint, var(--line-strong)); box-shadow: var(--shadow-1); }
+/* ---------- Category cards: quiet rules, no tint circus ---------- */
+.cat-card { border-left: 3px solid var(--line-strong); transition: border-color .15s ease, box-shadow .15s ease; }
+.cat-card:hover { border-left-color: var(--primary); box-shadow: var(--shadow-1); }
 .cat-card .cat-ico {
   width: 54px; height: 54px; border-radius: var(--r-sm); flex: none;
   display: flex; align-items: center; justify-content: center;
-  background: var(--cat-tint-soft, var(--surface-2)); border: 1px solid var(--cat-tint-line, var(--line));
-  color: var(--cat-tint-ink, var(--ink-2));
+  background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-2);
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
 }
+.cat-card:hover .cat-ico { background: var(--primary-soft); border-color: var(--primary-soft); color: var(--primary-dark); }
 .cat-card .cat-ico svg { width: 26px; height: 26px; }
-/* one family: lavender ↔ coral-cream ramp, per spec 10 */
-.cat-card[data-cat="laptops"]      { --cat-tint: #2563EB; --cat-tint-soft: #E8F0FF; --cat-tint-line: #D3E2FB; --cat-tint-ink: #1D4ED8; }
-.cat-card[data-cat="smartphones"]  { --cat-tint: #3B76F0; --cat-tint-soft: #EEF3FF; --cat-tint-line: #D6E2F9; --cat-tint-ink: #2B5CC9; }
-.cat-card[data-cat="tablets"]      { --cat-tint: #E89552; --cat-tint-soft: #FFF1E3; --cat-tint-line: #F7DFC8; --cat-tint-ink: #A05A1C; }
-.cat-card[data-cat="headphones"]   { --cat-tint: #C58A32; --cat-tint-soft: #FFF1E3; --cat-tint-line: #F2E2CC; --cat-tint-ink: #96631F; }
-.cat-card[data-cat="powerbanks"]   { --cat-tint: #D9822F; --cat-tint-soft: #F3F1EE; --cat-tint-line: #E3DFD8; --cat-tint-ink: #A05A1C; }
-.cat-card[data-cat="smartwatches"] { --cat-tint: #3B76F0; --cat-tint-soft: #EDF2EE; --cat-tint-line: #D8DEE6; --cat-tint-ink: #2B5CC9; }
 
-/* ---------- Product cards: category eyebrow + ownership emphasis ---------- */
-.g-card[data-gadget-cat="laptops"]      { --g-tint: #2563EB; --g-tint-soft: #E8F0FF; --g-tint-ink: #1D4ED8; }
-.g-card[data-gadget-cat="smartphones"]  { --g-tint: #3B76F0; --g-tint-soft: #EEF3FF; --g-tint-ink: #2B5CC9; }
-.g-card[data-gadget-cat="tablets"]      { --g-tint: #E89552; --g-tint-soft: #FFF1E3; --g-tint-ink: #A05A1C; }
-.g-card[data-gadget-cat="headphones"]   { --g-tint: #C58A32; --g-tint-soft: #FFF1E3; --g-tint-ink: #96631F; }
-.g-card[data-gadget-cat="powerbanks"]   { --g-tint: #D9822F; --g-tint-soft: #F3F1EE; --g-tint-ink: #A05A1C; }
-.g-card[data-gadget-cat="smartwatches"] { --g-tint: #3B76F0; --g-tint-soft: #EDF2EE; --g-tint-ink: #2B5CC9; }
+/* ---------- Product cards: neutral until interaction ---------- */
+.g-card[data-gadget-cat] { --g-tint: var(--primary); --g-tint-soft: var(--primary-soft); --g-tint-ink: var(--primary-dark); }
 .g-card .g-cat {
-  background: var(--g-tint-soft, var(--surface-2));
-  color: var(--g-tint-ink, var(--ink-2));
+  background: var(--surface-2);
+  color: var(--ink-2);
   letter-spacing: .06em;
 }
-.g-card .g-brand { color: var(--g-tint-ink, var(--ink-3)); }
+.g-card .g-brand { color: var(--ink-2); }
 .g-card { border-top: 2px solid transparent; }
-.g-card.card-hover:hover { border-top-color: var(--g-tint, var(--line-strong)); }
+.g-card.card-hover:hover { border-top-color: var(--primary); }
 
-/* Performance to Cost — the visual signature */
+/* ---------- Performance to Cost — the visual signature ---------- */
 .oidx {
   display: inline-flex; align-items: baseline; gap: 6px;
   background: var(--primary-soft); border-radius: var(--r-sm);
   padding: 4px 10px; margin: 2px 0;
 }
 .oidx b { font-family: var(--font-mono); font-weight: 600; font-size: 1.02rem; color: var(--primary-dark); line-height: 1; }
-.oidx span { font-size: .66rem; font-weight: 700; letter-spacing: .05em; color: var(--primary); }
+.oidx span { font-size: .66rem; font-weight: 700; letter-spacing: .05em; color: var(--primary-dark); }
 
-/* ---------- Compare table: tinted advantage cells ---------- */
+/* ---------- Compare table ---------- */
 .cmp-best { background: var(--primary-wash); box-shadow: inset 3px 0 0 var(--primary); }
 .cmp-best .cell-val { color: var(--primary-dark); }
 .adv { color: var(--primary-dark); }
+.cmp-scroll th.row-label, .cmp-scroll td.row-label { box-shadow: inset -1px 0 0 var(--line); }
 
-/* ---------- Breakdown meters: primary fill, neutral track ---------- */
+/* ---------- Breakdown meters ---------- */
 .breakdown .b-bar { height: 7px; border-radius: 4px; }
 .breakdown .b-fill { background: var(--primary); }
 .breakdown tr.total .b-frac { color: var(--primary-dark); }
 
-/* ---------- Recommendation results: the showpiece ---------- */
+/* ---------- Recommendation results ---------- */
 .rec-result { border-top: 2px solid transparent; }
 .rec-result.rr-top {
   border-color: var(--primary);
-  box-shadow: 0 0 0 1px var(--primary), var(--shadow-2);
+  box-shadow: 0 0 0 1px var(--primary);
 }
 .rec-result.rr-top .rank { background: var(--primary); border-color: var(--primary); color: #fff; }
 .rec-result .rr-badge {
   display: inline-block;
   font-family: var(--font-display); font-weight: 800; font-size: .68rem; letter-spacing: .1em;
-  color: var(--accent-warm-deep); background: var(--accent-warm-soft);
+  color: var(--accent-warm-deep); background: var(--signal-soft); border: 1px solid var(--accent-warm);
   border-radius: 4px; padding: 3px 9px;
 }
 .rec-result .score-ring .ring-val { stroke: var(--primary); }
 .rec-result.rr-top .score-ring .ring-label b { color: var(--primary-dark); }
 
-/* ---------- Buttons: coral only for the featured action ---------- */
-.btn-warm { background: var(--accent-warm); color: #172033; }
+/* ---------- Buttons: solid primary; amber only for the featured CTA ---------- */
+.btn-warm { background: var(--accent-warm); color: #fff; }
 .btn-warm:hover { background: var(--warm-dark); color: #fff; }
 
 /* ---------- Badges stay meaningful ---------- */
 .badge-accent, .tag-accent { background: var(--primary-soft); color: var(--primary-dark); }
-.tag-warn, .badge-gold { background: var(--accent-warm-soft); color: var(--accent-warm-deep); }
+.tag-warn, .badge-gold { background: var(--signal-soft); color: var(--accent-warm-deep); }
+.tag-warm { background: var(--signal-soft); color: var(--accent-warm-deep); }
 
-/* ---------- Flow band + CTA: tinted rhythm ---------- */
+/* ---------- Flow band + CTA ---------- */
 .flow-band { background: var(--surface-2); }
-.flow-step .fs-k { color: var(--primary); }
+.flow-step .fs-k { color: var(--primary-dark); }
+.flow-step p { color: var(--ink-2); }
 .cta-band {
   background: var(--hero-1);
   color: var(--on-hero);
-  border-left: 4px solid var(--accent-warm);
+  border-left: 3px solid #D9A441;
 }
 .cta-band h2 { color: #fff; }
 .cta-band p { color: var(--on-hero-2); }
+.cta-band .btn-warm { background: #fff; color: var(--hero-1); }
+.cta-band .btn-warm:hover { background: var(--on-hero-2); color: var(--hero-1); }
 
 /* ---------- Charts & scatter ---------- */
 .hbar-chart .hbar .hb-fill { background: var(--primary); }
 .line-chart .series { stroke: var(--primary); }
 .line-chart .dot { fill: var(--primary); }
 
-/* ---------- Admin: same family, darker indigo sidebar ---------- */
+/* ---------- Admin: navy sidebar, quiet cyan active ---------- */
 .admin-sidebar { background: var(--hero-2); }
-.admin-brand .logo .logo-wise { color: var(--accent-warm); }
-.admin-nav a.active { background: rgba(37, 99, 235, .40); color: #cdc4ff; }
+.admin-brand .logo .logo-wise { color: #9CC3EE; }
+.admin-nav a.active { background: rgba(157, 195, 238, .16); color: #C7DCF3; }
 .admin-nav a:hover { background: rgba(255,255,255,.08); }
 
 /* ---------- Footer ---------- */
 .site-footer { background: var(--hero-1); }
 
-/* ---------- De-slop refinements (v3.1) ---------- */
-/* product card: single footer row, no stacked footers */
-.g-foot-actions { border-top: 0; padding-top: 0; margin-top: -6px; }
-.g-foot-actions .btn { padding: 4px 10px; }
+/* ---------- Logo block (single source, matches app.js shell) ---------- */
+.gw-logo-mark { width: 28px; height: 28px; flex: none; }
 
-/* mini list rows (best value): they sit on the page, not in cards */
+/* ---------- De-slop refinements ---------- */
+.g-foot-actions { border-top: 0; padding-top: 0; margin-top: -6px; }
+.g-foot-actions .btn { padding: 6px 12px; min-height: 40px; }
+
 .list-row { border: 0; box-shadow: none; background: transparent; border-bottom: 1px solid var(--line); border-radius: 0; }
 .list-row:last-child { border-bottom: 0; }
-
-/* "How GadgetWise helps": open columns, not three boxes */
-.grid-3 .panel { border: 0; box-shadow: none; background: transparent; padding: 0; border-top: 2px solid var(--primary-soft); border-radius: 0; padding-top: 14px; }
-
-/* ---------- Visual-audit fixes (v3.2) ---------- */
-/* search icon/placeholder collision: input needs left padding for the 38px icon gutter */
-.site-header .search-box input,
-.hero-search .search-box input { padding-left: 38px; }
-
-/* cheapest-to-own rows: name / rating / price each on its own line, all screens */
 .list-row .lr-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .list-row .t-title { display: block; }
 .list-row .lr-price { font-family: var(--font-mono); font-weight: 600; color: var(--primary-dark); }
-.list-row .lr-price em { font-style: normal; font-weight: 400; color: var(--ink-3); font-size: .8em; }
+.list-row .lr-price em { font-style: normal; font-weight: 400; color: var(--ink-2); font-size: .8em; }
 .list-row img { border-radius: var(--r-sm); }
-
-/* cheapest-to-own: rows span the container so the section doesn't read half-empty */
-#worthSection .stack { max-width: none; }
 .list-row { display: flex; align-items: center; gap: 16px; padding: 12px 4px; }
-.list-row .thumb { width: 76px; height: 56px; object-fit: contain; background: var(--surface); border: 1px solid var(--line); }
+.list-row .thumb { width: 76px; height: 56px; object-fit: contain; background: #fff; border: 1px solid var(--line); }
 .list-row .t-title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+#bestValue .list-row { padding: 14px 4px; }
 
-/* ============================================================
-   v5 composition pass — spec 2-6, 13-18
-   ============================================================ */
+/* search icon gutter */
+.site-header .search-box input,
+.hero-search .search-box input { padding-left: 38px; }
 
-/* ---------- Hero showcase: large product, one metric ---------- */
+/* ---------- Hero showcase (composition, kept) ---------- */
 .hero-showcase {
   position: relative;
   background: var(--surface);
   border-radius: var(--r-lg);
-  padding: 34px 34px 28px;
+  padding: 30px 30px 24px;
   box-shadow: var(--shadow-2);
-  max-width: 480px;
+  max-width: 460px;
   justify-self: end;
   width: 100%;
 }
 .hs-flag { position: absolute; top: -13px; left: 28px; }
 .hs-img {
   display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: contain;
-  background: var(--surface);
 }
 .hs-meta {
   display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
   margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line);
 }
-.hs-name { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--ink); }
-.hs-price { font-family: var(--font-mono); font-weight: 600; font-size: 1.15rem; color: var(--ink); }
+.hs-name { font-family: var(--font-display); font-weight: 700; font-size: 1.12rem; color: var(--ink); }
+.hs-price { font-family: var(--font-mono); font-weight: 600; font-size: 1.12rem; color: var(--ink); }
 .hs-metric {
   display: flex; align-items: baseline; gap: 10px; margin-top: 12px;
   background: var(--primary-soft); border-radius: var(--r-sm); padding: 12px 16px;
 }
-.hs-metric b { font-family: var(--font-mono); font-weight: 600; font-size: 2.4rem; color: var(--primary-dark); line-height: 1; }
-.hs-metric span { font-size: .72rem; font-weight: 700; letter-spacing: .06em; color: var(--primary); }
-
-/* asymmetric proportions (spec 24): text 6.5 / showcase 4.5 */
+.hs-metric b { font-family: var(--font-mono); font-weight: 600; font-size: 2.2rem; color: var(--primary-dark); line-height: 1; }
+.hs-metric span { font-size: .72rem; font-weight: 700; letter-spacing: .06em; color: var(--primary-dark); }
 .hero-grid { grid-template-columns: minmax(0, 6.5fr) minmax(0, 4.5fr); }
 
-/* ---------- Editorial 3-col: typography, not boxes (spec 13) ---------- */
+/* ---------- Editorial 3-col: typography, not boxes ---------- */
 .editorial-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
 .editorial-3 .ed-big {
-  font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em;
-  font-size: clamp(1.5rem, 2.4vw, 2rem); color: var(--primary); line-height: 1.1;
+  font-family: var(--font-display); font-weight: 800; letter-spacing: -0.015em;
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem); color: var(--primary-dark); line-height: 1.15;
   margin-bottom: 8px;
 }
 .editorial-3 h3 { font-size: 1rem; margin-bottom: 6px; }
-
-/* ---------- Category cards: one indigo family (spec 10/15) ---------- */
-.cat-card, .g-card { --cat-tint: var(--primary); --cat-tint-soft: var(--primary-soft); --cat-tint-line: #D3E2FB; --cat-tint-ink: var(--primary-dark); --g-tint: var(--primary); --g-tint-soft: var(--primary-soft); --g-tint-ink: var(--primary-dark); }
-
-/* ---------- Flow: strong numbers, quiet copy ---------- */
-.flow-step .fs-k { font-size: .95rem; font-weight: 600; }
-.flow-step .fs-t { font-size: 1.05rem; }
-
-/* ---------- cheapest rows full-width measure ---------- */
-#bestValue .list-row { padding: 14px 4px; }
+.editorial-3 h3 + p { color: var(--ink-2); }

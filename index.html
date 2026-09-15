@@ -7,10 +7,10 @@
   <meta name="description" content="GadgetWise helps Filipino students compare gadgets by price, specs, ownership cost, and student ratings — with a fully visible scoring method.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/identity.css">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='1.5' y='1.5' width='25' height='25' rx='6' fill='%232563EB'/%3E%3Cpath d='M14 6.5 7.5 10v8L14 21.5 20.5 18v-8L14 6.5Z' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='1.5' y='1.5' width='25' height='25' rx='6' fill='%231D5BA4'/%3E%3Cpath d='M14 6.5 7.5 10v8L14 21.5 20.5 18v-8L14 6.5Z' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
 </head>
 <body>
   <!--
@@ -26,7 +26,7 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <h1>Find the right gadget for <span class="h-accent">school</span>.</h1>
-          <p class="lede">Compare <strong>real specifications, monthly costs, and student priorities</strong> before you buy —
+          <p class="lede">Compare <strong>verified specifications, monthly costs, and student priorities</strong> before you buy —
             with recommendations whose scoring you can actually read.</p>
           <div class="hero-cta-row" style="display:flex; gap:12px; flex-wrap:wrap; margin-top:18px">
             <a class="btn btn-lg" href="recommendations.html">Find my gadget</a>
@@ -34,24 +34,24 @@
           </div>
           <div class="hero-points">
             <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg>Ownership cost on every tag</span>
-            <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 3 8.2 7 10 4-1.8 7-5.5 7-10V6l-7-3Z"/></svg>Durability &amp; repairability scored</span>
+            <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 3 8.2 7 10 4-1.8 7-5.5 7-10V6l-7-3Z"/></svg>Warranty &amp; repair paths surfaced</span>
             <span class="hp"><svg class="icon" viewBox="0 0 24 24"><path d="m4 12 5.2 5.2L20 6.4"/></svg>Scores show their math</span>
           </div>
         </div>
 
-        <!-- Spec 3-6: product showcase — image, name, one metric, price. Depth lives on the detail page. -->
-        <div class="hero-showcase">
+        <!-- Spec 3-6: product showcase — image, name, one metric, price. Clickable: it's the hero's demo. -->
+        <a class="hero-showcase" href="gadget-detail.html?id=apple-macbook-air-m1" aria-label="View the MacBook Air M1 detail page">
           <span class="tag tag-warm hs-flag">Student favorite</span>
           <img class="hs-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/MacBook_Air_M1.png/960px-MacBook_Air_M1.png" alt="Apple MacBook Air M1" referrerpolicy="no-referrer">
-          <div class="hs-meta">
+          <span class="hs-meta">
             <span class="hs-name">MacBook Air M1</span>
-            <span class="hs-price">₱46,999</span>
-          </div>
-          <div class="hs-metric">
-            <b>79</b>
+            <span class="hs-price" id="hsPrice">₱46,999</span>
+          </span>
+          <span class="hs-metric">
+            <b id="hsMetric">–</b>
             <span>Performance to Cost</span>
-          </div>
-        </div>
+          </span>
+        </a>
       </div>
     </section>
 
@@ -71,7 +71,7 @@
         <div class="row-between" style="margin-bottom:22px">
           <div>
             <h2>Start with what you need</h2>
-            <p class="lede" style="margin-top:6px">Six categories, each scored for durability, repairability, and long-term value.</p>
+            <p class="lede" style="margin-top:6px">Six categories, each with real specs, warranty and repair paths, and a monthly cost estimate.</p>
           </div>
           <a class="btn btn-outline" href="gadgets.html">All gadgets <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg></a>
         </div>
@@ -92,12 +92,12 @@
           <div>
             <div class="ed-big">₱ / month</div>
             <h3>Not just the sticker price</h3>
-            <p class="small muted">Price &divide; realistic lifespan. The number your allowance understands.</p>
+            <p class="small muted">Price ÷ a fixed 36-month window — the same math for every gadget, so numbers compare fairly.</p>
           </div>
           <div>
-            <div class="ed-big">Repairability</div>
+            <div class="ed-big">Repair path</div>
             <h3>What happens after something breaks</h3>
-            <p class="small muted">How owners say it holds up, and whether parts are available.</p>
+            <p class="small muted">Every catalog entry names its repair path — standard upgradeable slots to authorized-service-only.</p>
           </div>
           <div>
             <div class="ed-big">Academic fit</div>
@@ -128,7 +128,7 @@
         <div class="row-between" style="margin-bottom:8px">
           <div>
             <h2 style="font-size:1.35rem">Price vs Performance to Cost</h2>
-            <p class="small muted" style="margin-top:4px; margin-bottom:0">Orange dots sit on the best-value frontier — nothing beats them on price and build at once. Click a dot for details.</p>
+            <p class="small muted" style="margin-top:4px; margin-bottom:0">Amber dots sit on the best-value frontier — nothing beats them on price and build at once. Click a dot for details.</p>
           </div>
         </div>
         <div class="tabs" id="scatterCats" style="margin:14px 0 16px" role="group" aria-label="Filter scatter by category"></div>
@@ -152,27 +152,27 @@
           <div class="flow-step">
             <span class="fs-k">01</span>
             <div class="fs-t">Discover</div>
-            
+            <p>Browse six categories with honest specs and monthly costs.</p>
           </div>
           <div class="flow-step">
             <span class="fs-k">02</span>
             <div class="fs-t">Evaluate</div>
-            
+            <p>Open a gadget: warranty, repair path, issues, reviews.</p>
           </div>
           <div class="flow-step">
             <span class="fs-k">03</span>
             <div class="fs-t">Compare</div>
-            
+            <p>Up to four side by side, with real differences highlighted.</p>
           </div>
           <div class="flow-step">
             <span class="fs-k">04</span>
             <div class="fs-t">Recommend</div>
-            
+            <p>Three questions in, a ranked shortlist with its math shown.</p>
           </div>
           <div class="flow-step">
             <span class="fs-k">05</span>
             <div class="fs-t">Save</div>
-            
+            <p>Keep contenders on your wishlist while you decide.</p>
           </div>
         </div>
       </div>
@@ -200,6 +200,13 @@
   <script src="js/app.js"></script>
   <script>
     GWApp.initShell({ active: "index.html" });
+
+    // Hero showcase numbers come from the same formulas as everywhere else
+    const heroG = GW.getGadget("apple-macbook-air-m1");
+    if (heroG) {
+      document.getElementById("hsPrice").textContent = GWApp.money(heroG.price);
+      document.getElementById("hsMetric").textContent = GWApp.ownIndex(heroG);
+    }
 
     document.getElementById("stripGadgets").textContent = GW.community.gadgetsTracked;
     document.getElementById("stripReviews").textContent = GW.community.reviewsWritten.toLocaleString("en-PH") + "+";

@@ -9,7 +9,7 @@ window.GWDetail = (function () {
   const { esc, money, icon, stars } = GWApp;
 
   function ratingBars(g) {
-    // Derive a stable star distribution from the rating
+    // Shaped from the average — honest in the prototype: the summary says so.
     const r = g.rating;
     const w = { 5: Math.round((r - 3) * 38), 4: 30, 3: 16, 2: 8, 1: 6 };
     w[5] = Math.max(4, Math.min(72, w[5]));
@@ -229,7 +229,10 @@ window.GWDetail = (function () {
                 ${stars(g.rating)}
                 <div class="small muted">${g.reviewCount} student reviews</div>
               </div>
-              <div class="rating-bars">${ratingBars(g)}</div>
+              <div class="rating-bars">
+                <p class="small muted" style="margin:0 0 6px">Distribution shaped from the average rating (prototype data) · showing the ${g.reviews.length} most recent</p>
+                ${ratingBars(g)}
+              </div>
             </div>
             <hr class="divider">
             <div>${g.reviews.map(reviewHTML).join("")}</div>
@@ -324,7 +327,7 @@ window.GWDetail = (function () {
       <h3>Write a review</h3>
       <p class="modal-sub">Reviews go to the moderation queue before appearing publicly.</p>
       <div class="field"><label for="rvRating">Rating</label>
-        <select id="rvRating"><option value="5">★★★★★ Excellent</option><option value="4" selected>★★★★ Good</option><option value="3">★★★ Fair</option><option value="2">★★ Poor</option><option value="1">★ Poor</option></select>
+        <select id="rvRating"><option value="5">★★★★★ Excellent</option><option value="4">★★★★ Good</option><option value="3" selected>★★★ Fair</option><option value="2">★★ Poor</option><option value="1">★ Poor</option></select>
       </div>
       <div class="field"><label for="rvContext">Usage context <span class="hint">(optional)</span></label>
         <input id="rvContext" type="text" placeholder="e.g., Programming + online classes · 8 months">
