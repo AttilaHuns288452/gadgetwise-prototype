@@ -158,7 +158,7 @@ window.GWDetail = (function () {
           <button class="tab-btn active" role="tab" aria-selected="true" data-tab="specs">Specifications</button>
           <button class="tab-btn" role="tab" aria-selected="false" data-tab="value">Value Analysis</button>
           <button class="tab-btn" role="tab" aria-selected="false" data-tab="ownership">Ownership Cost</button>
-          <button class="tab-btn" role="tab" aria-selected="false" data-tab="reviews">Reviews (${g.reviews.length})</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="reviews">Reviews (${g.reviews.filter(r => r.status !== "rejected").length})</button>
           <button class="tab-btn" role="tab" aria-selected="false" data-tab="issues">Reported Issues (${g.issues.length})</button>
         </div>
 
@@ -230,15 +230,15 @@ window.GWDetail = (function () {
                 <div class="small muted">${g.reviewCount} student reviews</div>
               </div>
               <div class="rating-bars">
-                <p class="small muted" style="margin:0 0 6px">Distribution shaped from the average rating (prototype data) · showing the ${g.reviews.length} most recent</p>
+                <p class="small muted" style="margin:0 0 6px">Distribution shaped from the average rating (prototype data) · showing the ${g.reviews.filter(r => r.status !== "rejected").length} most recent</p>
                 ${ratingBars(g)}
               </div>
             </div>
             <hr class="divider">
-            <div>${g.reviews.map(reviewHTML).join("")}</div>
+            <div>${g.reviews.filter(r => r.status !== "rejected").map(reviewHTML).join("")}</div>
             <div class="row-between" style="margin-top:18px">
               <button class="btn btn-outline" data-review-btn>${icon("message")} Write a review</button>
-              <span class="small muted">Showing ${g.reviews.length} of ${g.reviewCount}</span>
+              <span class="small muted">Showing ${g.reviews.filter(r => r.status !== "rejected").length} of ${g.reviewCount}</span>
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@
         </div>
         <div class="search-box" style="max-width:280px">
           <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="search" placeholder="Search users…" aria-label="Search users" oninput="GWApp.toast('User search is decorative in this prototype','info')">
+          <input type="search" id="userSearch" placeholder="Search name or email…" aria-label="Search users">
         </div>
       </div>
 
@@ -43,6 +43,7 @@
   </div>
 
   <script src="js/data.js"></script>
+  <script src="js/admin-store.js"></script>
   <script src="js/app.js"></script>
   <script src="js/admin.js"></script>
   <script>GWAdmin.init();</script>

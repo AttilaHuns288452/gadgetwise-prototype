@@ -85,14 +85,22 @@ photos. No dependencies beyond that.
 | File | Route | Purpose |
 |---|---|---|
 | `admin-login.html` | Admin Gate | mock gate (any creds) |
-| `admin-dashboard.html` | Dashboard | mock metrics, trend/category/rec charts |
-| `admin-gadgets.html` | Gadget CRUD | list + filters |
-| `admin-gadget-form.html` | Add/Edit Gadget | form |
-| `admin-categories.html` | Categories | list |
-| `admin-reviews.html` | Moderation Queue | pending reviews |
-| `admin-issues.html` | Reported Issues | triage list |
-| `admin-users.html` | Users | seeded student accounts |
+| `admin-dashboard.html` | Dashboard | live counts from dataset + metrics, top views, queue preview |
+| `admin-gadgets.html` | Gadget CRUD | list + search/filters + delete (persists) |
+| `admin-gadget-form.html` | Add/Edit Gadget | form + mock product-API prefill; saves to the dataset |
+| `admin-categories.html` | Categories | full add/edit/delete with duplicate + non-empty guards |
+| `admin-reviews.html` | Moderation Queue | approve / reject / edit / delete every review; approved go public |
+| `admin-issues.html` | Reported Issues | verify / under review / resolve / delete spam |
+| `admin-users.html` | Users | seeded accounts + live search + suspend/activate (persists) |
 | `admin-reports.html` | Reports | charts + data tables |
+| `admin-quality.html` | Data Quality | unit-consistency + completeness audit across the catalog |
+| `admin-data.html` | Data Export | JSON export/import of the catalog + reset to sample data |
+
+Admin changes persist in the browser via `GWStore` (localStorage overlay over
+the mock dataset, `gw_admin_overlay_v1`). They survive reloads and are visible
+on the public pages — e.g. an approved review appears on the gadget detail
+page and counts toward its rating. "Reset to sample data" on the Data Export
+page clears every admin change.
 
 ## Architecture
 
@@ -104,7 +112,7 @@ gadget-detail.html      # spec table + ownership formula + reviews + issues
 compare.html            # 2–4 way comparison table (sticky row labels)
 recommendations.html    # 5-step wizard → scored results
 
-admin-*.html            # 9 admin pages (dark sidebar shell, separate nav)
+admin-*.html            # 11 admin pages (dark sidebar shell, separate nav)
 
 login.html / register.html / profile.html / wishlist.html
 review-history.html / comparison-history.html
@@ -119,7 +127,8 @@ js/detail.js            # detail page (specs, ownership formula, reviews, issues
 js/comparison.js        # compare table rendering + best-cell logic
 js/recommendations.js   # scoring engine (budget fit + academic fit + priority-weighted)
 js/charts.js            # admin charts (h-bar, donut, line)
-js/admin.js             # admin dashboard + admin sidebar shell
+js/admin-store.js       # admin persistence: localStorage overlay applied over the dataset
+js/admin.js             # admin pages logic + admin sidebar shell
 js/cat-icons.js         # category SVG icons
 
 assets/placeholders/    # legacy blue-tinted SVG placeholders (superseded by Commons photos)
