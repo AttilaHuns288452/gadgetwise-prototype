@@ -219,9 +219,6 @@ window.GWAdmin = (function () {
       // keep specList in sync (comparison table + detail page read it)
       patch.specList = Object.entries(specs).map(([k, v]) => v);
 
-      const warn = GWStore.auditGadget(Object.assign({}, base, patch));
-      if (warn.length) GWApp.toast("Saved with " + warn.length + " data-quality warning" + (warn.length > 1 ? "s" : "") + " — see Data Quality", "alert");
-
       if (g) {
         GWStore.editGadget(g.id, patch);
         GWApp.toast("Changes saved", "checkCircle");
@@ -437,17 +434,9 @@ window.GWAdmin = (function () {
           <td class="mono">${esc(u.registered)}</td>
           <td><span class="badge ${u.status === "active" ? "badge-green" : u.status === "suspended" ? "badge-red" : "badge-gray"}">${esc(u.status)}</span></td>
           <td class="mono">${u.reviews}</td>
-          <td><div class="row-actions-inline">
-            ${u.status === "active" ? `<button class="btn btn-outline btn-sm" data-suspend="${u.id}">Suspend</button>` : `<button class="btn btn-sm" data-activate="${u.id}">Activate</button>`}
-          </div></td>
-        </tr>`).join("") || `<tr><td colspan="5"><div class="empty-state">${icon("users")}<div class="es-title">No users match</div></div></td></tr>`;
+        </tr>`).join("") || `<tr><td colspan="4"><div class="empty-state">${icon("users")}<div class="es-title">No users match</div></div></td></tr>`;
     }
     if (search) search.addEventListener("input", render);
-    body.addEventListener("click", e => {
-      const s = e.target.closest("[data-suspend]"), a = e.target.closest("[data-activate]");
-      if (s) { GWStore.setUserStatus(s.getAttribute("data-suspend"), "suspended"); GWApp.toast("User suspended", "flag"); render(); }
-      if (a) { GWStore.setUserStatus(a.getAttribute("data-activate"), "active"); GWApp.toast("User activated", "checkCircle"); render(); }
-    });
     render();
   }
 
@@ -536,33 +525,6 @@ window.GWAdmin = (function () {
     render();
   }
 
-  /* ---------- data quality ---------- */
-  function quality() {
-    const list = document.getElementById("qualityList");
-    if (!list) return;
-    const issuesAll = GWStore.auditAll();
-
-    function render() {
-      document.getElementById("qualityCount").textContent =
-        issuesAll.length ? issuesAll.length + " gadget" + (issuesAll.length === 1 ? "" : "s") + " flagged" : "All clear";
-      list.innerHTML = issuesAll.map(x => `
-        <div class="panel" style="margin-bottom:14px">
-          <div class="row-between">
-            <h3 style="font-size:.98rem;margin:0">${esc(x.name)}</h3>
-            <a class="btn btn-outline btn-sm" href="admin-gadget-form.html?id=${encodeURIComponent(x.id)}">Fix in form ${icon("arrowRight", "icon-sm")}</a>
-          </div>
-          <ul style="margin:10px 0 0;padding-left:18px">
-            ${x.warnings.map(w => `<li class="small" style="color:var(--ink-2)">${esc(w)}</li>`).join("")}
-          </ul>
-        </div>`).join("") || `
-        <div class="empty-state">${icon("checkCircle")}
-          <div class="es-title">No data-quality issues found</div>
-          <p class="small">Every gadget has a name, price, image, release year, valid category, and consistent units.</p>
-        </div>`;
-    }
-    render();
-  }
-
   /* ---------- admin shell (sidebar) ---------- */
   const NAV_ICONS = {
     dashboard: '<rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/>',
@@ -573,8 +535,6 @@ window.GWAdmin = (function () {
     issues: '<path d="M5 21V4"/><path d="M5 4h13l-2.5 4L18 12H5"/>',
     users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.7-3 3-4.5 6.5-4.5s5.8 1.5 6.5 4.5"/>',
     site: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/>',
-    shield: '<path d="M12 3 5 6v5c0 4.5 3 8.2 7 10 4-1.8 7-5.5 7-10V6l-7-3Z"/>',
-    download: '<path d="M12 3v12M12 15l-4-4M12 15l4-4"/><path d="M4 19h16"/>',
     logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>'
   };
   function renderShell() {
@@ -601,9 +561,6 @@ window.GWAdmin = (function () {
           ${link("admin-issues.html", "issues", "Reported Issues")}
           <div class="group">PEOPLE</div>
           ${link("admin-users.html", "users", "Users")}
-          <div class="group">MAINTENANCE</div>
-          ${link("admin-quality.html", "shield", "Data Quality")}
-          ${link("admin-data.html", "download", "Data Export")}
           <div class="group">SESSION</div>
           ${link("index.html", "site", "View public site")}
           <a href="admin-login.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex:none">${NAV_ICONS.logout}</svg>Sign out</a>
@@ -615,7 +572,7 @@ window.GWAdmin = (function () {
   function init() {
     renderShell();
     const page = document.body.getAttribute("data-admin-page");
-    ({ dashboard, gadgets, gadgetForm, reviews, issues, users, categories, quality }[page] || (() => {}))();
+    ({ dashboard, gadgets, gadgetForm, reviews, issues, users, categories }[page] || (() => {}))();
   }
 
   return { init };

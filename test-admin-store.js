@@ -101,11 +101,8 @@ assert.ok(!(GW.extraIssues || []).some(i => i.id === "i-gen1"), "issue deleted")
 assert.strictEqual(GW.adminMetrics.totalGadgets, GW.gadgets.length, "metrics track gadgets");
 assert.strictEqual(GW.adminMetrics.pendingReviews, GW.pendingReviews.filter(r => r.status === "pending").length, "pending count accurate");
 
-// --- audit catches known problems ---
-const warn = Store.auditGadget({ brand: "X", model: "Y", category: "laptops", price: 0, specs: { RAM: "8" } });
-assert.ok(warn.some(w => /price/i.test(w)), "audit flags bad price");
-assert.ok(warn.some(w => /GB\/TB unit/.test(w)), "audit flags missing unit");
+// --- unit normalizer (save path) ---
 assert.deepStrictEqual(Store.normUnits("8 gb ram / 256 gb"), "8GB ram / 256GB", "normUnits fixes case+spacing");
 
 console.log("ADMIN STORE CHECKS PASS");
-console.log("  gadget CRUD, category CRUD, moderation publish, rating recompute, issue triage, audit");
+console.log("  gadget CRUD, category CRUD, moderation publish, rating recompute, issue triage");

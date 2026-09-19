@@ -2,8 +2,8 @@
    GadgetWise — js/admin-store.js
    Admin persistence: a localStorage overlay applied over the
    mock dataset on every page load. Every admin action (gadget
-   & category CRUD, review moderation, issue triage, user
-   status) writes here, so changes survive reloads and appear
+   & category CRUD, review moderation, issue triage) writes
+   here, so changes survive reloads and appear
    on the public pages. No backend in the prototype — this
    stands in for one. Load AFTER js/data.js.
    ============================================================ */
@@ -24,7 +24,6 @@ window.GWStore = (function () {
       newReviews: [],          // admin-added reviews (full objects)
       issueStatus: {},         // issueId -> status
       deletedIssueIds: [],
-      userStatus: {},          // userId -> "active" | "suspended" | "inactive"
       recalc: {},              // gadgetId -> true (rating needs recompute)
       updatedAt: null
     };
@@ -129,8 +128,6 @@ window.GWStore = (function () {
     });
     GW.extraIssues = (GW.extraIssues || []).filter(i => !o.deletedIssueIds.includes(i.id));
     GW.extraIssues.forEach(i => { if (o.issueStatus[i.id]) i.status = o.issueStatus[i.id]; });
-    // users
-    GW.users.forEach(u => { if (o.userStatus[u.id]) u.status = o.userStatus[u.id]; });
     refreshMetrics();
   }
 
@@ -201,7 +198,7 @@ window.GWStore = (function () {
     delete o.issueStatus[id];
     write(o); applyToData(o);
   }
-  function setUserStatus(id, status) { const o = read(); o.userStatus[id] = status; write(o); applyToData(o); }
+
 
   /* ---------- data quality: unit + completeness audit ---------- */
   function normUnits(s) {
@@ -211,61 +208,15 @@ window.GWStore = (function () {
       .replace(/\b(\d+(?:\.\d+)?)\s*mb\b/gi, "$1MB")
       .replace(/\b(\d+(?:[.,]\d+)?)\s*mah\b/gi, "$1mAh");
   }
-  function auditGadget(g) {
-    const w = [];
-    if (!g.brand || !g.model) w.push("Missing brand or model name");
-    if (!GW.getCategory(g.category)) w.push("Category is not in the category list");
-    if (!(Number(g.price) > 0)) w.push("Price is missing or not a positive number");
-    if (!g.image) w.push("No image set");
-    if (!g.releaseYear) w.push("Release year missing");
-    Object.entries(g.specs || {}).forEach(([k, v]) => {
-      if (/ram|memory|storage/i.test(k) && !/(gb|tb|mb)\b/i.test(String(v))) w.push(k + ": no GB/TB unit in value (\"" + v + "\")");
-    });
-    const bat = String((g.specs || {}).Battery || "");
-    if (bat && !/(mah|whr|\bhr\b|hour)/i.test(bat)) w.push("Battery spec has no mAh/hr unit (\"" + bat + "\")");
-    return w;
-  }
-  function auditAll() {
-    return GW.gadgets
-      .map(g => ({ id: g.id, name: (GWApp && GWApp.fullName ? GWApp.fullName(g) : g.model), warnings: auditGadget(g) }))
-      .filter(x => x.warnings.length);
-  }
 
-  /* ---------- export / import (catalog backup as JSON) ---------- */
-  function exportJSON() {
-    const payload = { exportedAt: new Date().toISOString(), categories: GW.categories, gadgets: GW.gadgets };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "gadgetwise-catalog.json";
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-  }
-  function importJSON(text) {
-    let data;
-    try { data = JSON.parse(text); } catch (e) { return "File is not valid JSON."; }
-    if (!data || !Array.isArray(data.gadgets)) return "No \"gadgets\" array found in the file.";
-    const bad = data.gadgets.find(g => !g.id || !g.model);
-    if (bad) return "Every gadget needs at least an id and a model.";
-    const o = blank();
-    o.gadgets = data.gadgets;
-    if (Array.isArray(data.categories)) o.categories = data.categories;
-    write(o); applyToData(o);
-    return null;
-  }
-  function resetAll() { try { localStorage.removeItem(KEY); } catch (e) {} applyToData(read()); }
-
-  function active() { const o = read(); return !!(o.gadgets.length || o.deletedGadgetIds.length || o.categories.length || o.deletedCategoryIds.length || Object.keys(o.reviewStatus).length || Object.keys(o.reviewEdits).length || o.deletedReviewIds.length || o.newReviews.length || Object.keys(o.issueStatus).length || o.deletedIssueIds.length || Object.keys(o.userStatus).length); }
-
-  /* apply whatever is stored as soon as this script loads */
+ /* apply whatever is stored as soon as this script loads */
   applyToData(read());
 
   return {
     addGadget, editGadget, deleteGadget,
     addCategory, editCategory, deleteCategory,
     setReviewStatus, setReviewEdit, deleteReview, addReview,
-    setIssueStatus, deleteIssue, setUserStatus,
-    auditGadget, auditAll, normUnits,
-    exportJSON, importJSON, resetAll, active, slugify, uid
+    setIssueStatus, deleteIssue,
+    normUnits, slugify, uid
   };
 })();
