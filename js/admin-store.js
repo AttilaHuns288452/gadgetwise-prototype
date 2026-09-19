@@ -2,8 +2,8 @@
    GadgetWise — js/admin-store.js
    Admin persistence: a localStorage overlay applied over the
    mock dataset on every page load. Every admin action (gadget
-   & category CRUD, review moderation, issue triage) writes
-   here, so changes survive reloads and appear
+   & category CRUD, review moderation) writes here, so changes
+   survive reloads and appear
    on the public pages. No backend in the prototype — this
    stands in for one. Load AFTER js/data.js.
    ============================================================ */
@@ -22,8 +22,6 @@ window.GWStore = (function () {
       reviewEdits: {},         // reviewId -> { text, rating }
       deletedReviewIds: [],
       newReviews: [],          // admin-added reviews (full objects)
-      issueStatus: {},         // issueId -> status
-      deletedIssueIds: [],
       recalc: {},              // gadgetId -> true (rating needs recompute)
       updatedAt: null
     };
@@ -61,9 +59,6 @@ window.GWStore = (function () {
     const live = id => !!GW.getGadget(id);
     GW.adminMetrics.totalGadgets = GW.gadgets.length;
     GW.adminMetrics.pendingReviews = GW.pendingReviews.filter(r => r.status === "pending").length;
-    GW.adminMetrics.openIssues =
-      GW.gadgets.reduce((n, g) => n + (g.issues || []).filter(i => i.status !== "resolved").length, 0) +
-      (GW.extraIssues || []).filter(i => i.status !== "resolved").length;
     GW.adminMetrics.views = (GW.adminMetrics.views || []).filter(v => live(v.id));
     GW.adminMetrics.comparisons = (GW.adminMetrics.comparisons || []).filter(v => live(v.id));
     GW.adminMetrics.recommended = (GW.adminMetrics.recommended || []).filter(v => live(v.id));
@@ -121,13 +116,6 @@ window.GWStore = (function () {
     });
     // rating recompute only for gadgets an admin actually touched
     GW.gadgets.forEach(g => { if (o.recalc[g.id]) recalcGadget(g); });
-    // issues
-    GW.gadgets.forEach(g => {
-      g.issues = (g.issues || []).filter(i => !o.deletedIssueIds.includes(i.id));
-      g.issues.forEach(i => { if (o.issueStatus[i.id]) i.status = o.issueStatus[i.id]; });
-    });
-    GW.extraIssues = (GW.extraIssues || []).filter(i => !o.deletedIssueIds.includes(i.id));
-    GW.extraIssues.forEach(i => { if (o.issueStatus[i.id]) i.status = o.issueStatus[i.id]; });
     refreshMetrics();
   }
 
@@ -191,15 +179,6 @@ window.GWStore = (function () {
     o.recalc[r.gadget] = true;
     write(o); applyToData(o);
   }
-  function setIssueStatus(id, status) { const o = read(); o.issueStatus[id] = status; write(o); applyToData(o); }
-  function deleteIssue(id) {
-    const o = read();
-    if (!o.deletedIssueIds.includes(id)) o.deletedIssueIds.push(id);
-    delete o.issueStatus[id];
-    write(o); applyToData(o);
-  }
-
-
   /* ---------- data quality: unit + completeness audit ---------- */
   function normUnits(s) {
     return String(s || "")
@@ -216,7 +195,6 @@ window.GWStore = (function () {
     addGadget, editGadget, deleteGadget,
     addCategory, editCategory, deleteCategory,
     setReviewStatus, setReviewEdit, deleteReview, addReview,
-    setIssueStatus, deleteIssue,
     normUnits, slugify, uid
   };
 })();

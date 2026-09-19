@@ -1715,13 +1715,6 @@ GW.realGadgetEntries.push(
 
 GW.gadgets = GW.realGadgetEntries;
 
-/* ---------- Reported issues for gadgets without one (pool for admin) ---------- */
-GW.extraIssues = [
-  { id: "i-gen1", gadget: "redmi-note-11", title: "Stock charger overheats with third-party cables", reportedBy: "Uly B.", date: "2026-06-05", status: "pending", severity: "moderate" },
-  { id: "i-gen2", gadget: "apple-macbook-air-m1", title: "Hinge squeaks after months of tablet-style opening", reportedBy: "Rhea T.", date: "2026-06-21", status: "pending", severity: "minor" },
-  { id: "i-gen3", gadget: "xiaomi-pad-7", title: "microSD occasionally unmounts when battery is low", reportedBy: "Pat L.", date: "2026-07-01", status: "pending", severity: "minor" }
-];
-
 /* ---------- Registered users (admin view) ---------- */
 GW.users = [
   { id: "u1", name: "Andrea Villanueva", email: "andrea.villanueva@student.edu.ph", registered: "2025-06-12", status: "active",   reviews: 6, role: "student" },
@@ -1751,7 +1744,6 @@ GW.adminMetrics = {
   totalGadgets: GW.gadgets.length,
   totalReviews: GW.gadgets.reduce((n, g) => n + g.reviews.length, 0) + GW.pendingReviews.length,
   pendingReviews: GW.pendingReviews.length,
-  openIssues: 9,
   pageViewsThisMonth: 48213,
   // most viewed (page views per gadget, this month) — real catalog ids
   views: [

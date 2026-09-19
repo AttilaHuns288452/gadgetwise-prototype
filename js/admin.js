@@ -23,7 +23,7 @@ window.GWAdmin = (function () {
       ${st("Total users", GW.users.length, "registered accounts", true)}
       ${st("Gadgets listed", m.totalGadgets, GW.categories.length + " categories", true)}
       ${st("Pending reviews", m.pendingReviews, "needs moderation", false, m.pendingReviews > 0)}
-      ${st("Open issues", m.openIssues, "across the catalog", false, m.openIssues > 0)}`;
+      ${st("Total reviews", m.totalReviews, "approved + pending", true)}`;
 
     const trends = document.getElementById("dashTrends");
     if (trends) {
@@ -361,64 +361,6 @@ window.GWAdmin = (function () {
     render();
   }
 
-  /* ---------- issues ---------- */
-  function issues() {
-    const body = document.getElementById("issueRows");
-    if (!body) return;
-
-    function render() {
-      // rebuild each render — the store mutates the dataset in place
-      const store = [];
-      GW.gadgets.forEach(g => (g.issues || []).forEach(i => store.push(Object.assign({}, i, { gadget: g.id }))));
-      (GW.extraIssues || []).forEach(i => store.push(Object.assign({}, i)));
-      body.innerHTML = store.map(i => {
-        const g = GW.getGadget(i.gadget) || { brand: "", model: "—" };
-        const badge = { pending: "badge-gold", investigating: "badge-gold", confirmed: "badge-red", resolved: "badge-green" }[i.status] || "badge-gray";
-        return `<tr>
-          <td><div class="t-title">${esc(g.brand)} ${esc(g.model)}</div><div class="t-sub">${esc(i.title)}</div></td>
-          <td class="mono" style="text-transform:capitalize">${esc(i.severity)}</td>
-          <td>${esc(i.reportedBy)}</td>
-          <td class="mono">${esc(i.date)}</td>
-          <td><span class="badge ${badge}">${esc(i.status)}</span></td>
-          <td><div class="row-actions-inline">
-            ${["pending", "investigating"].includes(i.status) ? `<button class="btn btn-sm" data-verify="${i.id}" title="Mark as verified/confirmed">Verify</button>` : ""}
-            ${i.status !== "confirmed" && i.status !== "resolved" ? `<button class="btn btn-outline btn-sm" data-investigate="${i.id}">Under review</button>` : ""}
-            ${i.status !== "resolved" ? `<button class="btn btn-outline btn-sm" data-resolve="${i.id}">Resolve</button>` : `<span class="small muted">—</span>`}
-            <button class="icon-btn danger" data-remove-issue="${i.id}" title="Delete report (spam/invalid)" style="width:30px;height:30px">${icon("trash")}</button>
-          </div></td>
-        </tr>`;
-      }).join("") || `<tr><td colspan="6"><div class="empty-state">${icon("checkCircle")}<div class="es-title">No reported issues</div></div></td></tr>`;
-
-      const find = id => store.find(x => x.id === id);
-      const setStatus = (id, status, label) => {
-        GWStore.setIssueStatus(id, status);
-        GWApp.toast("Issue " + label, status === "resolved" ? "checkCircle" : "flag");
-        render();
-      };
-      body.querySelectorAll("[data-verify]").forEach(b => b.addEventListener("click", () => setStatus(b.getAttribute("data-verify"), "confirmed", "marked verified")));
-      body.querySelectorAll("[data-investigate]").forEach(b => b.addEventListener("click", () => setStatus(b.getAttribute("data-investigate"), "investigating", "placed under review")));
-      body.querySelectorAll("[data-resolve]").forEach(b => b.addEventListener("click", () => setStatus(b.getAttribute("data-resolve"), "resolved", "marked resolved")));
-      body.querySelectorAll("[data-remove-issue]").forEach(b => b.addEventListener("click", () => {
-        const i = find(b.getAttribute("data-remove-issue"));
-        const ov = GWApp.openModal(`
-          <h3>Delete issue report</h3>
-          <p>Remove <b>${esc(i.title)}</b> as spam or invalid? This cannot be undone.</p>
-          <div class="modal-actions">
-            <button class="btn btn-outline" data-close>Cancel</button>
-            <button class="btn btn-danger" data-ok>Delete</button>
-          </div>`);
-        ov.querySelector("[data-close]").addEventListener("click", GWApp.closeModal);
-        ov.querySelector("[data-ok]").addEventListener("click", () => {
-          GWStore.deleteIssue(i.id);
-          GWApp.closeModal();
-          GWApp.toast("Issue report removed", "trash");
-          render();
-        });
-      }));
-    }
-    render();
-  }
-
   /* ---------- users ---------- */
   function users() {
     const body = document.getElementById("userRows");
@@ -532,7 +474,6 @@ window.GWAdmin = (function () {
     gadgets: '<path d="m12 2 8 4.5v9L12 22l-8-6.5v-9L12 2Z"/><path d="m4 6.5 8 4.5 8-4.5M12 11v11"/>',
     categories: '<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/>',
     reviews: '<path d="M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5Z"/>',
-    issues: '<path d="M5 21V4"/><path d="M5 4h13l-2.5 4L18 12H5"/>',
     users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.7-3 3-4.5 6.5-4.5s5.8 1.5 6.5 4.5"/>',
     site: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/>',
     logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>'
@@ -558,7 +499,6 @@ window.GWAdmin = (function () {
           ${link("admin-categories.html", "categories", "Categories")}
           <div class="group">COMMUNITY</div>
           ${link("admin-reviews.html", "reviews", "Reviews")}
-          ${link("admin-issues.html", "issues", "Reported Issues")}
           <div class="group">PEOPLE</div>
           ${link("admin-users.html", "users", "Users")}
           <div class="group">SESSION</div>
@@ -572,7 +512,7 @@ window.GWAdmin = (function () {
   function init() {
     renderShell();
     const page = document.body.getAttribute("data-admin-page");
-    ({ dashboard, gadgets, gadgetForm, reviews, issues, users, categories }[page] || (() => {}))();
+    ({ dashboard, gadgets, gadgetForm, reviews, users, categories }[page] || (() => {}))();
   }
 
   return { init };

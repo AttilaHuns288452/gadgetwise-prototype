@@ -91,12 +91,6 @@ Store.deleteReview("pr3");
 assert.ok(!mac.reviews.some(r => r.id === "pr3"), "deleted review removed from gadget");
 assert.ok(!GW.pendingReviews.some(r => r.id === "pr3"), "deleted review removed from queue");
 
-// --- issue triage ---
-Store.setIssueStatus("i-gen1", "resolved");
-assert.strictEqual((GW.extraIssues || []).find(i => i.id === "i-gen1").status, "resolved", "issue resolved");
-Store.deleteIssue("i-gen1");
-assert.ok(!(GW.extraIssues || []).some(i => i.id === "i-gen1"), "issue deleted");
-
 // --- metrics stay consistent ---
 assert.strictEqual(GW.adminMetrics.totalGadgets, GW.gadgets.length, "metrics track gadgets");
 assert.strictEqual(GW.adminMetrics.pendingReviews, GW.pendingReviews.filter(r => r.status === "pending").length, "pending count accurate");
@@ -105,4 +99,4 @@ assert.strictEqual(GW.adminMetrics.pendingReviews, GW.pendingReviews.filter(r =>
 assert.deepStrictEqual(Store.normUnits("8 gb ram / 256 gb"), "8GB ram / 256GB", "normUnits fixes case+spacing");
 
 console.log("ADMIN STORE CHECKS PASS");
-console.log("  gadget CRUD, category CRUD, moderation publish, rating recompute, issue triage");
+console.log("  gadget CRUD, category CRUD, moderation publish, rating recompute");
